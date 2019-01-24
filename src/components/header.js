@@ -2,7 +2,7 @@ import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import Switcher from './Switcher';
+// import Switcher from './Switcher';
 
 const Header = ({ siteTitle }) => (
   <div
@@ -29,7 +29,6 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
-      {/* <Switcher /> */}
     </div>
   </div>
 )
