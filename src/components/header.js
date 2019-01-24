@@ -8,37 +8,16 @@ import LocalizedLink from '@utils/LocalizedLink'
 import locales from '@locales'
 
 const Header = ({ siteTitle, intl: { locale } }) => (
-  <div
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <LocalizedLink
-          to={`/`}
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
+  <div>
+    <div>
+      <h1>
+        <LocalizedLink to={`/`}>
           {siteTitle}
         </LocalizedLink>
       </h1>
-
       <nav>
         {Object.keys(locales).map(key => (
           <Link
-            style={{
-              color: 'white'
-            }}
             className={key === locale ? 'is-active' : ''}
             key={locales[key].locale}
             to={`/${locales[key].path}/`}

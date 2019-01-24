@@ -8,6 +8,8 @@
 
 import { push } from 'gatsby'
 
+import './src/styles/fonts.css'
+
 export const onInitialClientRender = () => {
 
   let root = '/'

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql, Link } from 'gatsby'
 import { FormattedMessage } from 'react-intl'
+import { Text } from 'rebass'
 
 import LocalizedLink from '@utils/LocalizedLink'
 
@@ -14,7 +15,7 @@ import ProjectsList from '@components/projects/ProjectsList'
 const IndexPage = ({ pageContext, data }) => (
   <Layout locale={pageContext.locale}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people : { pageContext.locale }</h1>
+    <Text as={`h1`} fontSize={[3,4,'10vw']}>Hi people : { pageContext.locale }</Text>
     {data.allContentfulProjects &&
       <ProjectsList data={data.allContentfulProjects} />
     }
