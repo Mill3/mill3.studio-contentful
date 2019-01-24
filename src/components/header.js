@@ -7,6 +7,7 @@ import { Flex, Box } from 'rebass'
 
 import LocalizedLink from '@utils/LocalizedLink'
 import Switcher from '@components/switcher'
+import Nav from '@components/nav'
 
 import Logo from '@svg/Logo'
 
@@ -24,7 +25,7 @@ const Header = ({ siteTitle, intl: { locale } }) => (
 
       <Flex>
 
-      <Box width={[1,2/3]}>
+      <Box width={[1,'auto']}>
 
         <h1>
           <LocalizedLink to={`/`} title={siteTitle}>
@@ -36,7 +37,7 @@ const Header = ({ siteTitle, intl: { locale } }) => (
 
         <Box width={['auto']} ml={`auto`}>
 
-          <Switcher />
+          <Nav />
 
         </Box>
 

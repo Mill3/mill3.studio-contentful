@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl'
 import locales from '@locales'
 
 const SwitcherLink = styled.a`
-  display: ${props => props.hidden ? 'none' : 'inherit'};
+  display: ${props => props.hidden ? 'none' : 'inline-block'};
 `
 
 const Switcher = ({intl: { locale } }) => (
