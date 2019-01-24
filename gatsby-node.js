@@ -57,7 +57,7 @@ exports.createPages = ({ graphql, actions }) => {
         reject(result.errors)
       }
 
-      const ProjectSingleTemplate = path.resolve(`./src/projects/ProjectSingle.js`)
+      const ProjectSingleTemplate = path.resolve(`./src/components/projects/ProjectSingle.js`)
 
       _.each(result.data.allContentfulProjects.edges, edge => {
         createPage({

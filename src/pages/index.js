@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { FormattedMessage } from 'react-intl'
 
 import LocalizedLink from '@utils/LocalizedLink'
@@ -9,12 +9,15 @@ import Layout from '@components/layout'
 import Image from '@components/image'
 import SEO from '@components/seo'
 
-const IndexPage = ({ pageContext }) => (
+import ProjectsList from '@components/projects/ProjectsList'
+
+const IndexPage = ({ pageContext, data }) => (
   <Layout locale={pageContext.locale}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <h1>Hi people : { pageContext.locale }</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
+    {data.allContentfulProjects &&
+      <ProjectsList data={data.allContentfulProjects} />
+    }
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
@@ -29,3 +32,21 @@ IndexPage.propTypes = {
 }
 
 export default IndexPage
+
+export const projectQuery = graphql`
+  query allProjectsQuery($locale: String!) {
+    allContentfulProjects(filter: { node_locale : { eq: $locale }}) {
+      edges {
+        node {
+          id
+          slug
+          node_locale
+          name
+          shortDescription {
+            shortDescription
+          }
+        }
+      }
+    }
+  }
+`
