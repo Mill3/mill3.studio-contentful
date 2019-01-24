@@ -1,13 +1,14 @@
 import React from 'react'
-import { Link, graphql } from 'gatsby'
+import { Link } from 'gatsby'
+import LocalizedLink from '@utils/LocalizedLink'
 
 import Layout from '../components/layout'
 
 const SecondPage = ({ pageContext }) => (
-  <Layout>
+  <Layout locale={pageContext.locale}>
     <h1>Page two { pageContext.locale } !</h1>
     <p>Welcome to your new Gatsby site!</p>
-    <Link to="/">Go to root page</Link>
+    <LocalizedLink to="/">Go to root page</LocalizedLink>
   </Layout>
 );
 

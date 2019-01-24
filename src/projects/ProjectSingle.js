@@ -6,7 +6,8 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {  }
-    console.log(this.props.data.contentfulProjects.name);
+    console.log(this.props);
+    // console.log(this.props.data.contentfulProjects.name);
 
   }
   render() {

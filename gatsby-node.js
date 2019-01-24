@@ -11,7 +11,27 @@ const path = require(`path`)
 const slash = require(`slash`)
 const locales = require('./locales')
 
-console.log(locales);
+exports.onCreateWebpackConfig = ({
+  stage,
+  rules,
+  loaders,
+  plugins,
+  actions,
+}) => {
+  actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        '@locales': path.resolve(__dirname, 'locales/'),
+        '@components': path.resolve(__dirname, 'src/components/'),
+        '@pages': path.resolve(__dirname, 'src/pages/'),
+        '@utils': path.resolve(__dirname, 'src/utils/'),
+        // '@reducers': path.resolve(__dirname, 'src/reducers/'),
+      },
+      modules: [path.resolve(__dirname, "src"), "node_modules"],
+    },
+  })
+}
+
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -37,16 +57,17 @@ exports.createPages = ({ graphql, actions }) => {
         reject(result.errors)
       }
 
-      const projectTemplate = path.resolve(`./src/projects/project-single.js`)
+      const ProjectSingleTemplate = path.resolve(`./src/projects/ProjectSingle.js`)
 
       _.each(result.data.allContentfulProjects.edges, edge => {
         createPage({
           path: `/${edge.node.node_locale}/projects/${edge.node.slug}/`,
-          component: slash(projectTemplate),
+          component: slash(ProjectSingleTemplate),
           context: {
             id: edge.node.id,
             contentful_id:  edge.node.contentful_id,
             slug:  edge.node.slug,
+            locale: edge.node.node_locale
           },
         })
       })
