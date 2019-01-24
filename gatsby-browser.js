@@ -8,7 +8,7 @@
 
 import { push } from 'gatsby'
 
-// import './src/styles/fonts.css'
+import './src/styles/fonts.css'
 
 export const onInitialClientRender = () => {
 
