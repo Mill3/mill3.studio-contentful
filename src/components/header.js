@@ -1,34 +1,61 @@
 import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styled from 'styled-components'
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
+import { Flex, Box } from 'rebass'
 
 import LocalizedLink from '@utils/LocalizedLink'
 
 import locales from '@locales'
 
-const Header = ({ siteTitle, intl: { locale } }) => (
-  <div>
-    <div>
-      <h1>
-        <LocalizedLink to={`/`}>
-          {siteTitle}
-        </LocalizedLink>
-      </h1>
-      <nav>
-        {Object.keys(locales).map(key => (
-          <Link
-            className={key === locale ? 'is-active' : ''}
-            key={locales[key].locale}
-            to={`/${locales[key].path}/`}
-          >
-            {locales[key].locale}
-          </Link>
-        ))}
-      </nav>
+import Logo from '@svg/Logo'
 
-    </div>
-  </div>
+import Container from '@styles/Container'
+
+const SiteHeader = styled.header`
+  /* border: 1px solid rebeccapurple; */
+  /* padding-top:  */
+`
+
+const Header = ({ siteTitle, intl: { locale } }) => (
+  <Box as={SiteHeader} pt={[3,4]} pb={[3,4]}>
+
+    <Container fluid>
+
+      <Flex>
+
+      <Box width={[1,2/3]}>
+
+        <h1>
+          <LocalizedLink to={`/`} title={siteTitle}>
+            <Logo />
+          </LocalizedLink>
+        </h1>
+
+      </Box>
+
+        <Box width={['auto']} ml={`auto`}>
+
+          <nav>
+            {Object.keys(locales).map(key => (
+              <Link
+                className={key === locale ? 'is-active' : ''}
+                key={locales[key].locale}
+                to={`/${locales[key].path}/`}
+              >
+                {locales[key].locale}
+              </Link>
+            ))}
+          </nav>
+
+        </Box>
+
+      </Flex>
+
+    </Container>
+
+  </Box>
 )
 
 Header.propTypes = {
