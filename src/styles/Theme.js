@@ -35,7 +35,8 @@ export const fontSizes = [
 
 export const rebootCSS = reboot({
   fontFamilyBase: fonts.sans,
-  fontFamilyMonospace: fonts.mono
+  fontFamilyMonospace: fonts.mono,
+  linkColor: colors.blue
 });
 
 export default {

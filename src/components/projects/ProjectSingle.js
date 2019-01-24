@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Link, graphql } from 'gatsby'
 import Layout from '@components/layout'
 
+import Container from '@styles/Container'
+
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      <div>
+      <Container>
         <h1>{data.contentfulProjects.name}</h1>
         <p>{data.contentfulProjects.shortDescription.shortDescription}</p>
-      </div>
+      </Container>
     </Layout>
   );
 }

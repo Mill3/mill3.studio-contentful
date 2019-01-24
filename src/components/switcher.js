@@ -1,29 +1,27 @@
-import React from 'react';
-import { Language } from 'gatsby-plugin-i18next';
-import { StaticQuery, graphql } from 'gatsby'
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'gatsby'
+import { injectIntl } from 'react-intl'
 
+import locales from '@locales'
 
-const Switcher = ({ changeLng, lng, availableLngs }) => (
-  <ul style={{ listStyle: 'none' }}>
-    {availableLngs.map(value => (
-      <li key={value} style={{ display: 'inline' }}>
-        <button
-          style={{
-            background: 'rebeccapurple',
-            color: 'white',
-            textDecoration: value === lng ? 'underline' : 'none',
-          }}
-          onClick={() => changeLng(value)}
-        >
-          {value}
-        </button>
-      </li>
+const SwitcherLink = styled.a`
+  display: ${props => props.hidden ? 'none' : 'inherit'};
+`
+
+const Switcher = ({intl: { locale } }) => (
+  <>
+    {Object.keys(locales).map(key => (
+      <SwitcherLink
+        as={Link}
+        hidden={key === locale ? true : false}
+        key={locales[key].locale}
+        to={`/${locales[key].path}/`}
+      >
+        {locales[key].locale}
+      </SwitcherLink>
     ))}
-  </ul>
+  </>
 );
 
-
-
-export default props => (
-  <Language>{lngProps => <Switcher {...props} {...lngProps} />}</Language>
-);
+export default injectIntl(Switcher)

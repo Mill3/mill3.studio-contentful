@@ -6,7 +6,6 @@ class ProjectsList extends Component {
   constructor(props) {
     super(props)
     this.state = {  }
-    // console.log(this.props.data.edges);
   }
 
   list() {
@@ -14,7 +13,7 @@ class ProjectsList extends Component {
       return this.props.data.edges.map((project, index) =>
         <article key={index}>
           <LocalizedLink to={`/projects/${project.node.slug}`}>
-            {project.node.name}
+            <h2>{project.node.name}</h2>
           </LocalizedLink>
         </article>
       )

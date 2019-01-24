@@ -1,4 +1,4 @@
-import { Link } from 'gatsby'
+// import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -6,8 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 
 import LocalizedLink from '@utils/LocalizedLink'
-
-import locales from '@locales'
+import Switcher from '@components/switcher'
 
 import Logo from '@svg/Logo'
 
@@ -37,17 +36,7 @@ const Header = ({ siteTitle, intl: { locale } }) => (
 
         <Box width={['auto']} ml={`auto`}>
 
-          <nav>
-            {Object.keys(locales).map(key => (
-              <Link
-                className={key === locale ? 'is-active' : ''}
-                key={locales[key].locale}
-                to={`/${locales[key].path}/`}
-              >
-                {locales[key].locale}
-              </Link>
-            ))}
-          </nav>
+          <Switcher />
 
         </Box>
 
