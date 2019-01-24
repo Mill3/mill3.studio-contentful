@@ -5,3 +5,21 @@
  */
 
 // You can delete this file if you're not using it
+
+import { push } from 'gatsby'
+
+export const onInitialClientRender = () => {
+
+  let root = '/'
+  // let detectedLocale = detectLocale()
+  let detectedLocale = 'fr'
+
+  // dispatch detected locale
+  // store.dispatch({ type: 'SET_LOCALE', locale: detectedLocale })
+
+  // on root only, redirect
+  if (window.location.pathname === root) {
+    push(`${detectedLocale}/`)
+  }
+
+}

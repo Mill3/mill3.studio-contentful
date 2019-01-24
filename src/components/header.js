@@ -29,7 +29,7 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
-      <Switcher />
+      {/* <Switcher /> */}
     </div>
   </div>
 )

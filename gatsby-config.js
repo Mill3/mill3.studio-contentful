@@ -21,15 +21,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-i18next`,
-      options: {
-        availableLngs: ['en', 'fr'],
-        fallbackLng: 'en',
-        debug: true,
-        // siteUrl: 'https://www.example.com/',
-      },
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
