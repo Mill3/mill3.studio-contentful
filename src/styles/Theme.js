@@ -26,7 +26,7 @@ export const fontSizes = [
   12,
   14,
   16,
-  24,
+  20,
   32,
   48,
   64,

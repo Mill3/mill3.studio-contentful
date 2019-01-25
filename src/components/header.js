@@ -23,22 +23,18 @@ const Header = ({ siteTitle, intl: { locale } }) => (
 
     <Container fluid>
 
-      <Flex>
+      <Flex flexWrap={`wrap`}>
 
-      <Box width={[1,'auto']}>
+        <Box width={[1,1,'auto']}>
+          <h1>
+            <LocalizedLink to={`/`} title={siteTitle}>
+              <Logo />
+            </LocalizedLink>
+          </h1>
+        </Box>
 
-        <h1>
-          <LocalizedLink to={`/`} title={siteTitle}>
-            <Logo />
-          </LocalizedLink>
-        </h1>
-
-      </Box>
-
-        <Box width={['auto']} ml={`auto`}>
-
+        <Box width={[1,1,'auto']} ml={[0, 0, `auto`]}>
           <Nav />
-
         </Box>
 
       </Flex>

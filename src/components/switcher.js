@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
 import { injectIntl } from 'react-intl'
+import { Text } from 'rebass'
 
 import locales from '@locales'
 
@@ -18,7 +19,9 @@ const Switcher = ({intl: { locale } }) => (
         key={locales[key].locale}
         to={`/${locales[key].path}/`}
       >
-        {locales[key].locale}
+        <Text fontSize={[2,2,3]}>
+          {locales[key].locale}
+        </Text>
       </SwitcherLink>
     ))}
   </>

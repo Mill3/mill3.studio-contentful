@@ -1,6 +1,8 @@
 import React from 'react'
 import LocalizedLink from '@utils/LocalizedLink'
 import styled, { css } from 'styled-components'
+import { Text } from 'rebass'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import Switcher from '@components/switcher'
 
@@ -22,18 +24,39 @@ const NavItem = styled.li`
 const Nav = () => {
   return (
     <NavContainer>
+
       <NavItem>
-        <LocalizedLink to={`/work/`}>Work</LocalizedLink>
+        <LocalizedLink to={`/about/`}>
+          <Text fontSize={[2,2,3]}>
+            <FormattedMessage id="Work" />
+          </Text>
+        </LocalizedLink>
       </NavItem>
+
       <NavItem>
-        <LocalizedLink to={`/about/`}>About</LocalizedLink>
+        <LocalizedLink to={`/about/`}>
+          <Text fontSize={[2,2,3]}>
+            <FormattedMessage id="About" />
+          </Text>
+        </LocalizedLink>
       </NavItem>
+
       <NavItem>
-        <LocalizedLink to={`/journal/`}>Journal</LocalizedLink>
+        <LocalizedLink to={`/about/`}>
+          <Text fontSize={[2,2,3]}>
+            <FormattedMessage id="Journal" />
+          </Text>
+        </LocalizedLink>
       </NavItem>
+
       <NavItem>
-        <LocalizedLink to={`/contact/`}>Let's talk</LocalizedLink>
+        <LocalizedLink to={`/about/`}>
+          <Text fontSize={[2,2,3]}>
+            <FormattedMessage id="Let's talk" />
+          </Text>
+        </LocalizedLink>
       </NavItem>
+
       <NavItem>
         <Switcher />
       </NavItem>
@@ -41,4 +64,4 @@ const Nav = () => {
   );
 }
 
-export default Nav;
+export default injectIntl(Nav)
