@@ -1,7 +1,7 @@
 // import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 
@@ -13,35 +13,82 @@ import Logo from '@svg/Logo'
 
 import Container from '@styles/Container'
 
-const SiteHeader = styled.header`
-  /* border: 1px solid rebeccapurple; */
-  /* padding-top:  */
+const HeaderContext = React.createContext('light');
+
+const fadeHeader = keyframes`
+  from {
+    background: #fff;
+  }
+  to {
+    background: #000;
+  }
 `
 
-const Header = ({ siteTitle, intl: { locale } }) => (
-  <Box as={SiteHeader} pt={[3,4]} pb={[3,4]}>
+const SiteHeader = styled.header`
+  /* background-color: ${props => props.withIntro ? 'black' : 'transparent'}; */
+  animation-name: ${props => props.withIntro ? fadeHeader : 'none'};
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+`
 
-    <Container fluid>
+const fadeIntro = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: 30vh;
+  }
+`
 
-      <Flex flexWrap={`wrap`}>
+const SiteHeaderIntro = styled.hgroup`
+  color: #fff;
+  height: 0;
+  overflow: hidden;
+  animation-name: ${fadeIntro};
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s;
+`
 
-        <Box width={[1,1,'auto']}>
-          <h1>
-            <LocalizedLink to={`/`} title={siteTitle}>
-              <Logo />
-            </LocalizedLink>
-          </h1>
-        </Box>
 
-        <Box width={[1,1,'auto']} ml={[0, 0, `auto`]}>
-          <Nav />
-        </Box>
 
-      </Flex>
+const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
+  <HeaderContext.Provider value={'light'}>
 
-    </Container>
+    <Box as={SiteHeader} withIntro={withIntro} pt={[3,4]} pb={[3,4]}>
 
-  </Box>
+      <Container fluid>
+
+        <Flex flexWrap={`wrap`} alignItems={`center`}>
+
+          <Box width={[1,1,'auto']}>
+            <h1>
+              <LocalizedLink to={`/`} title={siteTitle}>
+                <Logo inverted={withIntro ? true : false} />
+              </LocalizedLink>
+            </h1>
+          </Box>
+
+          <Box width={[1,1,'auto']} ml={[0, 0, `auto`]}>
+            <Nav />
+          </Box>
+
+        </Flex>
+
+        {withIntro &&
+          <Flex alignItems={`center`} as={SiteHeaderIntro}>
+            <Box pl={[1,2,4]}>
+              <h1>Craft, code and smile.</h1>
+              <h1>We are a digital agency. </h1>
+            </Box>
+          </Flex>
+        }
+
+      </Container>
+
+    </Box>
+
+  </HeaderContext.Provider>
 )
 
 Header.propTypes = {

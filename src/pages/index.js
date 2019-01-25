@@ -15,7 +15,7 @@ import ProjectsList from '@components/projects/ProjectsList'
 import Container from '@styles/Container'
 
 const IndexPage = ({ pageContext, data }) => (
-  <Layout locale={pageContext.locale}>
+  <Layout locale={pageContext.locale} withIntro={true}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <Container>
       <Text as={`h1`} fontSize={[3,4,'10vw']}>Hi people : { pageContext.locale }</Text>

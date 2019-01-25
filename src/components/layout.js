@@ -21,7 +21,7 @@ const messages = {en, fr}
 
 addLocaleData([...enData, ...frData])
 
-const Layout = ({ locale, children }) => (
+const Layout = ({ locale, withIntro, children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -44,7 +44,7 @@ const Layout = ({ locale, children }) => (
 
             <div id="wrapper">
               {/* main header */}
-            <Header siteTitle={data.site.siteMetadata.title} />
+            <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
 
             {/* main wrap */}
             <main>
@@ -66,8 +66,13 @@ const Layout = ({ locale, children }) => (
   />
 )
 
+Layout.defaultProps = {
+  headerInverted: false,
+}
+
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  headerInverted: PropTypes.bool,
 }
 
 export default Layout
