@@ -8,6 +8,9 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
+      resolve: "gatsby-plugin-transition-link",
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: `9bzwr94keh5j`,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
+import { TransitionState } from "gatsby-plugin-transition-link"
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -13,6 +14,7 @@ import en from '../../locales/en/en.json'
 import fr from '../../locales/fr/fr.json'
 
 import Header from './header'
+import Main from './main'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
@@ -44,17 +46,10 @@ const Layout = ({ locale, withIntro, children }) => (
 
             <div id="wrapper">
               {/* main header */}
-            <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
+              <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
 
-            {/* main wrap */}
-            <main>
-              {children}
-              {/* <footer>
-                © {new Date().getFullYear()}, Built with
-                {` `}
-                <a href="https://www.gatsbyjs.org">Gatsby</a>
-              </footer> */}
-            </main>
+              {/* main wrapper containing children pages */}
+              <Main children={children} />
 
             </div>
 

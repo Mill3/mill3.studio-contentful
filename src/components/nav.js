@@ -3,6 +3,7 @@ import LocalizedLink from '@utils/LocalizedLink'
 import styled, { css } from 'styled-components'
 import { Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import TransitionLink from 'gatsby-plugin-transition-link'
 
 import Switcher from '@components/switcher'
 
@@ -26,11 +27,21 @@ const Nav = () => {
     <NavContainer>
 
       <NavItem>
-        <LocalizedLink to={`/about/`}>
+        <TransitionLink
+          to={`/en/about/`}
+          exit={{
+            length: 0.25,
+            delay: 0.5
+          }}
+          entry={{
+            length: 0.25,
+            delay: 0.5
+          }}
+        >
           <Text fontSize={[2,2,3]}>
             <FormattedMessage id="Work" />
           </Text>
-        </LocalizedLink>
+        </TransitionLink>
       </NavItem>
 
       <NavItem>
