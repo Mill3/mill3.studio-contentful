@@ -19,6 +19,7 @@ export const space = [
 
 export const fonts = {
   sans: 'Larsseit, Helvetica, system-ui, sans-serif',
+  serif: 'GT Super Display, Georgia, serif',
   mono: 'Menlo, monospace',
 }
 
@@ -36,6 +37,7 @@ export const fontSizes = [
 export const rebootCSS = reboot({
   fontFamilyBase: fonts.sans,
   fontFamilyMonospace: fonts.mono,
+  fontFamilySerif: fonts.serif,
   linkColor: colors.blue
 });
 

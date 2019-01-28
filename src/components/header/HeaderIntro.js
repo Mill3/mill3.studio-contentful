@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box } from 'rebass'
+import { Flex, Box, Text } from 'rebass'
 import posed from 'react-pose'
-
+import SplitText from 'react-pose-text'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import {
   TRANSITION_DURATION,
@@ -14,18 +15,16 @@ import {
 
 const HeaderIntroPoses = posed.header({
   entered: {
-    height: '30vh',
+    opacity: 1,
     transition: {
       height: {
-        type: 'spring',
-        stiffness: 750,
-        damping: 15,
-        // duration: (TRANSITION_DURATION * 2) * 1000,
+        type: 'tween',
+        duration: 200,
       },
     },
   },
   exiting: {
-    height: '0vh',
+    opacity: 0,
     transition: {
       height: {
         type: 'tween',
@@ -35,11 +34,25 @@ const HeaderIntroPoses = posed.header({
   },
 })
 
+
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  height: 0;
-  overflow: hidden;
+  height: 38vh;
 `
+
+const charPoses = {
+  exit: { opacity: 0, y: 30 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    delay: ({ charIndex }) => charIndex * 10,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  }
+};
 
 const HeaderIntro = ({ transitionStatus }) => {
   return (
@@ -49,11 +62,27 @@ const HeaderIntro = ({ transitionStatus }) => {
       pose={transitionStatus}
     >
       <Box pl={[1,2,4]}>
-        <h1>Craft, code and smile.</h1>
-        <h1>We are a digital agency. </h1>
+        <Text as={`h2`} fontSize={[4,5,'3.5vw']} className={`is-normal is-sans`}>
+          {/* <FormattedMessage id="Craft, code and smile." /> */}
+          <SplitText
+            pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
+            charPoses={charPoses}
+          >
+            Craft, code and smile.
+          </SplitText>
+        </Text>
+        <Text as={`h2`} fontSize={[4,5,'3.5vw']} className={`is-normal is-serif`}>
+          <SplitText
+
+            pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
+            charPoses={charPoses}
+          >
+            We are a digital agency.
+          </SplitText>
+        </Text>
       </Box>
     </Flex>
   );
 }
 
-export default HeaderIntro;
+export default injectIntl(HeaderIntro);
