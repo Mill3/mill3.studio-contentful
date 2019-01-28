@@ -14,6 +14,9 @@ const NavContainer = styled.ul`
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
+  a {
+    color: ${props => props.inverted ? `${props.theme.colors.white}` : `${props.theme.colors.black}`};
+  }
 `
 
 const NavItem = styled.li`
@@ -22,9 +25,9 @@ const NavItem = styled.li`
   flex: 0 0 auto;
 `
 
-const Nav = () => {
+const Nav = ({ inverted }) => {
   return (
-    <NavContainer>
+    <NavContainer inverted={inverted}>
 
       <NavItem>
         <TransitionLinkComponent to={`/about/`}>

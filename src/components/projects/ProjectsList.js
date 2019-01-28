@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LocalizedLink from '@utils/LocalizedLink'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 class ProjectsList extends Component {
 
@@ -12,9 +12,9 @@ class ProjectsList extends Component {
     if (this.props.data) {
       return this.props.data.edges.map((project, index) =>
         <article key={index}>
-          <LocalizedLink to={`/projects/${project.node.slug}`}>
+          <TransitionLinkComponent to={`/projects/${project.node.slug}`}>
             <h2>{project.node.name}</h2>
-          </LocalizedLink>
+          </TransitionLinkComponent>
         </article>
       )
     }

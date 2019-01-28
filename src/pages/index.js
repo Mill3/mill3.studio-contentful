@@ -4,8 +4,6 @@ import { graphql, Link } from 'gatsby'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'rebass'
 
-import LocalizedLink from '@utils/LocalizedLink'
-
 import Layout from '@components/layout'
 import Image from '@components/image'
 import SEO from '@components/seo'

@@ -3,7 +3,7 @@ import reboot from 'styled-reboot'
 
 export const colors = {
   text: '#000e1a',
-  black: '#000e1a',
+  black: '#121212',
   white: '#fff',
   blue: '#007ce0',
   navy: '#004175',

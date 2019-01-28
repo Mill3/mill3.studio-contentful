@@ -12,13 +12,14 @@ import TransitionLinkComponent from '@utils/TransitionLink'
 import HeaderIntro from '@components/header/HeaderIntro'
 import Nav from '@components/nav/index'
 import Logo from '@svg/Logo'
+import { colors } from '@styles/Theme'
 
 const SiteHeaderPoses = posed.header({
   default: {
     backgroundColor: `rgba(255,255,255,0)`,
   },
   withIntro: {
-    backgroundColor: `rgba(0,0,0,1)`,
+    backgroundColor: `${colors.black}`,
   },
 })
 
@@ -58,7 +59,7 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
               </Box>
 
               <Box width={[1,1,'auto']} ml={[0, 0, `auto`]}>
-                <Nav />
+                <Nav inverted={withIntro} />
               </Box>
 
             </Flex>
