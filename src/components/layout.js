@@ -13,7 +13,7 @@ import frData from 'react-intl/locale-data/fr'
 import en from '../../locales/en/en.json'
 import fr from '../../locales/fr/fr.json'
 
-import Header from './header'
+import Header from '@components/header'
 import Main from './main'
 
 import GlobalStyle from '@styles/Global'

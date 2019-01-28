@@ -3,9 +3,9 @@ import LocalizedLink from '@utils/LocalizedLink'
 import styled, { css } from 'styled-components'
 import { Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import TransitionLink from 'gatsby-plugin-transition-link'
 
-import Switcher from '@components/switcher'
+import Switcher from '@components/nav/switcher'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 const NavContainer = styled.ul`
   margin: 0;
@@ -27,50 +27,41 @@ const Nav = () => {
     <NavContainer>
 
       <NavItem>
-        <TransitionLink
-          to={`/en/about/`}
-          exit={{
-            length: 0.25,
-            delay: 0.5
-          }}
-          entry={{
-            length: 0.25,
-            delay: 0.5
-          }}
-        >
+        <TransitionLinkComponent to={`/about/`}>
           <Text fontSize={[2,2,3]}>
             <FormattedMessage id="Work" />
           </Text>
-        </TransitionLink>
+        </TransitionLinkComponent>
       </NavItem>
 
       <NavItem>
-        <LocalizedLink to={`/about/`}>
+        <TransitionLinkComponent to={`/about/`}>
           <Text fontSize={[2,2,3]}>
             <FormattedMessage id="About" />
           </Text>
-        </LocalizedLink>
+        </TransitionLinkComponent>
       </NavItem>
 
       <NavItem>
-        <LocalizedLink to={`/about/`}>
+        <TransitionLinkComponent to={`/about/`}>
           <Text fontSize={[2,2,3]}>
             <FormattedMessage id="Journal" />
           </Text>
-        </LocalizedLink>
+        </TransitionLinkComponent>
       </NavItem>
 
       <NavItem>
-        <LocalizedLink to={`/about/`}>
+        <TransitionLinkComponent to={`/contact/`}>
           <Text fontSize={[2,2,3]}>
             <FormattedMessage id="Let's talk" />
           </Text>
-        </LocalizedLink>
+        </TransitionLinkComponent>
       </NavItem>
 
       <NavItem>
         <Switcher />
       </NavItem>
+
     </NavContainer>
   );
 }
