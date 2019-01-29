@@ -44,7 +44,7 @@ export const projectQuery = graphql`
           name
           imageMain {
             fluid(maxWidth: 1800, quality: 85) {
-              ...GatsbyContentfulFluid_tracedSVG
+              ...GatsbyContentfulFluid_noBase64
             }
           }
           shortDescription {

@@ -11,8 +11,6 @@ import {
   TRANSITION_EXIT_DURATION
 } from '@utils/constants'
 
-// console.log(TRANSITION_DURATION * 1000);
-
 const HeaderIntroPoses = posed.header({
   init: {
     opacity: 0,
