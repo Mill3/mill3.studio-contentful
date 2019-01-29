@@ -42,6 +42,11 @@ export const projectQuery = graphql`
           slug
           node_locale
           name
+          imageMain {
+            fluid(maxWidth: 1800, quality: 85) {
+              ...GatsbyContentfulFluid_tracedSVG
+            }
+          }
           shortDescription {
             shortDescription
           }

@@ -14,17 +14,29 @@ import {
 // console.log(TRANSITION_DURATION * 1000);
 
 const HeaderIntroPoses = posed.header({
-  entered: {
-    opacity: 1,
+  init: {
+    opacity: 0,
+    height: 0,
     transition: {
       height: {
         type: 'tween',
-        duration: 200,
+        duration: TRANSITION_DURATION * 1000,
+      },
+    },
+  },
+  entered: {
+    opacity: 1,
+    height: `40vh`,
+    transition: {
+      height: {
+        type: 'tween',
+        duration: TRANSITION_DURATION * 1000,
       },
     },
   },
   exiting: {
     opacity: 0,
+    height: 0,
     transition: {
       height: {
         type: 'tween',
@@ -37,22 +49,24 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  height: 38vh;
+  height: 0;
 `
 
 const charPoses = {
-  exit: { opacity: 0, y: 30 },
+  exit: { opacity: 0, y: 20 },
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => charIndex * 10,
+    delay: ({ charIndex }) => (TRANSITION_DURATION * 1250) + (charIndex * 30),
     transition: {
       y: {
-        type: 'spring',
-      },
-    },
+        type: 'spring'
+      }
+    }
   }
 };
+
+const fontSizes = [4,4,'3.5vw']
 
 const HeaderIntro = ({ transitionStatus }) => {
   return (
@@ -61,9 +75,8 @@ const HeaderIntro = ({ transitionStatus }) => {
       as={Header}
       pose={transitionStatus}
     >
-      <Box pl={[1,2,4]}>
-        <Text as={`h2`} fontSize={[4,5,'3.5vw']} className={`is-normal is-sans`}>
-          {/* <FormattedMessage id="Craft, code and smile." /> */}
+      <Box pl={[2,`4vw`]}>
+        <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-serif fw-300`}>
           <SplitText
             pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
             charPoses={charPoses}
@@ -71,9 +84,8 @@ const HeaderIntro = ({ transitionStatus }) => {
             Craft, code and smile.
           </SplitText>
         </Text>
-        <Text as={`h2`} fontSize={[4,5,'3.5vw']} className={`is-normal is-serif`}>
+        <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-sans fw-300`}>
           <SplitText
-
             pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
             charPoses={charPoses}
           >

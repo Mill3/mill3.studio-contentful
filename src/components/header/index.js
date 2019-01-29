@@ -15,10 +15,14 @@ import Logo from '@svg/Logo'
 import { colors } from '@styles/Theme'
 
 const SiteHeaderPoses = posed.header({
+  init : {
+    backgroundColor: `rgba(255,255,255,0)`,
+  },
   default: {
     backgroundColor: `rgba(255,255,255,0)`,
   },
   withIntro: {
+    skewY: `0deg`,
     backgroundColor: `${colors.black}`,
   },
 })

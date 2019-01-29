@@ -10,7 +10,7 @@ const SwitcherLink = styled.a`
   display: ${props => props.hidden ? 'none' : 'inline-block'};
 `
 
-const Switcher = ({intl: { locale } }) => (
+const Switcher = ({intl: { locale }, fontSizes }) => (
   <>
     {Object.keys(locales).map(key => (
       <SwitcherLink
@@ -19,7 +19,7 @@ const Switcher = ({intl: { locale } }) => (
         key={locales[key].locale}
         to={`/${locales[key].path}/`}
       >
-        <Text fontSize={[2,2,3]}>
+        <Text fontSize={fontSizes}>
           {locales[key].locale}
         </Text>
       </SwitcherLink>

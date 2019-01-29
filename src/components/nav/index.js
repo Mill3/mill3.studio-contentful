@@ -14,8 +14,11 @@ const NavContainer = styled.ul`
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
+  align-self: center;
+  justify-content: center;
   a {
     color: ${props => props.inverted ? `${props.theme.colors.white}` : `${props.theme.colors.black}`};
+    display: inline-block;
   }
 `
 
@@ -25,13 +28,15 @@ const NavItem = styled.li`
   flex: 0 0 auto;
 `
 
+const fontSizes = [2,2,`2vw`,`1.25vw`]
+
 const Nav = ({ inverted }) => {
   return (
     <NavContainer inverted={inverted}>
 
       <NavItem>
         <TransitionLinkComponent to={`/about/`}>
-          <Text fontSize={[2,2,3]}>
+          <Text fontSize={fontSizes}>
             <FormattedMessage id="Work" />
           </Text>
         </TransitionLinkComponent>
@@ -39,7 +44,7 @@ const Nav = ({ inverted }) => {
 
       <NavItem>
         <TransitionLinkComponent to={`/about/`}>
-          <Text fontSize={[2,2,3]}>
+          <Text fontSize={fontSizes}>
             <FormattedMessage id="About" />
           </Text>
         </TransitionLinkComponent>
@@ -47,7 +52,7 @@ const Nav = ({ inverted }) => {
 
       <NavItem>
         <TransitionLinkComponent to={`/about/`}>
-          <Text fontSize={[2,2,3]}>
+          <Text fontSize={fontSizes}>
             <FormattedMessage id="Journal" />
           </Text>
         </TransitionLinkComponent>
@@ -55,14 +60,14 @@ const Nav = ({ inverted }) => {
 
       <NavItem>
         <TransitionLinkComponent to={`/contact/`}>
-          <Text fontSize={[2,2,3]}>
+          <Text fontSize={fontSizes}>
             <FormattedMessage id="Let's talk" />
           </Text>
         </TransitionLinkComponent>
       </NavItem>
 
       <NavItem>
-        <Switcher />
+        <Switcher fontSizes={fontSizes} />
       </NavItem>
 
     </NavContainer>
