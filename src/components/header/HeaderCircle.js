@@ -1,12 +1,9 @@
+
 import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import _ from 'lodash'
 import { TimelineLite, TweenLite, Power0, Power4 } from 'gsap'
-
-if (typeof window !== 'undefined') {
-  const Hamster = require('hamsterjs')
-}
 
 import Circle from '@svg/Circle'
 
@@ -54,16 +51,26 @@ class HeaderCircle extends React.Component {
   }
 
   mouse() {
-    this.mouseWheel = Hamster(window);
+    console.log(typeof window);
 
-    this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
-      this.timeline.timeScale(3.25)
+    if (typeof window == 'object') {
+      const Hamster = require('hamsterjs')
+      console.log('Hamster:', Hamster)
 
-      // // reset transformation value after a few seconds
-      _.debounce(() => {
-        this.timeline.timeScale(1)
-      }, 500)();
-    });
+      this.mouseWheel = Hamster(window);
+
+      this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
+        this.timeline.timeScale(3.25)
+
+        // // reset transformation value after a few seconds
+        _.debounce(() => {
+          this.timeline.timeScale(1)
+        }, 500)();
+      });
+
+    }
+
+
   }
 
   render() {
