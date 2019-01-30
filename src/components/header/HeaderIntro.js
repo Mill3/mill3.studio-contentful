@@ -14,20 +14,32 @@ import {
 const HeaderIntroPoses = posed.header({
   entered: {
     y: 0,
+    marginBottom: 0,
     transition: {
       y: {
         type: 'tween',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
       },
+      marginBottom: {
+        type: 'tween',
+        duration: (TRANSITION_DURATION * 1.5) * 1000,
+        delay: TRANSITION_DURATION * 1000,
+      }
     },
   },
   exiting: {
     y: `100vh`,
+    marginBottom: 100,
     transition: {
       y: {
         type: 'tween',
         duration: TRANSITION_EXIT_DURATION * 1000,
+        delay: TRANSITION_EXIT_DURATION * 1000,
       },
+      marginBottom: {
+        type: 'tween',
+        duration: (TRANSITION_DURATION * 2) * 1000,
+      }
     },
   },
 })

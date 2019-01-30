@@ -8,7 +8,7 @@ import Layout from '@components/layout'
 import Image from '@components/image'
 import SEO from '@components/seo'
 
-import ProjectsList from '@components/projects/ProjectsList'
+import ProjectsHome from '@components/projects/ProjectsHome'
 
 import Container from '@styles/Container'
 
@@ -16,11 +16,10 @@ const IndexPage = ({ pageContext, data }) => (
   <Layout locale={pageContext.locale} withIntro={true}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <Container>
-      <Text as={`h1`} fontSize={[3,4,'10vw']}>Hi people : { pageContext.locale }</Text>
+      {/* <Text as={`h1`} fontSize={[3,4,'10vw']}>Hi people : { pageContext.locale }</Text> */}
       {data.allContentfulProjects &&
-        <ProjectsList data={data.allContentfulProjects} />
+        <ProjectsHome data={data.allContentfulProjects} />
       }
-      {/* <LocalizedLink to="/page-2/">Go to page 2</LocalizedLink> */}
     </Container>
   </Layout>
 )
