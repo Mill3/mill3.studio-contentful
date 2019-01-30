@@ -148,7 +148,7 @@
 }
 
 @font-face {
-	font-family: 'GT Super Text Book';
+	font-family: 'GT Super Text';
 	src: url('../fonts/GTSuperText-BookItalic.woff2') format('woff2'),
 			url('../fonts/GTSuperText-BookItalic.woff') format('woff');
 	font-weight: 300;
@@ -156,7 +156,7 @@
 }
 
 @font-face {
-	font-family: 'GT Super Text Book';
+	font-family: 'GT Super Text';
 	src: url('../fonts/GTSuperText-Book.woff2') format('woff2'),
 			url('../fonts/GTSuperText-Book.woff') format('woff');
 	font-weight: 300;

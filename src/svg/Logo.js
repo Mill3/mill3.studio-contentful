@@ -15,7 +15,6 @@ const LogoPath = posed.g({
 const LogoSVG = styled.svg`
 `
 
-
 const Logo = ({ inverted }) => {
   return (
     <LogoSVG width="166px" height="44px" viewBox="0 0 166 44" version="1.1" xmlns="http://www.w3.org/2000/svg">

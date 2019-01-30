@@ -19,7 +19,7 @@ export const space = [
 
 export const fonts = {
   sans: 'Larsseit, Helvetica, system-ui, sans-serif',
-  serif: 'GT Super Display, Georgia, serif',
+  serif: 'GT Super Text, Georgia, serif',
   mono: 'Menlo, monospace',
 }
 

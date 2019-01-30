@@ -39,7 +39,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
 const ProjectPreview = ({ index, project }) => {
   return (
-    <VisibilitySensor partialVisibility={true} offset={{top:250, bottom: 250}}>
+    <VisibilitySensor partialVisibility={true} offset={{top: -250, bottom: -250}}>
       {({isVisible}) =>
         <Box as={ProjectPreviewItem} index={index} initialPose={'hidden'} pose={isVisible ? 'visible' : 'hidden'} width={[1,1/2,1/2,1/2]} pl={[2]} pr={[2]}>
           <TransitionLinkComponent to={`/projects/${project.node.slug}`}>

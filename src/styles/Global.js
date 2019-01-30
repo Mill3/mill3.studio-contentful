@@ -13,6 +13,14 @@ const GlobalStyle = createGlobalStyle`
   /* normalize css */
   ${rebootCSS}
 
+  body {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    scroll-behavior: smooth;
+  }
+
   /* type */
   h1, .h1 {
     font-size: ${Theme.fontSizes[8]};
@@ -39,6 +47,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /* utils class */
+  .is-relative {
+    position: relative;
+  }
+
   .is-light {
     font-weight: 300;
   }

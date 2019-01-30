@@ -11,6 +11,8 @@ import {
   TRANSITION_EXIT_DURATION
 } from '@utils/constants'
 
+import HeaderCircle from './HeaderCircle'
+
 const HeaderIntroPoses = posed.header({
   entered: {
     y: 0,
@@ -23,13 +25,13 @@ const HeaderIntroPoses = posed.header({
       marginBottom: {
         type: 'tween',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
-        delay: TRANSITION_DURATION * 1000,
+        delay: (TRANSITION_DURATION * 3) * 1000,
       }
     },
   },
   exiting: {
     y: `100vh`,
-    marginBottom: 100,
+    marginBottom: 500,
     transition: {
       y: {
         type: 'tween',
@@ -47,11 +49,15 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  height: 50vh;
+  height: 60vh;
   padding-top: 90px;
   top: -90px;
   position: relative;
   background: ${props => props.theme.colors.black};
+  h2 {
+    margin: 0;
+    line-height: 1.2;
+  }
 `
 
 const charPoses = {
@@ -79,8 +85,9 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
       pose={transitionStatus}
       className={`z-negative`}
     >
-      <Box pl={[2,`8vw`]}>
-        <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-serif fw-300`}>
+      <Box pl={[`5vw`,`8vw`]}>
+
+        <Text as={`h2`} fontSize={fontSizes} className={`is-serif fw-200`}>
           <SplitText
             initialPose={`exit`}
             pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
@@ -89,6 +96,7 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
             {intl.formatMessage({id: 'Craft, code and smile.'}).toString()}
           </SplitText>
         </Text>
+
         <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-sans fw-300`}>
           <SplitText
             initialPose={`exit`}
@@ -98,7 +106,11 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
             {intl.formatMessage({id: 'We are a digital agency.'}).toString()}
           </SplitText>
         </Text>
+
       </Box>
+
+      <HeaderCircle />
+
     </Flex>
   );
 }
