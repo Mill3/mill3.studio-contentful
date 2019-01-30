@@ -2,8 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import _ from 'lodash'
-import Hamster from 'hamsterjs'
 import { TimelineLite, TweenLite, Power0, Power4 } from 'gsap'
+
+if (typeof window !== 'undefined') {
+  const Hamster = require('hamsterjs')
+}
 
 import Circle from '@svg/Circle'
 

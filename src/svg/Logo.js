@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
-
+import { colors } from '@styles/Theme'
 
 const LogoPath = posed.g({
   black: {
-    fill: "#000",
+    fill: colors.black,
   },
   inverted: {
-    fill: "#fff",
+    fill: colors.white,
   },
 })
 
