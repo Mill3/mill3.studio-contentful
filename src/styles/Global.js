@@ -95,6 +95,27 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${Theme.fonts.serif};
   }
 
+  .z-negative {
+    z-index: -1;
+  }
+
+  .z-0 {
+    z-index: 0;
+  }
+
+  .z-10 {
+    z-index: 10;
+  }
+
+  .z-20 {
+    z-index: 20;
+  }
+
+  .img-fluid {
+    max-width: 100%;
+    width: 100%;
+  }
+
 `
 
 export default GlobalStyle

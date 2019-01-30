@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 
 import {
   TRANSITION_DURATION,
@@ -12,31 +12,19 @@ import {
 } from '@utils/constants'
 
 const HeaderIntroPoses = posed.header({
-  init: {
-    opacity: 0,
-    height: 0,
-    transition: {
-      height: {
-        type: 'tween',
-        duration: TRANSITION_DURATION * 1000,
-      },
-    },
-  },
   entered: {
-    opacity: 1,
-    height: `40vh`,
+    y: 0,
     transition: {
-      height: {
+      y: {
         type: 'tween',
-        duration: TRANSITION_DURATION * 1000,
+        duration: (TRANSITION_DURATION * 1.5) * 1000,
       },
     },
   },
   exiting: {
-    opacity: 0,
-    height: 0,
+    y: `100vh`,
     transition: {
-      height: {
+      y: {
         type: 'tween',
         duration: TRANSITION_EXIT_DURATION * 1000,
       },
@@ -47,7 +35,11 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  height: 0;
+  height: 50vh;
+  padding-top: 90px;
+  top: -90px;
+  position: relative;
+  background: ${props => props.theme.colors.black};
 `
 
 const charPoses = {
@@ -55,7 +47,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => (TRANSITION_DURATION * 1250) + (charIndex * 30),
+    delay: ({ charIndex }) => (TRANSITION_DURATION * 2500) + (charIndex * 30),
     transition: {
       y: {
         type: 'spring'
@@ -66,28 +58,32 @@ const charPoses = {
 
 const fontSizes = [4,4,'3.5vw']
 
-const HeaderIntro = ({ transitionStatus }) => {
+const HeaderIntro = ({ transitionStatus, intl }) => {
   return (
     <Flex
       alignItems={`center`}
       as={Header}
+      initialPose={`exiting`}
       pose={transitionStatus}
+      className={`z-negative`}
     >
-      <Box pl={[2,`4vw`]}>
+      <Box pl={[2,`8vw`]}>
         <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-serif fw-300`}>
           <SplitText
+            initialPose={`exit`}
             pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
             charPoses={charPoses}
           >
-            Craft, code and smile.
+            {intl.formatMessage({id: 'Craft, code and smile.'}).toString()}
           </SplitText>
         </Text>
         <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-sans fw-300`}>
           <SplitText
+            initialPose={`exit`}
             pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
             charPoses={charPoses}
           >
-            We are a digital agency.
+            {intl.formatMessage({id: 'We are a digital agency.'}).toString()}
           </SplitText>
         </Text>
       </Box>

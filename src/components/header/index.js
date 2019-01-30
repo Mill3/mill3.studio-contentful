@@ -28,7 +28,8 @@ const SiteHeaderPoses = posed.header({
 })
 
 const SiteHeader = styled(SiteHeaderPoses)`
-  background: rgba(255,255,255,0);
+  background: ${props => props.theme.colors.white};
+  position: relative;
 `
 
 const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
@@ -36,21 +37,13 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
     {({ transitionStatus }) => {
 
       return (
-
         <Box
           as={SiteHeader}
-          pose={
-            withIntro && ['entering', 'entered'].includes(transitionStatus)
-            ? `withIntro` : `default`
-          }
-          delay={0}
           pt={[3,4]}
           pb={[3,4]}
         >
 
-          {/* {transitionStatus} */}
-
-          <Container fluid>
+          <Container fluid className={`z-10`}>
 
             <Flex flexWrap={`wrap`} alignItems={`center`}>
 
@@ -68,14 +61,13 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
 
             </Flex>
 
-            {withIntro &&
-              <HeaderIntro transitionStatus={transitionStatus} />
-            }
-
           </Container>
 
-        </Box>
+          {withIntro &&
+            <HeaderIntro transitionStatus={transitionStatus} />
+          }
 
+        </Box>
       )
 
     }}

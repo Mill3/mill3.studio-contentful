@@ -1,3 +1,8 @@
+// const ProjectInline = require('./src/components/projects/ProjectInline')
+// console.log('ProjectInline:', ProjectInline)
+const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
+// const { richTextToJsx } = require('@madebyconnor/rich-text-to-jsx')
+
 module.exports = {
   siteMetadata: {
     title: `MILL3 Studio`,
@@ -16,6 +21,9 @@ module.exports = {
         spaceId: `9bzwr94keh5j`,
         accessToken: `d6cc93293888bce59f3cf5d4f8bac85aff49df2212c3034cd673ef1c5756ef84`,
       },
+    },
+    {
+      resolve: `@contentful/gatsby-transformer-contentful-richtext`,
     },
     {
       resolve: `gatsby-source-filesystem`,
