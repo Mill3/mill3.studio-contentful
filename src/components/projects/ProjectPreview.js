@@ -1,6 +1,6 @@
 import React from 'react'
 import TransitionLinkComponent from '@utils/TransitionLink'
-import { Box } from 'rebass'
+import { Box, Text } from 'rebass'
 import Img from "gatsby-image"
 import styled from 'styled-components'
 import posed from 'react-pose'
@@ -35,6 +35,9 @@ const ProjectPoses = posed.article({
 
 const ProjectPreviewItem = styled(ProjectPoses)`
   /* border: 1px solid rebeccapurple; */
+  a {
+    color: #000;
+  }
 `
 
 const ProjectPreviewCol = (index) => {
@@ -47,6 +50,7 @@ const ProjectPreviewCol = (index) => {
     1 : {
       width: [1,1/2,1/2,1/2],
       ml: [0, 'auto'],
+      mt: [0, 5]
     },
     2 : {
       width: [1,1/2,1/2,1/3],
@@ -62,8 +66,14 @@ const ProjectPreviewCol = (index) => {
 }
 
 const ProjectPreview = ({ index, project }) => {
+  let {
+    slug,
+    imageMain,
+    name
+  } = project.node
+
   return (
-    <VisibilitySensor partialVisibility={true} offset={{top: -350, bottom: -350}}>
+    <VisibilitySensor partialVisibility={true} offset={{top: 50, bottom: 50}}>
       {({isVisible}) =>
         <Box
           as={ProjectPreviewItem}
@@ -75,11 +85,15 @@ const ProjectPreview = ({ index, project }) => {
           mb={[2,2,'5vh']}
           {...(ProjectPreviewCol(index))}
         >
-          <TransitionLinkComponent to={`/projects/${project.node.slug}`}>
+          <TransitionLinkComponent to={`/projects/${slug}`}>
             <figure>
-              <Img fade={false} fluid={project.node.imageMain.fluid} />
+              <Img fade={false} fluid={imageMain.fluid} />
             </figure>
-            <h2>{project.node.name}</h2>
+            <footer>
+              <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
+              <Text as={`h4`} className={`fw-300 is-serif`} fontSize={[3]}>Branding</Text>
+            </footer>
+
           </TransitionLinkComponent>
         </Box>
       }

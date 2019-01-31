@@ -57,7 +57,7 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
         <Box
           as={SiteHeader}
           pose={pose(transitionStatus)}
-          mb={[6]}
+          mb={[5]}
         >
 
           <Container fluid className={`z-10`}>
