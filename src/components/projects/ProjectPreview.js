@@ -49,9 +49,9 @@ const ProjectPreviewCol = (index) => {
       ml: [0, 'auto'],
     },
     2 : {
-      width: [1,1/2,1/2,1/2],
-      ml: [0, 'auto'],
-      mr: [0, 'auto'],
+      width: [1,1/2,1/2,1/3],
+      mt: [0,0,'-20vh'],
+      ml: [0,0,'7.5vw'],
     }
   }
 
