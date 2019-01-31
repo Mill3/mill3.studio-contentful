@@ -45,17 +45,11 @@ class HeaderCircle extends React.Component {
   rotation() {
     this.timeline = new TimelineLite({ repeat: true })
     this.timeline.to(this.ref.current, 6000, { rotation: "+=54000", ease: Power4.easeOut })
-    // this.timeline.play()
-    console.log(this.timeline, this.ref.current);
-
   }
 
   mouse() {
-    console.log(typeof window);
-
     if (typeof window == 'object') {
       const Hamster = require('hamsterjs')
-      console.log('Hamster:', Hamster)
 
       this.mouseWheel = Hamster(window);
 

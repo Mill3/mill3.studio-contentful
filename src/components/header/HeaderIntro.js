@@ -22,7 +22,7 @@ const HeaderIntroPoses = posed.header({
   entered: {
     y: 0,
     marginBottom: 0,
-    height: `60vh`,
+    height: `70vh`,
     transition: {
       y: {
         type: 'tween',
@@ -62,7 +62,6 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  /* height: 60vh; */
   padding-top: 120px;
   top: -120px;
   position: relative;

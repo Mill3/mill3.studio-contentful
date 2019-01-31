@@ -11,7 +11,7 @@ import VisibilitySensor from 'react-visibility-sensor'
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
-    y: ({ index }) => 150 * ((index + 1) / 5),
+    y: 350,
   },
   visible: {
     opacity: 1,
@@ -19,15 +19,15 @@ const ProjectPoses = posed.article({
     transition: {
       opacity: {
         type: 'tween',
-        ease: 'backInOut',
-        duration: 1250,
-        delay: ({ index }) => (index + 1) * 150,
+        ease: 'easeOut',
+        duration: 3500,
+        delay: ({ index }) => 350 * (index + 1),
       },
       y: {
         type: 'tween',
-        ease: 'backInOut',
-        duration: 1250,
-        delay: ({ index }) => (index + 1) * 150,
+        ease: 'easeOut',
+        duration: 3500,
+        delay: ({ index }) => 350 * (index + 1),
       },
     }
   },
@@ -37,11 +37,46 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   /* border: 1px solid rebeccapurple; */
 `
 
+const ProjectPreviewCol = (index) => {
+
+  const columns = {
+    0 : {
+      width: [1,1/2,1/3,1/3],
+      mr: [0, 'auto'],
+    },
+    1 : {
+      width: [1,1/2,1/2,1/2],
+      ml: [0, 'auto'],
+    },
+    2 : {
+      width: [1,1/2,1/2,1/2],
+      ml: [0, 'auto'],
+      mr: [0, 'auto'],
+    }
+  }
+
+
+  let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
+  console.log(column);
+
+  return column
+
+}
+
 const ProjectPreview = ({ index, project }) => {
   return (
-    <VisibilitySensor partialVisibility={true} offset={{top: -250, bottom: -250}}>
+    <VisibilitySensor partialVisibility={true} offset={{top: -350, bottom: -350}}>
       {({isVisible}) =>
-        <Box as={ProjectPreviewItem} index={index} initialPose={'hidden'} pose={isVisible ? 'visible' : 'hidden'} width={[1,1/2,1/2,1/2]} pl={[2]} pr={[2]}>
+        <Box
+          as={ProjectPreviewItem}
+          index={index}
+          initialPose={'hidden'}
+          pose={isVisible ? 'visible' : 'hidden'}
+          pl={[2]}
+          pr={[2]}
+          mb={[2,2,'5vh']}
+          {...(ProjectPreviewCol(index))}
+        >
           <TransitionLinkComponent to={`/projects/${project.node.slug}`}>
             <figure>
               <Img fade={false} fluid={project.node.imageMain.fluid} />

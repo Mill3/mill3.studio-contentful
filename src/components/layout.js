@@ -1,9 +1,10 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
-import { TransitionState } from "gatsby-plugin-transition-link"
+import Scrollbar from 'react-smooth-scrollbar'
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -18,6 +19,7 @@ import Main from './main'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
+import { hidden } from 'ansi-colors';
 
 const messages = {en, fr}
 
@@ -44,14 +46,23 @@ const Layout = ({ locale, withIntro, children }) => (
           {/* base theme provider */}
           <ThemeProvider theme={Theme}>
 
-            <div id="wrapper">
-              {/* main header */}
-              <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
+            <Scrollbar
+              damping={0.08}
+              thumbMinSize={55}
+              alwaysShowTracks={false}
+              continuousScrolling={true}
+            >
 
-              {/* main wrapper containing children pages */}
-              <Main children={children} />
+              <div id="wrapper" style={{ height: '100vh', overflow: hidden }}>
+                {/* main header */}
+                <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
 
-            </div>
+                {/* main wrapper containing children pages */}
+                <Main children={children} />
+
+              </div>
+
+            </Scrollbar>
 
           </ThemeProvider>
 
