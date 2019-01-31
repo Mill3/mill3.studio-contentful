@@ -16,8 +16,9 @@ const NavContainer = styled.ul`
   flex-direction: row;
   align-self: center;
   justify-content: center;
+  mix-blend-mode: difference;
   a {
-    color: ${props => props.inverted ? `${props.theme.colors.white}` : `${props.theme.colors.black}`};
+    color: white;
     display: inline-block;
   }
 `

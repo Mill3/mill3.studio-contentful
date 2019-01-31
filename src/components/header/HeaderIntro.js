@@ -14,9 +14,15 @@ import {
 import HeaderCircle from './HeaderCircle'
 
 const HeaderIntroPoses = posed.header({
+  init: {
+    y: `100vh`,
+    marginBottom: 500,
+    height: `100vh`,
+  },
   entered: {
     y: 0,
     marginBottom: 0,
+    height: `60vh`,
     transition: {
       y: {
         type: 'tween',
@@ -26,21 +32,28 @@ const HeaderIntroPoses = posed.header({
         type: 'tween',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
         delay: (TRANSITION_DURATION * 3) * 1000,
+      },
+      height: {
+        type: 'tween',
+        duration: (TRANSITION_DURATION * 1.5) * 1000,
       }
     },
   },
   exiting: {
-    y: `100vh`,
-    marginBottom: 500,
+    y: `-50vh`,
+    height: `0vh`,
     transition: {
       y: {
         type: 'tween',
         duration: TRANSITION_EXIT_DURATION * 1000,
-        delay: TRANSITION_EXIT_DURATION * 1000,
       },
       marginBottom: {
         type: 'tween',
-        duration: (TRANSITION_DURATION * 2) * 1000,
+        duration: (TRANSITION_EXIT_DURATION) * 1000,
+      },
+      height: {
+        type: 'tween',
+        duration: (TRANSITION_EXIT_DURATION) * 1000,
       }
     },
   },
@@ -49,9 +62,9 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  height: 60vh;
-  padding-top: 90px;
-  top: -90px;
+  /* height: 60vh; */
+  padding-top: 120px;
+  top: -120px;
   position: relative;
   background: ${props => props.theme.colors.black};
   h2 {
@@ -81,7 +94,7 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
     <Flex
       alignItems={`center`}
       as={Header}
-      initialPose={`exiting`}
+      initialPose={`init`}
       pose={transitionStatus}
       className={`z-negative`}
     >
