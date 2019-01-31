@@ -15,7 +15,7 @@ import HeaderCircle from './HeaderCircle'
 
 const HeaderIntroPoses = posed.header({
   init: {
-    y: `100vh`,
+    y: `102vh`,
     marginBottom: 500,
     height: `100vh`,
   },
@@ -26,25 +26,29 @@ const HeaderIntroPoses = posed.header({
     transition: {
       y: {
         type: 'tween',
+        ease: 'backInOut',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
       },
       marginBottom: {
         type: 'tween',
+        ease: 'backInOut',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
         delay: (TRANSITION_DURATION * 3) * 1000,
       },
       height: {
         type: 'tween',
+        ease: 'backInOut',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
       }
     },
   },
   exiting: {
-    y: `-50vh`,
+    y: `-10vh`,
     height: `0vh`,
     transition: {
       y: {
         type: 'tween',
+        ease: 'backInOut',
         duration: TRANSITION_EXIT_DURATION * 1000,
       },
       marginBottom: {
@@ -53,6 +57,7 @@ const HeaderIntroPoses = posed.header({
       },
       height: {
         type: 'tween',
+        ease: 'backInOut',
         duration: (TRANSITION_EXIT_DURATION) * 1000,
       }
     },

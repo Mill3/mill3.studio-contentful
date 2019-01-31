@@ -57,10 +57,8 @@ const ProjectPreviewCol = (index) => {
 
 
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
-  console.log(column);
 
   return column
-
 }
 
 const ProjectPreview = ({ index, project }) => {
