@@ -10,18 +10,20 @@ import {
   TRANSITION_EXIT_DURATION
 } from '@utils/constants'
 
-const TransitionLinkComponent = ({ to, intl: { locale }, ...props }) => {
+const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props }) => {
   const path = `/${locale}${to}`
 
   return (
     <TransitionLink {...props} to={path}
-      exit={{
-        length: TRANSITION_EXIT_DURATION,
-        delay: TRANSITION_DELAY
-      }}
       entry={{
         length: TRANSITION_DURATION,
-        delay: TRANSITION_DELAY
+        delay: TRANSITION_DELAY,
+        state: { 'transitionTitle': title, 'transitionColor': color }
+      }}
+      exit={{
+        length: TRANSITION_EXIT_DURATION,
+        delay: TRANSITION_DELAY,
+        state: { 'transitionTitle': title, 'transitionColor': color }
       }}
     />
   )

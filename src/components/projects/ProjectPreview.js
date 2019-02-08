@@ -66,6 +66,7 @@ const ProjectPreviewCol = (index) => {
 const ProjectPreview = ({ index, project }) => {
   let {
     slug,
+    colorMain,
     imageMain,
     name
   } = project.node
@@ -83,7 +84,7 @@ const ProjectPreview = ({ index, project }) => {
           mb={[2,2,'5vh']}
           {...(ProjectPreviewCol(index))}
         >
-          <TransitionLinkComponent to={`/projects/${slug}`}>
+          <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
             <figure>
               <Img fade={false} fluid={imageMain.fluid} />
             </figure>

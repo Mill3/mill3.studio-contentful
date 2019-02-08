@@ -19,7 +19,7 @@ import Main from './main'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
-import { hidden } from 'ansi-colors';
+import TransitionPane from '@components/transitions'
 
 const messages = {en, fr}
 
@@ -53,7 +53,11 @@ const Layout = ({ locale, withIntro, children }) => (
               continuousScrolling={true}
             >
 
-              <div id="wrapper" style={{ height: '100vh', overflow: hidden }}>
+              <div id="wrapper" style={{ height: '100vh' }}>
+
+                {/* transition between pages */}
+                <TransitionPane />
+
                 {/* main header */}
                 <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
 

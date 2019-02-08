@@ -41,6 +41,7 @@ export const projectQuery = graphql`
           slug
           node_locale
           name
+          colorMain
           imageMain {
             fluid(maxWidth: 1800, quality: 85) {
               ...GatsbyContentfulFluid_noBase64
