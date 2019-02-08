@@ -1,9 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Text } from 'rebass'
+import posed from 'react-pose'
+import { Text } from 'rebass'
 import { TransitionState } from "gatsby-plugin-transition-link"
 
-const TransitionPaneStyle = styled.div`
+const Poses = posed.div({
+  init: {
+    opacity: 0,
+    backgroundColor: '#000'
+  },
+  visible: {
+    opacity: 1,
+    backgroundColor: ({ backgroundColor }) => backgroundColor,
+    transition: {
+      duration: 250
+    }
+  },
+  hidden: {
+    opacity: 0,
+    backgroundColor: ({ backgroundColor }) => backgroundColor,
+    transition: {
+      duration: 500
+    }
+  }
+})
+
+const TransitionPaneStyle = styled(Poses)`
   position: fixed;
   top: 0;
   left: 0;
@@ -17,10 +39,6 @@ const TransitionPaneStyle = styled.div`
   justify-content: center;
   pointer-events: none;
   color: #fff;
-  transition: all 0.75s;
-  background-color: ${props => props.backgroundColor ? props.backgroundColor : `block`};
-  /* transform: ${props => props.visible ? `translateY(0%)` : `translateY(101%)`}; */
-  opacity: ${props => props.visible ? 1 : 0};
 `
 
 class TransitionPane extends React.Component {
@@ -41,7 +59,8 @@ class TransitionPane extends React.Component {
           return (
             <TransitionPaneStyle
               backgroundColor={entry.state.transitionColor}
-              visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
+              initialPose={`init`}
+              pose={['exiting', 'exited', 'entering'].includes(transitionStatus) ? 'visible' : 'hidden'}
             >
               <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle}</Text>
             </TransitionPaneStyle>
