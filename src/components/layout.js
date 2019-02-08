@@ -38,14 +38,19 @@ const Layout = ({ locale, withIntro, children }) => (
       }
     `}
     render={data => (
+      <>
+
+      {/* transition between pages */}
+      <TransitionPortal>
+        <TransitionPane />
+      </TransitionPortal>
+
       <IntlProvider locale={locale} messages={messages[locale]}>
         <>
 
           {/* global bvase style */}
           <GlobalStyle />
 
-          {/* transition between pages */}
-          <TransitionPane />
 
           {/* base theme provider */}
           <ThemeProvider theme={Theme}>
@@ -73,6 +78,7 @@ const Layout = ({ locale, withIntro, children }) => (
 
         </>
       </IntlProvider>
+      </>
     )}
   />
 )
