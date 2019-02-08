@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import _ from 'lodash'
-import { TimelineLite, TweenLite, Power0, Power4 } from 'gsap'
+import { TimelineLite, Power4 } from 'gsap'
 
 import Circle from '@svg/Circle'
 

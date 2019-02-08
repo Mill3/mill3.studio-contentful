@@ -22,7 +22,7 @@ const HeaderIntroPoses = posed.header({
   entered: {
     y: 0,
     marginBottom: 0,
-    height: `85vh`,
+    height: `70vh`,
     transition: {
       y: {
         type: 'tween',
@@ -33,7 +33,7 @@ const HeaderIntroPoses = posed.header({
         type: 'tween',
         ease: 'backInOut',
         duration: (TRANSITION_DURATION * 1.5) * 1000,
-        delay: (TRANSITION_DURATION * 3) * 1000,
+        // delay: (TRANSITION_DURATION * 3) * 1000,
       },
       height: {
         type: 'tween',
@@ -82,7 +82,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => (TRANSITION_DURATION * 2500) + (charIndex * 30),
+    delay: ({ charIndex }) => (TRANSITION_DURATION * 950) + (charIndex * 30),
     transition: {
       y: {
         type: 'spring'

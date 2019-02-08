@@ -1,11 +1,7 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-// import { Link } from 'gatsby'
 
 const RootPage = () => (
-  <div>Root page, should redirect</div>
+  <React.Fragment></React.Fragment>
 )
-
-
 
 export default RootPage

@@ -51,13 +51,13 @@ const Nav = ({ inverted }) => {
         </TransitionLinkComponent>
       </NavItem>
 
-      <NavItem>
+      {/* <NavItem>
         <TransitionLinkComponent to={`/about/`}>
           <Text fontSize={fontSizes}>
             <FormattedMessage id="Journal" />
           </Text>
         </TransitionLinkComponent>
-      </NavItem>
+      </NavItem> */}
 
       <NavItem>
         <TransitionLinkComponent to={`/contact/`}>

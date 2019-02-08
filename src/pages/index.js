@@ -34,7 +34,7 @@ export default IndexPage
 
 export const projectQuery = graphql`
   query allProjectsQuery($locale: String!) {
-    allContentfulProjects(filter: { node_locale : { eq: $locale }}) {
+    allContentfulProjects(limit: 3, filter: { node_locale : { eq: $locale }}) {
       edges {
         node {
           id

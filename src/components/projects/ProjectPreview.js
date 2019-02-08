@@ -11,32 +11,31 @@ import VisibilitySensor from 'react-visibility-sensor'
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
-    y: 350,
+    y: 150,
   },
   visible: {
     opacity: 1,
     y: 0,
+    delay: ({ index }) => 250 * (index + 1),
     transition: {
       opacity: {
         type: 'tween',
-        ease: 'easeOut',
-        duration: 3500,
-        delay: ({ index }) => 350 * (index + 1),
+        ease: 'easeInOut',
+        duration: 750,
       },
       y: {
         type: 'tween',
-        ease: 'easeOut',
-        duration: 3500,
-        delay: ({ index }) => 350 * (index + 1),
+        ease: 'easeInOut',
+        duration: 750,
       },
     }
   },
 })
 
 const ProjectPreviewItem = styled(ProjectPoses)`
-  /* border: 1px solid rebeccapurple; */
   a {
     color: #000;
+    text-decoration: none;
   }
 `
 
@@ -58,7 +57,6 @@ const ProjectPreviewCol = (index) => {
       ml: [0,0,'7.5vw'],
     }
   }
-
 
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
 
@@ -93,7 +91,6 @@ const ProjectPreview = ({ index, project }) => {
               <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
               <Text as={`h4`} className={`fw-300 is-serif`} fontSize={[3]}>Branding</Text>
             </footer>
-
           </TransitionLinkComponent>
         </Box>
       }

@@ -10,12 +10,19 @@ import VisibilitySensor from 'react-visibility-sensor'
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
-    y: ({ index }) => (index + 1) * 50,
+    y: 5,
   },
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => (index + 1) * 250,
+    delay: ({ index }) => (index + 1) * 150,
+    transition: {
+      y: {
+        type: 'tween',
+        ease: 'easeInOut',
+        duration: 2500,
+      },
+    }
   },
 })
 
