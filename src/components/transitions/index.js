@@ -17,8 +17,9 @@ const TransitionPaneStyle = styled.div`
   justify-content: center;
   pointer-events: none;
   color: #fff;
-  transition: opacity 0.5s;
+  transition: all 0.75s;
   background-color: ${props => props.backgroundColor ? props.backgroundColor : `block`};
+  /* transform: ${props => props.visible ? `translateY(0%)` : `translateY(101%)`}; */
   opacity: ${props => props.visible ? 1 : 0};
 `
 
