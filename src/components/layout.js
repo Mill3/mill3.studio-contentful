@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
+import { TransitionPortal } from "gatsby-plugin-transition-link"
 import { ThemeProvider } from 'styled-components'
 import Scrollbar from 'react-smooth-scrollbar'
 
@@ -44,7 +45,9 @@ const Layout = ({ locale, withIntro, children }) => (
           <GlobalStyle />
 
           {/* transition between pages */}
-          <TransitionPane />
+          <TransitionPortal>
+            <TransitionPane />
+          </TransitionPortal>
 
           {/* base theme provider */}
           <ThemeProvider theme={Theme}>
