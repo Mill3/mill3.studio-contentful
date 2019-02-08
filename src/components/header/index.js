@@ -66,7 +66,7 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
 
               <Box width={[1,1,'auto']}>
                 <h1>
-                  <TransitionLinkComponent to={`/`} title={siteTitle}>
+                  <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
                     <Logo inverted={withIntro ? true : false} />
                   </TransitionLinkComponent>
                 </h1>

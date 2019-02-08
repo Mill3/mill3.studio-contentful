@@ -43,6 +43,9 @@ const Layout = ({ locale, withIntro, children }) => (
           {/* global bvase style */}
           <GlobalStyle />
 
+          {/* transition between pages */}
+          <TransitionPane />
+
           {/* base theme provider */}
           <ThemeProvider theme={Theme}>
 
@@ -54,9 +57,6 @@ const Layout = ({ locale, withIntro, children }) => (
             >
 
               <div id="wrapper" style={{ height: '100vh' }}>
-
-                {/* transition between pages */}
-                <TransitionPane />
 
                 {/* main header */}
                 <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />

@@ -17,7 +17,7 @@ const TransitionPaneStyle = styled.div`
   justify-content: center;
   pointer-events: none;
   color: #fff;
-  transition: opacity 0.25s;
+  transition: opacity 0.5s;
   background-color: ${props => props.backgroundColor ? props.backgroundColor : `block`};
   opacity: ${props => props.visible ? 1 : 0};
 `
@@ -37,13 +37,12 @@ class TransitionPane extends React.Component {
     return (
       <TransitionState>
         {({ transitionStatus, entry, exit }) => {
-          // console.log(transitionStatus, entry, exit)
           return (
             <TransitionPaneStyle
               backgroundColor={entry.state.transitionColor}
               visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
             >
-              <Text fontSize={[2,3,`5vw`]}>{entry.state.transitionTitle}</Text>
+              <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle}</Text>
             </TransitionPaneStyle>
           )
         }}
