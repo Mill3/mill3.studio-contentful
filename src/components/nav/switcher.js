@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
+import TransitionLink from 'gatsby-plugin-transition-link'
 import { injectIntl } from 'react-intl'
 import { Text } from 'rebass'
 
@@ -13,16 +14,24 @@ const SwitcherLink = styled.a`
 const Switcher = ({intl: { locale }, fontSizes }) => (
   <>
     {Object.keys(locales).map(key => (
-      <SwitcherLink
-        as={Link}
+      <TransitionLink
+        as={SwitcherLink}
         hidden={key === locale ? true : false}
         key={locales[key].locale}
         to={`/${locales[key].path}/`}
+        exit={{
+          length: 1,
+          state: { 'transitionTitle': '🤞', 'transitionColor': '#000' }
+        }}
+        entry={{
+          length: 1,
+          state: { 'transitionTitle': '✌️', 'transitionColor': '#000' }
+        }}
       >
         <Text fontSize={fontSizes}>
           {locales[key].locale}
         </Text>
-      </SwitcherLink>
+      </TransitionLink>
     ))}
   </>
 );

@@ -82,7 +82,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => (TRANSITION_DURATION * 950) + (charIndex * 30),
+    delay: ({ charIndex }) => (TRANSITION_DURATION * 1500) + (charIndex * 30),
     transition: {
       y: {
         type: 'spring'

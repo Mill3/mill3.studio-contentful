@@ -44,7 +44,7 @@ const Nav = ({ inverted }) => {
       </NavItem>
 
       <NavItem>
-        <TransitionLinkComponent to={`/about/`} title={`Yes, us`} color={`rebeccapurple`}>
+        <TransitionLinkComponent to={`/about/`} title={`Yes, us`} color={`#445533`}>
           <Text fontSize={fontSizes}>
             <FormattedMessage id="About" />
           </Text>

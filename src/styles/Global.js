@@ -1,7 +1,19 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, keyframes } from 'styled-components'
 
 
 import Theme, { rebootCSS } from './Theme'
+
+const fadeIn = keyframes`
+  to {
+    opacity: 1;
+  }
+`
+
+const fadeOut = keyframes`
+  to {
+    opacity: 0;
+  }
+`
 
 // console.log(Theme);
 
@@ -126,6 +138,26 @@ const GlobalStyle = createGlobalStyle`
   .img-fluid {
     max-width: 100%;
     width: 100%;
+  }
+
+  .tl-wrapper {
+    animation-name: ${fadeIn};
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+  }
+
+  /* animation */
+  .fade-in {
+    animation-name: ${fadeIn};
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-fill-mode: both;
+  }
+
+  .fade-out {
+    animation-name: ${fadeOut};
+    animation-duration: 1s;
+    animation-fill-mode: both;
   }
 
 `
