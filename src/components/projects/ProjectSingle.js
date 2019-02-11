@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
-import { Link, graphql, StaticQuery } from 'gatsby'
+import { graphql } from 'gatsby'
 import Img from "gatsby-image"
 import Layout from '@components/layout'
 import RichTextRenderer from '@utils/RichTextRenderer'
 import posed from 'react-pose'
+import styled from 'styled-components'
 import SplitText from 'react-pose-text'
 
 import Container from '@styles/Container'
 
 const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
+
+const ProjectSingleContainer = styled.div`
+  min-height: 4000px;
+  border: 1px solid rebeccapurple;
+`
 
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -73,10 +79,12 @@ const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
       <Container>
-        <h1>{data.contentfulProjects.name}</h1>
-        {data.contentfulProjects.content &&
-          <RichTextRenderer options={options} content={data.contentfulProjects.content.childContentfulRichText.internal.content} />
-        }
+        <ProjectSingleContainer>
+          <h1>{data.contentfulProjects.name}</h1>
+          {data.contentfulProjects.content &&
+            <RichTextRenderer options={options} content={data.contentfulProjects.content.childContentfulRichText.internal.content} />
+          }
+        </ProjectSingleContainer>
       </Container>
     </Layout>
   );

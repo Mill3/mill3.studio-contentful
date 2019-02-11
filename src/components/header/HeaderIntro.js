@@ -99,7 +99,7 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
       alignItems={`center`}
       as={Header}
       initialPose={`init`}
-      pose={transitionStatus}
+      pose={`entered`}
       className={`z-negative`}
     >
       <Box pl={[`5vw`,`8vw`]}>

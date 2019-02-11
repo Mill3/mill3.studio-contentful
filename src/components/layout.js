@@ -5,7 +5,11 @@ import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { TransitionPortal } from "gatsby-plugin-transition-link"
 import { ThemeProvider } from 'styled-components'
+// import SmoothScrollbar from 'smooth-scrollbar'
+// import OverscrollPlugin from 'smooth-scrollbar/plugins/overflow'
 import Scrollbar from 'react-smooth-scrollbar'
+
+// SmoothScrollbar.use(OverscrollPlugin)
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -46,7 +50,7 @@ const Layout = ({ locale, withIntro, children }) => (
       </TransitionPortal>
 
       <IntlProvider locale={locale} messages={messages[locale]}>
-        <>
+        <React.Fragment>
 
           {/* global bvase style */}
           <GlobalStyle />
@@ -76,7 +80,7 @@ const Layout = ({ locale, withIntro, children }) => (
 
           </ThemeProvider>
 
-        </>
+        </React.Fragment>
       </IntlProvider>
       </>
     )}

@@ -15,14 +15,14 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props 
 
   return (
     <TransitionLink {...props} to={path}
-      entry={{
-        length: TRANSITION_DURATION,
-        delay: TRANSITION_DELAY,
+      exit={{
+        delay: 0,
+        length: TRANSITION_EXIT_DURATION,
         state: { 'transitionTitle': title, 'transitionColor': color }
       }}
-      exit={{
-        length: TRANSITION_EXIT_DURATION,
+      entry={{
         delay: TRANSITION_DELAY,
+        length: TRANSITION_DURATION,
         state: { 'transitionTitle': title, 'transitionColor': color }
       }}
     />
