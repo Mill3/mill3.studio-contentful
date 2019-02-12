@@ -59,7 +59,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
   /* over pane on top */
   ${ProjectHoverPane} {
-    transform: translateY(100%);
+    transform: translateY(101%);
   }
 
   /* hover state */

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { TimelineLite, TweenMax, Linear } from 'gsap'
+import { TimelineLite, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
 import ClientName from './ClientName'
@@ -41,11 +40,43 @@ class ClientsTicker extends React.Component {
     let duration = Math.floor(Math.random() * 50) + 150;
 
     // add to this timeline
-    this.tl.add( TweenMax.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
+    this.tl.add( TweenLite.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
   }
 
   hover(isHover) {
-    return isHover ? this.tl.timeScale(0.65) : this.tl.timeScale(1)
+    let timeScalePercent = 0.25
+
+    // on hover, slow down animation
+    if (isHover) {
+      // this.tl.timeScale(timeScalePercent)
+
+      let timeScale = { value: 1 }
+      TweenLite.to(
+          timeScale,
+          2,
+          {
+            value: timeScalePercent,
+            onUpdate: () => {
+              this.tl.timeScale(timeScale.value)
+            }
+        }
+      )
+
+    // on leave, speed up to its original playback speed
+    } else {
+
+      let timeScale = { value: timeScalePercent }
+      TweenLite.to(
+          timeScale,
+          2,
+          {
+            value: 1,
+            onUpdate: () => {
+              this.tl.timeScale(timeScale.value)
+            }
+        }
+      )
+    }
   }
 
   clients(ref) {

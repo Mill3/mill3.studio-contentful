@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import _ from 'lodash'
-import { TimelineLite, Power4 } from 'gsap'
+import { TweenLite, TimelineLite, Power4 } from 'gsap'
 
 import Circle from '@svg/Circle'
 
@@ -38,16 +38,14 @@ class HeaderCircle extends React.Component {
     this.mouse()
   }
 
-  // componentDidUpdate(prevState, prevProps, state) {
-  //   console.log(this.state.rotation);
-  // }
-
   rotation() {
     this.timeline = new TimelineLite({ repeat: true })
     this.timeline.to(this.ref.current, 6000, { rotation: "+=54000", ease: Power4.easeOut })
   }
 
   mouse() {
+
+
     if (typeof window == 'object') {
       const Hamster = require('hamsterjs')
 
@@ -56,10 +54,21 @@ class HeaderCircle extends React.Component {
       this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
         this.timeline.timeScale(3.25)
 
-        // // reset transformation value after a few seconds
+
+        // reset transformation value after a few seconds
         _.debounce(() => {
-          this.timeline.timeScale(1)
-        }, 500)();
+          let timeScale = { value: 3.25 }
+          TweenLite.to(
+              timeScale,
+              0.75,
+              {
+                value: 1,
+                onUpdate: () => {
+                  this.timeline.timeScale(timeScale.value)
+                }
+            }
+          )
+        }, 750)();
       });
 
     }
