@@ -64,15 +64,16 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
   /* over pane on top */
   ${ProjectHoverPane} {
-    transform: translateY(120%);
-    transition: transform 0.25s ease-in-out;
+    /* transform: translateY(101%); */
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
     .gatsby-image-wrapper {
-      /* transform: translateY(200%); */
       opacity: 0;
-      transform: scale(1.175);
-      transition-duration: 0.75s;
-      transition-timing-function: ease-out;
+      transform: scale(1.05);
+      transition-duration: 0.45s;
+      transition-timing-function: ease-in-out;
       transition-delay: 0.4s;
+      filter: blur(10px);
     }
   }
 
@@ -80,9 +81,12 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   &:hover {
     ${ProjectHoverPane} {
       transform: translateY(0%);
+      opacity: 1;
       .gatsby-image-wrapper {
-        transform: scale(1);
+        transform: translateY(0%);
         opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
       }
     }
   }
