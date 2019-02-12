@@ -20,20 +20,28 @@ class ClientsTicker extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = {
+      animationSpeed: 1
+    }
+    this.tl = null
     this.listMain = React.createRef()
     this.listCopy = React.createRef()
     this.shuffleData = shuffle(this.props.data.edges)
+    this.hover = this.hover.bind(this)
   }
 
   componentDidMount() {
-    let tl = new TimelineLite();
+    this.tl = new TimelineLite();
 
     // random duration
     let duration = Math.floor(Math.random() * 85) + 250;
 
     // add to this timeline
-    tl.add( TweenMax.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
+    this.tl.add( TweenMax.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
+  }
+
+  hover(isHover) {
+    return isHover ? this.tl.timeScale(0.65) : this.tl.timeScale(1)
   }
 
   clients(ref) {
@@ -47,7 +55,7 @@ class ClientsTicker extends React.Component {
 
   render() {
     return (
-      <TickerLine>
+      <TickerLine onMouseEnter={(e) => this.hover(true)} onMouseLeave={(e) => this.hover(false)}>
         <TickerLineClients ref={this.listMain}>
           {this.clients()}
         </TickerLineClients>
