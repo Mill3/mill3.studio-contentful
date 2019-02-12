@@ -25,7 +25,6 @@ const SiteHeaderPoses = posed.header({
     backgroundColor: colors.white,
   },
   enteringInverted: {
-    // backgroundColor: colors.black,
     transition: {
       backgroundColor: {
         delay: TRANSITION_DURATION * 1000

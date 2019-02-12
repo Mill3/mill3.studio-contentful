@@ -47,7 +47,7 @@ class ProjectsHome extends React.Component {
         <Flex mb={[5]} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
-              <Button>More project here</Button>
+              <Button>Hey, there’s more work here !</Button>
             </TransitionLinkComponent>
           </Box>
           <Box width={[1,3/4]} pt={[5]} pb={[5]} m={`auto`}>

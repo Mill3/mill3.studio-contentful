@@ -20,6 +20,7 @@ import en from '../../locales/en/en.json'
 import fr from '../../locales/fr/fr.json'
 
 import Header from '@components/header'
+import Footer from '@components/footer'
 import Main from './main'
 
 import GlobalStyle from '@styles/Global'
@@ -76,6 +77,8 @@ const Layout = ({ locale, withIntro, children }) => (
 
                 {/* main wrapper containing children pages */}
                 <Main children={children} />
+
+                <Footer />
 
               </Wrapper>
 

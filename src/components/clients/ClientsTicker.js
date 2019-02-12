@@ -39,21 +39,33 @@ class ClientsTicker extends React.Component {
     // random duration
     let duration = Math.floor(Math.random() * 50) + 150;
 
+    // combine two list of clients
+    let elements = [this.listMain.current, this.listCopy.current]
+
     // add to this timeline
-    this.tl.add( TweenLite.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
+    this.tl.add(
+      TweenLite.to(
+        elements,
+        duration,
+        {
+          x:"-100%",
+          ease: Linear.easeNone,
+          repeat: -1
+        }
+      )
+    )
   }
 
   hover(isHover) {
-    let timeScalePercent = 0.25
+    let timeScalePercent = 0.45
 
     // on hover, slow down animation
     if (isHover) {
-      // this.tl.timeScale(timeScalePercent)
 
       let timeScale = { value: 1 }
       TweenLite.to(
           timeScale,
-          2,
+          1,
           {
             value: timeScalePercent,
             onUpdate: () => {
@@ -68,7 +80,7 @@ class ClientsTicker extends React.Component {
       let timeScale = { value: timeScalePercent }
       TweenLite.to(
           timeScale,
-          2,
+          1,
           {
             value: 1,
             onUpdate: () => {
@@ -77,10 +89,10 @@ class ClientsTicker extends React.Component {
         }
       )
     }
+
   }
 
-  clients(ref) {
-    // console.log(ref, this.refs);
+  clients() {
     if (this.shuffleData) {
       return this.shuffleData.map((client, index) =>
         <ClientName name={client.node.name} color={client.node.colorMain} key={index} />

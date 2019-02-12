@@ -59,6 +59,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${Theme.fontSizes[3]};
   }
 
+  p {
+    font-size: ${Theme.fontSizes[3]}px;
+    font-weight: 300;
+    a {
+      color: ${Theme.colors.black};
+      text-decoration: underline;
+    }
+  }
+
   /* utils class */
   .is-relative {
     position: relative;

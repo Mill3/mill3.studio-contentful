@@ -29,14 +29,14 @@ const NavItem = styled.li`
   flex: 0 0 auto;
 `
 
-const fontSizes = [2,2,`2vw`,`1.25vw`]
+const fontSizes = [4,4,`2vw`,`1.25vw`]
 
 const Nav = ({ inverted }) => {
   return (
     <NavContainer inverted={inverted}>
 
       <NavItem>
-        <TransitionLinkComponent to={`/about/`} title={`Work, work, work`} color={`#000`}>
+        <TransitionLinkComponent to={`/about/`} title={`Work, work, work, work!`} color={`#000`}>
           <Text fontSize={fontSizes}>
             <FormattedMessage id="Work" />
           </Text>
@@ -60,7 +60,7 @@ const Nav = ({ inverted }) => {
       </NavItem> */}
 
       <NavItem>
-        <TransitionLinkComponent to={`/contact/`} title={`🤙 ?`} color={`#3426F1`}>
+        <TransitionLinkComponent to={`/contact/`} title={`🤙`} color={`#3426F1`}>
           <Text fontSize={fontSizes}>
             <FormattedMessage id="Let's talk" />
           </Text>

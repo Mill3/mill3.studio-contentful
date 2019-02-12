@@ -17,15 +17,10 @@ export const ButtonStyle = styled.span`
     display: block;
     padding: 20px 45px;
     transition: transform 0.25s;
-    /* & + {
-      span {
-        color: ${props => props.theme.colors.purple};
-      }
-    } */
   }
   &:hover {
     background-color: ${props => props.theme.colors.black};
-    /* transform: rotate3d(1, 1, 1, -2deg); */
+    transform: rotate3d(1,1,1,-2.74deg);
     span {
       transform: translateY(-100%);
     }
@@ -34,7 +29,7 @@ export const ButtonStyle = styled.span`
 
 const Button = ({children}) => {
   return (
-    <Box as={ButtonStyle} fontSize={[1,2,3]}>
+    <Box as={ButtonStyle} fontSize={[2,2,3]}>
       <span>{children}</span>
       <span>{children}</span>
     </Box>

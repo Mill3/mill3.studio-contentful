@@ -7,7 +7,7 @@ const LogoSVG = styled.svg`
   mix-blend-mode: difference;
 `
 
-const Logo = ({ inverted }) => {
+const Logo = () => {
   return (
     <LogoSVG width="154px" height="44px" viewBox="0 0 154 44" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
