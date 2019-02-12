@@ -7,7 +7,6 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import VisibilitySensor from 'react-visibility-sensor'
 
-
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
@@ -18,85 +17,136 @@ const ProjectPoses = posed.article({
     y: 0,
     delay: ({ index }) => 250 * (index + 1),
     transition: {
-      opacity: {
-        type: 'tween',
-        ease: 'easeInOut',
-        duration: 750,
-      },
-      y: {
-        type: 'tween',
-        ease: 'easeInOut',
-        duration: 750,
-      },
+      type: 'spring',
+      duration: 1750,
+      stiffness: 150,
+      mass: 0.25,
     }
   },
 })
 
-const ProjectPreviewItem = styled(ProjectPoses)`
-  a {
-    color: #000;
-    text-decoration: none;
-  }
+const ProjectHoverPane = styled.span`
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: ${props => props.color};
+  opacity: 0.65;
+  transition: transform 0.25s ease-in-out;
 `
 
-const ProjectPreviewCol = (index) => {
+const ProjectPreviewItem = styled(ProjectPoses)`
 
-  const columns = {
-    0 : {
-      width: [1,1/2,1/3,1/3],
-      mr: [0, 'auto'],
-    },
-    1 : {
-      width: [1,1/2,1/2,1/2],
-      ml: [0, 'auto'],
-      mt: [0, 5]
-    },
-    2 : {
-      width: [1,1/2,1/2,1/3],
-      mt: [0,0,'-20vh'],
-      ml: [0,0,'7.5vw'],
+  figure {
+    position: relative;
+    overflow: hidden;
+    background: ${props => props.color};
+    .gatsby-image-wrapper {
+      display: block;
+      transition: transform 5s ease-in-out;
     }
   }
 
-  let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
+  a {
+    color: #000;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
-  return column
+  /* over pane on top */
+  ${ProjectHoverPane} {
+    transform: translateY(100%);
+  }
+
+  /* hover state */
+  &:hover {
+    figure {
+      .gatsby-image-wrapper {
+        transform: scale(1.05);
+      }
+    }
+    ${ProjectHoverPane} {
+      transform: translateY(0%);
+    }
+  }
+`
+
+class ProjectPreview extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      reveal: false
+    }
+    this.onChange = this.onChange.bind(this)
+  }
+
+  onChange(isVisible) {
+    console.log('now', isVisible);
+    if (isVisible && !this.state.reveal) {
+      this.setState({
+        reveal: true
+      })
+    }
+  }
+
+  reveal(isVisible) {
+    return this.state.reveal ? 'visible' : 'hidden'
+  }
+
+  render() {
+
+      let {
+        slug,
+        colorMain,
+        imageMain,
+        name
+      } = this.props.project.node
+
+      return (
+        <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: 50, bottom: 50}}>
+          {({isVisible}) =>
+            <Box
+              as={ProjectPreviewItem}
+              index={this.props.index}
+              initialPose={'hidden'}
+              pose={this.reveal(isVisible)}
+              pl={[2]}
+              pr={[2]}
+              mb={[2,2,'5vh']}
+              {...(this.props.columns)}
+              color={colorMain}
+            >
+              <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
+                <Box as={`figure`} mb={[4]}>
+                  <ProjectHoverPane color={colorMain} />
+                  <Img fade={false} fluid={imageMain.fluid} />
+                </Box>
+                <footer>
+                  <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
+                  <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[3]}>Branding</Text>
+                </footer>
+              </TransitionLinkComponent>
+            </Box>
+          }
+        </VisibilitySensor>
+      )
+  }
 }
 
-const ProjectPreview = ({ index, project }) => {
-  let {
-    slug,
-    colorMain,
-    imageMain,
-    name
-  } = project.node
 
-  return (
-    <VisibilitySensor partialVisibility={true} offset={{top: 50, bottom: 50}}>
-      {({isVisible}) =>
-        <Box
-          as={ProjectPreviewItem}
-          index={index}
-          initialPose={'hidden'}
-          pose={isVisible ? 'visible' : 'hidden'}
-          pl={[2]}
-          pr={[2]}
-          mb={[2,2,'5vh']}
-          {...(ProjectPreviewCol(index))}
-        >
-          <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
-            <figure>
-              <Img fade={false} fluid={imageMain.fluid} />
-            </figure>
-            <footer>
-              <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
-              <Text as={`h4`} className={`fw-300 is-serif`} fontSize={[3]}>Branding</Text>
-            </footer>
-          </TransitionLinkComponent>
-        </Box>
-      }
-    </VisibilitySensor>
-  );
+ProjectPreview.defaultProps = {
+  index: 0,
+  columns: {
+    width: 1/2,
+    ml: [0],
+    mr: [0],
+  }
 }
 
 export default ProjectPreview;

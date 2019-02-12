@@ -135,15 +135,23 @@ const GlobalStyle = createGlobalStyle`
     z-index: 20;
   }
 
+  .is-gray {
+    color: ${Theme.colors.gray};
+  }
+
   .img-fluid {
     max-width: 100%;
     width: 100%;
   }
 
+  /* transition wrapper */
+
   .tl-wrapper {
     animation-name: ${fadeIn};
     animation-duration: 0.25s;
     animation-fill-mode: both;
+    background: #fff;
+    min-height: 100vh;
   }
 
   /* animation */

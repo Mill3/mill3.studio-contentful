@@ -21,7 +21,7 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props 
         // delay: 2,
         length: TRANSITION_DURATION,
         trigger: ({ node, exit }) => {
-          node.classList.add('fade-out')
+          // node.classList.add('fade-out')
         },
         state: { 'transitionTitle': title, 'transitionColor': color },
         zIndex: 2
@@ -33,7 +33,7 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props 
         trigger: ({ node, entry }) => {
           node.classList.add('fade-in')
         },
-        zIndex: 1,
+        zIndex: -1,
       }}
     />
   )

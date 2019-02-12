@@ -13,7 +13,7 @@ const Poses = posed.div({
     opacity: 1,
     backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
-      duration: 450
+      duration: 0
     }
   },
   hidden: {
@@ -57,7 +57,7 @@ class TransitionPane extends React.Component {
     return (
       <TransitionState>
         {({ transitionStatus, entry, exit }) => {
-          console.log(transitionStatus, ['exiting', 'exited', 'entering'].includes(transitionStatus) ? 'visible' : 'hidden')
+          // console.log(transitionStatus, ['exiting', 'exited', 'entering'].includes(transitionStatus) ? 'visible' : 'hidden')
           return (
             <TransitionPaneStyle
               backgroundColor={entry.state.transitionColor || exit.state.transitionColor}

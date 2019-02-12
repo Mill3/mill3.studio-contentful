@@ -29,6 +29,15 @@ export const onInitialClientRender = () => {
 
 }
 
+export const onPreRouteUpdate = ({ location, prevLocation }) => {
+  console.log("Gatsby started to change location to", location.pathname)
+  console.time('PreRouteUpdate');
+}
+
+export const onRouteUpdate = ({ location }) => {
+  console.timeEnd('PreRouteUpdate');
+}
+
 // export const shouldUpdateScroll = ({
 //   routerProps: { location },
 //   getSavedScrollPosition
@@ -37,22 +46,20 @@ export const onInitialClientRender = () => {
 //   console.log(currentPosition, getSavedScrollPosition, location)
 //   // console.log(SmoothScrollbar.getAll());
 
-//   let scrollbar = SmoothScrollbar.getAll()[0]
-//   // console.log(scrollbar);
-//   if (scrollbar && currentPosition) {
-//     scrollbar.setPosition(currentPosition[0], currentPosition[1])
-//   }
+//   // let scrollbar = SmoothScrollbar.getAll()[0]
+//   // // console.log(scrollbar);
+//   // if (scrollbar && currentPosition) {
+//   //   scrollbar.setPosition(currentPosition[0], currentPosition[1])
+//   // }
 
 
 //   // console.log('currentPosition:', currentPosition, location)
 //   // const queriedPosition = getSavedScrollPosition({ pathname: `/random` })
 
+//   setTimeout(() => {
+//     console.log(`should scroll up`)
+//     window.scrollTo(...(currentPosition || [0, 0]))
+//   }, TRANSITION_DURATION * 1000);
 
-//   // window.scrollTo(...(currentPosition || [0, 0]))
-//   // setTimeout(() => {
-//   //   console.log(`should scroll up`)
-//   //   window.scrollTo(...(currentPosition || [0, 0]))
-//   // }, TRANSITION_DURATION * 1000);
-
-//   return true
+//   return false
 // }

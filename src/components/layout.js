@@ -55,7 +55,6 @@ const Layout = ({ locale, withIntro, children }) => (
           {/* global bvase style */}
           <GlobalStyle />
 
-
           {/* base theme provider */}
           <ThemeProvider theme={Theme}>
 

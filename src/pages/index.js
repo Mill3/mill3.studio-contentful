@@ -9,6 +9,7 @@ import Image from '@components/image'
 import SEO from '@components/seo'
 
 import ProjectsHome from '@components/projects/ProjectsHome'
+import ClientsTicker from '@components/clients/ClientsTicker'
 
 import Container from '@styles/Container'
 
@@ -20,6 +21,7 @@ const IndexPage = ({ pageContext, data }) => (
       {data.allContentfulProjects &&
         <ProjectsHome data={data.allContentfulProjects} />
       }
+      <ClientsTicker/>
     </Container>
   </Layout>
 )

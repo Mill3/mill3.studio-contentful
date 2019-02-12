@@ -5,12 +5,35 @@ import ProjectPreview from './ProjectPreview'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Button from '@components/buttons'
 
+export const columns = {
+  0 : {
+    width: [1,1/2,1/3,1/3],
+    mr: [0, 'auto'],
+  },
+  1 : {
+    width: [1,1/2,1/2,1/2],
+    ml: [0, 'auto'],
+    mt: [0, 5]
+  },
+  2 : {
+    width: [1,1/2,1/2,1/3],
+    mt: [0,0,'-20vh'],
+    ml: [0,0,'7.5vw'],
+  }
+}
+
+export const ProjectHomeCol = (index) => {
+  let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
+  return column
+}
+
+
 class ProjectsHome extends React.Component {
 
   list() {
     if (this.props.data) {
       return this.props.data.edges.map((project, index) =>
-        <ProjectPreview key={index} index={index} project={project} />
+        <ProjectPreview key={index} index={index} project={project} columns={ProjectHomeCol(index)} />
       )
     }
   }
