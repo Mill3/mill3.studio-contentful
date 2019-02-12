@@ -31,6 +31,7 @@ class ClientsTicker extends React.Component {
     this.listMain = React.createRef()
     this.listCopy = React.createRef()
     this.shuffleData = shuffle(this.props.data.edges)
+    console.log(this.shuffleData)
     this.hover = this.hover.bind(this)
   }
 
@@ -75,7 +76,7 @@ export default () => (
   <StaticQuery
     query={graphql`
       query {
-        allContentfulClients {
+        allContentfulClients(filter: { node_locale : { eq: "en" }}) {
           edges {
             node {
               name

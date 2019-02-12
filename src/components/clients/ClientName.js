@@ -16,22 +16,6 @@ const ClientNameHeading = styled.h4`
   }
 `
 
-const ClientNameCharPoses = {
-  init: {
-    y: 0,
-    delay: ({ charIndex }) => charIndex * 50,
-  },
-  hover: {
-    y: -15,
-    delay: ({ charIndex }) => charIndex * 50,
-    transition: {
-      type: 'spring',
-      stiffness: 50,
-      mass: 0.125,
-    }
-  }
-};
-
 class ClientName extends React.Component {
 
   constructor(props) {
@@ -47,14 +31,6 @@ class ClientName extends React.Component {
       hover: isHover
     })
   }
-
-  // animation() {
-  //   return(
-  //     <SplitText pose={'hover'} charPoses={ClientNameCharPoses}>
-  //       {this.props.name}
-  //     </SplitText>
-  //   )
-  // }
 
   render() {
     return (
