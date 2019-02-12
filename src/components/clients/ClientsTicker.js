@@ -5,6 +5,8 @@ import { StaticQuery, graphql } from 'gatsby'
 import { TimelineLite, TweenMax, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
+import ClientName from './ClientName'
+
 const TickerLine = styled.div`
   width: 60000px;
 `
@@ -12,13 +14,6 @@ const TickerLine = styled.div`
 const TickerLineClients = styled.div`
   width: auto;
   display: inline-block;
-`
-
-const ClientName = styled.p`
-  display: inline-block;
-  font-weight: 900;
-  line-height: 1;
-  text-transform: uppercase;
 `
 
 class ClientsTicker extends React.Component {
@@ -43,17 +38,9 @@ class ClientsTicker extends React.Component {
 
   clients(ref) {
     // console.log(ref, this.refs);
-
     if (this.shuffleData) {
       return this.shuffleData.map((client, index) =>
-        <Text
-          as={ClientName}
-          fontSize={[3,4,'8vw']}
-          ml={[2,4]}
-          mr={[2,4]}
-          key={index}>
-            {client.node.name}
-        </Text>
+        <ClientName name={client.node.name} key={index} />
       )
     }
   }
@@ -87,13 +74,13 @@ export default () => (
       }
     `}
     render={(data) => (
-      <>
+      <div>
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
-      </>
+      </div>
     )}
   />
 )
