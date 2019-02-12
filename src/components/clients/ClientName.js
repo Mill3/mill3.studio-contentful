@@ -12,7 +12,7 @@ const ClientNameHeading = styled.h4`
   cursor: crosshair;
   transition: color 1s;
   &:hover {
-    color: ${props => props.theme.colors.purple};
+    color: ${props => props.hoverColor ? props.hoverColor : props.theme.colors.blue};
   }
 `
 
@@ -60,6 +60,7 @@ class ClientName extends React.Component {
     return (
       <Text
           as={ClientNameHeading}
+          hoverColor={this.props.color}
           fontSize={[3,4,'8vw']}
           ml={[2,4]}
           mr={[2,4]}

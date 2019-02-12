@@ -40,7 +40,7 @@ class ClientsTicker extends React.Component {
     // console.log(ref, this.refs);
     if (this.shuffleData) {
       return this.shuffleData.map((client, index) =>
-        <ClientName name={client.node.name} key={index} />
+        <ClientName name={client.node.name} color={client.node.colorMain} key={index} />
       )
     }
   }
@@ -68,6 +68,7 @@ export default () => (
             node {
               name
               slug
+              colorMain
             }
           }
         }
