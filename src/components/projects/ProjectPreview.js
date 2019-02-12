@@ -15,7 +15,7 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 80 * (index + 1),
+    delay: ({ index }) => (index % 1) ? 150 : 0,
     transition: {
       type: 'spring',
       stiffness: 50,
