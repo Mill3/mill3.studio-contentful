@@ -17,7 +17,7 @@ export const onInitialClientRender = () => {
 
   let root = '/'
   // let detectedLocale = detectLocale()
-  let detectedLocale = 'fr'
+  let detectedLocale = 'en'
 
   // dispatch detected locale
   // store.dispatch({ type: 'SET_LOCALE', locale: detectedLocale })

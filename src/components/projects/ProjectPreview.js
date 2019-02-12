@@ -15,12 +15,11 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 250 * (index + 1),
+    delay: ({ index }) => 80 * (index + 1),
     transition: {
       type: 'spring',
-      duration: 1750,
-      stiffness: 150,
-      mass: 0.25,
+      stiffness: 50,
+      mass: 1.125,
     }
   },
 })
@@ -84,10 +83,10 @@ class ProjectPreview extends React.Component {
       reveal: false
     }
     this.onChange = this.onChange.bind(this)
+    this.reveal = this.reveal.bind(this)
   }
 
   onChange(isVisible) {
-    console.log('now', isVisible);
     if (isVisible && !this.state.reveal) {
       this.setState({
         reveal: true

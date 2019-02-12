@@ -65,7 +65,7 @@ const Layout = ({ locale, withIntro, children }) => (
               continuousScrolling={true}
             >
 
-              <div id="wrapper" style={{ height: '100vh' }}>
+              <div id="wrapper" style={{ height: '100vh', overflowX: 'hidden' }}>
 
                 {/* main header */}
                 <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
