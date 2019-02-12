@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
-import Img from "gatsby-image"
 import Layout from '@components/layout'
 import RichTextRenderer from '@utils/RichTextRenderer'
-import posed from 'react-pose'
 import styled from 'styled-components'
 import SplitText from 'react-pose-text'
 

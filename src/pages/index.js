@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql, Link } from 'gatsby'
+import { graphql } from 'gatsby'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'rebass'
 
@@ -34,23 +34,11 @@ IndexPage.propTypes = {
 export default IndexPage
 
 export const projectQuery = graphql`
-  query allProjectsQuery($locale: String!) {
+  query projectsHomeQuery($locale: String!) {
     allContentfulProjects(limit: 3, filter: { node_locale : { eq: $locale }}) {
       edges {
         node {
-          id
-          slug
-          node_locale
-          name
-          colorMain
-          imageMain {
-            fluid(maxWidth: 1800, quality: 85) {
-              ...GatsbyContentfulFluid_noBase64
-            }
-          }
-          shortDescription {
-            shortDescription
-          }
+          ...Project
         }
       }
     }

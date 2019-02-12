@@ -39,6 +39,9 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   return new Promise((resolve, reject) => {
 
+    // Project index page
+
+
     graphql(
       `
       {
@@ -59,7 +62,21 @@ exports.createPages = ({ graphql, actions }) => {
         reject(result.errors)
       }
 
+      // get templates
+      const ProjectIndexTemplate = path.resolve(`./src/components/projects/ProjectsIndex.js`)
       const ProjectSingleTemplate = path.resolve(`./src/components/projects/ProjectSingle.js`)
+
+      // Projects Index page
+      _.each(locales, locale => {
+        // console.log(locale);
+        createPage({
+          path: `/${locale.path}/projects/`,
+          component: slash(ProjectIndexTemplate),
+          context: {
+            locale: locale.path
+          },
+        })
+      })
 
       _.each(result.data.allContentfulProjects.edges, edge => {
         createPage({

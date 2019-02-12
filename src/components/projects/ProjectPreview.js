@@ -15,7 +15,7 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => (index % 1) ? 150 : 0,
+    delay: ({ index }) => (index < 3) ? 75 * (index + 1) : 75,
     transition: {
       type: 'spring',
       stiffness: 50,
@@ -24,8 +24,10 @@ const ProjectPoses = posed.article({
   },
 })
 
-const ProjectHoverPane = styled.span`
-  display: block;
+const ProjectHoverPane = styled.picture`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -33,8 +35,15 @@ const ProjectHoverPane = styled.span`
   height: 100%;
   z-index: 100;
   background: ${props => props.color};
-  opacity: 0.65;
-  transition: transform 0.25s ease-in-out;
+  /* opacity: 0.75; */
+
+  .gatsby-image-wrapper {
+    flex: 0 0 100%;
+    height: 100%;
+    img {
+      object-position: left top !important;
+    }
+  }
 `
 
 const ProjectPreviewItem = styled(ProjectPoses)`
@@ -43,10 +52,6 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     position: relative;
     overflow: hidden;
     background: ${props => props.color};
-    .gatsby-image-wrapper {
-      display: block;
-      transition: transform 5s ease-in-out;
-    }
   }
 
   a {
@@ -59,18 +64,26 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
   /* over pane on top */
   ${ProjectHoverPane} {
-    transform: translateY(101%);
+    transform: translateY(120%);
+    transition: transform 0.25s ease-in-out;
+    .gatsby-image-wrapper {
+      /* transform: translateY(200%); */
+      opacity: 0;
+      transform: scale(1.175);
+      transition-duration: 0.75s;
+      transition-timing-function: ease-out;
+      transition-delay: 0.4s;
+    }
   }
 
   /* hover state */
   &:hover {
-    figure {
-      .gatsby-image-wrapper {
-        transform: scale(1.05);
-      }
-    }
     ${ProjectHoverPane} {
       transform: translateY(0%);
+      .gatsby-image-wrapper {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
   }
 `
@@ -104,6 +117,7 @@ class ProjectPreview extends React.Component {
         slug,
         colorMain,
         imageMain,
+        imageHover,
         name
       } = this.props.project.node
 
@@ -123,7 +137,9 @@ class ProjectPreview extends React.Component {
             >
               <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
                 <Box as={`figure`} mb={[4]}>
-                  <ProjectHoverPane color={colorMain} />
+                  <ProjectHoverPane color={colorMain}>
+                    <Img fade={false} fluid={imageHover.fluid} />
+                  </ProjectHoverPane>
                   <Img fade={false} fluid={imageMain.fluid} />
                 </Box>
                 <footer>
