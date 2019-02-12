@@ -7,6 +7,10 @@ import { shuffle } from 'lodash'
 
 import ClientName from './ClientName'
 
+const ClientsTickerContainer = styled.footer`
+  overflow: hidden;
+`
+
 const TickerLine = styled.div`
   width: 60000px;
 `
@@ -34,7 +38,7 @@ class ClientsTicker extends React.Component {
     this.tl = new TimelineLite();
 
     // random duration
-    let duration = Math.floor(Math.random() * 85) + 250;
+    let duration = Math.floor(Math.random() * 250) + 250;
 
     // add to this timeline
     this.tl.add( TweenMax.to( [this.listMain.current, this.listCopy.current], duration, { x:"-100%", ease: Linear.easeNone, repeat: -1 } ) );
@@ -83,13 +87,11 @@ export default () => (
       }
     `}
     render={(data) => (
-      <div>
+      <ClientsTickerContainer>
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
-        <ClientsTicker data={data.allContentfulClients} />
-        <ClientsTicker data={data.allContentfulClients} />
-      </div>
+      </ClientsTickerContainer>
     )}
   />
 )

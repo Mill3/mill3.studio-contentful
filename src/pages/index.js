@@ -17,12 +17,11 @@ const IndexPage = ({ pageContext, data }) => (
   <Layout locale={pageContext.locale} withIntro={true}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <Container>
-      {/* <Text as={`h1`} fontSize={[3,4,'10vw']}>Hi people : { pageContext.locale }</Text> */}
       {data.allContentfulProjects &&
         <ProjectsHome data={data.allContentfulProjects} />
       }
-      <ClientsTicker/>
     </Container>
+    <ClientsTicker/>
   </Layout>
 )
 

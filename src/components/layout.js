@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
@@ -27,6 +27,10 @@ import Theme from '@styles/Theme'
 import TransitionPane from '@components/transitions'
 
 const messages = {en, fr}
+
+const Wrapper = styled.div`
+  height: 100vh;
+`
 
 addLocaleData([...enData, ...frData])
 
@@ -65,7 +69,7 @@ const Layout = ({ locale, withIntro, children }) => (
               continuousScrolling={true}
             >
 
-              <div id="wrapper" style={{ height: '100vh', overflowX: 'hidden' }}>
+              <Wrapper id="wrapper">
 
                 {/* main header */}
                 <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
@@ -73,7 +77,7 @@ const Layout = ({ locale, withIntro, children }) => (
                 {/* main wrapper containing children pages */}
                 <Main children={children} />
 
-              </div>
+              </Wrapper>
 
             </Scrollbar>
 
