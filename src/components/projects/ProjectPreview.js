@@ -37,6 +37,13 @@ const ProjectHoverPane = styled.picture`
   background: ${props => props.color};
   /* opacity: 0.75; */
 
+  video {
+    flex: 0 0 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid rebeccapurple;
+  }
+
   .gatsby-image-wrapper {
     flex: 0 0 100%;
     height: 100%;
@@ -72,7 +79,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
       transform: scale(1.05);
       transition-duration: 0.45s;
       transition-timing-function: ease-in-out;
-      transition-delay: 0.4s;
+      transition-delay: 0s;
       filter: blur(10px);
     }
   }
@@ -83,6 +90,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
       transform: translateY(0%);
       opacity: 1;
       .gatsby-image-wrapper {
+        transition-delay: 0.4s;
         transform: translateY(0%);
         opacity: 1;
         transform: scale(1);
@@ -101,6 +109,8 @@ class ProjectPreview extends React.Component {
     }
     this.onChange = this.onChange.bind(this)
     this.reveal = this.reveal.bind(this)
+    this.videoRef = React.createRef()
+    this.hover = this.hover.bind(this)
   }
 
   onChange(isVisible) {
@@ -115,6 +125,15 @@ class ProjectPreview extends React.Component {
     return this.state.reveal ? 'visible' : 'hidden'
   }
 
+  hover(isHover) {
+    if (isHover && this.videoRef.current) {
+      console.log('has video');
+      this.videoRef.current.play()
+    } else if (this.videoRef.current) {
+      this.videoRef.current.pause()
+    }
+  }
+
   render() {
 
       let {
@@ -122,8 +141,12 @@ class ProjectPreview extends React.Component {
         colorMain,
         imageMain,
         imageHover,
+        videoPreview,
         name
       } = this.props.project.node
+
+      console.log(videoPreview);
+
 
       return (
         <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: 50, bottom: 50}}>
@@ -138,11 +161,20 @@ class ProjectPreview extends React.Component {
               mb={[2,2,'5vh']}
               {...(this.props.columns)}
               color={colorMain}
+              onMouseEnter={e => this.hover(true)}
+              onMouseLeave={e => this.hover(false)}
             >
               <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
                 <Box as={`figure`} mb={[4]}>
                   <ProjectHoverPane color={colorMain}>
-                    <Img fade={false} fluid={imageHover.fluid} />
+                    {imageHover &&
+                      <Img fade={false} fluid={imageHover.fluid} />
+                    }
+                    {videoPreview &&
+                      <video muted playsInline loop ref={this.videoRef}>
+                        <source src={videoPreview.file.url} type="video/mp4" />
+                      </video>
+                    }
                   </ProjectHoverPane>
                   <Img fade={false} fluid={imageMain.fluid} />
                 </Box>

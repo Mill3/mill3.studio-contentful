@@ -17,6 +17,13 @@ export const query = graphql`
         ...GatsbyContentfulFluid_tracedSVG
       }
     }
+    videoPreview {
+      file {
+        url
+        fileName
+        contentType
+      }
+    }
     shortDescription {
       shortDescription
     }
