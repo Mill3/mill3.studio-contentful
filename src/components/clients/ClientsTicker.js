@@ -2,12 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { TimelineMax, TweenLite, Linear } from 'gsap'
+import { TimelineLite, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
 import ClientName, { ClientNameHeading }  from './ClientName'
-console.log(ClientNameHeading);
-
+// console.log(ClientNameHeading);
 
 const ClientsTickerContainer = styled.footer`
   overflow-x: hidden;
@@ -64,7 +63,7 @@ class ClientsTicker extends React.Component {
 
     // add to this timeline
     this.tl.add(
-      TimelineMax.to(
+      TimelineLite.to(
         elements,
         duration,
         {
