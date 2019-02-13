@@ -2,11 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { TimelineLite, TweenLite, Linear } from 'gsap'
+import { TimelineMax, TweenMax, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
 import ClientName, { ClientNameHeading }  from './ClientName'
-// console.log(ClientNameHeading);
 
 const ClientsTickerContainer = styled.footer`
   overflow-x: hidden;
@@ -19,10 +18,8 @@ const ClientsTickerContainer = styled.footer`
 
   &:hover {
     ${ClientNameHeading} {
-      /* filter: blur(15px); */
       opacity: 0.0475;
       &:hover {
-        /* filter: blur(0); */
         opacity: 1;
       }
     }
@@ -53,7 +50,7 @@ class ClientsTicker extends React.Component {
   }
 
   componentDidMount() {
-    this.tl = new TimelineLite();
+    this.tl = new TimelineMax();
 
     // random duration
     let duration = Math.floor(Math.random() * 50) + 150;
@@ -63,7 +60,7 @@ class ClientsTicker extends React.Component {
 
     // add to this timeline
     this.tl.add(
-      TimelineLite.to(
+      TweenMax.to(
         elements,
         duration,
         {
