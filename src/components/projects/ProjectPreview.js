@@ -7,6 +7,8 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import VisibilitySensor from 'react-visibility-sensor'
 
+import FigureBox from '@utils/FigureBox'
+
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
@@ -175,7 +177,9 @@ class ProjectPreview extends React.Component {
                       </video>
                     }
                   </ProjectHoverPane>
-                  <Img fade={false} fluid={imageMain.fluid} />
+                  <FigureBox>
+                    <Img fade={false} fluid={imageMain.fluid} />
+                  </FigureBox>
                 </Box>
                 <footer>
                   <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
