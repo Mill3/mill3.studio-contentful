@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { TimelineLite, TweenLite, Linear } from 'gsap'
+import { TimelineMax, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
 import ClientName, { ClientNameHeading }  from './ClientName'
@@ -64,13 +64,13 @@ class ClientsTicker extends React.Component {
 
     // add to this timeline
     this.tl.add(
-      TweenLite.to(
+      TimelineMax.to(
         elements,
         duration,
         {
           x:"-100%",
           ease: Linear.easeNone,
-          repeat: 99999
+          repeat: -1
         }
       )
     )
