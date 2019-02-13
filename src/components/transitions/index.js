@@ -20,8 +20,8 @@ const Poses = posed.div({
     opacity: 0,
     backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
-      delay: 150,
-      duration: 450
+      delay: 0,
+      duration: 175
     }
   }
 })

@@ -40,6 +40,7 @@ export const rebootCSS = reboot({
   fontFamilyBase: fonts.sans,
   fontFamilyMonospace: fonts.mono,
   fontFamilySerif: fonts.serif,
+  fontWeightBase: 300,
   linkColor: colors.blue
 });
 

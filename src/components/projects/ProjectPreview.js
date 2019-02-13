@@ -130,7 +130,6 @@ class ProjectPreview extends React.Component {
 
   hover(isHover) {
     if (isHover && this.videoRef.current) {
-      console.log('has video');
       this.videoRef.current.play()
     } else if (this.videoRef.current) {
       this.videoRef.current.pause()
@@ -147,9 +146,6 @@ class ProjectPreview extends React.Component {
         videoPreview,
         name
       } = this.props.project.node
-
-      console.log(videoPreview);
-
 
       return (
         <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: 50, bottom: 50}}>

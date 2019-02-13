@@ -37,26 +37,32 @@ const GlobalStyle = createGlobalStyle`
   /* type */
   h1, .h1 {
     font-size: ${Theme.fontSizes[8]};
+    font-weight: 300;
   }
 
   h2, .h2 {
     font-size: ${Theme.fontSizes[7]};
+    font-weight: 300;
   }
 
   h3, .h3 {
     font-size: ${Theme.fontSizes[6]};
+    font-weight: 300;
   }
 
   h4, .h4 {
     font-size: ${Theme.fontSizes[5]};
+    font-weight: 300;
   }
 
   h5, .h5 {
     font-size: ${Theme.fontSizes[4]};
+    font-weight: 300;
   }
 
   h6, .h6 {
     font-size: ${Theme.fontSizes[3]};
+    font-weight: 300;
   }
 
   p {
@@ -152,6 +158,10 @@ const GlobalStyle = createGlobalStyle`
   .img-fluid {
     max-width: 100%;
     width: 100%;
+  }
+
+  .is-center {
+    text-align: center;
   }
 
   /* transition wrapper */

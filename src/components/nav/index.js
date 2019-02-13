@@ -29,7 +29,7 @@ const NavItem = styled.li`
   flex: 0 0 auto;
 `
 
-const fontSizes = [4,4,`2vw`,`1.25vw`]
+const fontSizes = [2,3,3,3]
 
 const Nav = ({ inverted }) => {
   return (
