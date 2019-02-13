@@ -9,12 +9,12 @@ export const query = graphql`
     colorMain
     imageMain {
       fluid(maxWidth: 1800, quality: 85) {
-        ...GatsbyContentfulFluid_tracedSVG
+        ...GatsbyContentfulFluid_withWebp
       }
     }
     imageHover {
       fluid(maxWidth: 1800, quality: 85) {
-        ...GatsbyContentfulFluid_tracedSVG
+        ...GatsbyContentfulFluid_withWebp
       }
     }
     videoPreview {
