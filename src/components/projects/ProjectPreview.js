@@ -41,7 +41,6 @@ const ProjectHoverPane = styled.picture`
     flex: 0 0 100%;
     height: 100%;
     object-fit: cover;
-    border: 1px solid rebeccapurple;
   }
 
   .gatsby-image-wrapper {
@@ -74,6 +73,8 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     /* transform: translateY(101%); */
     opacity: 0;
     transition: opacity 0.25s ease-in-out;
+
+    video,
     .gatsby-image-wrapper {
       opacity: 0;
       transform: scale(1.05);
@@ -89,6 +90,8 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     ${ProjectHoverPane} {
       transform: translateY(0%);
       opacity: 1;
+
+      video,
       .gatsby-image-wrapper {
         transition-delay: 0.4s;
         transform: translateY(0%);
