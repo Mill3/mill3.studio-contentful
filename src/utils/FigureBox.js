@@ -67,7 +67,7 @@ FigureBox.defaultProps = {
 }
 
 FigureBox.propTypes = {
-  src: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
   innerShadow: PropTypes.bool,
   ratio: PropTypes.number,
   withGutter: PropTypes.bool,

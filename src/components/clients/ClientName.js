@@ -4,7 +4,7 @@ import { Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 
-const ClientNameHeading = styled.h4`
+export const ClientNameHeading = styled.h4`
   display: inline-block;
   font-weight: 900;
   line-height: 1;

@@ -1,13 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
 import { TimelineLite, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
-import ClientName from './ClientName'
+import ClientName, { ClientNameHeading }  from './ClientName'
+console.log(ClientNameHeading);
+
 
 const ClientsTickerContainer = styled.footer`
-  overflow: hidden;
+  overflow-x: hidden;
+
+  ${ClientNameHeading} {
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.5s;
+  }
+
+  &:hover {
+    ${ClientNameHeading} {
+      /* filter: blur(15px); */
+      opacity: 0.0475;
+      &:hover {
+        /* filter: blur(0); */
+        opacity: 1;
+      }
+    }
+  }
 `
 
 const TickerLine = styled.div`
@@ -50,7 +70,7 @@ class ClientsTicker extends React.Component {
         {
           x:"-100%",
           ease: Linear.easeNone,
-          repeat: -1
+          repeat: 99999
         }
       )
     )
@@ -130,11 +150,11 @@ export default () => (
       }
     `}
     render={(data) => (
-      <ClientsTickerContainer>
+      <Box as={ClientsTickerContainer} pt={[4]}>
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
         <ClientsTicker data={data.allContentfulClients} />
-      </ClientsTickerContainer>
+      </Box>
     )}
   />
 )
