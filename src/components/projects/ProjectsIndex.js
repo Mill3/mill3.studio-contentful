@@ -43,8 +43,6 @@ class ProjectsIndex extends Component {
             </Text>
           </Flex>
           <Flex as={`section`} flexWrap={`wrap`}>
-            {/* <h1>Projects yo!</h1> */}
-            {this.list()}
             {this.list()}
           </Flex>
         </Container>
@@ -57,7 +55,7 @@ export default ProjectsIndex
 
 export const projectQuery = graphql`
   query allProjectsQuery($locale: String!) {
-    allContentfulProjects(limit: 3, filter: { node_locale : { eq: $locale }}) {
+    allContentfulProjects(filter: { node_locale : { eq: $locale }}) {
       edges {
         node {
           ...Project
