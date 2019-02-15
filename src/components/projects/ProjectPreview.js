@@ -132,6 +132,7 @@ class ProjectPreview extends React.Component {
 
   hover(isHover) {
     if (isHover && this.videoRef.current) {
+      this.videoRef.current.currentTime = 0
       this.videoRef.current.play()
     } else if (this.videoRef.current) {
       this.videoRef.current.pause()
