@@ -79,7 +79,7 @@ class ClientsTicker extends React.Component {
     if (isHover) {
 
       let timeScale = { value: 1 }
-      TweenLite.to(
+      TweenMax.to(
           timeScale,
           1,
           {
@@ -94,7 +94,7 @@ class ClientsTicker extends React.Component {
     } else {
 
       let timeScale = { value: timeScalePercent }
-      TweenLite.to(
+      TweenMax.to(
           timeScale,
           1,
           {

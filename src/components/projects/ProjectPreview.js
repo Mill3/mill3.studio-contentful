@@ -17,7 +17,7 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => (index < 3) ? 75 * (index + 1) : 75,
+    delay: ({ index }) => ((index % 3) + 1) * 75,
     transition: {
       type: 'spring',
       stiffness: 50,
@@ -150,7 +150,7 @@ class ProjectPreview extends React.Component {
       } = this.props.project.node
 
       return (
-        <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: 50, bottom: 50}}>
+        <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: -50}}>
           {({isVisible}) =>
             <Box
               as={ProjectPreviewItem}
