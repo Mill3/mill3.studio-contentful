@@ -1,6 +1,6 @@
 // const ProjectInline = require('./src/components/projects/ProjectInline')
 // console.log('ProjectInline:', ProjectInline)
-const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
+// const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
 // const { richTextToJsx } = require('@madebyconnor/rich-text-to-jsx')
 
 module.exports = {

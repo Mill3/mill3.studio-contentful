@@ -6,9 +6,11 @@ import SplitText from 'react-pose-text'
 
 import Container from '@styles/Container'
 
+import ContentRow from '@components/content_rows'
+import RowContentText from '@components/content_rows/ContentText'
+
 const ProjectSingleContainer = styled.div`
-  min-height: 4000px;
-  border: 1px solid rebeccapurple;
+  min-height: 2000px;
 `
 
 const charPoses = {
@@ -26,12 +28,13 @@ const charPoses = {
 };
 
 const ProjectSingle = ({ pageContext, data }) => {
-
   return (
     <Layout locale={pageContext.locale}>
       <Container>
         <ProjectSingleContainer>
           <h1>{data.contentfulProjects.name}</h1>
+          <hr/>
+          <ContentRow data={data.contentfulProjects.contentRows} />
         </ProjectSingleContainer>
       </Container>
     </Layout>
@@ -49,6 +52,12 @@ export const projectQuery = graphql`
       name
       shortDescription {
         shortDescription
+      }
+      contentRows {
+        __typename
+        ... on ContentfulContentText {
+          ...ContentTextFragement
+        }
       }
     }
   }
