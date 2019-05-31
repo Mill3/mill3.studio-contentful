@@ -23,9 +23,6 @@ module.exports = {
       },
     },
     {
-      resolve: `@contentful/gatsby-transformer-contentful-richtext`,
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/locales`,
