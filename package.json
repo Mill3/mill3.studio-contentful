@@ -27,6 +27,7 @@
     "git": "^0.1.5",
     "gsap": "^2.0.2",
     "hamsterjs": "^1.1.3",
+    "popmotion": "^8.6.10",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
