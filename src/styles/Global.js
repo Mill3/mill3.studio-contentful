@@ -170,6 +170,14 @@ const GlobalStyle = createGlobalStyle`
     text-align: center;
   }
 
+  .is-left {
+    text-align: left;
+  }
+
+  .is-right {
+    text-align: right;
+  }
+
   /* transition wrapper */
 
   .tl-wrapper {

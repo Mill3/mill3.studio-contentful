@@ -130,7 +130,7 @@ class ClientsTicker extends React.Component {
   }
 }
 
-export default () => (
+export default (props) => (
   <StaticQuery
     query={graphql`
       query {
@@ -145,12 +145,14 @@ export default () => (
         }
       }
     `}
-    render={(data) => (
-      <Box as={ClientsTickerContainer} pt={[4]}>
-        <ClientsTicker data={data.allContentfulClients} />
-        <ClientsTicker data={data.allContentfulClients} />
-        <ClientsTicker data={data.allContentfulClients} />
-      </Box>
-    )}
+    render={(data) => {
+      const tickers = Array(props.quantity || 3).fill().map((item, index) => <ClientsTicker data={data.allContentfulClients} key={index} />);
+
+      return (
+        <Box as={ClientsTickerContainer} pt={[4]}>
+          {tickers}
+        </Box>
+      );
+    }}
   />
 )
