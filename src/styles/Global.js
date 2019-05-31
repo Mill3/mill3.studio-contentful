@@ -74,6 +74,12 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  blockquote {
+    p {
+      font-size: ${Theme.fontSizes[4]}px;
+    }
+  }
+
   /* utils class */
   .is-relative {
     position: relative;

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { TimelineMax, TweenMax, Linear } from 'gsap'
+import { TimelineMax, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
 import ClientName, { ClientNameHeading }  from './ClientName'
@@ -60,7 +60,7 @@ class ClientsTicker extends React.Component {
 
     // add to this timeline
     this.tl.add(
-      TweenMax.to(
+      TweenLite.to(
         elements,
         duration,
         {
@@ -79,7 +79,7 @@ class ClientsTicker extends React.Component {
     if (isHover) {
 
       let timeScale = { value: 1 }
-      TweenMax.to(
+      TweenLite.to(
           timeScale,
           1,
           {
@@ -94,7 +94,7 @@ class ClientsTicker extends React.Component {
     } else {
 
       let timeScale = { value: timeScalePercent }
-      TweenMax.to(
+      TweenLite.to(
           timeScale,
           1,
           {
