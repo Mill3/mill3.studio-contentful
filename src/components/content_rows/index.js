@@ -22,7 +22,9 @@ class ContentRow extends Component {
           rows.push(<ContentVideos key={index} data={row} />)
           break;
         default:
-          // push empty row if the __typename is unsupported
+          //
+          // push an empty row if the `__typename` is unsupported by this component
+          //
           rows.push(<span key={index} />)
       }
     })
@@ -32,13 +34,17 @@ class ContentRow extends Component {
 
   render() {
     return (
-      <React.Fragment>{this.rows()}</React.Fragment>
+      <React.Fragment>{this.props.data ? this.rows() : ''}</React.Fragment>
     );
   }
 }
 
 ContentRow.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array
+}
+
+ContentRow.defaultProps = {
+  data: null
 }
 
 export default ContentRow;

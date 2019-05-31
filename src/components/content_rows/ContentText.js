@@ -2,15 +2,11 @@ import React from 'react'
 import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
-// console.log('MARKS:', MARKS)
-console.log('BLOCKS:', INLINES)
-
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => <blockquote>{children}</blockquote>
 
 const parseAsset = (node) => {
-  console.log('node:', node)
   return (
     <span>
       id: {node.data.target.sys.id}
