@@ -1,5 +1,5 @@
 
 
-export const TRANSITION_DURATION = 1.5
-export const TRANSITION_DELAY = 1.5
-export const TRANSITION_EXIT_DURATION = 1.5
+export const TRANSITION_DURATION = 0.5
+export const TRANSITION_DELAY = 0.5
+export const TRANSITION_EXIT_DURATION = 0.5

@@ -7,11 +7,12 @@
 // You can delete this file if you're not using it
 
 import { push } from 'gatsby'
-import SmoothScrollbar from 'smooth-scrollbar'
 
 import './src/styles/fonts.css'
 
-import { TRANSITION_DURATION } from './src/utils/constants'
+// export const shouldUpdateScroll = () => {
+//   return false;
+// };
 
 export const onInitialClientRender = () => {
 
@@ -29,14 +30,14 @@ export const onInitialClientRender = () => {
 
 }
 
-export const onPreRouteUpdate = ({ location, prevLocation }) => {
-  console.log("Gatsby started to change location to", location.pathname)
-  console.time('PreRouteUpdate');
-}
+// export const onPreRouteUpdate = ({ location, prevLocation }) => {
+//   console.log("Gatsby started to change location to", location.pathname)
+//   console.time('PreRouteUpdate');
+// }
 
-export const onRouteUpdate = ({ location }) => {
-  console.timeEnd('PreRouteUpdate');
-}
+// export const onRouteUpdate = ({ location }) => {
+//   console.timeEnd('PreRouteUpdate');
+// }
 
 // export const shouldUpdateScroll = ({
 //   routerProps: { location },
