@@ -39,7 +39,7 @@ const ProjectSingleHeaderMedia = ({ media }) => {
 
       {/* image type */}
       {detectType(media.file.contentType) === 'image' && (
-        <img src={media.file.url} alt={`heading image`} className="img-fluid" />
+        <img src={media.file.url} alt={`heading figure`} className="img-fluid" />
       )}
     </Box>
   )
@@ -64,6 +64,7 @@ const ProjectSingle = ({ pageContext, data }) => {
     <Layout locale={pageContext.locale}>
       <Container>
         <ProjectSingleContainer>
+          {console.log(data)}
 
           {/* video or image */}
           {data.project.headerMedia &&
