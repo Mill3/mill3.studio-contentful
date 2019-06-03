@@ -21,21 +21,20 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props 
       to={path}
       exit={{
         delay: 0,
-        length: TRANSITION_DURATION,
+        length: TRANSITION_EXIT_DURATION,
         state: { 'transitionTitle': title, 'transitionColor': color },
         // trigger: ({ node, exit }) => {
         //   console.log(exit, title)
         // },
-        // zIndex: 2
+        zIndex: 1
       }}
       entry={{
-        // delay: 2,
         length: TRANSITION_DURATION,
         state: { 'transitionTitle': title, 'transitionColor': color },
         // trigger: ({ node, entry }) => {
         //   console.log(entry, title)
         // },
-        // zIndex: -1
+        zIndex: 2
       }}
     />
   )
