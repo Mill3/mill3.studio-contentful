@@ -27,18 +27,17 @@ const HeaderIntroPoses = posed.header({
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 1.5) * 1000,
+        duration: (TRANSITION_DURATION * 2.25) * 1000,
       },
       marginBottom: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 1.5) * 1000,
-        // delay: (TRANSITION_DURATION * 3) * 1000,
+        duration: (TRANSITION_DURATION * 2.25) * 1000,
       },
       height: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 1.5) * 1000,
+        duration: (TRANSITION_DURATION * 2.25) * 1000,
       }
     },
   },
