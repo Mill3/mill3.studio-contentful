@@ -12,28 +12,30 @@ import {
 
 const TransitionLinkComponent = ({ to, intl: { locale }, title, color, ...props }) => {
   const path = `/${locale}${to}`
+  // console.log(title);
+
 
   return (
     <TransitionLink
       {...props}
       to={path}
       exit={{
-        // delay: 2,
+        delay: 0,
         length: TRANSITION_DURATION,
-        trigger: ({ node, exit }) => {
-          // node.classList.add('fade-out')
-        },
         state: { 'transitionTitle': title, 'transitionColor': color },
-        zIndex: 2
+        // trigger: ({ node, exit }) => {
+        //   console.log(exit, title)
+        // },
+        // zIndex: 2
       }}
       entry={{
-        // delay: TRANSITION_DURATION,
+        // delay: 2,
         length: TRANSITION_DURATION,
         state: { 'transitionTitle': title, 'transitionColor': color },
-        trigger: ({ node, entry }) => {
-          node.classList.add('fade-in')
-        },
-        zIndex: -1,
+        // trigger: ({ node, entry }) => {
+        //   console.log(entry, title)
+        // },
+        // zIndex: -1
       }}
     />
   )
