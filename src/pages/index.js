@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
+//import { FormattedMessage } from 'react-intl'
+//import { Text } from 'rebass'
 
 import Layout from '@components/layout'
+//import Image from '@components/image'
 import SEO from '@components/seo'
 
 import ProjectsHome from '@components/projects/ProjectsHome'

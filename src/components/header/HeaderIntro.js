@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl'
 
 import {
   TRANSITION_DURATION,
-  TRANSITION_DELAY,
+  //TRANSITION_DELAY,
   TRANSITION_EXIT_DURATION
 } from '@utils/constants'
 

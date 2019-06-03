@@ -73,10 +73,8 @@ const Layout = ({ locale, withIntro, children }) => (
         <IntlProvider locale={locale} messages={messages[locale]}>
           <React.Fragment>
 
-            {/* global base style */}
             <GlobalStyle />
 
-            {/* base theme provider */}
             <ThemeProvider theme={Theme}>
 
               <Scrollbar

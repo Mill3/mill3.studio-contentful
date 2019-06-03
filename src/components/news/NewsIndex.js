@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
+import styled from 'styled-components'
 import { Flex, Text } from 'rebass'
 
 import Layout from '@components/layout'
-import Container from '@styles/Container'
+import HeaderCircle from '@components/header/HeaderCircle'
 import NewsPreview from '@components/news/NewsPreview'
+import Container from '@styles/Container'
 
+const ListGridStyle = styled.section`
+  position: relative;
+`;
 
 class NewsIndex extends Component {
 
@@ -32,7 +37,10 @@ class NewsIndex extends Component {
               Reading is good for you. Don’t stress, we’ve added images too.
             </Text>
           </Flex>
-          <Flex as={`section`} flexWrap={`wrap`}>
+
+          <Flex as={ListGridStyle} flexWrap={`wrap`}>
+            <HeaderCircle css={{bottom: '100%', left: 0, marginBottom: '0.25vw', marginLeft: '-4.5vw', 'pointer-events': 'none'}} />
+
             {this.list()}
           </Flex>
         </Container>
