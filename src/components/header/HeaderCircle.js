@@ -78,7 +78,7 @@ class HeaderCircle extends React.Component {
 
   render() {
     return (
-      <CircleContainer speed={this.state.speed}>
+      <CircleContainer speed={this.state.speed} {...this.props}>
         <Box width={['25vw','15vw','12vw']} pl={['5vw']}>
           <figure ref={this.ref}>
             <Circle />

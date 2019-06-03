@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
-import posed from 'react-pose'
+//import styled from 'styled-components'
+//import posed from 'react-pose'
 
-
+/*
 const LogoPath = posed.g({
   black: {
     fill: "#000",
@@ -11,11 +11,9 @@ const LogoPath = posed.g({
     fill: "#fff",
   },
 })
+*/
 
-const CircleSVG = styled.svg`
-`
-
-const Circle = ({ inverted }) => {
+const Circle = (/*{ inverted }*/) => {
   return (
     <svg width="91px" height="86px" viewBox="0 0 91 86" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <defs>

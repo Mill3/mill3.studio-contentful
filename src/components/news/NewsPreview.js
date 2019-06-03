@@ -4,7 +4,6 @@ import { Box, Text } from 'rebass'
 import Img from "gatsby-image"
 import styled from 'styled-components'
 import posed from 'react-pose'
-import SplitText from 'react-pose-text'
 import VisibilitySensor from 'react-visibility-sensor'
 
 import FigureBox from '@utils/FigureBox'

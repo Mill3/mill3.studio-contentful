@@ -1,12 +1,12 @@
-import React, { Children } from 'react'
-import { Link } from 'gatsby'
-import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import React from 'react'
+//import { Link } from 'gatsby'
+//import PropTypes from 'prop-types'
+import { injectIntl/*, intlShape*/ } from 'react-intl'
 import TransitionLink from 'gatsby-plugin-transition-link'
 
 import {
   TRANSITION_DURATION,
-  TRANSITION_DELAY,
+  //TRANSITION_DELAY,
   TRANSITION_EXIT_DURATION
 } from '@utils/constants'
 

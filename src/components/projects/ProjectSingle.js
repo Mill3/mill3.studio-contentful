@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
 import Layout from '@components/layout'
 import styled from 'styled-components'
-import SplitText from 'react-pose-text'
+//import SplitText from 'react-pose-text'
 
 import Container from '@styles/Container'
 
 import ContentRow from '@components/content_rows'
-import RowContentText from '@components/content_rows/ContentText'
+//import RowContentText from '@components/content_rows/ContentText'
 
 const ProjectSingleContainer = styled.div`
   min-height: 2000px;
 `
 
+/*
 const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
@@ -26,6 +27,7 @@ const charPoses = {
     }
   }
 };
+*/
 
 const ProjectSingle = ({ pageContext, data }) => {
   return (

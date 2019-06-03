@@ -8,28 +8,21 @@ import ContentVideos from './ContentVideos'
 class ContentRow extends Component {
 
   rows() {
-    const rows = []
-
-    this.props.data.map((row, index) => {
+    return this.props.data.map((row, index) => {
       switch (row.__typename) {
         case "ContentfulContentText":
-          rows.push(<ContentText key={index} data={row} />)
-          break;
+          return <ContentText key={index} data={row} />
         case "ContentfulContentImages":
-          rows.push(<ContentImages key={index} data={row} />)
-          break;
+          return <ContentImages key={index} data={row} />
         case "ContentfulContentVideos":
-          rows.push(<ContentVideos key={index} data={row} />)
-          break;
+          return <ContentVideos key={index} data={row} />
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component
           //
-          rows.push(<span key={index} />)
+          return <span key={index} />
       }
     })
-
-    return rows
   }
 
   render() {

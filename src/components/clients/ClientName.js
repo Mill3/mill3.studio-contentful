@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
-import posed from 'react-pose'
-import SplitText from 'react-pose-text'
 
 export const ClientNameHeading = styled.h4`
   display: inline-block;

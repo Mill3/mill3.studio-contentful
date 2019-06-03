@@ -23,15 +23,10 @@ const MainStyle = styled.main`
 
 const pickAnimation = (transitionStatus) => {
   switch (transitionStatus) {
-    case 'entered':
-      return entering
-      break
-    case 'entering':
-      return entering
-      break
-    case 'exiting':
-      return exiting
-      break
+    case 'entered': return entering
+    case 'entering': return entering
+    case 'exiting': return exiting
+    default: return null
   }
 }
 

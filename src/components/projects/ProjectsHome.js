@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 import ProjectPreview from './ProjectPreview'
 import TransitionLinkComponent from '@utils/TransitionLink'

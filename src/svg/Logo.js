@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import posed from 'react-pose'
-import { colors } from '@styles/Theme'
 
 const LogoSVG = styled.svg`
   mix-blend-mode: difference;

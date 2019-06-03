@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -40,10 +40,7 @@ const FigureBoxInner = styled.div`
   left: 0px;
 `
 
-class FigureBox extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+class FigureBox extends Component {
 
   render() {
     return (

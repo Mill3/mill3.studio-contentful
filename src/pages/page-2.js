@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
+//import { Link } from 'gatsby'
 import LocalizedLink from '@utils/LocalizedLink'
 
 import Layout from '../components/layout'
@@ -13,4 +13,3 @@ const SecondPage = ({ pageContext }) => (
 );
 
 export default SecondPage
-
