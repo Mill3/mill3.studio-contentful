@@ -41,10 +41,6 @@ const FigureBoxInner = styled.div`
 `
 
 class FigureBox extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <FigureBoxContainer

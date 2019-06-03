@@ -1,5 +1,5 @@
 import React from 'react'
-import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types"
+import { BLOCKS, MARKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const Bold = ({ children }) => <strong>{children}</strong>
@@ -20,11 +20,7 @@ const options = {
   },
   renderNode: {
     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-  },
-  renderNode: {
     [BLOCKS.QUOTE]: (node, children) => <Blockquote>{children}</Blockquote>,
-  },
-  renderNode: {
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => <figure>{parseAsset(node)}</figure>,
   },
 }

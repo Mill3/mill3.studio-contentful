@@ -3,16 +3,9 @@ import { graphql } from 'gatsby'
 import ProjectPreview from './ProjectPreview'
 import Layout from '@components/layout'
 import Container from '@styles/Container'
-import { Flex, Box, Text } from 'rebass'
-import styled from 'styled-components'
-import posed from 'react-pose'
+import { Flex, Text } from 'rebass'
 
 class ProjectsIndex extends Component {
-
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {  }
-  // }
 
   list() {
 

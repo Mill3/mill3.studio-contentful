@@ -3,7 +3,7 @@ import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import { injectIntl, intlShape } from 'react-intl'
 
-import locales from '@locales'
+// import locales from '@locales'
 
 const LocalizedLink = ({ to, intl: { locale }, ...props }) => {
   const path = `/${locale}${to}`

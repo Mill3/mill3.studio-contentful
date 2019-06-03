@@ -1,6 +1,5 @@
 import React from 'react'
-import LocalizedLink from '@utils/LocalizedLink'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
 

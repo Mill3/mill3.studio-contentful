@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'gatsby'
 import TransitionLink from 'gatsby-plugin-transition-link'
 import { injectIntl } from 'react-intl'
 import { Text } from 'rebass'

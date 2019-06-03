@@ -1,5 +1,4 @@
-import React, { Children } from 'react'
-import { Link } from 'gatsby'
+import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 

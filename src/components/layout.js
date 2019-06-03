@@ -8,6 +8,11 @@ import { ThemeProvider } from 'styled-components'
 import { Text } from 'rebass'
 import Scrollbar from 'react-smooth-scrollbar'
 
+import {
+  TRANSITION_ENTERING_DURATION,
+  TRANSITION_EXIT_DURATION
+} from '@utils/constants'
+
 // Locale data
 import enData from 'react-intl/locale-data/en'
 import frData from 'react-intl/locale-data/fr'
@@ -24,6 +29,8 @@ import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
 const messages = {en, fr}
+
+addLocaleData([...enData, ...frData])
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -43,13 +50,11 @@ const TransitionPane = styled.div`
   justify-content: center;
   pointer-events: none;
   color: #fff;
-  transition: opacity 0.25s, background-color 0.25s;
+  transition-duration: ${props => props.duration}s, ${props => props.duration}s;
+  transition-property: opacity, background-color;
   opacity: ${props => props.visible ? 1: 0};
   background-color: ${props => props.backgroundColor ? props.backgroundColor: "#000"};
 `
-
-
-addLocaleData([...enData, ...frData])
 
 const Layout = ({ locale, withIntro, children }) => (
   <StaticQuery
@@ -88,12 +93,13 @@ const Layout = ({ locale, withIntro, children }) => (
 
                         <TransitionPane
                           visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
+                          duration={['exiting', 'exited'].includes(transitionStatus) ? TRANSITION_EXIT_DURATION : TRANSITION_ENTERING_DURATION}
                           backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
                         >
                           <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle || ""}</Text>
+                          {/* {console.log(transitionStatus, entry, exit)} */}
                         </TransitionPane>
 
-                        {/* {console.log(transitionStatus, entry, exit)} */}
 
                         {/* main header */}
                         <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />

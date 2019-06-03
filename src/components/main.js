@@ -32,6 +32,9 @@ const pickAnimation = (transitionStatus) => {
     case 'exiting':
       return exiting
       break
+    default:
+      return exiting
+      break
   }
 }
 

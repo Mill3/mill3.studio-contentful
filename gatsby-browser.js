@@ -30,14 +30,14 @@ export const onInitialClientRender = () => {
 
 }
 
-// export const onPreRouteUpdate = ({ location, prevLocation }) => {
-//   console.log("Gatsby started to change location to", location.pathname)
-//   console.time('PreRouteUpdate');
-// }
+export const onPreRouteUpdate = ({ location, prevLocation }) => {
+  console.log("Gatsby started to change location to", location.pathname)
+  console.time('PreRouteUpdate');
+}
 
-// export const onRouteUpdate = ({ location }) => {
-//   console.timeEnd('PreRouteUpdate');
-// }
+export const onRouteUpdate = ({ location }) => {
+  console.timeEnd('PreRouteUpdate');
+}
 
 // export const shouldUpdateScroll = ({
 //   routerProps: { location },

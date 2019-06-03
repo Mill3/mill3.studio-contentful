@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
-import { Flex, Box, Text } from 'rebass'
+import { Flex, Text } from 'rebass'
 
 import Layout from '@components/layout'
 import Container from '@styles/Container'

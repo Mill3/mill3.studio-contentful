@@ -13,7 +13,7 @@ const Grid = styled.div`
 const ContentImages = (props) => {
   return (
     <Box as={Grid} my={[2,3,4]}>
-      {props.data.medias.map((image, index) => <Img fade={false} fluid={image.fluid} />)}
+      {props.data.medias.map((image, index) => <Img fade={false} fluid={image.fluid} key={index} />)}
     </Box>
   )
 }
