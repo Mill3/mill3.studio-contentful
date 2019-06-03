@@ -64,11 +64,15 @@ const ProjectSingle = ({ pageContext, data }) => {
     <Layout locale={pageContext.locale}>
       <Container>
         <ProjectSingleContainer>
+
           {/* video or image */}
-          <ProjectSingleHeaderMedia media={data.project.headerMedia} />
+          {data.project.headerMedia &&
+            <ProjectSingleHeaderMedia media={data.project.headerMedia} />
+          }
 
           {/* title and subheading */}
           <Box as={ProjectSingleHeader} mb={[4, 5]} px={[4, 4, 5]}>
+
             <Text width={`100%`} as={`h6`} fontSize={[2, 3]} color="blue">
               <FormattedMessage id="Project:" />
             </Text>
@@ -77,7 +81,7 @@ const ProjectSingle = ({ pageContext, data }) => {
               {data.project.name}
             </Text>
 
-            {data.project.subHeading.subHeading && (
+            {data.project.subHeading && (
               <Text
                 width={`100%`}
                 as={`h4`}
@@ -90,6 +94,7 @@ const ProjectSingle = ({ pageContext, data }) => {
           </Box>
 
           <ContentRow data={data.project.contentRows} />
+
         </ProjectSingleContainer>
       </Container>
     </Layout>
