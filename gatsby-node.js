@@ -92,6 +92,58 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
 
+
+
+    // News index page
+    graphql(
+      `
+      {
+        allContentfulNews {
+          edges {
+            node {
+              id
+              contentful_id
+              slug
+              node_locale
+            }
+          }
+        }
+      }
+      `
+    ).then(result => {
+      if (result.errors) {
+        reject(result.errors)
+      }
+
+      // get templates
+      const NewsIndexTemplate = path.resolve(`./src/components/news/NewsIndex.js`)
+      const NewsSingleTemplate = path.resolve(`./src/components/news/NewsSingle.js`)
+
+      // News Index page
+      _.each(locales, locale => {
+        createPage({
+          path: `/${locale.path}/journal/`,
+          component: slash(NewsIndexTemplate),
+          context: {
+            locale: locale.path
+          },
+        })
+      })
+
+      _.each(result.data.allContentfulNews.edges, edge => {
+        createPage({
+          path: `/${edge.node.node_locale}/journal/${edge.node.slug}/`,
+          component: slash(NewsSingleTemplate),
+          context: {
+            id: edge.node.id,
+            contentful_id:  edge.node.contentful_id,
+            slug:  edge.node.slug,
+            locale: edge.node.node_locale
+          },
+        })
+      })
+    })
+
     resolve()
   })
 }
@@ -126,4 +178,3 @@ exports.onCreatePage = ({ page, actions }) => {
 
   })
 }
-
