@@ -1,8 +1,7 @@
-// import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled/*, { keyframes }*/ from 'styled-components'
-import { injectIntl, intlShape/*, FormattedMessage*/ } from 'react-intl'
+import styled from 'styled-components'
+import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { TransitionState } from "gatsby-plugin-transition-link"
 import posed from 'react-pose'
@@ -15,9 +14,7 @@ import Logo from '@svg/Logo'
 import { colors } from '@styles/Theme'
 
 import {
-  TRANSITION_DURATION//,
-  //TRANSITION_DELAY,
-  //TRANSITION_EXIT_DURATION
+  TRANSITION_DURATION
 } from '@utils/constants'
 
 const SiteHeaderPoses = posed.header({
