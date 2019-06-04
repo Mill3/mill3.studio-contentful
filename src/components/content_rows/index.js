@@ -7,30 +7,44 @@ import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
 
+export const ALIGN_VALUES = {
+  'center': 'center',
+  'left': 'snap-left',
+  'right': 'snap-right'
+}
+
+export const VERTICAL_ALIGN_VALUES = {
+  'start': 'flex-start',
+  'center': 'center',
+  'end': 'flex-end'
+}
+
+export const CONTENT_ROW_TYPES = {
+  'text': 'ContentfulContentText',
+  'images': 'ContentfulContentImages',
+  'videos': 'ContentfulContentVideos',
+}
+
 // responsive value between each row
 // this value is used in Rebass margin properties
 export const VERTICAL_SPACER = [3,5]
 
-// gutter between each grid element
+// gutter between each grid elements
 export const GRID_GUTTER = 25
 
 export const RowContainer = ({alignContent, children}) => {
-  const Wrapper = alignContent === 'center' ? Container : Box
-  const gap = [`${GRID_GUTTER}px`, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
-  let pl = [0]
-  let pr = [0]
+  const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
+  const responsiveGap = [`${GRID_GUTTER}px`, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
 
-  if (alignContent === 'snap-left') {
-    pr = gap
-  }
-
-  if (alignContent === 'snap-right') {
-    pl = gap
-  }
+  // set padding based to alignContent value
+  let pl = alignContent === ALIGN_VALUES['left'] ? responsiveGap : [0]
+  let pr = alignContent === ALIGN_VALUES['right'] ? responsiveGap : [0]
 
   return (
-    <Wrapper pl={pl} pr={pr}>{children}</Wrapper>
-  );
+    <Wrapper pl={pl} pr={pr} alignContent={`center`}>
+      {children}
+    </Wrapper>
+  )
 }
 
 
@@ -39,11 +53,11 @@ class ContentRow extends Component {
   rows() {
     return this.props.data.map((row, index) => {
       switch (row.__typename) {
-        case "ContentfulContentText":
+        case CONTENT_ROW_TYPES['text']:
           return <ContentText key={index} data={row} />
-        case "ContentfulContentImages":
+        case CONTENT_ROW_TYPES['images']:
           return <ContentImages key={index} data={row} />
-        case "ContentfulContentVideos":
+        case CONTENT_ROW_TYPES['videos']:
           return <ContentVideos key={index} data={row} />
         default:
           //

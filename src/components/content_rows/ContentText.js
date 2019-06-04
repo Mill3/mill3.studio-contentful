@@ -48,7 +48,7 @@ const postBody = styled.div`
 
 const ContentText = ({ data }) => {
   return (
-    <Box as={postBody} mb={VERTICAL_SPACER} px={[0, 5, 5, 5, '15vw']}>
+    <Box as={postBody} mb={VERTICAL_SPACER} px={[3, 5, '15vw']}>
       {format(data.text.text)}
     </Box>
   )

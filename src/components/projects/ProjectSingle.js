@@ -1,13 +1,13 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Layout from '@components/layout'
 import styled from 'styled-components'
 import { Box, Text } from 'rebass'
 import { height } from 'styled-system'
 
+import { getContentType, CONTENT_TYPES } from '@utils'
 import FigureBox from '@utils/FigureBox'
-
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 
@@ -34,30 +34,18 @@ const ProjectIntroImage = styled.figure`
 
 // TODO: move me in a seperate file!
 const ProjectSingleHeaderMedia = ({ media }) => {
-  const detectType = contentType => {
-    if (contentType.match('video') && contentType.match('video').index >= 0) {
-      return 'video'
-    }
-
-    if (contentType.match('image') && contentType.match('image').index >= 0) {
-      return 'image'
-    }
-
-    // default is null
-    return null
-  }
 
   return (
-    <FigureBox ratio={6 / 16} mb={[5]}>
+    <FigureBox ratio={6 / 16} mb={[5]} overflow="hidden">
       {/* video */}
-      {detectType(media.file.contentType) === 'video' && (
+      {getContentType(media.file.contentType) === CONTENT_TYPES['video'] && (
         <Box as={ProjectIntroVideo} autoPlay loop playsInline muted>
           <source src={media.file.url} type={media.file.contentType} />
         </Box>
       )}
 
       {/* image type */}
-      {detectType(media.file.contentType) === 'image' && (
+      {getContentType(media.file.contentType) === CONTENT_TYPES['image'] && (
         <Box as={ProjectIntroImage}>
           <img
             src={media.file.url}

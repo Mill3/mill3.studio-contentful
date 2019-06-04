@@ -5,6 +5,7 @@ import { Box } from 'rebass'
 
 const FigureBoxContainer = styled.div`
   position: relative;
+  overflow: ${props => props.overflow};
   /* margin: 0; */
   /* padding: 0; */
 
@@ -49,6 +50,7 @@ class FigureBox extends Component {
         ratio={this.props.ratio}
         innerShadow={this.props.innerShadow}
         withGutter={this.props.withGutter}
+        overflow={this.props.overflow}
         {...this.props}
       >
         <FigureBoxInner>
@@ -63,11 +65,13 @@ FigureBox.defaultProps = {
   ratio: 1 / 1,
   innerShadow: false,
   withGutter: false,
+  overflow: 'visible',
 }
 
 FigureBox.propTypes = {
   children: PropTypes.object.isRequired,
   innerShadow: PropTypes.bool,
+  overflow: PropTypes.string,
   ratio: PropTypes.number,
   withGutter: PropTypes.bool,
 }
