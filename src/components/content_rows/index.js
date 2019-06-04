@@ -27,7 +27,7 @@ export const CONTENT_ROW_TYPES = {
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [3,5]
+export const VERTICAL_SPACER = [4,5]
 
 // gutter between each grid elements
 export const GRID_GUTTER = 25
@@ -63,7 +63,7 @@ class ContentRow extends Component {
           //
           // push an empty row if the `__typename` is unsupported by this component
           //
-          return <span key={index} />
+          return <span key={index}>{row.__typename} unsupported</span>
       }
     })
   }
