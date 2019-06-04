@@ -114,8 +114,15 @@ const NavItem = styled(NavItemPoses)`
     opacity: 1 !important;
   }
 
-  &:first-child { padding-top: 0; }
-  &:last-child { padding-bottom: 0; }
+  &:first-child {
+    padding-top: 0;
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+    padding-right: 0;
+  }
 `
 
 

@@ -60,7 +60,7 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
 
             <Flex flexWrap={`wrap`} alignItems={`center`} pt={[3,4]} pb={[3,4]}>
 
-              <Box width={'auto'} pl={[2]} className={`is-relative z-20`}>
+              <Box width={'auto'} className={`is-relative z-20`}>
                 <h1>
                   <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
                     <Logo inverted={withIntro} />
