@@ -25,7 +25,7 @@ const options = {
     [BLOCKS.QUOTE]: (node, children) => <Blockquote>{children}</Blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
       <>
-        {/* {console.log(node.data)} */}
+        {console.log(node)}
         <EmbeddedAsset id={node.data.target.sys.id} />
       </>
     ),
