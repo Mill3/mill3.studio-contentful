@@ -47,7 +47,7 @@ const ProjectSingleHeaderMedia = ({ media }) => {
   }
 
   return (
-    <FigureBox ratio={6/16} mb={[5]}>
+    <FigureBox ratio={6 / 16} mb={[5]}>
       {/* video */}
       {detectType(media.file.contentType) === 'video' && (
         <Box as={ProjectIntroVideo} autoPlay loop playsInline muted>
@@ -58,7 +58,11 @@ const ProjectSingleHeaderMedia = ({ media }) => {
       {/* image type */}
       {detectType(media.file.contentType) === 'image' && (
         <Box as={ProjectIntroImage}>
-          <img src={media.file.url} alt={`heading figure`} className="img-fluid" />
+          <img
+            src={media.file.url}
+            alt={`heading figure`}
+            className="img-fluid"
+          />
         </Box>
       )}
     </FigureBox>
@@ -76,18 +80,16 @@ const ProjectSingleHeader = styled.header`
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      <Container>
-        <ProjectSingleContainer>
-          {console.log(data)}
-
+      <ProjectSingleContainer>
+        {/* TODO: move me in a reusable component for News + Projects */}
+        <Container>
           {/* video or image */}
-          {data.project.headerMedia &&
+          {data.project.headerMedia && (
             <ProjectSingleHeaderMedia media={data.project.headerMedia} />
-          }
+          )}
 
           {/* title and subheading */}
           <Box as={ProjectSingleHeader} mb={[4, 5]} px={[4, 4, 5]}>
-
             <Text width={`100%`} as={`h6`} fontSize={[2, 3]} color="blue">
               <FormattedMessage id="Project:" />
             </Text>
@@ -107,11 +109,9 @@ const ProjectSingle = ({ pageContext, data }) => {
               </Text>
             )}
           </Box>
-
-          <ContentRow data={data.project.contentRows} />
-
-        </ProjectSingleContainer>
-      </Container>
+        </Container>
+        <ContentRow data={data.project.contentRows} />
+      </ProjectSingleContainer>
     </Layout>
   )
 }

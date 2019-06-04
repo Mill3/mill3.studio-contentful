@@ -4,6 +4,8 @@ import { Flex, Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
+import { VERTICAL_SPACER } from './index'
+
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => <blockquote>{children}</blockquote>
@@ -46,7 +48,7 @@ const postBody = styled.div`
 
 const ContentText = ({ data }) => {
   return (
-    <Box as={postBody} mb={5} px={[0, 5, 5, 5, '15vw']}>
+    <Box as={postBody} mb={VERTICAL_SPACER} px={[0, 5, 5, 5, '15vw']}>
       {format(data.text.text)}
     </Box>
   )

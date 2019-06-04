@@ -17,11 +17,9 @@ import './src/styles/fonts.css'
 export const onInitialClientRender = () => {
 
   let root = '/'
-  // let detectedLocale = detectLocale()
-  let detectedLocale = 'en'
 
-  // dispatch detected locale
-  // store.dispatch({ type: 'SET_LOCALE', locale: detectedLocale })
+  // TODO: let detectedLocale = detectLocale()
+  let detectedLocale = 'en'
 
   // on root only, redirect
   if (window.location.pathname === root) {
@@ -30,14 +28,14 @@ export const onInitialClientRender = () => {
 
 }
 
-export const onPreRouteUpdate = ({ location, prevLocation }) => {
-  console.log("Gatsby started to change location to", location.pathname)
-  console.time('PreRouteUpdate');
-}
+// export const onPreRouteUpdate = ({ location, prevLocation }) => {
+//   console.log("Gatsby started to change location to", location.pathname)
+//   console.time('PreRouteUpdate');
+// }
 
-export const onRouteUpdate = ({ location }) => {
-  console.timeEnd('PreRouteUpdate');
-}
+// export const onRouteUpdate = ({ location }) => {
+//   console.timeEnd('PreRouteUpdate');
+// }
 
 // export const shouldUpdateScroll = ({
 //   routerProps: { location },
