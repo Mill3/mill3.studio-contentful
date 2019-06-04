@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
+
+
 import { Box } from 'rebass'
 import Container from '@styles/Container'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
+
+// console.log('ContentfulClient:', ContentfulClient)
 
 export const ALIGN_VALUES = {
   'center': 'center',

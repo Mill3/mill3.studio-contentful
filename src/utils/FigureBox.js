@@ -69,7 +69,7 @@ FigureBox.defaultProps = {
 }
 
 FigureBox.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
   innerShadow: PropTypes.bool,
   overflow: PropTypes.string,
   ratio: PropTypes.number,

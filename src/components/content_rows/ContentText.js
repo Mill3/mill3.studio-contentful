@@ -6,6 +6,8 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
 import { VERTICAL_SPACER } from './index'
 
+import EmbeddedAsset from './EmbeddedAsset'
+
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => <blockquote>{children}</blockquote>
@@ -22,7 +24,10 @@ const options = {
     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
     [BLOCKS.QUOTE]: (node, children) => <Blockquote>{children}</Blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
-      <figure>{parseAsset(node)}</figure>
+      <>
+        {/* {console.log(node.data)} */}
+        <EmbeddedAsset id={node.data.target.sys.id} />
+      </>
     ),
   },
 }

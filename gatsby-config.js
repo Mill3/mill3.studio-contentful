@@ -1,7 +1,7 @@
-// const ProjectInline = require('./src/components/projects/ProjectInline')
-// console.log('ProjectInline:', ProjectInline)
-// const { BLOCKS, MARKS, INLINES } = require('@contentful/rich-text-types')
-// const { richTextToJsx } = require('@madebyconnor/rich-text-to-jsx')
+let dotenv = require("dotenv")
+
+// import .env const
+dotenv.config()
 
 module.exports = {
   siteMetadata: {
@@ -13,10 +13,18 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        whitelist: ["CONTENTFUL_HOST", "CONTENTFUL_SPACE_ID", "CONTENTFUL_ACCESS_TOKEN", "CONTENTFUL_ENVIRONMENT"]
+      },
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
-        spaceId: `9bzwr94keh5j`,
-        accessToken: `d6cc93293888bce59f3cf5d4f8bac85aff49df2212c3034cd673ef1c5756ef84`,
+        host: `${process.env.CONTENTFUL_HOST}`,
+        spaceId: `${process.env.CONTENTFUL_SPACE_ID}`,
+        accessToken: `${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+        environment: `${process.env.CONTENTFUL_ENVIRONMENT}`,
       },
     },
     {

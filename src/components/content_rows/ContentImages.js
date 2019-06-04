@@ -45,8 +45,6 @@ const ContentImages = ({ data }) => {
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}
       >
-        {console.log(data.alignVertical)}
-
         {data.medias.map((img, index) => (
           <Box as="figure" m="0" key={img.id}>
             {getContentType(img.file.contentType) ===
