@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
@@ -11,6 +11,9 @@ import TransitionLinkComponent from '@utils/TransitionLink'
 const NavContainerPoses = posed.ul({
   hidden: {
     y: '-100%',
+    delay: 200,
+    staggerChildren: 35,
+    staggerDirection: -1,
     transition: {
       type: 'spring',
       stiffness: 50,
@@ -19,6 +22,8 @@ const NavContainerPoses = posed.ul({
   },
   visible: {
     y: '0%',
+    delayChildren: 350,
+    staggerChildren: 50,
     transition: {
       type: 'spring',
       stiffness: 50,
@@ -27,8 +32,45 @@ const NavContainerPoses = posed.ul({
   }
 })
 
+const NavItemPoses = posed.li({
+  hidden: {
+    opacity: 0,
+    transition: {
+      duration: 175,
+    }
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 250,
+    }
+  }
+})
+
+const NavWrapper = styled.nav`
+  color: ${props => props.inverted ? 'white' : 'black' };
+
+  a {
+    color: ${props => props.inverted ? 'white' : 'black' };
+    display: inline-block;
+  }
+`
+
+const NavBurger = styled.button`
+  position: relative;
+  z-index: 20;
+  background: none;
+  border: 0;
+  outline: none;
+  color: inherit;
+
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    display: none;
+  }
+`
+
 const NavContainer = styled(NavContainerPoses)`
-  background: ${props => props.theme.colors.black};
+  background: ${props => props.inverted ? props.theme.colors.black : props.theme.colors.white};
   margin: 0;
   padding: 84px 0 0 0;
   list-style: none;
@@ -61,47 +103,26 @@ const NavContainer = styled(NavContainerPoses)`
   }
 `
 
-const NavItem = styled.li`
+const NavItem = styled(NavItemPoses)`
   padding: 1.5vh 0;
   margin: 0;
   flex: 0 0 auto;
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     padding: 0 1.5vw;
+    transform: none !important;
+    opacity: 1 !important;
   }
 
   &:first-child { padding-top: 0; }
   &:last-child { padding-bottom: 0; }
 `
 
-const NavWrapper = styled.nav`
-  color: ${props => props.inverted ? 'white' : 'black' };
 
-  a {
-    color: ${props => props.inverted ? 'white' : 'black' };
-    display: inline-block;
-  }
-
-  ${NavContainer} {
-    background: ${props => props.theme.colors.white}
-  }
-`
-
-const NavBurger = styled.button`
-  position: relative;
-  z-index: 20;
-  background: none;
-  border: 0;
-  outline: none;
-
-  @media (min-width: ${props => props.theme.breakpoints[1]}) {
-    display: none;
-  }
-`
 
 const fontSizes = [5,5,3,3]
 
-class Nav extends Component {
+class Nav extends React.Component {
   constructor(props) {
     super(props);
 
@@ -127,7 +148,7 @@ class Nav extends Component {
 
         <NavBurger onClick={e => this.toggle()}>Menu</NavBurger>
 
-        <NavContainer initialPose={'hidden'} pose={visible ? 'visible' : 'hidden'} visible={visible}>
+        <NavContainer initialPose={'hidden'} pose={visible ? 'visible' : 'hidden'} visible={visible} inverted={inverted}>
 
           <NavItem>
             <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>

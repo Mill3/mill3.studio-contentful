@@ -1,7 +1,9 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Box } from 'rebass'
+import VisibilitySensor from 'react-visibility-sensor'
 
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { RowContainer, VERTICAL_SPACER, VERTICAL_ALIGN_VALUES, GRID_GUTTER } from './index'
@@ -35,18 +37,60 @@ const MediaItemVideo = styled.video`
   object-fit: cover;
 `
 
-const ContentImages = ({ data }) => {
-  return (
-    <RowContainer alignContent={data.alignContent}>
-      <Box
-        as={Grid}
-        mb={VERTICAL_SPACER}
-        gaplessGrid={data.gaplessGrid}
-        itemsPerRow={data.itemsPerRow}
-        alignItems={data.alignVertical}
-      >
-        {data.medias.map((img, index) => (
-          <Box as="figure" m="0" key={img.id}>
+const ContentImagePoses = posed.figure({
+  hidden: {
+    opacity: 0,
+    y: 150,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    delay: ({ index }) => 250 + index * 125,
+    transition: {
+      type: 'spring',
+      stiffness: 50,
+      mass: 1.125,
+    }
+  },
+})
+
+class ContentImage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      reveal: false
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.reveal = this.reveal.bind(this)
+  }
+
+  onChange(isVisible) {
+    if (isVisible && !this.state.reveal) {
+      this.setState({
+        reveal: true
+      })
+    }
+  }
+
+  reveal(isVisible) {
+    return this.state.reveal ? 'visible' : 'hidden'
+  }
+
+  render() {
+    const img = this.props.data;
+
+    return (
+      <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: -50}}>
+        {({isVisible}) =>
+          <Box
+            as={ContentImagePoses}
+            index={this.props.index}
+            initialPose={'hidden'}
+            pose={this.reveal(isVisible)}
+            m="0"
+          >
             {getContentType(img.file.contentType) ===
               CONTENT_TYPES['image'] && (
               <MediaItemImg
@@ -70,7 +114,23 @@ const ContentImages = ({ data }) => {
               </Box>
             )}
           </Box>
-        ))}
+        }
+      </VisibilitySensor>
+    )
+  }
+}
+
+const ContentImages = ({ data }) => {
+  return (
+    <RowContainer alignContent={data.alignContent}>
+      <Box
+        as={Grid}
+        mb={VERTICAL_SPACER}
+        gaplessGrid={data.gaplessGrid}
+        itemsPerRow={data.itemsPerRow}
+        alignItems={data.alignVertical}
+      >
+        {data.medias.map((img, index) => <ContentImage data={img} index={index} key={img.id}></ContentImage>)}
       </Box>
     </RowContainer>
   )
