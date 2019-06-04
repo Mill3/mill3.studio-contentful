@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { ContentfulClient } from '@utils/ContentfulClient'
+import { Box } from 'rebass'
+
+import { VERTICAL_SPACER } from './index'
 
 class EmbeddedAsset extends Component {
   constructor(props) {
@@ -26,12 +29,11 @@ class EmbeddedAsset extends Component {
 
   render() {
     return (
-      <div>
-        {this.props.id}
+      <Box mb={VERTICAL_SPACER}>
         {this.state.url &&
           <img src={this.state.url} className="img-fluid" />
         }
-      </div>
+      </Box>
     )
   }
 }
