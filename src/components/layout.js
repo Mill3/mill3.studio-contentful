@@ -122,12 +122,12 @@ const Layout = ({ locale, withIntro, children }) => (
 )
 
 Layout.defaultProps = {
-  headerInverted: false,
+  withIntro: false,
 }
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  headerInverted: PropTypes.bool,
+  withIntro: PropTypes.bool,
 }
 
 export default Layout
