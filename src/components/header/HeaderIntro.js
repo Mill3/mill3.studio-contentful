@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl'
 import {
   TRANSITION_DURATION,
   //TRANSITION_DELAY,
-  TRANSITION_EXIT_DURATION
+  TRANSITION_EXIT_DURATION,
 } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
@@ -27,18 +27,18 @@ const HeaderIntroPoses = posed.header({
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 3) * 1000,
+        duration: TRANSITION_DURATION * 3 * 1000,
       },
       marginBottom: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 3) * 1000,
+        duration: TRANSITION_DURATION * 3 * 1000,
       },
       height: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_DURATION * 3) * 1000,
-      }
+        duration: TRANSITION_DURATION * 3 * 1000,
+      },
     },
   },
   exiting: {
@@ -52,17 +52,16 @@ const HeaderIntroPoses = posed.header({
       },
       marginBottom: {
         type: 'tween',
-        duration: (TRANSITION_EXIT_DURATION) * 1000,
+        duration: TRANSITION_EXIT_DURATION * 1000,
       },
       height: {
         type: 'tween',
         ease: 'backInOut',
-        duration: (TRANSITION_EXIT_DURATION) * 1000,
-      }
+        duration: TRANSITION_EXIT_DURATION * 1000,
+      },
     },
   },
 })
-
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
@@ -81,16 +80,16 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => (TRANSITION_DURATION * 1500) + (charIndex * 30),
+    delay: ({ charIndex }) => TRANSITION_DURATION * 1500 + charIndex * 30,
     transition: {
       y: {
-        type: 'spring'
-      }
-    }
-  }
-};
+        type: 'spring',
+      },
+    },
+  },
+}
 
-const fontSizes = [4,4,'3.5vw']
+const fontSizes = [4, 4, '3.5vw']
 
 const HeaderIntro = ({ transitionStatus, intl }) => {
   return (
@@ -101,34 +100,43 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
       pose={`entered`}
       className={`z-negative`}
     >
-      <Box pl={[`5vw`,`8vw`]}>
-
+      <Box pl={[`5vw`, `8vw`]}>
         <Text as={`h2`} fontSize={fontSizes} className={`is-serif fw-200`}>
           <SplitText
             initialPose={`exit`}
-            pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
+            pose={
+              ['entering', 'entered', 'POP'].includes(transitionStatus)
+                ? `enter`
+                : `exit`
+            }
             charPoses={charPoses}
           >
-            {intl.formatMessage({id: 'Craft, code and smile.'}).toString()}
+            {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
           </SplitText>
         </Text>
 
-        <Text as={`h2`} fontSize={fontSizes} className={`is-normal is-sans fw-300`}>
+        <Text
+          as={`h2`}
+          fontSize={fontSizes}
+          className={`is-normal is-sans fw-300`}
+        >
           <SplitText
             initialPose={`exit`}
-            pose={['entering', 'entered'].includes(transitionStatus) ? `enter` : `exit`}
+            pose={
+              ['entering', 'entered', 'POP'].includes(transitionStatus)
+                ? `enter`
+                : `exit`
+            }
             charPoses={charPoses}
           >
-            {intl.formatMessage({id: 'We are a digital agency.'}).toString()}
+            {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
           </SplitText>
         </Text>
-
       </Box>
 
       <HeaderCircle />
-
     </Flex>
-  );
+  )
 }
 
-export default injectIntl(HeaderIntro);
+export default injectIntl(HeaderIntro)

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Box } from 'rebass'
 
 const FigureBoxContainer = styled.div`
   position: relative;
-  margin: 0;
-  padding: 0;
+  /* margin: 0; */
+  /* padding: 0; */
 
   /* box ratio is controlled via props */
   padding-bottom: ${props => `${props.ratio * 100}%`};
@@ -44,15 +45,16 @@ class FigureBox extends Component {
 
   render() {
     return (
-      <FigureBoxContainer
+      <Box as={FigureBoxContainer}
         ratio={this.props.ratio}
         innerShadow={this.props.innerShadow}
         withGutter={this.props.withGutter}
+        {...this.props}
       >
         <FigureBoxInner>
           {this.props.children}
         </FigureBoxInner>
-      </FigureBoxContainer>
+      </Box>
     )
   }
 }

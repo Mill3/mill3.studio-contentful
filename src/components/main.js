@@ -26,7 +26,7 @@ const pickAnimation = (transitionStatus) => {
     case 'entered': return entering
     case 'entering': return entering
     case 'exiting': return exiting
-    default: return null
+    default: return entering
   }
 }
 

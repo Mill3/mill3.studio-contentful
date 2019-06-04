@@ -6,11 +6,29 @@ import styled from 'styled-components'
 import { Box, Text } from 'rebass'
 import { height } from 'styled-system'
 
+import FigureBox from '@utils/FigureBox'
+
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 
 const MediaContainer = styled.header`
   ${height};
+  overflow: hidden;
+`
+
+const ProjectIntroVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+const ProjectIntroImage = styled.figure`
+  height: 100%;
+  margin: 0;
+  img {
+    height: 100%;
+    object-fit: contain;
+  }
 `
 
 // TODO: move me in a seperate file!
@@ -29,19 +47,21 @@ const ProjectSingleHeaderMedia = ({ media }) => {
   }
 
   return (
-    <Box as={MediaContainer} mb={[3, 4, 5]} height={[`80vh`, `80vh`, `65vh`]}>
+    <FigureBox ratio={6/16} mb={[5]}>
       {/* video */}
       {detectType(media.file.contentType) === 'video' && (
-        <Box as={ProjectIntroVideo} autoPlay playsInline muted>
+        <Box as={ProjectIntroVideo} autoPlay loop playsInline muted>
           <source src={media.file.url} type={media.file.contentType} />
         </Box>
       )}
 
       {/* image type */}
       {detectType(media.file.contentType) === 'image' && (
-        <img src={media.file.url} alt={`heading figure`} className="img-fluid" />
+        <Box as={ProjectIntroImage}>
+          <img src={media.file.url} alt={`heading figure`} className="img-fluid" />
+        </Box>
       )}
-    </Box>
+    </FigureBox>
   )
 }
 
@@ -51,12 +71,6 @@ const ProjectSingleContainer = styled.div`
 
 const ProjectSingleHeader = styled.header`
   text-align: center;
-`
-
-const ProjectIntroVideo = styled.video`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `
 
 const ProjectSingle = ({ pageContext, data }) => {
