@@ -20,6 +20,7 @@ const ProjectIntroVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  overflow: hidden;
 `
 
 const ProjectIntroImage = styled.figure`
