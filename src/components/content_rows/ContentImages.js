@@ -2,7 +2,6 @@ import React from 'react'
 // import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import Container from '@styles/Container'
 
 import { RowContainer, VERTICAL_SPACER, GRID_GUTTER } from './index'
 
@@ -16,8 +15,12 @@ const GridColums = itemsPerRow => {
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: ${props => GridColums(props.itemsPerRow)};
+  grid-template-columns: 1fr;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${GRID_GUTTER}px`)};
+
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    grid-template-columns: ${props => GridColums(props.itemsPerRow)};
+  }
 `
 
 const Img = styled.img`
