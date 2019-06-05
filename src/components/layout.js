@@ -56,7 +56,7 @@ const TransitionPane = styled.div`
   background-color: ${props => props.backgroundColor ? props.backgroundColor: "#000"};
 `
 
-const Layout = ({ locale, withIntro, children }) => (
+const Layout = ({ locale, withIntro, introComponent, children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -98,7 +98,7 @@ const Layout = ({ locale, withIntro, children }) => (
 
 
                         {/* main header */}
-                        <Header withIntro={withIntro} siteTitle={data.site.siteMetadata.title} />
+                        <Header withIntro={withIntro} introComponent={introComponent} siteTitle={data.site.siteMetadata.title} />
 
                         {/* main wrapper containing children pages */}
                         <Main children={children} />
@@ -123,6 +123,7 @@ const Layout = ({ locale, withIntro, children }) => (
 
 Layout.defaultProps = {
   withIntro: false,
+  introComponent: null,
 }
 
 Layout.propTypes = {
