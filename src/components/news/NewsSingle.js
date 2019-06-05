@@ -1,16 +1,10 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { Text } from 'rebass'
-import styled from 'styled-components'
 
 import ContentRow from '@components/content_rows'
 import Layout from '@components/layout'
 import Container from '@styles/Container'
 import SingleHeader from '@components/elements/SingleHeader'
-
-const TitleStyle = styled.h1`
-  line-height: 1.1;
-`
 
 
 const NewsSingle = ({ pageContext, data }) => {
@@ -23,7 +17,6 @@ const NewsSingle = ({ pageContext, data }) => {
           subHeading={data.news.subHeading ? data.news.subHeading.subHeading : null}
           media={data.news.headerMedia}
         />
-        {/* <Text as={TitleStyle} className={`is-serif fw-400 is-center`} fontSize={[5, 4, 5, '3.611111111vw']} mb={5}>{data.news.title}</Text> */}
         <ContentRow data={data.news.contentRows} />
       </Container>
     </Layout>

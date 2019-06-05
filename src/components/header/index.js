@@ -8,7 +8,6 @@ import posed from 'react-pose'
 
 import Container from '@styles/Container'
 import TransitionLinkComponent from '@utils/TransitionLink'
-import HeaderIntro from '@components/header/HeaderIntro'
 import Nav from '@components/nav/index'
 import Logo from '@svg/Logo'
 import { colors } from '@styles/Theme'
@@ -36,7 +35,7 @@ const SiteHeader = styled(SiteHeaderPoses)`
   z-index: 1000;
 `
 
-const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
+const Header = ({ siteTitle, withIntro, introComponent, intl: { locale } }) => (
   <TransitionState>
     {({ transitionStatus }) => {
 
@@ -48,6 +47,7 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
           return ['entering', 'entered'].includes(transitionStatus) ? 'entered' : 'exited'
         }
       }
+      const IntroComponent = introComponent || null;
 
       return (
         <Box
@@ -76,8 +76,8 @@ const Header = ({ siteTitle, withIntro, intl: { locale } }) => (
 
           </Container>
 
-          {withIntro &&
-            <HeaderIntro transitionStatus={transitionStatus} />
+          {withIntro && IntroComponent &&
+            <IntroComponent transitionStatus={transitionStatus} />
           }
 
         </Box>

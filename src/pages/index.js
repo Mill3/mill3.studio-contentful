@@ -1,20 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-//import { FormattedMessage } from 'react-intl'
-//import { Text } from 'rebass'
 
 import Layout from '@components/layout'
-//import Image from '@components/image'
 import SEO from '@components/seo'
 
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ClientsTicker from '@components/clients/ClientsTicker'
+import HeaderIntro from '@components/header/HeaderIntro'
 
 import Container from '@styles/Container'
 
 const IndexPage = ({ pageContext, data }) => (
-  <Layout locale={pageContext.locale} withIntro={true}>
+  <Layout locale={pageContext.locale} withIntro={true} introComponent={HeaderIntro}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <Container>
       {data.allContentfulProjects &&
