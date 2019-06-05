@@ -15,7 +15,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-env-variables`,
       options: {
-        whitelist: ["CONTENTFUL_HOST", "CONTENTFUL_SPACE_ID", "CONTENTFUL_ACCESS_TOKEN", "CONTENTFUL_ENVIRONMENT"]
+        whitelist: ["CONTENTFUL_HOST", "CONTENTFUL_SPACE_ID", "CONTENTFUL_ACCESS_TOKEN", "CONTENTFUL_ENVIRONMENT", "ZAPIER_HOOK"]
       },
     },
     {

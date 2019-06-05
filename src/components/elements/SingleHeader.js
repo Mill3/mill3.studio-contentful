@@ -60,7 +60,7 @@ class SingleHeader extends Component {
 
     return (
       <React.Fragment>
-
+        {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
         <Box mb={[4, 5]} px={[4, 4, 5]}>
