@@ -9,6 +9,7 @@ export const colors = {
   blue: '#3426F1',
   navy: '#004175',
   purple: '#3426F1',
+  lightGray: '#f7f7f7',
 }
 
 export const breakpoints = [

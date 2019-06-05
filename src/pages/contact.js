@@ -5,8 +5,8 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
 
+import ContactForm from '@components/contact/ContactForm'
 import Layout from '@components/layout'
-import Container from '@styles/Container'
 
 import { TRANSITION_DURATION, TRANSITION_EXIT_DURATION } from '@utils/constants'
 
@@ -144,12 +144,9 @@ const HeaderIntro = injectIntl(({ transitionStatus, intl }) => {
   )
 });
 
-
 const About = ({ pageContext }) => (
   <Layout locale={pageContext.locale} withIntro={true} introComponent={HeaderIntro}>
-    <Container>
-      <h1>Hello World</h1>
-    </Container>
+    <ContactForm />
   </Layout>
 );
 
