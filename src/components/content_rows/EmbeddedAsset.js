@@ -31,7 +31,7 @@ class EmbeddedAsset extends Component {
     return (
       <Box my={VERTICAL_SPACER}>
         {this.state.url &&
-          <img src={this.state.url} className="img-fluid" />
+          <img src={this.state.url} className="img-fluid" alt="" />
         }
       </Box>
     )
