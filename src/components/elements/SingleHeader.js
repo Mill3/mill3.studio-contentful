@@ -61,7 +61,7 @@ class SingleHeader extends Component {
     return (
       <React.Fragment>
 
-        {this.figure()}
+        {media ? this.figure() : ''}
 
         <Box mb={[4, 5]} px={[4, 4, 5]}>
           <Text textAlign="center" as={`h6`} fontSize={[2, 3]} color="blue">
