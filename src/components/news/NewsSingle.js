@@ -20,7 +20,7 @@ const NewsSingle = ({ pageContext, data }) => {
         <SingleHeader
           label="Words words words:"
           title={data.news.title}
-          subHeading={data.news.subHeading.subHeading}
+          subHeading={data.news.subHeading ? data.news.subHeading.subHeading : null}
           media={data.news.headerMedia}
         />
         {/* <Text as={TitleStyle} className={`is-serif fw-400 is-center`} fontSize={[5, 4, 5, '3.611111111vw']} mb={5}>{data.news.title}</Text> */}

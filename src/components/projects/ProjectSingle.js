@@ -13,7 +13,7 @@ const ProjectSingle = ({ pageContext, data }) => {
         <SingleHeader
           label="Projects:"
           title={data.project.name}
-          subHeading={data.project.subHeading.subHeading}
+          subHeading={data.project.subHeading ? data.project.subHeading.subHeading : null}
           media={data.project.headerMedia}
         />
       </Container>
