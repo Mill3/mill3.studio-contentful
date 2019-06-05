@@ -1,4 +1,3 @@
-
 import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
@@ -20,15 +19,14 @@ const CircleContainer = styled.div`
 `
 
 class HeaderCircle extends React.Component {
-
   static mouseWheel
   static timeline
   static rotateTween
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      rotation: 3600
+      rotation: 3600,
     }
     this.ref = React.createRef()
   }
@@ -40,53 +38,46 @@ class HeaderCircle extends React.Component {
 
   rotation() {
     this.timeline = new TimelineLite({ repeat: true })
-    this.timeline.to(this.ref.current, 6000, { rotation: "+=54000", ease: Power4.easeOut })
+    this.timeline.to(this.ref.current, 6000, {
+      rotation: '+=54000',
+      ease: Power4.easeOut,
+    })
   }
 
   mouse() {
-
-
     if (typeof window == 'object') {
       const Hamster = require('hamsterjs')
 
-      this.mouseWheel = Hamster(window);
+      this.mouseWheel = Hamster(window)
 
       this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
         this.timeline.timeScale(3.25)
 
-
         // reset transformation value after a few seconds
         _.debounce(() => {
           let timeScale = { value: 3.25 }
-          TweenLite.to(
-              timeScale,
-              0.75,
-              {
-                value: 1,
-                onUpdate: () => {
-                  this.timeline.timeScale(timeScale.value)
-                }
-            }
-          )
-        }, 750)();
-      });
-
+          TweenLite.to(timeScale, 0.75, {
+            value: 1,
+            onUpdate: () => {
+              this.timeline.timeScale(timeScale.value)
+            },
+          })
+        }, 750)()
+      })
     }
-
-
   }
 
   render() {
     return (
       <CircleContainer speed={this.state.speed} {...this.props}>
-        <Box width={['25vw','15vw','12vw']} pl={['5vw']}>
+        <Box width={['25vw', '15vw', '12vw']} pl={['5vw']}>
           <figure ref={this.ref}>
             <Circle />
           </figure>
         </Box>
       </CircleContainer>
-    );
+    )
   }
 }
 
-export default HeaderCircle;
+export default HeaderCircle

@@ -89,7 +89,7 @@ const charPoses = {
   },
 }
 
-const fontSizes = [4, 4, '3.5vw']
+const fontSizes = [4, 4, '5.75vw']
 
 const HeaderIntro = ({ transitionStatus, intl }) => {
   return (
@@ -100,8 +100,13 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
       pose={`entered`}
       className={`z-negative`}
     >
-      <Box pl={[`5vw`, `8vw`]}>
-        <Text as={`h2`} fontSize={fontSizes} className={`is-serif fw-200`}>
+      <Box _pl={[`5vw`, `5vw`]} width={`100%`}>
+        <Text
+          as={`h2`}
+          fontSize={fontSizes}
+          textAlign="center"
+          className={`is-serif fw-200`}
+        >
           <SplitText
             initialPose={`exit`}
             pose={
@@ -118,6 +123,7 @@ const HeaderIntro = ({ transitionStatus, intl }) => {
         <Text
           as={`h2`}
           fontSize={fontSizes}
+          textAlign="center"
           className={`is-normal is-sans fw-300`}
         >
           <SplitText

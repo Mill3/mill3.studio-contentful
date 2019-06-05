@@ -13,23 +13,23 @@ class EmbeddedAsset extends Component {
   }
 
   componentDidMount() {
-    console.log(`getting asset : ${this.props.id}`);
+    // console.log(`getting asset : ${this.props.id}`);
     if (!this.state.url) {
       ContentfulClient()
         .getAsset(this.props.id)
           .then(asset => {
-            console.log(asset)
+            console.warn(asset)
             this.setState({
               url: asset.fields.file.url
             })
           })
-          .catch(err => console.log(err))
+          .catch(err => console.error(err))
     }
   }
 
   render() {
     return (
-      <Box mb={VERTICAL_SPACER}>
+      <Box my={VERTICAL_SPACER}>
         {this.state.url &&
           <img src={this.state.url} className="img-fluid" />
         }

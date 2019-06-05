@@ -1,7 +1,7 @@
 import React from 'react'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import { Box, Text } from 'rebass'
-import Img from "gatsby-image"
+import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import VisibilitySensor from 'react-visibility-sensor'
@@ -16,12 +16,12 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => (((index % 3) + 1) * 125) + (index < 3 ? 1500 : 0),
+    delay: ({ index }) => ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0),
     transition: {
       type: 'spring',
-      stiffness: 50,
-      mass: 1.125,
-    }
+      stiffness: 30,
+      mass: 0.925,
+    },
   },
 })
 
@@ -36,7 +36,6 @@ const ProjectHoverPane = styled.picture`
   height: 100%;
   z-index: 100;
   background: ${props => props.color};
-  /* opacity: 0.75; */
 
   video {
     flex: 0 0 100%;
@@ -54,7 +53,6 @@ const ProjectHoverPane = styled.picture`
 `
 
 const ProjectPreviewItem = styled(ProjectPoses)`
-
   figure {
     position: relative;
     overflow: hidden;
@@ -105,28 +103,26 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 `
 
 class ProjectPreview extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      reveal: false
+      reveal: false,
     }
-    this.onChange = this.onChange.bind(this)
-    this.reveal = this.reveal.bind(this)
+
+    // refs
     this.videoRef = React.createRef()
+
+    // bind events
+    this.onChange = this.onChange.bind(this)
     this.hover = this.hover.bind(this)
   }
 
   onChange(isVisible) {
     if (isVisible && !this.state.reveal) {
       this.setState({
-        reveal: true
+        reveal: true,
       })
     }
-  }
-
-  reveal(isVisible) {
-    return this.state.reveal ? 'visible' : 'hidden'
   }
 
   hover(isHover) {
@@ -139,68 +135,83 @@ class ProjectPreview extends React.Component {
   }
 
   render() {
+    let {
+      slug,
+      colorMain,
+      imageMain,
+      imageHover,
+      videoPreview,
+      name,
+    } = this.props.project.node
 
-      let {
-        slug,
-        colorMain,
-        imageMain,
-        imageHover,
-        videoPreview,
-        name
-      } = this.props.project.node
-
-      return (
-        <VisibilitySensor onChange={this.onChange} partialVisibility={true} offset={{top: -50}}>
-          {({isVisible}) =>
-            <Box
-              as={ProjectPreviewItem}
-              index={this.props.index}
-              initialPose={'hidden'}
-              pose={this.reveal(isVisible)}
-              pl={[2]}
-              pr={[2]}
-              mb={[2,2,'5vh']}
-              {...(this.props.columns)}
-              color={colorMain}
-              onMouseEnter={e => this.hover(true)}
-              onMouseLeave={e => this.hover(false)}
-            >
-              <TransitionLinkComponent to={`/projects/${slug}`} title={name} color={colorMain}>
-                <Box as={`figure`} mb={[4]}>
-                  <ProjectHoverPane color={colorMain}>
-                    {imageHover &&
-                      <Img fade={false} fluid={imageHover.fluid} />
-                    }
-                    {videoPreview &&
-                      <video muted playsInline loop ref={this.videoRef}>
-                        <source src={videoPreview.file.url} type="video/mp4" />
-                      </video>
-                    }
-                  </ProjectHoverPane>
-                  <FigureBox>
-                    <Img fade={false} fluid={imageMain.fluid} />
-                  </FigureBox>
-                </Box>
-                <footer>
-                  <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[3,3,4]} mb={[0]}>{name}</Text>
-                  <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[3]}>Branding</Text>
-                </footer>
-              </TransitionLinkComponent>
+    return (
+      <VisibilitySensor
+        onChange={this.onChange}
+        partialVisibility={true}
+        offset={{ top: -500 }}
+      >
+        <Box
+          as={ProjectPreviewItem}
+          index={this.props.index}
+          initialPose={'hidden'}
+          pose={this.state.reveal ? 'visible' : 'hidden'}
+          pl={[2]}
+          pr={[2]}
+          mb={[2, 2, '5vh']}
+          {...this.props.columns}
+          color={colorMain}
+          onMouseEnter={e => this.hover(true)}
+          onMouseLeave={e => this.hover(false)}
+        >
+          <TransitionLinkComponent
+            to={`/projects/${slug}`}
+            title={name}
+            color={colorMain}
+          >
+            <Box as={`figure`} mb={[4]}>
+              <ProjectHoverPane color={colorMain}>
+                {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
+                {videoPreview && (
+                  <video muted playsInline loop ref={this.videoRef}>
+                    <source src={videoPreview.file.url} type="video/mp4" />
+                  </video>
+                )}
+              </ProjectHoverPane>
+              <FigureBox>
+                <Img fade={false} fluid={imageMain.fluid} />
+              </FigureBox>
             </Box>
-          }
-        </VisibilitySensor>
-      )
+            <footer>
+              <Text
+                as={`h3`}
+                className={`fw-300 is-sans`}
+                fontSize={[3, 3, 4]}
+                mb={[0]}
+              >
+                {name}
+              </Text>
+              <Text
+                as={`h4`}
+                className={`fw-300 is-serif is-gray`}
+                fontSize={[3]}
+              >
+                Branding
+              </Text>
+            </footer>
+          </TransitionLinkComponent>
+        </Box>
+      </VisibilitySensor>
+    )
   }
 }
-
 
 ProjectPreview.defaultProps = {
   index: 0,
   columns: {
-    width: 1/2,
+    width: 1 / 2,
     ml: [0],
     mr: [0],
-  }
+  },
 }
 
-export default ProjectPreview;
+export default ProjectPreview

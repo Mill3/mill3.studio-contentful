@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box } from 'rebass'
+import SplitText from 'react-pose-text'
+import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
@@ -10,11 +11,17 @@ import EmbeddedAsset from './EmbeddedAsset'
 
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
-const Blockquote = ({ children }) => <blockquote>{children}</blockquote>
-
-const parseAsset = node => {
-  return <span>id: {node.data.target.sys.id}</span>
-}
+const Blockquote = ({ children }) => (
+  <Box
+    as={`blockquote`}
+    mx={[0, 0, '-5vw']}
+    mb={[2, 2, 5]}
+    color="blue"
+    className="is-serif is-center"
+  >
+    {children}
+  </Box>
+)
 
 const options = {
   renderMark: {
@@ -25,7 +32,8 @@ const options = {
     [BLOCKS.QUOTE]: (node, children) => <Blockquote>{children}</Blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
       <>
-        {console.log(node)}
+        {/* {console.log(node, children)} */}
+        {/* {node.data.target.sys.id} */}
         <EmbeddedAsset id={node.data.target.sys.id} />
       </>
     ),
@@ -40,7 +48,10 @@ export const format = json => {
 const postBody = styled.div`
   /* TODO: overides all default styles for HTML elements available in Contentful richtext editor (blockquotes, b, strong, italic, p, heading, etc) */
 
-  h2, h3, h4, h5 {
+  h2,
+  h3,
+  h4,
+  h5 {
     font-weight: 500;
     margin-bottom: 2rem;
   }
@@ -48,7 +59,6 @@ const postBody = styled.div`
   p {
     margin-bottom: 2rem;
   }
-
 `
 
 const ContentText = ({ data }) => {

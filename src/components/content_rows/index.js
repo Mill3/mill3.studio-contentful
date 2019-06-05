@@ -31,7 +31,7 @@ export const CONTENT_ROW_TYPES = {
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [4,5]
+export const VERTICAL_SPACER = [4,5,6]
 
 // gutter between each grid elements
 export const GRID_GUTTER = 25

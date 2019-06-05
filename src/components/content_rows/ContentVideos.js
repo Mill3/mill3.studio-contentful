@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ContentVideos = () => {
-  return <pre>should list all row videos</pre>
+  return <pre></pre>
 }
 
 export default ContentVideos;
