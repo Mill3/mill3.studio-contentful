@@ -6,12 +6,13 @@ import SplitText from 'react-pose-text'
 import ContactForm from '@components/contact/ContactForm'
 import Layout from '@components/layout'
 import Container from '@styles/Container'
+import { header } from '@styles/Theme'
 
 
 const Header = styled.header`
   position: relative;
-  margin-top: ${props => `${-props.theme.space[5] - 116}px`};
-  padding-top: 116px;
+  margin-top: -${header.height}px;
+  padding-top: ${header.height}px;
   height: 70vh;
 `
 

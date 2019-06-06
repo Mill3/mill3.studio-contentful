@@ -24,14 +24,14 @@ class ProjectsIndex extends Component {
     return (
       <Layout locale={this.props.pageContext.locale}>
         <Container>
-          <Box as={`header`} my={[3,3,6]}>
+          <Box as={`header`} mb={6}>
             <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
               <span className="is-serif">Work </span>
               <span className="is-sans">Work </span>
               <span className="is-serif">Work </span>
               <span className="is-sans">Work </span>
             </Text>
-            <Text as={`h3`} fontSize={[3,3,4]} px={[2,4,6,`10vw`,'14vw']} textAlign={`center`}>
+            <Text as={`h3`} fontSize={[3,3,4]} px={[2,4,6,`10vw`,'14vw']} mb={0} textAlign={`center`}>
               We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.
             </Text>
           </Box>

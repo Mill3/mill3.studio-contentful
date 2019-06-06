@@ -37,6 +37,10 @@ export const fontSizes = [
   96
 ]
 
+export const header = {
+  height: 146,
+}
+
 export const rebootCSS = reboot({
   fontFamilyBase: fonts.sans,
   fontFamilyMonospace: fonts.mono,
@@ -51,5 +55,6 @@ export default {
   colors,
   space,
   fonts,
-  fontSizes
+  fontSizes,
+  header
 }

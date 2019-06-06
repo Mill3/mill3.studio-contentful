@@ -59,17 +59,36 @@ class ClientsTicker extends React.Component {
     let elements = [this.listMain.current, this.listCopy.current]
 
     // add to this timeline
-    this.tl.add(
-      TweenLite.to(
-        elements,
-        duration,
-        {
-          x:"-100%",
-          ease: Linear.easeNone,
-          repeat: -1
-        }
+    if( this.props.direction === 1 ) {
+      this.tl.add(
+        TweenLite.to(
+          elements,
+          duration,
+          {
+            x:"-100%",
+            ease: Linear.easeNone,
+            repeat: -1
+          }
+        )
       )
-    )
+    }
+    else {
+      this.tl.add(
+        TweenLite.fromTo(
+          elements,
+          duration,
+          {
+            x: "-100%",
+          },
+          {
+            x:"0%",
+            ease: Linear.easeNone,
+            repeat: -1
+          }
+        )
+      )
+    }
+
   }
 
   hover(isHover) {
@@ -146,7 +165,7 @@ export default (props) => (
       }
     `}
     render={(data) => {
-      const tickers = Array(props.quantity || 3).fill().map((item, index) => <ClientsTicker data={data.allContentfulClients} key={index} />);
+      const tickers = Array(props.quantity || 3).fill().map((item, index) => <ClientsTicker data={data.allContentfulClients} direction={index % 2 ? -1 : 1} key={index} />);
 
       return (
         <Box as={ClientsTickerContainer} pt={[4]}>

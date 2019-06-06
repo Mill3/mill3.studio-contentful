@@ -34,6 +34,10 @@ const SiteHeader = styled(SiteHeaderPoses)`
   position: relative;
   z-index: 1000;
 `
+const HeaderStyle = styled.div`
+  height: ${props => props.theme.header.height}px;
+`
+
 
 const Header = ({ siteTitle, withIntro, introComponent, intl: { locale } }) => (
   <TransitionState>
@@ -58,7 +62,7 @@ const Header = ({ siteTitle, withIntro, introComponent, intl: { locale } }) => (
 
           <Container fluid className={`z-10`}>
 
-            <Flex flexWrap={`wrap`} alignItems={`center`} pt={[3,4]} pb={[3,4]}>
+            <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3,4,'62px']}>
 
               <Box width={'auto'} className={`is-relative z-20`}>
                 <h1>

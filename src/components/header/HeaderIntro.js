@@ -5,9 +5,10 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
 
+import { header } from '@styles/Theme'
+
 import {
   TRANSITION_DURATION,
-  //TRANSITION_DELAY,
   TRANSITION_EXIT_DURATION,
 } from '@utils/constants'
 
@@ -65,8 +66,8 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  padding-top: 120px;
-  top: -120px;
+  padding-top: ${header.height}px;
+  margin-top: -${header.height}px;
   position: relative;
   background: ${props => props.theme.colors.black};
   h2 {
