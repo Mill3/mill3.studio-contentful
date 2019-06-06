@@ -1,5 +1,5 @@
 import React from 'react'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import PropTypes from 'prop-types'
 import { Box, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
@@ -7,6 +7,7 @@ import posed from 'react-pose'
 import VisibilitySensor from 'react-visibility-sensor'
 
 import FigureBox from '@utils/FigureBox'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -60,6 +61,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   }
 
   a {
+    display: block;
     color: #000;
     text-decoration: none;
     &:hover {
@@ -103,10 +105,15 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 `
 
 class ProjectPreview extends React.Component {
+  static contextTypes = {
+    getScrollbar: PropTypes.func,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       reveal: false,
+      y: 0,
     }
 
     // refs
@@ -134,6 +141,18 @@ class ProjectPreview extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if( this.props.offset === 0 ) return;
+
+    this.context.getScrollbar((scrollbar) => {
+      scrollbar.addListener(({ offset }) => {
+        this.setState({
+          y: offset.y * this.props.offset,
+        })
+      });
+    });
+  }
+
   render() {
     let {
       slug,
@@ -148,7 +167,6 @@ class ProjectPreview extends React.Component {
       <VisibilitySensor
         onChange={this.onChange}
         partialVisibility={true}
-        offset={{ top: -500 }}
       >
         <Box
           as={ProjectPreviewItem}
@@ -160,13 +178,14 @@ class ProjectPreview extends React.Component {
           mb={[2, 2, '5vh']}
           {...this.props.columns}
           color={colorMain}
-          onMouseEnter={e => this.hover(true)}
-          onMouseLeave={e => this.hover(false)}
         >
           <TransitionLinkComponent
             to={`/projects/${slug}`}
             title={name}
             color={colorMain}
+            onMouseEnter={e => this.hover(true)}
+            onMouseLeave={e => this.hover(false)}
+            style={{transform: `translate3d(0, ${this.state.y}px, 0)`}}
           >
             <Box as={`figure`} mb={[4]}>
               <ProjectHoverPane color={colorMain}>
@@ -212,6 +231,7 @@ ProjectPreview.defaultProps = {
     ml: [0],
     mr: [0],
   },
+  offset: 0,
 }
 
 export default ProjectPreview

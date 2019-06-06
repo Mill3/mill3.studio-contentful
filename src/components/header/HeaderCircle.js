@@ -28,6 +28,7 @@ class HeaderCircle extends React.Component {
     this.state = {
       rotation: 3600,
     }
+    this.timeScale = { value: 1 };
     this.ref = React.createRef()
   }
 
@@ -51,15 +52,15 @@ class HeaderCircle extends React.Component {
       this.mouseWheel = Hamster(window)
 
       this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
-        this.timeline.timeScale(3.25)
+        this.timeScale.value = 3.25;
+        this.timeline.timeScale(this.timeScale.value)
 
         // reset transformation value after a few seconds
         _.debounce(() => {
-          let timeScale = { value: 3.25 }
-          TweenLite.to(timeScale, 0.75, {
+          TweenLite.to(this.timeScale, 0.75, {
             value: 1,
             onUpdate: () => {
-              this.timeline.timeScale(timeScale.value)
+              this.timeline.timeScale(this.timeScale.value)
             },
           })
         }, 750)()
