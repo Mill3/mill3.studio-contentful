@@ -3,6 +3,7 @@ import { Form, Field } from 'react-final-form'
 import { injectIntl } from 'react-intl'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
+import axios from 'axios'
 
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
@@ -45,14 +46,30 @@ const Error = ({ name }) => (
 )
 
 const ContactForm = ({int}) => {
-  const onSubmit = () => {
+  const onSubmit = (values) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(process.env.ZAPIER_HOOK, {
+          params: {
+            data: values,
+          },
+        })
+        .then(({ data }) => {
+          console.log(`Zapier response :`, data);
 
+          if( data.status === 'success' ) resolve()
+          else reject();
+        })
+        .catch((error) => {
+          reject();
+        })
+    })
   }
   const validate = (values) => {
     const errors = {};
 
-    if( !values.name ) errors.name = "Required";
-    if( !values.email ) errors.email = "Required";
+    //if( !values.name ) errors.name = "Required";
+    //if( !values.email ) errors.email = "Required";
 
     return errors;
   }
@@ -67,8 +84,8 @@ const ContactForm = ({int}) => {
           <Flex as={FormStyle} flexDirection="column" alignItems="start" pt={6} pb={4} width={`50%`} mx="auto" onSubmit={handleSubmit}>
 
             <Flex flexWrap="nowrap" alignItems="center" mb={4} width={'100%'}>
-              <Text as="label" className="h2 is-sans is-light" mb={0} mr={3} for="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
-              <Select id="type" name="type">
+              <Text as="label" className="h2 is-sans is-light" mb={0} mr={3} htmlFor="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
+              <Select id="type" name="type" defaultValue={Object.values(selectOptions).shift()}>
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
                   return <option value={key} key={index}>{value}</option>
                 })}
@@ -76,38 +93,38 @@ const ContactForm = ({int}) => {
             </Flex>
 
             <FieldGroupStyle active={true}>
-              <LabelStyle for="name">1. You should have a name</LabelStyle>
+              <LabelStyle htmlFor="name">1. You should have a name</LabelStyle>
               <Input id="name" name="name" placeholder="Type your answer here" />
               <Error name="name" />
             </FieldGroupStyle>
 
             <FieldGroupStyle>
-              <LabelStyle for="email">2. Without a dought an email</LabelStyle>
+              <LabelStyle htmlFor="email">2. Without a dought an email</LabelStyle>
               <Input id="email" name="email" type="email" placeholder="Type your answer here" />
               <Error name="email" />
             </FieldGroupStyle>
 
             <FieldGroupStyle>
-              <LabelStyle for="company">3. Possibly a company name</LabelStyle>
+              <LabelStyle htmlFor="company">3. Possibly a company name</LabelStyle>
               <Input id="company" name="company" placeholder="Type your answer here" />
             </FieldGroupStyle>
 
             <FieldGroupStyle>
-              <LabelStyle for="project-type">4. First thing first, what's your project type</LabelStyle>
+              <LabelStyle htmlFor="project-type">4. First thing first, what's your project type</LabelStyle>
               <Input id="project-type" name="project-type" placeholder="Type your answer here" />
             </FieldGroupStyle>
 
             <FieldGroupStyle>
-              <LabelStyle for="budget">5. Budget in mind</LabelStyle>
+              <LabelStyle htmlFor="budget">5. Budget in mind</LabelStyle>
               <Input id="budget" name="budget" placeholder="Type your answer here" />
             </FieldGroupStyle>
 
             <Flex alignItems="center" mb={4}>
-              <Checkbox id="subscribe" name="subscribe" value="subscribe" />
-              <Text as="label" for="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
+              <Checkbox id="subscribe" name="subscribe" value="1" />
+              <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
             </Flex>
 
-            <Button type="submit" disabled={submitting}>Send</Button>
+            <Button type="submit" disabled={submitting || pristine}>Send</Button>
 
           </Flex>
         </Container>
