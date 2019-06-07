@@ -5,8 +5,7 @@ import ProjectSingle from "@components/projects/ProjectSingle"
 
 class Preview extends Component {
 
-  static entryID = new URL(window.location.href).searchParams.get('entry')
-
+  // static entryID = new URL(window.location.href).searchParams.get('entry')
 
   constructor(props) {
     super(props);
