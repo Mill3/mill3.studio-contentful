@@ -39,6 +39,7 @@
     "react-dom": "^16.8.6",
     "react-final-form": "^6.0.1",
     "react-helmet": "^5.2.1",
+    "react-intersection-observer": "^8.23.0",
     "react-intl": "^2.9.0",
     "react-pose": "^4.0.8",
     "react-pose-text": "^3.1.0",

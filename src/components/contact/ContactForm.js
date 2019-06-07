@@ -1,5 +1,7 @@
 import React from 'react'
-import { Form, Field } from 'react-final-form'
+import PropTypes from 'prop-types'
+import { useInView } from 'react-intersection-observer'
+import { Form, Field/*, useForm*/ } from 'react-final-form'
 import { injectIntl } from 'react-intl'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
@@ -18,8 +20,9 @@ const FormStyle = styled.form`
 `
 const FieldGroupStyle = styled.div`
   width: 100%;
-  margin-bottom: ${space[6]}px;
+  padding: ${space[5]}px 0;
   opacity: ${props => props.active ? 1 : 0.33};
+  transition: opacity 350ms linear;
 `
 const LabelStyle = styled.label`
   display: block;
@@ -35,6 +38,32 @@ const selectOptions = {
   partnership: 'partnership',
 }
 
+
+const FieldGroup = ({ name, children, onScroll }) => {
+  const [ref, inView, entry] = useInView({rootMargin: '-50% 0px', threshold: 0})
+  //const formApi = useForm();
+
+  return (
+    <Field name={name} subscription={{ active: true }}>
+      {({ meta: { active } }) => {
+        if( active && !inView ) {
+          if( typeof onScroll === 'function' ) onScroll(entry.target);
+        }
+        else if( inView && !active ) {
+          console.log(`focus on ${name}`);
+          //formApi.getFieldState(name).focus();
+        }
+
+        return (
+          <FieldGroupStyle ref={ref} active={active || inView}>
+            { children }
+            <Error name={name} />
+          </FieldGroupStyle>
+        )
+      }}
+    </Field>
+  )
+}
 const Error = ({ name }) => (
   <Field
     name={name}
@@ -45,7 +74,7 @@ const Error = ({ name }) => (
   />
 )
 
-const ContactForm = ({int}) => {
+const ContactForm = (props, context) => {
   const onSubmit = (values) => {
     return new Promise((resolve, reject) => {
       axios
@@ -73,17 +102,28 @@ const ContactForm = ({int}) => {
 
     return errors;
   }
+  const onFieldScroll = (target) => {
+    if( scrollbar ) {
+      const vh = window.innerHeight * 0.5;
+      const th = target.getBoundingClientRect().height * 0.5;
+
+      scrollbar.scrollIntoView(target, {alignToTop: true, offsetTop: vh - th});
+    }
+  }
+
+  let scrollbar;
+  context.getScrollbar(s => scrollbar = s)
 
   return (
     <Form
       onSubmit={onSubmit}
       validate={validate}
-      render={({ handleSubmit, submitting, pristine, values }) => (
+      render={({ handleSubmit, submitting, values }) => (
 
         <Container fluid bg={colors.lightGray} pr={`5vw`} css={{maxWidth: '95vw', marginRight: 0}}>
           <Flex as={FormStyle} flexDirection="column" alignItems="start" pt={6} pb={4} width={`50%`} mx="auto" onSubmit={handleSubmit}>
 
-            <Flex flexWrap="nowrap" alignItems="center" mb={4} width={'100%'}>
+            <Flex flexWrap="nowrap" alignItems="center" pb={4} width={'100%'}>
               <Text as="label" className="h2 is-sans is-light" mb={0} mr={3} htmlFor="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
               <Select id="type" name="type" defaultValue={Object.values(selectOptions).shift()}>
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
@@ -92,45 +132,47 @@ const ContactForm = ({int}) => {
               </Select>
             </Flex>
 
-            <FieldGroupStyle active={true}>
+            <FieldGroup name="name" onScroll={onFieldScroll}>
               <LabelStyle htmlFor="name">1. You should have a name</LabelStyle>
               <Input id="name" name="name" placeholder="Type your answer here" />
-              <Error name="name" />
-            </FieldGroupStyle>
+            </FieldGroup>
 
-            <FieldGroupStyle>
+            <FieldGroup name="email" onScroll={onFieldScroll}>
               <LabelStyle htmlFor="email">2. Without a dought an email</LabelStyle>
               <Input id="email" name="email" type="email" placeholder="Type your answer here" />
-              <Error name="email" />
-            </FieldGroupStyle>
+            </FieldGroup>
 
-            <FieldGroupStyle>
+            <FieldGroup name="company" onScroll={onFieldScroll}>
               <LabelStyle htmlFor="company">3. Possibly a company name</LabelStyle>
               <Input id="company" name="company" placeholder="Type your answer here" />
-            </FieldGroupStyle>
+            </FieldGroup>
 
-            <FieldGroupStyle>
+            <FieldGroup name="project-type" onScroll={onFieldScroll}>
               <LabelStyle htmlFor="project-type">4. First thing first, what's your project type</LabelStyle>
               <Input id="project-type" name="project-type" placeholder="Type your answer here" />
-            </FieldGroupStyle>
+            </FieldGroup>
 
-            <FieldGroupStyle>
+            <FieldGroup name="budget" onScroll={onFieldScroll}>
               <LabelStyle htmlFor="budget">5. Budget in mind</LabelStyle>
               <Input id="budget" name="budget" placeholder="Type your answer here" />
-            </FieldGroupStyle>
+            </FieldGroup>
 
-            <Flex alignItems="center" mb={4}>
+            <Flex as={FieldGroup} alignItems="center" mt={4} mb={4} name="subscribe" onScroll={onFieldScroll}>
               <Checkbox id="subscribe" name="subscribe" value="1" />
               <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
             </Flex>
 
-            <Button type="submit" disabled={submitting || pristine}>Send</Button>
+            <Button type="submit" disabled={submitting}>Send</Button>
 
           </Flex>
         </Container>
       )}
     />
   )
+}
+
+ContactForm.contextTypes = {
+  getScrollbar: PropTypes.func,
 }
 
 export default injectIntl(ContactForm)

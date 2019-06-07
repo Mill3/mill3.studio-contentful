@@ -16,6 +16,7 @@ const InputStyle = styled(Field)`
   font-family: ${fonts.sans};
   font-weight: 300;
   width: 100%;
+  outline: none;
 
   &::placeholder {
     color: #D1D1D1;
