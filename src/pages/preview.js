@@ -11,7 +11,7 @@ class Preview extends Component {
   constructor(props) {
     super(props);
     this.state = {  }
-    console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
+    // console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
   }
   render() {
 
