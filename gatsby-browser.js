@@ -6,7 +6,7 @@
 
 // You can delete this file if you're not using it
 
-import { push } from 'gatsby'
+import { navigate } from 'gatsby'
 
 import './src/styles/fonts.css'
 
@@ -23,7 +23,7 @@ export const onInitialClientRender = () => {
 
   // on root only, redirect
   if (window.location.pathname === root) {
-    push(`${detectedLocale}/`)
+    navigate(`${detectedLocale}/`)
   }
 
 }
