@@ -9,9 +9,19 @@ class Preview extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = {
+      data: null
+    }
     // console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
   }
+
+  componentDidMount() {
+    fetch(`http://localhost:9000/.netlify/functions/preview?entry=6kSnk5ay5YfyH6sSarl6ep`)
+      .then((data) => {
+        console.log('data:', data)
+      })
+  }
+
   render() {
 
     const pageContext = {
@@ -21,7 +31,9 @@ class Preview extends Component {
     return (
       <div>
         for previewing..
-        {/* <ProjectSingle pageContext={pageContext} /> */}
+        {this.state.data &&
+          <ProjectSingle pageContext={pageContext} project={this.state.data} />
+        }
       </div>
     );
   }

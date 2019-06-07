@@ -93,6 +93,7 @@ const ContactForm = (props, context) => {
     return errors;
   }
   const onScroll = () => {
+    console.log('scroll scrolling');
   }
 
   /*
