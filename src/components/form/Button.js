@@ -15,6 +15,7 @@ const ButtonStyle = styled.button`
   font-weight: 300;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
+  outline: none !important;
 
   span {
     display: block;
@@ -22,7 +23,8 @@ const ButtonStyle = styled.button`
     transition: transform 0.25s;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${props => props.theme.colors.black};
     transform: rotate3d(1,1,1,-2.74deg);
 
