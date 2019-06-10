@@ -35,6 +35,7 @@
     "hamsterjs": "^1.1.3",
     "popmotion": "^8.6.10",
     "prop-types": "^15.7.2",
+    "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-final-form": "^6.0.1",
@@ -67,8 +68,6 @@
     "netlify-cli": "^2.11.22",
     "netlify-lambda": "^1.4.13",
     "prettier": "^1.15.2",
-    "ramda": "^0.26.1",
-    "roarr": "^2.13.2"
   },
   "repository": {
     "type": "git",
