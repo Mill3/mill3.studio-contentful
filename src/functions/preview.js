@@ -23,21 +23,28 @@ const toTitleCase = (str) => {
   );
 }
 
-const formContentRow = (row) => {
-  // console.warn('row:', row)
+const contentRowFormatter = (row) => {
   let type = row.sys.contentType.sys.id
-  let contentfulTypeName = `Contentful${toTitleCase(type)}`
-  let rowFields = row.fields
 
+    // get all fields
+  let { fields } = row
+
+   // Match internal Gatsby's name
   // convert Contentful raw type to Gatsby Graphql type
-  rowFields['__typename'] = contentfulTypeName
+  let contentfulTypeName = `Contentful${toTitleCase(type)}`
+  fields['__typename'] = contentfulTypeName
 
-  Object.entries(rowFields).map(row => {
+  // loop each field
+  Object.entries(fields).map(row => {
     const [type, value] = row
 
     // map RichText editor text value matching our GraphQL query
     if (contentfulTypeName === 'ContentfulContentText' && type == 'text') {
-      return (rowFields[type] = {"text": value.content})
+      return (fields[type] = {"text": value.content})
+    }
+
+    if (contentfulTypeName === 'ContentfulContentImages' && type == 'overlayImage') {
+      return (fields[type] = { file: value.fields.file })
     }
 
     if (contentfulTypeName === 'ContentfulContentImages' && type == 'medias') {
@@ -46,12 +53,12 @@ const formContentRow = (row) => {
         medias.push(media[1].fields)
       })
       // push new formatted array
-      return (rowFields[type] = medias)
+      return (fields[type] = medias)
     }
   })
 
-  // default return
-  return rowFields
+  // return fields back
+  return fields
 }
 
 
@@ -75,7 +82,7 @@ export async function handler(event, context) {
   // get entry model
   model = entry.sys.contentType.sys.id
 
-  // loop each fields
+  // loop each first level fields
   Object.entries(entry.fields).map(entryField => {
     const [type, value] = entryField
     const isObject = is(Object, value)
@@ -98,11 +105,13 @@ export async function handler(event, context) {
     }
 
     if (isObject && type === 'contentRows') {
+      // start fresh for contentRows
       let data = []
 
       value.forEach((row, index) => {
         try {
-          data.push(formContentRow(row))
+          // reformat data using our
+          data.push(contentRowFormatter(row))
         } catch (e) {
           console.error(e)
         }
