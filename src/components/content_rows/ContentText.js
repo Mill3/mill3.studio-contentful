@@ -41,7 +41,6 @@ const options = {
 
 export const format = json => {
   let parsedJSON = is(String, json) ? JSON.parse(json) : ({ content : json})
-  console.log('parsedJSON:', parsedJSON)
   return documentToReactComponents(parsedJSON, options)
 }
 

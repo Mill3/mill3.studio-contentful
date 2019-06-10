@@ -123,7 +123,8 @@ const ContentImages = ({ data }) => {
     <RowContainer alignContent={data.alignContent}>
       <Box
         as={Grid}
-        mb={VERTICAL_SPACER}
+        mt={data.gaplessGrid ? 0 : VERTICAL_SPACER}
+        mb={data.gaplessGrid ? 0 : VERTICAL_SPACER}
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}

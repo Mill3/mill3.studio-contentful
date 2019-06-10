@@ -14,10 +14,9 @@ class Preview extends Component {
     this.state = {
       data: null
     }
-    this.entryID = getContentfulEntryID()
+    this.interval = null
     this.update = this.update.bind(this)
-    console.log('this.entryID:', this.entryID)
-    // console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
+    this.entryID = getContentfulEntryID()
   }
 
   update() {
@@ -36,9 +35,13 @@ class Preview extends Component {
   componentDidMount() {
     this.update()
     // start an interval refreshing data every 5 sec.
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.update()
     }, 5000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   render() {
