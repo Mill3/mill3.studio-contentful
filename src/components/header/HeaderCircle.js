@@ -46,7 +46,7 @@ class HeaderCircle extends React.Component {
   }
 
   mouse() {
-    if (typeof window == 'object') {
+    if (typeof window === 'object') {
       const Hamster = require('hamsterjs')
 
       this.mouseWheel = Hamster(window)

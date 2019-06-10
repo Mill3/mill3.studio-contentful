@@ -128,23 +128,28 @@ class HeaderIntro extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.onResize)
+    if (typeof window === 'object') {
+      window.addEventListener('resize', this.onResize)
 
-    this.context.getScrollbar(scrollbar => {
-      this.scrollbar = scrollbar
-      this.scrollbar.addListener(this.onScroll)
-    })
+      this.context.getScrollbar(scrollbar => {
+        this.scrollbar = scrollbar
+        this.scrollbar.addListener(this.onScroll)
+      })
+    }
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize)
+    if (typeof window === 'object') {
+      window.removeEventListener('resize', this.onResize)
 
-    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
+      if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+      this.scrollbar = null
+    }
   }
 
   onResize() {
-    this.vh = window.innerHeight * 0.7
+    this.vh = typeof window === 'object' ? window.innerHeight * 0.7 : null
   }
+
   onScroll({ offset: { y } }) {
     this.setState({
       x: y / this.vh,
