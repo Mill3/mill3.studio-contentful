@@ -16,9 +16,14 @@ class Preview extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:9000/.netlify/functions/preview?entry=6kSnk5ay5YfyH6sSarl6ep`)
-      .then((data) => {
-        console.log('data:', data)
+    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=6kSnk5ay5YfyH6sSarl6ep`)
+      .then(response => response.json())
+      .then(node => {
+        this.setState({
+          data: {
+            project: node.data
+          }
+        })
       })
   }
 
@@ -30,9 +35,9 @@ class Preview extends Component {
 
     return (
       <div>
-        for previewing..
+        {/* for previewing.. */}
         {this.state.data &&
-          <ProjectSingle pageContext={pageContext} project={this.state.data} />
+          <ProjectSingle pageContext={pageContext} data={this.state.data} />
         }
       </div>
     );

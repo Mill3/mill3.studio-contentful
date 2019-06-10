@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import { createClient } from "contentful"
-import { is } from 'ramda'
+import { is, drop } from 'ramda'
+import log from 'roarr'
 
 dotenv.config()
 // import { last } from "lodash"
@@ -28,6 +29,46 @@ export const getContentfulEntryID = () => {
   }
 }
 
+const toTitleCase = (str) => {
+  return str.replace(
+      /\w\S*/g,
+      function(txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1);
+      }
+  );
+}
+
+const formContentRow = (row) => {
+  // console.warn('row:', row)
+  let type = row.sys.contentType.sys.id
+  let contentfulTypeName = `Contentful${toTitleCase(type)}`
+  let rowFields = row.fields
+
+  // convert Contentful raw type to Gatsby Graphql type
+  rowFields['__typename'] = contentfulTypeName
+
+  Object.entries(rowFields).map(row => {
+    const [type, value] = row
+
+    // map RichText editor text value matching our GraphQL query
+    if (contentfulTypeName === 'ContentfulContentText' && type == 'text') {
+      return (rowFields[type] = {"text": value.content})
+    }
+
+    if (contentfulTypeName === 'ContentfulContentImages' && type == 'medias') {
+      let medias = []
+      Object.entries(value).map((media, index) => {
+        medias.push(media[1].fields)
+      })
+      // push new formatted array
+      return (rowFields[type] = medias)
+    }
+  })
+
+  // default return
+  return rowFields
+}
+
 
 export async function handler(event, context) {
   const queryParams = event.queryStringParameters
@@ -43,14 +84,18 @@ export async function handler(event, context) {
   let entry, model
   let fields = {}
 
+  // find entry
   entry = entries.items.find(item => item.sys.id === entryId)
+
+  // get entry model
   model = entry.sys.contentType.sys.id
 
+  // loop each fields
   Object.entries(entry.fields).map(entryField => {
     const [type, value] = entryField
-    // console.log('type, value:', type)
+    // console.log('type:', type)
     const isObject = is(Object, value)
-    // console.log('isObject:', isObject)
+    const isString = is(String, value)
 
     if (isObject && (type === 'imageMain' || type === 'imageHover')) {
       return (fields[type] = { file: value.fields.file })
@@ -64,23 +109,25 @@ export async function handler(event, context) {
       return (fields[type] = { file: value.fields.file })
     }
 
-    if (isObject && type === 'contentRows') {
-      entryField[1].forEach(row => {
-        console.log(`------------------`)
-        // console.warn('row:', row)
-        console.warn('row:', row.sys.contentType.sys.id)
-        console.warn('row:', row.fields)
-        console.log(`------------------`)
-      });
-      // console.log(Object.entries(entryField));
-      // console.log(`entry fields :`, entryField)
-      // Object.entries(entryField).map(row => {
-      //   // console.log(row);
-      //   console.log('contentRow:', row)
-      // })
-      // return (fields[type] = { file: value.fields.file })
+    if (isString && type === 'subHeading') {
+      return (fields[type] = {'subHeading': value })
     }
 
+    if (isObject && type === 'contentRows') {
+      let data = []
+
+      value.forEach((row, index) => {
+        try {
+          data.push(formContentRow(row))
+        } catch (e) {
+          console.error(e)
+        }
+      });
+
+      return (fields[type] = data)
+    }
+
+    // return unchanged field by default
     return (fields[type] = value)
   })
 
@@ -88,9 +135,9 @@ export async function handler(event, context) {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      fields
+      data: fields,
+      id: entryId,
       // Fields that are calculated during createPages we have to do manually here
-      // id: entryId,
       // postDate: '< Date of post >',
       // pathPrefix: modelToUrl[model],
       // node_locale: 'en',

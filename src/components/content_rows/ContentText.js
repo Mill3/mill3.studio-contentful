@@ -1,4 +1,5 @@
 import React from 'react'
+import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Box } from 'rebass'
@@ -39,7 +40,8 @@ const options = {
 }
 
 export const format = json => {
-  let parsedJSON = JSON.parse(json)
+  let parsedJSON = is(String, json) ? JSON.parse(json) : ({ content : json})
+  console.log('parsedJSON:', parsedJSON)
   return documentToReactComponents(parsedJSON, options)
 }
 
@@ -63,7 +65,8 @@ const postBody = styled.div`
 const ContentText = ({ data }) => {
   return (
     <Box as={postBody} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
-      {format(data.text.text)}
+      {/* {data} */}
+      {(data.text.text) ? format(data.text.text) : ''}
     </Box>
   )
 }

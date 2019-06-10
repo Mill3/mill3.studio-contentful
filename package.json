@@ -67,7 +67,8 @@
     "netlify-cli": "^2.11.22",
     "netlify-lambda": "^1.4.13",
     "prettier": "^1.15.2",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "roarr": "^2.13.2"
   },
   "repository": {
     "type": "git",

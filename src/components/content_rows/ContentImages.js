@@ -91,18 +91,16 @@ class ContentImage extends React.Component {
             pose={this.reveal(isVisible)}
             m="0"
           >
-            {getContentType(img.file.contentType) ===
-              CONTENT_TYPES['image'] && (
+            {getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
               <MediaItemImg
-                src={img.fluid.src}
-                srcSet={img.fluid.srcSet}
+                src={img.fluid ? img.fluid.src : img.file.url}
+                // srcSet={img.fluid.srcSet || []}
                 className="img-fluid"
                 alt={`${img.description || img.id}`}
               />
             )}
 
-            {getContentType(img.file.contentType) ===
-              CONTENT_TYPES['video'] && (
+            {getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
               <MediaItemVideo autoPlay loop playsInline muted>
                 <source src={img.file.url} type={img.file.contentType} />
               </MediaItemVideo>
