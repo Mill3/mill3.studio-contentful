@@ -136,7 +136,7 @@ class HeaderIntro extends Component {
     this.scrollbar = null
   }
 
-  onScroll({ offset: { y } }) {    
+  onScroll({ offset: { y } }) {
     this.setState({
       x: y / Viewport.height * 0.7,
       y: y * 0.4,

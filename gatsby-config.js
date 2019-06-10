@@ -1,9 +1,21 @@
-let dotenv = require("dotenv")
+let dotenv = require('dotenv')
+let proxy = require('http-proxy-middleware')
 
 // import .env const
 dotenv.config()
 
 module.exports = {
+  developMiddleware: app => {
+    app.use(
+      '/.netlify/functions/',
+      proxy({
+        target: 'http://localhost:9000',
+        pathRewrite: {
+          '/.netlify/functions/': '',
+        },
+      })
+    )
+  },
   siteMetadata: {
     title: `MILL3 Studio`,
     description: `Mill3 is a digital studio established in Montréal and specialized in strategy, design & web development.`,
@@ -15,7 +27,14 @@ module.exports = {
     {
       resolve: `gatsby-plugin-env-variables`,
       options: {
-        whitelist: ["CONTENTFUL_HOST", "CONTENTFUL_SPACE_ID", "CONTENTFUL_ACCESS_TOKEN", "CONTENTFUL_ENVIRONMENT", "ZAPIER_HOOK"]
+        whitelist: [
+          'CONTENTFUL_HOST',
+          'CONTENTFUL_SPACE_ID',
+          'CONTENTFUL_ACCESS_TOKEN',
+          'CONTENTFUL_ENVIRONMENT',
+          'ZAPIER_HOOK',
+          'PREVIEW_URL_PROJECTS',
+        ],
       },
     },
     {
@@ -56,10 +75,10 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-transition-link",
+      resolve: 'gatsby-plugin-transition-link',
       options: {
         layout: require.resolve(`./src/layout`),
-      }
+      },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline

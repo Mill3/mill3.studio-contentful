@@ -82,7 +82,7 @@ const Layout = ({ locale, withIntro, introComponent, children }) => (
                 thumbMinSize={55}
                 alwaysShowTracks={false}
                 continuousScrolling={true}
-                onScroll={() => window.dispatchEvent(SCROLL_EVENT)}
+                onScroll={() => if (typeof window === 'object') window.dispatchEvent(SCROLL_EVENT)}
               >
 
                 <TransitionState>

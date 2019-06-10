@@ -4,14 +4,18 @@ const Viewport = (() => {
     height = window.innerHeight
   }
 
-  let width, height;
-  window.addEventListener('resize', onResize);
-  onResize();
+  let width = 0
+  let height = 0
+
+  if (typeof window === 'object') {
+    window.addEventListener('resize', onResize)
+    onResize()
+  }
 
   return {
     width,
     height,
   }
-})();
+})()
 
 export default Viewport
