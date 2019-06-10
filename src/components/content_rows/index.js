@@ -32,7 +32,7 @@ export const VERTICAL_SPACER = [4,5,6]
 // gutter between each grid elements
 export const GRID_GUTTER = 25
 
-export const RowContainer = ({alignContent, children}) => {
+export const RowContainer = ({alignContent, backgroundColor, children}) => {
   const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
   const responsiveGap = [`${GRID_GUTTER}px`, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
 
@@ -41,7 +41,7 @@ export const RowContainer = ({alignContent, children}) => {
   let pr = alignContent === ALIGN_VALUES['right'] ? responsiveGap : [0]
 
   return (
-    <Wrapper pl={pl} pr={pr} alignContent={`center`}>
+    <Wrapper pl={pl} pr={pr} alignContent={`center`} backgroundColor={backgroundColor ? backgroundColor : `transparent`}>
       {children}
     </Wrapper>
   )

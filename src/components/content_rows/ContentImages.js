@@ -120,11 +120,12 @@ class ContentImage extends React.Component {
 
 const ContentImages = ({ data }) => {
   return (
-    <RowContainer alignContent={data.alignContent}>
+    <RowContainer alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
       <Box
         as={Grid}
+        py={data.backgroundColor ? VERTICAL_SPACER : 0}
         mt={data.gaplessGrid ? 0 : VERTICAL_SPACER}
-        mb={data.gaplessGrid ? 0 : VERTICAL_SPACER}
+        mb={data.noBottomMargin ? 0 : VERTICAL_SPACER}
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}
@@ -143,6 +144,8 @@ export const ContentImagesFragement = graphql`
     alignContent
     alignVertical
     gaplessGrid
+    noBottomMargin
+    backgroundColor
     medias {
       id
       description

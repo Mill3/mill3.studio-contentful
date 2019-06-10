@@ -63,9 +63,11 @@ const postBody = styled.div`
 
 const ContentText = ({ data }) => {
   return (
-    <Box as={postBody} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
-      {/* {data} */}
-      {(data.text.text) ? format(data.text.text) : ''}
+    <Box backgroundColor={data.backgroundColor} pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
+      <Box as={postBody} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
+        {/* {data} */}
+        {(data.text.text) ? format(data.text.text) : ''}
+      </Box>
     </Box>
   )
 }
@@ -76,6 +78,7 @@ export const ContentTextFragement = graphql`
   fragment ContentTextFragement on ContentfulContentText {
     id
     title
+    backgroundColor
     text {
       text
     }
