@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 import posed from 'react-pose'
@@ -75,13 +76,28 @@ const Header = styled(HeaderIntroPoses)`
     line-height: 1.2;
   }
 `
+const TextWrapper = styled(Flex)`
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  overflow: hidden;
+`
+const TextWrapperCopy = styled(Flex)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: ${header.height}px;
+  height: 100%;
+  color: ${props => props.theme.colors.black};
+  z-index: 1;
+`
 
 const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => TRANSITION_DURATION * 1500 + charIndex * 30,
+    delay: ({ charIndex }) => TRANSITION_DURATION * 2 * 1000 + charIndex * 30,
     transition: {
       y: {
         type: 'spring',
@@ -92,58 +108,133 @@ const charPoses = {
 
 const fontSizes = [4, 4, '5.75vw']
 
-const HeaderIntro = ({ transitionStatus, intl }) => {
-  return (
-    <Flex
-      alignItems={`center`}
-      as={Header}
-      initialPose={`init`}
-      pose={`entered`}
-      className={`z-negative`}
-    >
-      <Box _pl={[`5vw`, `5vw`]} width={`100%`}>
-        <Text
-          as={`h2`}
-          fontSize={fontSizes}
-          textAlign="center"
-          className={`is-serif fw-200`}
-        >
-          <SplitText
-            initialPose={`exit`}
-            pose={
-              ['entering', 'entered', 'POP'].includes(transitionStatus)
-                ? `enter`
-                : `exit`
-            }
-            charPoses={charPoses}
-          >
-            {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
-          </SplitText>
-        </Text>
+class HeaderIntro extends Component {
+  static contextTypes = {
+    getScrollbar: PropTypes.func,
+  }
 
-        <Text
-          as={`h2`}
-          fontSize={fontSizes}
-          textAlign="center"
-          className={`is-normal is-sans fw-300`}
-        >
-          <SplitText
-            initialPose={`exit`}
-            pose={
-              ['entering', 'entered', 'POP'].includes(transitionStatus)
-                ? `enter`
-                : `exit`
-            }
-            charPoses={charPoses}
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      x: 0.0,
+      y: 0.0,
+    }
+
+    this.onResize = this.onResize.bind(this)
+    this.onScroll = this.onScroll.bind(this)
+
+    this.onResize();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onResize)
+
+    this.context.getScrollbar(scrollbar => {
+      this.scrollbar = scrollbar
+      this.scrollbar.addListener(this.onScroll)
+    })
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
+
+    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+    this.scrollbar = null
+  }
+
+  onResize() {
+    this.vh = window.innerHeight * 0.7
+  }
+  onScroll({ offset: { y } }) {
+    this.setState({
+      x: y / this.vh,
+      y: y * 0.4,
+    })
+  }
+
+  render() {
+    const { transitionStatus, intl } = this.props;
+    const { x, y } = this.state;
+
+    return (
+      <Box
+        as={Header}
+        initialPose={`init`}
+        pose={`entered`}
+        className={`z-negative`}
+      >
+        <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`}>
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            textAlign="center"
+            className={`is-serif fw-200`}
+            style={{transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0)`}}
           >
-            {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
-          </SplitText>
-        </Text>
+            <SplitText
+              initialPose={`exit`}
+              pose={
+                ['entering', 'entered', 'POP'].includes(transitionStatus)
+                  ? `enter`
+                  : `exit`
+              }
+              charPoses={charPoses}
+            >
+              {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
+            </SplitText>
+          </Text>
+
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            textAlign="center"
+            className={`is-normal is-sans fw-300`}
+            style={{transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0)`}}
+          >
+            <SplitText
+              initialPose={`exit`}
+              pose={
+                ['entering', 'entered', 'POP'].includes(transitionStatus)
+                  ? `enter`
+                  : `exit`
+              }
+              charPoses={charPoses}
+            >
+              {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
+            </SplitText>
+          </Text>
+        </Flex>
+
+        <Flex as={TextWrapperCopy} flexDirection={`column`} justifyContent={`center`} width={`100%`}>
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            textAlign="center"
+            className={`is-serif fw-200`}
+            style={{transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0)`}}
+          >
+            <SplitText>
+              {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
+            </SplitText>
+          </Text>
+
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            textAlign="center"
+            className={`is-normal is-sans fw-300`}
+            style={{transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0)`}}
+          >
+            <SplitText>
+              {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
+            </SplitText>
+          </Text>
+        </Flex>
+
+        <HeaderCircle />
       </Box>
-
-      <HeaderCircle />
-    </Flex>
-  )
+    )
+  }
 }
 
 export default injectIntl(HeaderIntro)
