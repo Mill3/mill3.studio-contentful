@@ -67,7 +67,7 @@
   "devDependencies": {
     "netlify-cli": "^2.11.22",
     "netlify-lambda": "^1.4.13",
-    "prettier": "^1.15.2",
+    "prettier": "^1.15.2"
   },
   "repository": {
     "type": "git",
