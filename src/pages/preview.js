@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
 
+import { getContentfulEntryID } from "@utils/ContentfulClient"
+
 import ProjectSingle from "@components/projects/ProjectSingle"
 
 class Preview extends Component {
@@ -12,11 +14,13 @@ class Preview extends Component {
     this.state = {
       data: null
     }
+    this.entryID = getContentfulEntryID()
+    console.log('this.entryID:', this.entryID)
     // console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
   }
 
   componentDidMount() {
-    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=6kSnk5ay5YfyH6sSarl6ep`)
+    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}`)
       .then(response => response.json())
       .then(node => {
         this.setState({

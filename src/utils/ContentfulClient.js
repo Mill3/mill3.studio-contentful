@@ -17,7 +17,7 @@ export const getContentfulEntryID = () => {
 
     // get id from param URL or ID route
     let id =
-      queryString.parse(window.location.search).id ||
+      queryString.parse(window.location.search).entry ||
       last(window.location.pathname.split(`/`))
     return id
   } else {
