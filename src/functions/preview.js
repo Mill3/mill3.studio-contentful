@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import { createClient } from "contentful"
-import { is, drop } from 'ramda'
-import log from 'roarr'
+import { is } from 'ramda'
 
 dotenv.config()
 // import { last } from "lodash"
@@ -14,20 +13,6 @@ const client = createClient({
   environment: process.env.CONTENTFUL_ENVIRONMENT,
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 })
-
-export const getContentfulEntryID = () => {
-  if (typeof window !== `undefined`) {
-    const queryString = require(`query-string`)
-
-    // get id from param URL or ID route
-    let id =
-      queryString.parse(window.location.search).id ||
-      last(window.location.pathname.split(`/`))
-    return id
-  } else {
-    return null
-  }
-}
 
 const toTitleCase = (str) => {
   return str.replace(
@@ -72,13 +57,13 @@ const formContentRow = (row) => {
 
 export async function handler(event, context) {
   const queryParams = event.queryStringParameters
-  // console.log('queryParams:', queryParams)
   const entryId = queryParams.entry
-  // console.log('entryId:', entryId)
+  const locale = queryParams.locale || 'en'
 
   const entries = await client.getEntries({
     include: 10,
     limit: 1000,
+    locale: locale
   })
 
   let entry, model
@@ -93,7 +78,6 @@ export async function handler(event, context) {
   // loop each fields
   Object.entries(entry.fields).map(entryField => {
     const [type, value] = entryField
-    // console.log('type:', type)
     const isObject = is(Object, value)
     const isString = is(String, value)
 

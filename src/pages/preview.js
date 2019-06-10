@@ -15,12 +15,14 @@ class Preview extends Component {
       data: null
     }
     this.entryID = getContentfulEntryID()
+    this.update = this.update.bind(this)
     console.log('this.entryID:', this.entryID)
     // console.log('entryID:', new URL(window.location.href).searchParams.get('entry'))
   }
 
-  componentDidMount() {
-    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}`)
+  update() {
+    console.log(`this should fetch for new data`);
+    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}&locale=${this.props.pageContext.locale}`)
       .then(response => response.json())
       .then(node => {
         this.setState({
@@ -31,10 +33,18 @@ class Preview extends Component {
       })
   }
 
+  componentDidMount() {
+    this.update()
+    // start an interval refreshing data every 5 sec.
+    setInterval(() => {
+      this.update()
+    }, 5000)
+  }
+
   render() {
 
     const pageContext = {
-      locale: 'en'
+      locale: this.props.pageContext.locale
     }
 
     return (
