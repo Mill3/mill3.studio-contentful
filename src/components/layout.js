@@ -29,6 +29,7 @@ import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
 const messages = {en, fr}
+const SCROLL_EVENT = new Event('scroll')
 
 addLocaleData([...enData, ...frData])
 
@@ -81,6 +82,7 @@ const Layout = ({ locale, withIntro, introComponent, children }) => (
                 thumbMinSize={55}
                 alwaysShowTracks={false}
                 continuousScrolling={true}
+                onScroll={() => window.dispatchEvent(SCROLL_EVENT)}
               >
 
                 <TransitionState>

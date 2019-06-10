@@ -7,6 +7,7 @@ import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
 
 import { header } from '@styles/Theme'
+import Viewport from '@utils/Viewport'
 
 import {
   TRANSITION_DURATION,
@@ -121,33 +122,23 @@ class HeaderIntro extends Component {
       y: 0.0,
     }
 
-    this.onResize = this.onResize.bind(this)
     this.onScroll = this.onScroll.bind(this)
-
-    this.onResize();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.onResize)
-
     this.context.getScrollbar(scrollbar => {
       this.scrollbar = scrollbar
       this.scrollbar.addListener(this.onScroll)
     })
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize)
-
     if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
   }
 
-  onResize() {
-    this.vh = window.innerHeight * 0.7
-  }
-  onScroll({ offset: { y } }) {
+  onScroll({ offset: { y } }) {    
     this.setState({
-      x: y / this.vh,
+      x: y / Viewport.height * 0.7,
       y: y * 0.4,
     })
   }

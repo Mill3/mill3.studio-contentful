@@ -32,7 +32,7 @@ class ProjectsHome extends React.Component {
   list() {
     if (this.props.data) {
       return this.props.data.edges.map((project, index) =>
-        <ProjectPreview key={index} index={index} project={project} columns={ProjectHomeCol(index)} offset={index % 2 ? -0.1 : 0} />
+        <ProjectPreview key={index} index={index} project={project} columns={ProjectHomeCol(index)} offset={index % 2 ? 120 : 0} />
       )
     }
   }

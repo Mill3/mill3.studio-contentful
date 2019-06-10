@@ -43,6 +43,7 @@
     "react-intl": "^2.9.0",
     "react-pose": "^4.0.8",
     "react-pose-text": "^3.1.0",
+    "react-scroll-percentage": "^4.0.7",
     "react-smooth-scrollbar": "^8.0.6",
     "react-visibility-sensor": "^5.0.2",
     "rebass": "^3.1.1",
