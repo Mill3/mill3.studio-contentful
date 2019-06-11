@@ -1,11 +1,10 @@
-import React from 'react'
-import { Field } from 'react-final-form'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 
 import { colors } from '@styles/Theme'
 
 
-const CheckboxStyle = styled(Field)`
+const CheckboxStyle = styled.input`
   appearance: none;
   margin: 0 1em 0 0;
   width: 28px;
@@ -22,8 +21,8 @@ const CheckboxStyle = styled(Field)`
   }
 `
 
-const Checkbox = (props) => (
-  <CheckboxStyle component="input" type="checkbox" {...props} />
-)
+const Checkbox = forwardRef((props, ref) => (
+  <CheckboxStyle ref={ref} type="checkbox" {...props} />
+))
 
 export default Checkbox

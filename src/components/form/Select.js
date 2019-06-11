@@ -1,11 +1,10 @@
-import React from 'react'
-import { Field } from 'react-final-form'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 
 import { colors, fonts, fontSizes } from '@styles/Theme'
 
 
-const SelectStyle = styled(Field)`
+const SelectStyle = styled.select`
   appearance: none;
   border: none;
   border-bottom: 2px solid #D1D1D1;
@@ -29,10 +28,10 @@ const SelectStyle = styled(Field)`
 `
 
 
-const Select = (props) => (
-  <SelectStyle {...props} component="select">
+const Select = forwardRef((props, ref) => (
+  <SelectStyle ref={ref} {...props}>
     {props.children}
   </SelectStyle>
-)
+))
 
 export default Select

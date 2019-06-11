@@ -1,12 +1,10 @@
-import React from 'react'
-import { Field } from 'react-final-form'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 
 import { colors, fonts, fontSizes } from '@styles/Theme'
 
 
-
-const InputStyle = styled(Field)`
+const InputStyle = styled.input`
   color: ${colors.black};
   background: none;
   border: none;
@@ -21,12 +19,15 @@ const InputStyle = styled(Field)`
   &::placeholder {
     color: #D1D1D1;
   }
+  &:invalid {
+    border-bottom-color: ${colors.blue};
+  }
 `
 
-const Input = (props) => {
+const Input = forwardRef((props, ref) => {
   return (
-    <InputStyle component="input" type="text" {...props} />
+    <InputStyle ref={ref} type="text" {...props} />
   )
-}
+})
 
 export default Input
