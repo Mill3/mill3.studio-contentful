@@ -4,7 +4,13 @@ import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
 
 const FooterContainer = styled.footer`
-  /* border: 1px solid rebeccapurple; */
+  font-size: 18px;
+
+  h3, p {
+    &:not([font-size]) {
+      font-size: inherit;
+    }
+  }
 `
 
 const Footer = () => {
