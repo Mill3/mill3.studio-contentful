@@ -44,6 +44,7 @@
     "react-player": "^1.11.0",
     "react-pose": "^4.0.8",
     "react-pose-text": "^3.1.0",
+    "react-proximity-feedback": "^1.1.0",
     "react-scroll-percentage": "^4.0.7",
     "react-smooth-scrollbar": "^8.0.6",
     "react-visibility-sensor": "^5.0.2",

@@ -56,7 +56,29 @@ const contentRowFormatter = (row) => {
       return (fields[type] = medias)
     }
 
+    //
+    // TODO: refactor me in a method
+    //
+    if (contentfulTypeName === 'ContentfulContentImages' && type == 'imageItems') {
+      let items = []
+      Object.entries(value).map((imageItem) => {
+        let fields = imageItem[1].fields
+        Object.entries(fields).map((imageItemField) => {
+          let [imageItemFieldType, imageItemFieldValue] = imageItemField
+          if (imageItemFieldType === 'media') {
+            fields[imageItemFieldType] = imageItemFieldValue.fields
+          }
+        })
+        items.push(fields)
+      })
 
+      // push new reformatted entry
+      return (fields[type] = items)
+    }
+
+    //
+    // TODO: refactor me in a method
+    //
     if (contentfulTypeName === 'ContentfulContentVideos' && type == 'videos') {
       let videos = []
       Object.entries(value).map((video, index) => {

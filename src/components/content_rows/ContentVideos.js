@@ -1,22 +1,16 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import styled from 'styled-components'
-import posed from 'react-pose'
 import { Box } from 'rebass'
-import VisibilitySensor from 'react-visibility-sensor'
+// import VisibilitySensor from 'react-visibility-sensor'
 
 import EmbeddedPlayer from '@components/player/EmbeddedPlayer'
 
-import { getContentType, CONTENT_TYPES } from '@utils'
 import {
   RowContainer,
+  Grid,
   VERTICAL_SPACER,
-  VERTICAL_ALIGN_VALUES,
-  GRID_GUTTER,
   ALIGN_VALUES,
 } from './index'
-
-import { Grid } from './ContentImages'
 
 const ContentVideos = ({ data }) => {
   return (
@@ -29,14 +23,15 @@ const ContentVideos = ({ data }) => {
         itemsPerRow={data.itemsPerRow || 1}
       >
         {data.videos && data.videos.map((video, index) => (
-          <>
+          <React.Fragment key={index}>
             {video.embeddedCode && (
               <EmbeddedPlayer
-                url={video.embeddedCode.embeddedCode}
+                key={index}
+                url={video.embeddedCode.embeddedCode || video.embeddedCode}
                 poster={video.videoPoster ? video.videoPoster.file.url : null}
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </Box>
     </RowContainer>
