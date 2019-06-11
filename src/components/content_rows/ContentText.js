@@ -16,8 +16,8 @@ const Blockquote = ({ children }) => (
   <Box
     as={`blockquote`}
     mx={[0, 0, '-5vw']}
-    mb={[2, 2, 5]}
-    color="blue"
+    mb={[2, 2, 2]}
+    // color="blue"
     className="is-serif is-center"
   >
     {children}
@@ -54,19 +54,30 @@ const postBody = styled.div`
   h5 {
     font-weight: 500;
     margin-bottom: 2rem;
+    color: ${props => props.textColor ? props.textColor : `inherit`};
   }
 
   p {
     margin-bottom: 2rem;
+    color: ${props => props.textColor ? props.textColor : `inherit`};
   }
+
+  a {
+    color: ${props => props.textColor ? props.textColor : `inherit`};
+  }
+
+  /* paragraph following a blockquote  */
+  blockquote + p {
+    text-align: center;
+  }
+
 `
 
 const ContentText = ({ data }) => {
   return (
     <Box backgroundColor={data.backgroundColor} pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
-      <Box as={postBody} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
-        {/* {data} */}
-        {(data.text.text) ? format(data.text.text) : ''}
+      <Box as={postBody} textColor={data.textColor ? data.textColor: false} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
+        {format(data.text.text)}
       </Box>
     </Box>
   )
@@ -78,6 +89,7 @@ export const ContentTextFragement = graphql`
   fragment ContentTextFragement on ContentfulContentText {
     id
     title
+    textColor
     backgroundColor
     text {
       text

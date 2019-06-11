@@ -55,6 +55,31 @@ const contentRowFormatter = (row) => {
       // push new formatted array
       return (fields[type] = medias)
     }
+
+
+    // if (contentfulTypeName === 'ContentfulContentVideos' && type == 'videos') {
+    //   let medias = []
+    //   Object.entries(value).map((media) => {
+    //     // console.log('video:', media)
+    //     // let entry = {}
+    //     Object.entries(media[1].fields).map((field) => {
+    //       // console.log('field:', field)
+    //       let [fieldType, fieldValue] = field
+    //       console.log('fieldType, fieldValue:', fieldType, fieldValue)
+    //       if (fieldType === 'videoPoster') {
+    //         console.log('should alter me videoPoster', fieldValue)
+    //         return (value[fieldType] = { file: fieldValue })
+    //       }
+
+    //       return (value[fieldType] = fieldValue)
+    //     })
+
+    //     // medias.push(entry)
+    //   })
+
+    //   return (fields[type] = value)
+    // }
+
   })
 
   // return fields back
@@ -130,10 +155,6 @@ export async function handler(event, context) {
     body: JSON.stringify({
       data: fields,
       id: entryId,
-      // Fields that are calculated during createPages we have to do manually here
-      // postDate: '< Date of post >',
-      // pathPrefix: modelToUrl[model],
-      // node_locale: 'en',
     }),
   }
 };

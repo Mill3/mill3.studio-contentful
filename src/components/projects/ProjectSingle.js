@@ -54,6 +54,9 @@ export const projectQuery = graphql`
         ... on ContentfulContentImages {
           ...ContentImagesFragement
         }
+        ... on ContentfulContentVideos {
+          ...ContentVideosFragement
+        }
       }
     }
   }

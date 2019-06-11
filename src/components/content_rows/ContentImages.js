@@ -19,41 +19,39 @@ const ContentImage = ({ img, index }) => {
   return (
     <VisibilitySensor
       // this lock the visibily effect once its set to true
-      // default is false, set value event, then always set to true
+      // default is false, set value from onChange event, then always set to true
       onChange={e => setVisible(!visible ? e : true)}
       partialVisibility={true}
       offset={{ top: -50 }}
     >
-      {({ isVisible }) => (
-        <Box
-          as={ContentImagePoses}
-          index={index}
-          initialPose={'hidden'}
-          pose={visible ? 'visible' : 'hidden'}
-          m="0"
-        >
-          {getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-            <img
-              src={img.fluid ? img.fluid.src : img.file.url}
-              srcSet={img.fluid ? img.fluid.srcSet : null}
-              className="img-fluid"
-              alt={`${img.description || img.id}`}
-            />
-          )}
+      <Box
+        as={ContentImagePoses}
+        index={index}
+        initialPose={'hidden'}
+        pose={visible ? 'visible' : 'hidden'}
+        m="0"
+      >
+        {getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+          <img
+            src={img.fluid ? img.fluid.src : img.file.url}
+            srcSet={img.fluid ? img.fluid.srcSet : null}
+            className="img-fluid"
+            alt={`${img.description || img.id}`}
+          />
+        )}
 
-          {getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-            <MediaItemVideo autoPlay loop playsInline muted>
-              <source src={img.file.url} type={img.file.contentType} />
-            </MediaItemVideo>
-          )}
+        {getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+          <MediaItemVideo autoPlay loop playsInline muted>
+            <source src={img.file.url} type={img.file.contentType} />
+          </MediaItemVideo>
+        )}
 
-          {img.description && (
-            <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
-              {img.description}
-            </Box>
-          )}
-        </Box>
-      )}
+        {img.description && (
+          <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
+            {img.description}
+          </Box>
+        )}
+      </Box>
     </VisibilitySensor>
   )
 }
@@ -64,18 +62,16 @@ const OverlayImage = ({ img }) => {
   return (
     <VisibilitySensor
       // this lock the visibily effect once its set to true
-      // default is false, set value event, then always set to true
+      // default is false, set value from onChange event, then always set to true
       onChange={e => setVisible(!visible ? e : true)}
       partialVisibility={true}
       offset={{ top: -500 }}
     >
-      {({ isVisible }) => (
-        <OverlayImagePoses
-          src={img.file.url}
-          initialPose={'hidden'}
-          pose={isVisible ? `visible` : 'hidden'}
-        />
-      )}
+      <OverlayImagePoses
+        src={img.file.url}
+        initialPose={'hidden'}
+        pose={visible ? `visible` : 'hidden'}
+      />
     </VisibilitySensor>
   )
 }
@@ -96,9 +92,10 @@ const ContentImages = ({ data }) => {
         alignItems={data.alignVertical}
       >
         {data.medias.map((img, index) => (
-          <ContentImage img={img} index={index} key={img.id} />
+          <ContentImage img={img} index={index} key={index} />
         ))}
-        {data.overlayImage && <OverlayImage img={data.overlayImage} />}
+        {/* add extra image on top */}
+        {data.overlayImage && <OverlayImage img={data.overlayImage} className="img-fluid" />}
       </Box>
     </RowContainer>
   )
@@ -107,7 +104,7 @@ const ContentImages = ({ data }) => {
 export default ContentImages
 
 //
-// Plaece styled-components here (or any related logic function)
+// Place styled-components here (or any related logic function)
 //
 
 const GridColums = itemsPerRow => {
@@ -118,7 +115,7 @@ const GridColums = itemsPerRow => {
   return new Array(rows).map((item, index) => index).join('1fr ')
 }
 
-const Grid = styled.div`
+export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${GRID_GUTTER}px`)};
@@ -162,6 +159,7 @@ const OverlayImagePoses = posed.img({
     left: `50%`,
     y: `0%`,
     x: `-50%`,
+    zIndex: 10
   },
   visible: {
     opacity: 1,
