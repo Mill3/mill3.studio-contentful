@@ -1,8 +1,11 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
+import ProximityFeedback from 'react-proximity-feedback'
 import styled from 'styled-components'
-import PropTypes from "prop-types"
-import ReactPlayer from "react-player"
-import FigureBox from "@utils/FigureBox"
+import PropTypes from 'prop-types'
+import ReactPlayer from 'react-player'
+import FigureBox from '@utils/FigureBox'
+
+import Play from '@svg/Play'
 
 const PREVIEW_MODE_CLASSNAME = `in-preview`
 
@@ -11,45 +14,14 @@ class EmbeddedPlayer extends Component {
     super(props)
     this.startVideo = this.startVideo.bind(this)
     this.state = {
-      previewClassName: PREVIEW_MODE_CLASSNAME,
       playing: false,
       visible: false,
-      isstartVideo: false,
-    }
-  }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (
-  //     this.refs.player.player && this.state.playing
-  //   ) {
-  //     this.pauseVideo()
-  //   }
-  // }
-
-  poster = () => {
-    if (this.props.poster) {
-      return (
-        <PlayerPoster visible={!this.state.playing}>
-          <img src={this.props.poster} />
-        </PlayerPoster>
-      )
-    }
-  }
-
-  playButton = () => {
-    if (this.props.poster) {
-      return (
-        <PlayButton visible={!this.state.playing} onClick={() => this.startVideo()}>
-          Play
-        </PlayButton>
-      )
     }
   }
 
   startVideo = () => {
     if (this.refs.player) {
       this.setState({
-        previewClassName: ``,
         playing: true,
       })
     }
@@ -57,7 +29,6 @@ class EmbeddedPlayer extends Component {
 
   pauseVideo = () => {
     this.setState({
-      previewClassName: PREVIEW_MODE_CLASSNAME,
       playing: false,
     })
   }
@@ -77,10 +48,21 @@ class EmbeddedPlayer extends Component {
   render() {
     return (
       <>
-        <FigureBox ratio={9/16}>
+        <FigureBox ratio={9 / 16}>
           <PlayerInner>
-            {this.playButton()}
-            {this.poster()}
+            {this.props.poster &&
+              <>
+                <PlayButton
+                  visible={!this.state.playing}
+                  onClick={() => this.startVideo()}
+                >
+                  <Play />
+                </PlayButton>
+                <PlayerPoster visible={!this.state.playing}>
+                  <img src={this.props.poster} />
+                </PlayerPoster>
+              </>
+            }
             <ReactPlayer
               ref="player"
               url={this.props.url}
@@ -106,14 +88,16 @@ class EmbeddedPlayer extends Component {
           </PlayerInner>
         </FigureBox>
       </>
-
     )
   }
 }
 
 EmbeddedPlayer.propTypes = {
   url: PropTypes.string.isRequired,
-  poster: PropTypes.object,
+  poster: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 }
 
 export default EmbeddedPlayer
@@ -130,7 +114,9 @@ const PlayerPoster = styled.figure`
   width: 100%;
   height: 100%;
   z-index: 5;
-  display: ${props => props.visible ? 'block' : 'none'};
+  transition: opacity 1s;
+  opacity: ${props => (props.visible ? 1 : 0)};
+  pointer-events: ${props => (props.visible ? 'all' : 'none')};
   img {
     object-fit: cover;
     width: 100%;
@@ -143,11 +129,28 @@ export const PlayButton = styled.a`
   top: 50%;
   left: 50%;
   z-index: 10;
-  display: ${props => props.visible ? 'block' : 'none'};
+  cursor: pointer;
+  transition: opacity 1s;
+  opacity: ${props => (props.visible ? 1 : 0)};
+  pointer-events: ${props => (props.visible ? 'all' : 'none')};
+  display: inline-block;
+  transform: translate(-50%, -50%);
   width: 80px;
   height: 80px;
   background: black;
   color: #fff !important;
-  text-align: center;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.25s, height 0.25s;
+
+  svg {
+    width: 15px;
+  }
+
+  &:hover {
+    width: 94px;
+    height: 94px;
+  }
 `

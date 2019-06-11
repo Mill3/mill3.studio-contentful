@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-
+import styled from 'styled-components'
 import { Box } from 'rebass'
+
 import Container from '@styles/Container'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
@@ -46,6 +47,26 @@ export const RowContainer = ({alignContent, backgroundColor, children}) => {
     </Wrapper>
   )
 }
+
+const GridColums = itemsPerRow => {
+  // since we join the produced array with a string value,
+  // we must add an extra cell to the array producing 1 more grid-column.
+  // ie: 4 rows need +1. [empty, empty, empty, empty, empty] joined in a string as "1fr 1fr 1fr fr"
+  const rows = parseInt(itemsPerRow) + 1
+  return new Array(rows).map((item, index) => index).join('1fr ')
+}
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${GRID_GUTTER}px`)};
+  align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
+  position: relative;
+
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    grid-template-columns: ${props => GridColums(props.itemsPerRow)};
+  }
+`
 
 
 class ContentRow extends Component {
