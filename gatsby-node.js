@@ -68,7 +68,6 @@ exports.createPages = ({ graphql, actions }) => {
 
       // Projects Index page
       _.each(locales, locale => {
-        // console.log(locale);
         createPage({
           path: `/${locale.path}/projects/`,
           component: slash(ProjectIndexTemplate),
