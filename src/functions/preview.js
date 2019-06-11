@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import { createClient } from "contentful"
-import { is } from 'ramda'
+import { is, mergeDeepRight, mergeAll } from 'ramda'
 
 dotenv.config()
 // import { last } from "lodash"
@@ -57,28 +57,22 @@ const contentRowFormatter = (row) => {
     }
 
 
-    // if (contentfulTypeName === 'ContentfulContentVideos' && type == 'videos') {
-    //   let medias = []
-    //   Object.entries(value).map((media) => {
-    //     // console.log('video:', media)
-    //     // let entry = {}
-    //     Object.entries(media[1].fields).map((field) => {
-    //       // console.log('field:', field)
-    //       let [fieldType, fieldValue] = field
-    //       console.log('fieldType, fieldValue:', fieldType, fieldValue)
-    //       if (fieldType === 'videoPoster') {
-    //         console.log('should alter me videoPoster', fieldValue)
-    //         return (value[fieldType] = { file: fieldValue })
-    //       }
+    if (contentfulTypeName === 'ContentfulContentVideos' && type == 'videos') {
+      let videos = []
+      Object.entries(value).map((video, index) => {
+        let fields = video[1].fields
+        Object.entries(fields).map((videoField, index) => {
+          let [videoFieldType, videoFieldValue] = videoField
+          if (videoFieldType === 'videoPoster') {
+            fields[videoFieldType] = videoFieldValue.fields
+          }
+        })
+        videos.push(fields)
+      })
 
-    //       return (value[fieldType] = fieldValue)
-    //     })
-
-    //     // medias.push(entry)
-    //   })
-
-    //   return (fields[type] = value)
-    // }
+      // push new reformatted entry
+      return (fields[type] = videos)
+    }
 
   })
 

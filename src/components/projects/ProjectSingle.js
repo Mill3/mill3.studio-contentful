@@ -9,7 +9,7 @@ import SingleHeader from '@components/elements/SingleHeader'
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      {console.log(data)}
+      {/* {console.log(data)} */}
       <Container>
         <SingleHeader
           label="Projects:"
