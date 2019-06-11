@@ -26,9 +26,9 @@ const ContentVideos = ({ data }) => {
         py={VERTICAL_SPACER}
         mt={VERTICAL_SPACER}
         mb={VERTICAL_SPACER}
-        itemsPerRow={data.itemsPerRow}
+        itemsPerRow={data.itemsPerRow || 1}
       >
-        {data.videos.map((video, index) => (
+        {data.videos && data.videos.map((video, index) => (
           <>
             {video.embeddedCode && (
               <EmbeddedPlayer
