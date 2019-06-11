@@ -3,6 +3,7 @@ import { Box, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
+import { InView } from 'react-intersection-observer'
 import { ScrollPercentage } from 'react-scroll-percentage'
 
 import FigureBox from '@utils/FigureBox'
@@ -116,13 +117,20 @@ const ProjectPreview = (props) => {
 
   const { project, index, columns, offset } = props
   const { slug, colorMain, imageMain, imageHover, videoPreview, name } = project.node
+  const Wrapper = offset === 0 ? InView : ScrollPercentage
 
   let isVisible = false
 
   return (
-    <ScrollPercentage>
-      {({ percentage, ref }) => {
-        isVisible = (percentage > 0 && !isVisible) || isVisible
+    <Wrapper>
+      {({ inView = false, percentage = null, ref }) => {
+        // once visible once, never set it back to invisible
+        if( isVisible === false ) {
+          isVisible = inView === true || percentage > 0
+        }
+
+        // only calculate transformations if required
+        const transform = offset === 0 ? {} : {transform: `translate3d(0, ${percentage * offset}px, 0)`}
 
         return (
           <Box
@@ -143,7 +151,7 @@ const ProjectPreview = (props) => {
               color={colorMain}
               onMouseEnter={e => onHover(true)}
               onMouseLeave={e => onHover(false)}
-              style={{transform: `translate3d(0, ${percentage * offset}px, 0)`}}
+              style={transform}
             >
               <Box as={`figure`} mb={[4]}>
                 <ProjectHoverPane color={colorMain}>
@@ -179,7 +187,7 @@ const ProjectPreview = (props) => {
           </Box>
         )
       }}
-    </ScrollPercentage>
+    </Wrapper>
   )
 }
 
