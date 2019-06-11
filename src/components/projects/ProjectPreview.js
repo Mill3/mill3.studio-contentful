@@ -139,8 +139,8 @@ const ProjectPreview = (props) => {
             index={index}
             initialPose={'hidden'}
             pose={isVisible ? 'visible' : 'hidden'}
-            pl={[2]}
-            pr={[2]}
+            pl={[2,4]}
+            pr={[2,4]}
             mb={[2, 2, '5vh']}
             {...columns}
             color={colorMain}

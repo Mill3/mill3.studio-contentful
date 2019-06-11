@@ -1,10 +1,12 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from '@components/layout'
+import { Flex, Box } from 'rebass'
 
+import Layout from '@components/layout'
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
+import Button from '@components/buttons'
 
 const ProjectSingle = ({ pageContext, data }) => {
   return (
@@ -19,6 +21,15 @@ const ProjectSingle = ({ pageContext, data }) => {
         />
       </Container>
       <ContentRow data={data.project.contentRows} />
+      {data.project.url &&
+      <Flex>
+        <Box mx="auto">
+          <a href={data.project.url} target="_blank">
+            <Button>Visit website</Button>
+          </a>
+        </Box>
+      </Flex>
+      }
     </Layout>
   )
 }
@@ -32,6 +43,7 @@ export const projectQuery = graphql`
       slug
       node_locale
       name
+      url
       shortDescription {
         shortDescription
       }

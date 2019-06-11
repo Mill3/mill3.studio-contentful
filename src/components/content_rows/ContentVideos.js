@@ -17,7 +17,6 @@ const ContentVideos = ({ data }) => {
     <RowContainer alignContent={ALIGN_VALUES['center']}>
       <Box
         as={Grid}
-        py={VERTICAL_SPACER}
         mt={VERTICAL_SPACER}
         mb={VERTICAL_SPACER}
         itemsPerRow={data.itemsPerRow || 1}
