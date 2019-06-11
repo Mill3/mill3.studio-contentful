@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 
@@ -34,13 +34,13 @@ const ButtonStyle = styled.button`
   }
 `
 
-const Button = (props) => {
+const Button = forwardRef((props, ref) => {
   return (
-    <Box as={ButtonStyle} {...props}>
+    <Box as={ButtonStyle} ref={ref} {...props}>
       <span>{props.children}</span>
       <span>{props.children}</span>
     </Box>
   )
-}
+})
 
 export default Button

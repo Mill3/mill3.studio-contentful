@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-//import { useInView } from 'react-intersection-observer'
-import { Form, Field, useFormState } from 'react-final-form'
-import { injectIntl } from 'react-intl'
 import { Flex, Text } from 'rebass'
 import { omit } from 'lodash'
 import styled from 'styled-components'
 import axios from 'axios'
+import { debounce } from 'lodash'
 
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
@@ -14,6 +12,7 @@ import Input from '@components/form/Input'
 import Select from '@components/form/Select'
 import Container from '@styles/Container'
 import { colors, fonts, fontSizes, space } from '@styles/Theme'
+import Viewport from '@utils/Viewport'
 
 
 const FormStyle = styled.form`
@@ -40,184 +39,271 @@ const selectOptions = {
 }
 
 
-const FieldGroup = (props) => {
-  const { name, children, active/*, inViewCallback*/ } = props
-  //const [ref, inView, entry] = useInView({rootMargin: '-50% 0px', threshold: 0})
-  const childProps = omit(props, ['name', 'children', 'active', 'inViewCallback'])
-
-  //if( inView && inViewCallback && typeof inViewCallback === 'function' ) inViewCallback(name, entry.target)
+const FieldGroup = forwardRef((props, ref) => {
+  const { name, label, type, active, error, onActive } = props
+  const childProps = omit(props, ['name', 'label', 'type', 'children', 'active', 'error', 'onActive'])
+  const onFocus = () => { onActive(name) }
+  const onBlur = () => { onActive(null) }
 
   return (
-    <FieldGroupStyle /*ref={ref}*/ active={true} {...childProps}>
-      { children }
-      {/* <Error name={name} /> */}
+    <FieldGroupStyle active={active} {...childProps}>
+      <LabelStyle htmlFor={name}>{ label }</LabelStyle>
+      <Input
+        ref={ref}
+        id={name}
+        name={name}
+        type={type}
+        placeholder="Type your answer here"
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+      { error ? <span class="is-sans h6">{error}</span> : null }
     </FieldGroupStyle>
   )
-}
-const Error = ({ name }) => (
-  <Field
-    name={name}
-    subscription={{ touched: true, error: true }}
-    render={({ meta: { touched, error } }) =>
-      touched && error ? <span class="is-sans h6">{error}</span> : null
+})
+
+class ContactForm extends Component {
+
+  static contextTypes = {
+    getScrollbar: PropTypes.func,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      activeField: null,
+      monitorScroll: true,
+      submitting: false,
     }
-  />
-)
 
-const ContactForm = (props, context) => {
-  const onSubmit = (values) => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(process.env.ZAPIER_HOOK, {
-          params: {
-            data: values,
-          },
-        })
-        .then(({ data }) => {
-          console.log(`Zapier response :`, data);
+    this.formRef = createRef()
+    this.nameRef = createRef()
+    this.emailRef = createRef()
+    this.companyRef = createRef()
+    this.projectTypeRef = createRef()
+    this.budgetRef = createRef()
+    this.subscribeRef = createRef()
 
-          if( data.status === 'success' ) resolve()
-          else reject();
-        })
-        .catch((error) => {
-          reject();
-        })
+    this.formRefs = {
+      'name': this.nameRef,
+      'email': this.emailRef,
+      'company': this.companyRef,
+      'project-type': this.projectTypeRef,
+      'budget': this.budgetRef,
+      'subscribe': this.subscribeRef,
+    }
+
+    this.onSubmit = this.onSubmit.bind(this)
+    this.onFocusChange = this.onFocusChange.bind(this)
+    this.onScroll = this.onScroll.bind(this)
+  }
+
+  componentDidMount() {
+    this.context.getScrollbar(s => {
+      this.scrollbar = s
+      this.scrollbar.addListener(this.onScroll)
+    });
+  }
+  componentWillUnmount() {
+    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+    this.scrollbar = null
+  }
+
+  onSubmit(e) {
+    // prevent multiple form submission
+    e.preventDefault()
+    this.setState({ submitting: true })
+
+    // collect form data
+    const values = {}
+    Array.from(this.formRef.current.elements).forEach((el) => {
+      const type = el.type
+      const name = el.name
+      const value = type === 'checkbox' ? (el.checked ? el.value : "" ) : el.value
+
+      if( value === "" ) return
+
+      values[name] = value
+    })
+
+    // send data
+    axios
+      .get(process.env.ZAPIER_HOOK, {
+        params: {
+          data: values,
+        },
+      })
+      .then(({ data }) => {
+        console.log(`Zapier response :`, data)
+
+        if( data.status === 'success' ) console.log('SUCCESSFULLY SENT DATA TO ZAPIER')
+        else console.log('ERROR SENDING DATA TO ZAPIER')
+      })
+      .finally(() => {
+        this.setState({ submitting: false })
+      })
+      .catch((error) => {
+        console.log('ERROR SENDING DATA TO ZAPIER', error)
+      })
+
+    // prevent form default action
+    return false
+  }
+  onFocusChange(field){
+
+    // check if field has changed
+    if( field === this.state.activeField ) return
+
+    // update state and stop monitoring scroll
+    this.setState({
+      monitorScroll: field === null,
+      activeField: field,
+    })
+
+    // if field is null (meaning no field is active), do nothing
+    if( field === null ) return
+
+    // get activeField reference
+    const ref = this.formRefs[ field ]
+    if( !ref || !ref.current ) return
+
+    // calculate offset
+    const vh = Viewport.height * 0.5;
+    const th = ref.current.getBoundingClientRect().height * 0.5;
+
+    // scroll this field into viewport vertical center
+    if( this.scrollbar ) this.scrollbar.scrollIntoView(ref.current, {alignToTop: true, offsetTop: vh - th});
+
+    debounce(() => {
+      this.setState({ monitorScroll: true })
+    }, 1000)()
+  }
+  onScroll({ offset }) {
+
+    const { activeField, monitorScroll } = this.state
+
+    // if enabled
+    if( monitorScroll !== true ) return
+
+    const vh = Viewport.height * 0.5
+    const threshold = vh * 0.5
+    let distance = null
+    let nearestField = null
+
+    // check which field is nearest of viewport vertical center
+    Object.keys(this.formRefs).forEach((key) => {
+      const ref = this.formRefs[key]
+      if( !ref || !ref.current ) return
+
+      const rect = ref.current.getBoundingClientRect()
+      const dist = Math.abs(rect.y + rect.height * 0.5 - vh)
+
+      if( dist > threshold ) return
+
+      if( distance === null ) {
+        distance = dist
+        nearestField = key
+      }
+      else if( dist < distance ) {
+        distance = dist
+        nearestField = key
+      }
+    })
+
+    // if this field is currently active, do nothing
+    if( activeField === nearestField ) return
+
+    // if nearestField is null, do nothing
+    if( nearestField === null ) return
+
+    // update state
+    // then focus on this field
+    this.setState({
+      activeField: nearestField,
+    }, () => {
+      const { activeField } = this.state
+      if( activeField === null ) return
+
+      const ref = this.formRefs[activeField]
+      if( !ref || !ref.current ) return
+
+      ref.current.focus()
     })
   }
-  const validate = (values) => {
-    const errors = {};
 
-    //if( !values.name ) errors.name = "Required";
-    //if( !values.email ) errors.email = "Required";
+  render() {
+    const { activeField, submitting } = this.state
 
-    return errors;
+    return (
+      <Container fluid bg={colors.lightGray} pr={`5vw`} css={{maxWidth: '95vw', marginRight: 0}}>
+        <Flex as={FormStyle} ref={this.formRef} flexDirection="column" alignItems="start" pt={6} pb={4} width={`50%`} mx="auto" onSubmit={this.onSubmit}>
+
+          <Flex flexWrap="nowrap" alignItems="center" pb={4} width={'100%'}>
+            <Text as="label" className="h2 is-sans is-light" mb={0} mr={3} htmlFor="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
+            <Select id="type" name="type">
+              {Object.entries(selectOptions).map(([key, value], index, array) => {
+                return <option value={key} key={index}>{value}</option>
+              })}
+            </Select>
+          </Flex>
+
+          <FieldGroup
+            ref={ this.nameRef }
+            name="name"
+            type="text"
+            label="1. You should have a name"
+            active={ activeField === 'name' }
+            onActive={ this.onFocusChange }
+          />
+
+          <FieldGroup
+            ref={ this.emailRef }
+            name="email"
+            type="email"
+            label="2. Without a dought an email"
+            active={ activeField === 'email' }
+            onActive={ this.onFocusChange }
+          />
+
+          <FieldGroup
+            ref={ this.companyRef }
+            name="company"
+            type="text"
+            label="3. Possibly a company name"
+            active={ activeField === 'company' }
+            onActive={ this.onFocusChange }
+          />
+
+          <FieldGroup
+            ref={ this.projectTypeRef }
+            name="project-type"
+            type="text"
+            label="4. First thing first, what's your project type"
+            active={ activeField === 'project-type' }
+            onActive={ this.onFocusChange }
+          />
+
+          <FieldGroup
+            ref={ this.budgetRef }
+            name="budget"
+            type="text"
+            label="5. Budget in mind"
+            active={ activeField === 'budget' }
+            onActive={ this.onFocusChange }
+          />
+
+          <Flex as={FieldGroupStyle} alignItems="center" active={activeField === 'subscribe'}>
+            <Checkbox ref={this.subscribeRef} id="subscribe" name="subscribe" value="1" onFocus={(e) => this.onFocusChange(e.target.name)} />
+            <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
+          </Flex>
+
+          <Button type="submit" disabled={submitting}>Send</Button>
+
+        </Flex>
+      </Container>
+    )
   }
-  const onScroll = () => {
-    console.log('scroll scrolling');
-  }
-
-  /*
-  const onFieldFocus = (fieldName, { target }) => {
-    if( fieldName === focusedField ) return;
-    focusedField = fieldName;
-
-    console.log(fieldName, 'has gained focus');
-
-    const vh = window.innerHeight * 0.5;
-    const th = target.getBoundingClientRect().height * 0.5;
-
-    scrollbar.scrollIntoView(target, {alignToTop: true, offsetTop: vh - th});
-  }
-  */
-  /*
-  const onFieldEnterViewportCenter = (fieldName, target) => {
-    if( fieldName === focusedField ) return;
-    //focusedField = fieldName;
-
-    console.log(fieldName, 'is now entering viewport center', fieldName === focusedField)
-
-    //const element = target.querySelector(`[name=${fieldName}]`);
-    //if( element ) element.focus();
-  }
-  */
-  /*
-  const scrollTo = (formApi, fieldName) => {
-    if( activeField === fieldName ) return;
-    activeField = fieldName;
-
-    //const target =
-    //const vh = window.innerHeight * 0.5;
-    //const th = target.getBoundingClientRect().height * 0.5;
-
-    //scrollbar.scrollIntoView(target, {alignToTop: true, offsetTop: vh - th});
-  }
-  */
-
-  /*
-  const onFieldFocus = (fieldName, target) => {
-    if( currentField === fieldName ) {
-      console.log('ignore focus on:', fieldName);
-      return;
-    }
-
-    currentField = fieldName;
-
-    const element = target.querySelector(`[name=${fieldName}]`);
-    if( element ) {
-      setTimeout(() => {
-        if( currentField === fieldName ) element.focus();
-      }, 250)
-    }
-  }
-  */
-
-  let scrollbar;
-  context.getScrollbar(s => {
-    scrollbar = s
-    scrollbar.addListener(onScroll);
-  });
-
-  return (
-    <Form
-      onSubmit={onSubmit}
-      validate={validate}
-      subscription={{ active: true }}
-      render={({ handleSubmit, submitting, active }) => {
-        return (
-          <Container fluid bg={colors.lightGray} pr={`5vw`} css={{maxWidth: '95vw', marginRight: 0}}>
-            <Flex as={FormStyle} flexDirection="column" alignItems="start" pt={6} pb={4} width={`50%`} mx="auto" onSubmit={handleSubmit}>
-
-              <Flex flexWrap="nowrap" alignItems="center" pb={4} width={'100%'}>
-                <Text as="label" className="h2 is-sans is-light" mb={0} mr={3} htmlFor="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
-                <Select id="type" name="type" defaultValue={Object.values(selectOptions).shift()}>
-                  {Object.entries(selectOptions).map(([key, value], index, array) => {
-                    return <option value={key} key={index}>{value}</option>
-                  })}
-                </Select>
-              </Flex>
-
-              <FieldGroup name="name" active={active === "name"}>
-                <LabelStyle htmlFor="name">1. You should have a name</LabelStyle>
-                <Input id="name" name="name" placeholder="Type your answer here" />
-              </FieldGroup>
-
-              <FieldGroup name="email" active={active === "email"}>
-                <LabelStyle htmlFor="email">2. Without a dought an email</LabelStyle>
-                <Input id="email" name="email" type="email" placeholder="Type your answer here" />
-              </FieldGroup>
-
-              <FieldGroup name="company" active={active === "company"}>
-                <LabelStyle htmlFor="company">3. Possibly a company name</LabelStyle>
-                <Input id="company" name="company" placeholder="Type your answer here" />
-              </FieldGroup>
-
-              <FieldGroup name="project-type" active={active === "project-type"}>
-                <LabelStyle htmlFor="project-type">4. First thing first, what's your project type</LabelStyle>
-                <Input id="project-type" name="project-type" placeholder="Type your answer here" />
-              </FieldGroup>
-
-              <FieldGroup name="budget" active={active === "budget"}>
-                <LabelStyle htmlFor="budget">5. Budget in mind</LabelStyle>
-                <Input id="budget" name="budget" placeholder="Type your answer here" />
-              </FieldGroup>
-
-              <Flex as={FieldGroup} alignItems="center" name="subscribe" active={active === "subscribe"}>
-                <Checkbox id="subscribe" name="subscribe" value="1" />
-                <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
-              </Flex>
-
-              <Button type="submit" disabled={submitting}>Send</Button>
-
-            </Flex>
-          </Container>
-        )
-      }}
-    />
-  )
 }
 
-ContactForm.contextTypes = {
-  getScrollbar: PropTypes.func,
-}
-
-export default injectIntl(ContactForm)
+export default ContactForm
