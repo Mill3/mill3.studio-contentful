@@ -19,23 +19,23 @@ const Footer = () => {
       <Container>
         <Flex flexWrap={'wrap'}>
           <Box as={`aside`} width={[1,1,1,1/2,1/3]}>
-            <Text as={`h3`} mb={[2,2,3]} className={`is-serif fw-300`}>Stop by.</Text>
-            <Text as={`p`}>
+            <Text as={`h6`} mb={[2,2,3,4]} className={`is-serif fw-300`}>Stop by.</Text>
+            <Text as={`h6`}>
               1275 Avenue des Canadiens-de-Montréal<br/>
               Montréal, Québec<br/>
               5th Floor.
             </Text>
           </Box>
           <Box as={`aside`} width={[1,1,1,1/2,1/3]}>
-            <Text as={`h3`} mb={[2,2,3]} className={`is-serif fw-300`}>Say Hi !</Text>
-            <Text as={`p`}>
+            <Text as={`h6`} mb={[2,2,3,4]} className={`is-serif fw-300`}>Say Hi !</Text>
+            <Text as={`h6`}>
               <a href="mailto:info@mill3.studio">info@mill3.studio</a><br/>
               <a href="tel:+1514984-7703">+1 (514) 984-7703</a>
             </Text>
           </Box>
           <Box as={`aside`} width={[1,1,1,1,`auto`]} ml={[0,0,`auto`]} mt={[4,4,4,4,0]}>
-            <Text as={`h3`} mb={[2,2,3]} className={`is-serif fw-300`}>Baby, it’s cold outside.</Text>
-            <Text as={`p`}>
+            <Text as={`h6`} mb={[2,2,3,4]} className={`is-serif fw-300`}>Baby, it’s cold outside.</Text>
+            <Text as={`h6`}>
               Made with love in<br/>Montréal, Canada.
             </Text>
           </Box>
