@@ -117,8 +117,6 @@ const ProjectPreview = (props) => {
 
   const { project, index, columns, offset } = props
   const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
-  // const { category } = project.node.category ? project.node.category : {}
-  console.log('project.node:', category)
   const Wrapper = offset === 0 ? InView : ScrollPercentage
 
   let isVisible = false
