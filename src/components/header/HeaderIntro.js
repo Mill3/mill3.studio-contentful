@@ -6,7 +6,7 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
 
-import { header } from '@styles/Theme'
+import { breakpoints, header } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 import { TRANSITION_DURATION } from '@utils/constants'
 
@@ -34,11 +34,15 @@ const Header = styled(HeaderIntroPoses)`
   color: #fff;
   margin-top: -${header.height}px;
   position: relative;
-  height: 80vh;
+  height: 53vh;
 
   h2 {
     margin: 0;
     line-height: 1.2;
+  }
+
+  @media (min-width: ${breakpoints[1]}) {
+    height: 80vh;
   }
 `
 const HeaderBackground = styled.div`
@@ -85,6 +89,8 @@ const charPoses = {
 
 const fontSizes = [4, 4, '5.75vw']
 
+const mobileBreakpoint = parseInt(breakpoints[1])
+
 class HeaderIntro extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
@@ -114,21 +120,26 @@ class HeaderIntro extends Component {
   }
 
   onScroll({ offset: { y } }) {
+    const isMobile = Viewport.width < mobileBreakpoint
+
     this.setState({
-      x: y / Viewport.height * 0.8,
+      x: y / Viewport.height * (isMobile ? 0.53 : 0.8),
       y: y * 0.6,
-      skew: y / Viewport.height * 0.5,
+      skew: y / (Viewport.height * (isMobile ? 0.5 : 0.8)),
     })
   }
 
   render() {
     const { transitionStatus, intl } = this.props
     const { x, y, skew } = this.state
-    const angle = skew * 15
-    const top = skew * Viewport.height * -0.3
 
-    const t1 = { transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0) skewY(-${angle}deg)` }
-    const t2 = { transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0) skewY(-${angle}deg)` }
+    const isMobile = Viewport.width < mobileBreakpoint
+    const angle = skew * (isMobile ? 15 : 10)
+    const horizontal = isMobile ? 400 : 200
+    const top = skew * Viewport.height * (isMobile ? -0.17 : -0.2)
+
+    const t1 = { transform: `translate3d(${(x || 0) * -horizontal}px, ${y}px, 0) skewY(-${angle}deg)` }
+    const t2 = { transform: `translate3d(${(x || 0) * horizontal}px, ${y}px, 0) skewY(-${angle}deg)` }
     const t3 = { transform: `translate3d(0, ${top}px, 0) skewY(${angle}deg)`}
 
     // tangent of angle = opposite / adjacent
