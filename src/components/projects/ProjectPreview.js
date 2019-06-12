@@ -104,9 +104,9 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   }
 `
 
-const ProjectPreview = (props) => {
+const ProjectPreview = props => {
   const videoRef = React.createRef()
-  const onHover = (isHover) => {
+  const onHover = isHover => {
     if (isHover && videoRef.current) {
       videoRef.current.currentTime = 0
       videoRef.current.play()
@@ -125,12 +125,12 @@ const ProjectPreview = (props) => {
     <Wrapper>
       {({ inView = false, percentage = null, ref }) => {
         // once visible once, never set it back to invisible
-        if( isVisible === false ) {
+        if (isVisible === false) {
           isVisible = inView === true || percentage > 0
         }
 
         // only calculate transformations if required
-        const transform = offset === 0 ? {} : {transform: `translate3d(0, ${percentage * offset}px, 0)`}
+        const transform = offset === 0 ? {} : { transform: `translate3d(0, ${percentage * offset}px, 0)` }
 
         return (
           <Box
@@ -166,23 +166,14 @@ const ProjectPreview = (props) => {
                 </FigureBox>
               </Box>
               <footer>
-                <Text
-                  as={`h3`}
-                  className={`fw-300`}
-                  fontSize={[3, 2, 2, `28px`]}
-                  mb={[0]}
-                >
+                <Text as={`h3`} className={`fw-300`} fontSize={[3, 2, 2, `28px`]} mb={[0]}>
                   {name}
                 </Text>
-                {category &&
-                <Text
-                  as={`h4`}
-                  className={`fw-300 is-serif is-gray`}
-                  fontSize={[2]}
-                >
-                 {category[0].title}
-                </Text>
-                }
+                {category && (
+                  <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[2, 2, 2, `19px`]}>
+                    {category[0].title}
+                  </Text>
+                )}
               </footer>
             </TransitionLinkComponent>
           </Box>
