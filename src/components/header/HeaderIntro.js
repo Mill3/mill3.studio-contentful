@@ -35,6 +35,7 @@ const Header = styled(HeaderIntroPoses)`
   margin-top: -${header.height}px;
   position: relative;
   height: 53vh;
+  max-width: 100vw;
 
   h2 {
     margin: 0;

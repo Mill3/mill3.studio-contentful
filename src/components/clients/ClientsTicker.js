@@ -5,7 +5,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import { TimelineMax, TweenLite, Linear } from 'gsap'
 import { shuffle } from 'lodash'
 
-import ClientName, { ClientNameHeading }  from './ClientName'
+import ClientName, { ClientNameHeading } from './ClientName'
 
 const ClientsTickerContainer = styled.footer`
   overflow-x: hidden;
@@ -36,11 +36,10 @@ const TickerLineClients = styled.div`
 `
 
 class ClientsTicker extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      animationSpeed: 1
+      animationSpeed: 1,
     }
     this.tl = null
     this.listMain = React.createRef()
@@ -50,45 +49,39 @@ class ClientsTicker extends React.Component {
   }
 
   componentDidMount() {
-    this.tl = new TimelineMax();
+    this.tl = new TimelineMax()
 
     // random duration
-    let duration = Math.floor(Math.random() * 50) + 150;
+    let duration = Math.floor(Math.random() * 50) + 150 + (this.props.speedBase || 0)
 
     // combine two list of clients
     let elements = [this.listMain.current, this.listCopy.current]
 
     // add to this timeline
-    if( this.props.direction === 1 ) {
+    if (this.props.direction === 1) {
       this.tl.add(
-        TweenLite.to(
-          elements,
-          duration,
-          {
-            x:"-100%",
-            ease: Linear.easeNone,
-            repeat: -1
-          }
-        )
+        TweenLite.to(elements, duration, {
+          x: '-100%',
+          ease: Linear.easeNone,
+          repeat: 5000,
+        })
       )
-    }
-    else {
+    } else {
       this.tl.add(
         TweenLite.fromTo(
           elements,
           duration,
           {
-            x: "-100%",
+            x: '-100%',
           },
           {
-            x:"0%",
+            x: '0%',
             ease: Linear.easeNone,
-            repeat: -1
+            repeat: 5000,
           }
         )
       )
     }
-
   }
 
   hover(isHover) {
@@ -96,64 +89,47 @@ class ClientsTicker extends React.Component {
 
     // on hover, slow down animation
     if (isHover) {
-
       let timeScale = { value: 1 }
-      TweenLite.to(
-          timeScale,
-          1,
-          {
-            value: timeScalePercent,
-            onUpdate: () => {
-              this.tl.timeScale(timeScale.value)
-            }
-        }
-      )
+      TweenLite.to(timeScale, 1, {
+        value: timeScalePercent,
+        onUpdate: () => {
+          this.tl.timeScale(timeScale.value)
+        },
+      })
 
-    // on leave, speed up to its original playback speed
+      // on leave, speed up to its original playback speed
     } else {
-
       let timeScale = { value: timeScalePercent }
-      TweenLite.to(
-          timeScale,
-          1,
-          {
-            value: 1,
-            onUpdate: () => {
-              this.tl.timeScale(timeScale.value)
-            }
-        }
-      )
+      TweenLite.to(timeScale, 1, {
+        value: 1,
+        onUpdate: () => {
+          this.tl.timeScale(timeScale.value)
+        },
+      })
     }
-
   }
 
   clients() {
     if (this.shuffleData) {
-      return this.shuffleData.map((client, index) =>
-        <ClientName name={client.node.name} color={client.node.colorMain} key={index} />
-      )
+      return this.shuffleData.map((client, index) => <ClientName name={client.node.name} color={client.node.colorMain} key={index} />)
     }
   }
 
   render() {
     return (
-      <TickerLine onMouseEnter={(e) => this.hover(true)} onMouseLeave={(e) => this.hover(false)}>
-        <TickerLineClients ref={this.listMain}>
-          {this.clients()}
-        </TickerLineClients>
-        <TickerLineClients ref={this.listCopy}>
-          {this.clients()}
-        </TickerLineClients>
+      <TickerLine onMouseEnter={e => this.hover(true)} onMouseLeave={e => this.hover(false)}>
+        <TickerLineClients ref={this.listMain}>{this.clients()}</TickerLineClients>
+        <TickerLineClients ref={this.listCopy}>{this.clients()}</TickerLineClients>
       </TickerLine>
     )
   }
 }
 
-export default (props) => (
+export default props => (
   <StaticQuery
     query={graphql`
       query {
-        allContentfulClients(filter: { node_locale : { eq: "en" }}) {
+        allContentfulClients(filter: { node_locale: { eq: "en" } }) {
           edges {
             node {
               name
@@ -164,14 +140,16 @@ export default (props) => (
         }
       }
     `}
-    render={(data) => {
-      const tickers = Array(props.quantity || 3).fill().map((item, index) => <ClientsTicker data={data.allContentfulClients} direction={index % 2 ? -1 : 1} key={index} />);
+    render={data => {
+      const tickers = Array(props.quantity || 3)
+        .fill()
+        .map((item, index) => <ClientsTicker data={data.allContentfulClients} direction={index % 2 ? -1 : 1} speedBase={(index + 1) * 10 * 4.5} key={index} />)
 
       return (
         <Box as={ClientsTickerContainer} pt={[4]}>
           {tickers}
         </Box>
-      );
+      )
     }}
   />
 )
