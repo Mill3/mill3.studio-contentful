@@ -24,7 +24,7 @@ const ProjectSingle = ({ pageContext, data }) => {
       {data.project.url &&
       <Flex>
         <Box mx="auto">
-          <a href={data.project.url} target="_blank">
+          <a href={data.project.url} target="_blank" without rel="noopener noreferrer">
             <Button>Visit website</Button>
           </a>
         </Box>

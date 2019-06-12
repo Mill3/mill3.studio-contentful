@@ -14,7 +14,7 @@ import Container from '@styles/Container'
 const IndexPage = ({ pageContext, data }) => (
   <Layout locale={pageContext.locale} withIntro={true} introComponent={HeaderIntro}>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <Container>
+    <Container fluid>
       {data.allContentfulProjects &&
         <ProjectsHome data={data.allContentfulProjects} />
       }

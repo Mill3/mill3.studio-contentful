@@ -6,26 +6,24 @@ import Button from '@components/buttons'
 
 export const columns = {
   0 : {
-    width: [1,1/2,1/3,1/3],
-    mr: [0, 'auto'],
+    width: [1, 1/2, 1/3, 1/3],
   },
   1 : {
-    width: [1,1/2,1/2,1/2],
-    ml: [0, 'auto'],
-    mt: [0, 5]
+    width: [1, 1/2, 1/2, 1/2],
+    ml: ['auto'],
+    mt: [0, 5],
   },
   2 : {
-    width: [1,1/2,1/2,1/3],
-    mt: [0,0,'-30vh'],
-    ml: [0,0,'7.5vw'],
-  }
+    width: [1, 1/2, 1/2, 1/3],
+    mt: [0, 0, '-30vh'],
+    ml: [0, 0, `${(1/6)*100}%`]
+  },
 }
 
 export const ProjectHomeCol = (index) => {
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
   return column
 }
-
 
 class ProjectsHome extends React.Component {
 
@@ -40,10 +38,10 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <>
-        <Flex mb={[5]} flexWrap={`wrap`}>
+        <Flex mb={[5]} mx={[-2, -4]} flexWrap={`wrap`}>
           {this.list()}
         </Flex>
-        <Flex mb={[5]} justifyContent={`center`} flexDirection={`column`}>
+        <Flex mb={[5]} mx={[-2, -4]} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
               <Button>Hey, there’s more work here !</Button>

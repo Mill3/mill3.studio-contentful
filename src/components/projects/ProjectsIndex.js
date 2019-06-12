@@ -10,7 +10,7 @@ class ProjectsIndex extends Component {
   list() {
 
     const columns = {
-      width: [1,1/2,1/3,1/3],
+      width: [1, 1/2, 1/3],
     }
 
     if (this.props.data) {
@@ -24,7 +24,7 @@ class ProjectsIndex extends Component {
   render() {
     return (
       <Layout locale={this.props.pageContext.locale}>
-        <Container>
+        <Container fluid>
           <Box as={`header`} mb={6}>
             <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
               <span className="is-serif">Work </span>
@@ -36,7 +36,7 @@ class ProjectsIndex extends Component {
               We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.
             </Text>
           </Box>
-          <Flex as={`section`} flexWrap={`wrap`}>
+          <Flex as={`section`} mx={[-2, -4]} flexWrap={`wrap`}>
             {this.list()}
           </Flex>
         </Container>

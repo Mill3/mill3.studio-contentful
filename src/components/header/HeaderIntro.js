@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl'
 
 import { header } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-import { TRANSITION_DURATION, TRANSITION_EXIT_DURATION } from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
 
