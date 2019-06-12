@@ -59,12 +59,12 @@ const GridColums = itemsPerRow => {
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${GRID_GUTTER}px`)};
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
-    grid-template-columns: ${props => GridColums(props.itemsPerRow)};
+    grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
 

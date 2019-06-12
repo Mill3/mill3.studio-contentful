@@ -6,7 +6,12 @@ import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import { VERTICAL_SPACER } from './index'
+import {
+  RowContainer,
+  Grid,
+  ALIGN_VALUES,
+  VERTICAL_SPACER,
+} from './index'
 
 import EmbeddedAsset from './EmbeddedAsset'
 
@@ -48,6 +53,7 @@ const postBody = styled.div`
   /* TODO: overides all default styles for HTML elements available in Contentful richtext editor (blockquotes, b, strong, italic, p, heading, etc) */
   max-width: 720px;
 
+  h1,
   h2,
   h3,
   h4,
@@ -75,11 +81,26 @@ const postBody = styled.div`
 
 const ContentText = ({ data }) => {
   return (
-    <Box backgroundColor={data.backgroundColor} pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
-      <Box as={postBody} textColor={data.textColor ? data.textColor: false} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
-        {format(data.text.text)}
+    <RowContainer
+      alignContent={ALIGN_VALUES['center']}
+      backgroundColor={data.backgroundColor}
+    >
+      <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
+        {data.text &&
+          <Box as={postBody} textColor={data.textColor ? data.textColor: false} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
+            {data.text ? format(data.text.text) : []}
+          </Box>
+        }
+        <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
+          { console.log(data.textColumns) }
+          {data.textColumns && data.textColumns.map((textColumn, index) => (
+            <Box mb={VERTICAL_SPACER}>
+              {textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
+            </Box>
+          ))}
+        </Grid>
       </Box>
-    </Box>
+    </RowContainer>
   )
 }
 
@@ -91,8 +112,16 @@ export const ContentTextFragement = graphql`
     title
     textColor
     backgroundColor
+    itemsPerRow
     text {
       text
+    }
+    textColumns {
+      text {
+        id
+        text
+        json
+      }
     }
   }
 `
