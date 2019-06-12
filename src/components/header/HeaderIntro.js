@@ -8,59 +8,23 @@ import { injectIntl } from 'react-intl'
 
 import { header } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-
-import {
-  TRANSITION_DURATION,
-  TRANSITION_EXIT_DURATION,
-} from '@utils/constants'
+import { TRANSITION_DURATION, TRANSITION_EXIT_DURATION } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
+
+
 
 const HeaderIntroPoses = posed.header({
   init: {
     y: `102vh`,
-    marginBottom: 500,
-    height: `100vh`,
   },
-  entered: {
+  enter: {
     y: 0,
-    marginBottom: 0,
-    height: `70vh`,
     transition: {
       y: {
         type: 'tween',
         ease: 'backInOut',
         duration: TRANSITION_DURATION * 3 * 1000,
-      },
-      marginBottom: {
-        type: 'tween',
-        ease: 'backInOut',
-        duration: TRANSITION_DURATION * 3 * 1000,
-      },
-      height: {
-        type: 'tween',
-        ease: 'backInOut',
-        duration: TRANSITION_DURATION * 3 * 1000,
-      },
-    },
-  },
-  exiting: {
-    y: `-10vh`,
-    height: `0vh`,
-    transition: {
-      y: {
-        type: 'tween',
-        ease: 'backInOut',
-        duration: TRANSITION_EXIT_DURATION * 1000,
-      },
-      marginBottom: {
-        type: 'tween',
-        duration: TRANSITION_EXIT_DURATION * 1000,
-      },
-      height: {
-        type: 'tween',
-        ease: 'backInOut',
-        duration: TRANSITION_EXIT_DURATION * 1000,
       },
     },
   },
@@ -68,20 +32,31 @@ const HeaderIntroPoses = posed.header({
 
 const Header = styled(HeaderIntroPoses)`
   color: #fff;
-  padding-top: ${header.height}px;
   margin-top: -${header.height}px;
   position: relative;
-  background: ${props => props.theme.colors.black};
+  height: 80vh;
+
   h2 {
     margin: 0;
     line-height: 1.2;
   }
 `
+const HeaderBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ${props => props.theme.colors.black};
+  transform-origin: top center;
+`
 const TextWrapper = styled(Flex)`
   position: relative;
+  padding-top: ${header.height}px;
   z-index: 2;
   height: 100%;
   overflow: hidden;
+  transform-origin: top center;
 `
 const TextWrapperCopy = styled(Flex)`
   position: absolute;
@@ -90,6 +65,7 @@ const TextWrapperCopy = styled(Flex)`
   padding-top: ${header.height}px;
   height: 100%;
   color: ${props => props.theme.colors.black};
+  transform-origin: top center;
   z-index: 1;
 `
 
@@ -120,6 +96,7 @@ class HeaderIntro extends Component {
     this.state = {
       x: 0.0,
       y: 0.0,
+      skew: 0.0,
     }
 
     this.onScroll = this.onScroll.bind(this)
@@ -138,29 +115,38 @@ class HeaderIntro extends Component {
 
   onScroll({ offset: { y } }) {
     this.setState({
-      x: y / Viewport.height * 0.7,
-      y: y * 0.4,
+      x: y / Viewport.height * 0.8,
+      y: y * 0.6,
+      skew: y / Viewport.height * 0.5,
     })
   }
 
   render() {
-    const { transitionStatus, intl } = this.props;
-    const { x, y } = this.state;
+    const { transitionStatus, intl } = this.props
+    const { x, y, skew } = this.state
+    const angle = skew * 15
+    const top = skew * Viewport.height * -0.3
+
+    const t1 = { transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0) skewY(-${angle}deg)` }
+    const t2 = { transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0) skewY(-${angle}deg)` }
+    const t3 = { transform: `translate3d(0, ${top}px, 0) skewY(${angle}deg)`}
+
+    // tangent of angle = opposite / adjacent
+    const radian = angle * Math.PI / 180
+    const adjacent = Viewport.width
+    const opposite = Math.tan(radian) * adjacent
 
     return (
-      <Box
-        as={Header}
-        initialPose={`init`}
-        pose={`entered`}
-        className={`z-negative`}
-      >
-        <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`}>
+      <Box as={Header} initialPose={`init`} pose={`enter`} className={`z-negative`}>
+        <Box as={HeaderBackground} className={`z-negative`} style={t3}></Box>
+
+        <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>
           <Text
             as={`h2`}
             fontSize={fontSizes}
             textAlign="center"
             className={`is-serif fw-200`}
-            style={{transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0)`}}
+            style={t1}
           >
             <SplitText
               initialPose={`exit`}
@@ -180,7 +166,7 @@ class HeaderIntro extends Component {
             fontSize={fontSizes}
             textAlign="center"
             className={`is-normal is-sans fw-300`}
-            style={{transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0)`}}
+            style={t2}
           >
             <SplitText
               initialPose={`exit`}
@@ -196,13 +182,13 @@ class HeaderIntro extends Component {
           </Text>
         </Flex>
 
-        <Flex as={TextWrapperCopy} flexDirection={`column`} justifyContent={`center`} width={`100%`}>
+        <Flex as={TextWrapperCopy} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>
           <Text
             as={`h2`}
             fontSize={fontSizes}
             textAlign="center"
             className={`is-serif fw-200`}
-            style={{transform: `translate3d(${(x || 0) * -200}px, ${y}px, 0)`}}
+            style={t1}
           >
             <SplitText>
               {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
@@ -214,7 +200,7 @@ class HeaderIntro extends Component {
             fontSize={fontSizes}
             textAlign="center"
             className={`is-normal is-sans fw-300`}
-            style={{transform: `translate3d(${(x || 0) * 200}px, ${y}px, 0)`}}
+            style={t2}
           >
             <SplitText>
               {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
@@ -222,7 +208,9 @@ class HeaderIntro extends Component {
           </Text>
         </Flex>
 
-        <HeaderCircle />
+        <div style={{transform: `translate3d(0, -${opposite}px, 0)`}}>
+          <HeaderCircle />
+        </div>
       </Box>
     )
   }
