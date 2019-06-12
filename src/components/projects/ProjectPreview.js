@@ -116,7 +116,9 @@ const ProjectPreview = (props) => {
   }
 
   const { project, index, columns, offset } = props
-  const { slug, colorMain, imageMain, imageHover, videoPreview, name } = project.node
+  const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
+  // const { category } = project.node.category ? project.node.category : {}
+  console.log('project.node:', category)
   const Wrapper = offset === 0 ? InView : ScrollPercentage
 
   let isVisible = false
@@ -139,8 +141,8 @@ const ProjectPreview = (props) => {
             index={index}
             initialPose={'hidden'}
             pose={isVisible ? 'visible' : 'hidden'}
-            px={[2, 4]}
-            mb={[2, 2, '5vh']}
+            px={[1, 2, 3, 4]}
+            mb={[5, 2, '5vh']}
             {...columns}
             color={colorMain}
           >
@@ -152,7 +154,7 @@ const ProjectPreview = (props) => {
               onMouseLeave={e => onHover(false)}
               style={transform}
             >
-              <Box as={`figure`} mb={[4]}>
+              <Box as={`figure`} mb={[3]}>
                 <ProjectHoverPane color={colorMain}>
                   {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
                   {videoPreview && (
@@ -168,19 +170,21 @@ const ProjectPreview = (props) => {
               <footer>
                 <Text
                   as={`h3`}
-                  className={`fw-300 is-sans`}
-                  fontSize={[3, 3, 4]}
+                  className={`fw-300`}
+                  fontSize={[3, 2, 2, `28px`]}
                   mb={[0]}
                 >
                   {name}
                 </Text>
+                {category &&
                 <Text
                   as={`h4`}
                   className={`fw-300 is-serif is-gray`}
-                  fontSize={[3]}
+                  fontSize={[2]}
                 >
-                  Branding
+                 {category[0].title}
                 </Text>
+                }
               </footer>
             </TransitionLinkComponent>
           </Box>
