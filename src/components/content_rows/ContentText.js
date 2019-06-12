@@ -90,7 +90,7 @@ const ContentText = ({ data }) => {
             textColor={data.textColor ? data.textColor : false}
             mb={VERTICAL_SPACER}
             mx="auto"
-            px={[4, 5, 5, 5, 5, `15vw`]}
+            px={[4, 5, 5, 5, 5, `30vw`]}
           >
             {data.text ? format(data.text.text) : []}
           </Box>
