@@ -6,12 +6,7 @@ import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import {
-  RowContainer,
-  Grid,
-  ALIGN_VALUES,
-  VERTICAL_SPACER,
-} from './index'
+import { RowContainer, Grid, ALIGN_VALUES, VERTICAL_SPACER } from './index'
 
 import EmbeddedAsset from './EmbeddedAsset'
 
@@ -45,13 +40,13 @@ const options = {
 }
 
 export const format = json => {
-  let parsedJSON = is(String, json) ? JSON.parse(json) : ({ content : json})
+  let parsedJSON = is(String, json) ? JSON.parse(json) : { content: json }
   return documentToReactComponents(parsedJSON, options)
 }
 
 const postBody = styled.div`
   /* TODO: overides all default styles for HTML elements available in Contentful richtext editor (blockquotes, b, strong, italic, p, heading, etc) */
-  max-width: 720px;
+  /* max-width: ${props => (props.maxWidth ? props.maxWidth : 'inherit')}; */
 
   h1,
   h2,
@@ -60,16 +55,16 @@ const postBody = styled.div`
   h5 {
     font-weight: 500;
     margin-bottom: 2rem;
-    color: ${props => props.textColor ? props.textColor : `inherit`};
+    color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
   p {
     margin-bottom: 2rem;
-    color: ${props => props.textColor ? props.textColor : `inherit`};
+    color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
   a {
-    color: ${props => props.textColor ? props.textColor : `inherit`};
+    color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
   /* paragraph following a blockquote  */
@@ -82,24 +77,46 @@ const postBody = styled.div`
 const ContentText = ({ data }) => {
   return (
     <RowContainer
-      alignContent={ALIGN_VALUES['center']}
+      // alignContent={ALIGN_VALUES['center']}
       backgroundColor={data.backgroundColor}
     >
-      <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
-        {data.text &&
-          <Box as={postBody} textColor={data.textColor ? data.textColor: false} mb={VERTICAL_SPACER} mx="auto" px={[4, 5, 0]}>
+      {data.text && (
+        <Box
+          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
+          pb={data.backgroundColor ? `1px` : 0}
+        >
+          <Box
+            as={postBody}
+            textColor={data.textColor ? data.textColor : false}
+            mb={VERTICAL_SPACER}
+            mx="auto"
+            px={[4, 5, 5, 5, 5, `15vw`]}
+          >
             {data.text ? format(data.text.text) : []}
           </Box>
-        }
-        <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
-          { console.log(data.textColumns) }
-          {data.textColumns && data.textColumns.map((textColumn, index) => (
-            <Box mb={VERTICAL_SPACER}>
-              {textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
-            </Box>
-          ))}
-        </Grid>
-      </Box>
+        </Box>
+      )}
+      {data.textColumns && (
+        <Box
+          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
+          px={[4, 5, 5, 5, 5, `15vw`]}
+        >
+          <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
+            {data.textColumns &&
+              data.textColumns.map((textColumn, index) => (
+                <Box
+                  as={postBody}
+                  textColor={data.textColor ? data.textColor : false}
+                  mb={VERTICAL_SPACER}
+                >
+                  {textColumn.text
+                    ? format(textColumn.text.text || textColumn.text.content)
+                    : []}
+                </Box>
+              ))}
+          </Grid>
+        </Box>
+      )}
     </RowContainer>
   )
 }
