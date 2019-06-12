@@ -24,6 +24,7 @@ import fr from '@locales/fr/fr.json'
 import Header from '@components/header'
 import Footer from '@components/footer'
 import Main from '@components/main'
+import Wrapper from '@components/wrapper'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
@@ -33,9 +34,7 @@ const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
 
-const Wrapper = styled.div`
-  height: 100vh;
-`
+
 
 const TransitionPane = styled.div`
   position: fixed;
@@ -57,19 +56,23 @@ const TransitionPane = styled.div`
   background-color: ${props => props.backgroundColor ? props.backgroundColor: "#000"};
 `
 
-const Layout = ({ locale, withIntro, introComponent, children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
+const Layout = ({ locale, withIntro, introComponent, children }) => {
+  const onScroll = () => {
+    if( SCROLL_EVENT ) window.dispatchEvent(SCROLL_EVENT)
+  }
+
+  return (
+    <StaticQuery
+      query={graphql`
+        query SiteTitleQuery {
+          site {
+            siteMetadata {
+              title
+            }
           }
         }
-      }
-    `}
-    render={data => (
-      <>
+      `}
+      render={data => (
         <IntlProvider locale={locale} messages={messages[locale]}>
           <React.Fragment>
 
@@ -82,7 +85,7 @@ const Layout = ({ locale, withIntro, introComponent, children }) => (
                 thumbMinSize={55}
                 alwaysShowTracks={false}
                 continuousScrolling={true}
-                onScroll={() => (SCROLL_EVENT) ? window.dispatchEvent(SCROLL_EVENT) : null}
+                onScroll={onScroll}
               >
 
                 <TransitionState>
@@ -118,10 +121,10 @@ const Layout = ({ locale, withIntro, introComponent, children }) => (
 
           </React.Fragment>
         </IntlProvider>
-      </>
-    )}
-  />
-)
+      )}
+    />
+  )
+}
 
 Layout.defaultProps = {
   withIntro: false,
