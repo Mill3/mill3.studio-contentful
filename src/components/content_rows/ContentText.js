@@ -6,7 +6,7 @@ import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import { RowContainer, Grid, ALIGN_VALUES, VERTICAL_SPACER } from './index'
+import { RowContainer, Grid, VERTICAL_SPACER } from './index'
 
 import EmbeddedAsset from './EmbeddedAsset'
 
@@ -81,10 +81,7 @@ const ContentText = ({ data }) => {
       backgroundColor={data.backgroundColor}
     >
       {data.text && (
-        <Box
-          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
-          pb={data.backgroundColor ? `1px` : 0}
-        >
+        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
           <Box
             as={postBody}
             textColor={data.textColor ? data.textColor : false}
@@ -97,21 +94,12 @@ const ContentText = ({ data }) => {
         </Box>
       )}
       {data.textColumns && (
-        <Box
-          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
-          px={[4, 5, 5, 5, 5, `15vw`]}
-        >
+        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} px={[4, 5, 5, 5, 5, `15vw`]}>
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
             {data.textColumns &&
               data.textColumns.map((textColumn, index) => (
-                <Box
-                  as={postBody}
-                  textColor={data.textColor ? data.textColor : false}
-                  mb={VERTICAL_SPACER}
-                >
-                  {textColumn.text
-                    ? format(textColumn.text.text || textColumn.text.content)
-                    : []}
+                <Box as={postBody} textColor={data.textColor ? data.textColor : false} mb={VERTICAL_SPACER} key={index}>
+                  {textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
                 </Box>
               ))}
           </Grid>

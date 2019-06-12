@@ -1,17 +1,19 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { Flex, Box } from 'rebass'
+import { Flex, Box, Text } from 'rebass'
+import { FormattedMessage } from 'react-intl'
 
 import Layout from '@components/layout'
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
-import Button from '@components/buttons'
+import TransitionLinkComponent from '@utils/TransitionLink'
+import Button, { LinkButton } from '@components/buttons'
 
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      {/* {console.log(data)} */}
+      {console.log(data.next)}
       <Container>
         <SingleHeader
           label="Projects:"
@@ -21,15 +23,31 @@ const ProjectSingle = ({ pageContext, data }) => {
         />
       </Container>
       <ContentRow data={data.project.contentRows} />
-      {data.project.url &&
-      <Flex>
+      <Flex flexDirection={`column`}>
+        {data.project.url &&
         <Box mx="auto">
-          <a href={data.project.url} target="_blank" without rel="noopener noreferrer">
+          <a href={data.project.url} target="_blank" without="true" rel="noopener noreferrer">
             <Button>Visit website</Button>
           </a>
         </Box>
+        }
+        {data.next &&
+          <Box mx="auto" mt={4} mb={5}>
+            <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
+              <FormattedMessage id={`Next project :`} />
+            </Text>
+            <TransitionLinkComponent
+              to={`/projects/${data.next.slug}`}
+              title={data.next.name}
+              color={data.next.colorMain}
+            >
+              <LinkButton hoverColor={data.next.colorMain}>
+                {data.next.name}
+              </LinkButton>
+            </TransitionLinkComponent>
+          </Box>
+        }
       </Flex>
-      }
     </Layout>
   )
 }
@@ -37,7 +55,10 @@ const ProjectSingle = ({ pageContext, data }) => {
 export default ProjectSingle
 
 export const projectQuery = graphql`
-  query projectQuery($id: String!, $locale: String!) {
+  query projectQuery($id: String!, $locale: String!, $nextId: String!) {
+    next: contentfulProjects(id: { eq: $nextId }, node_locale : { eq: $locale }) {
+      ...Project
+    }
     project: contentfulProjects(id: { eq: $id }, node_locale : { eq: $locale }) {
       id
       slug
