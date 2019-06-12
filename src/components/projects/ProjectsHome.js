@@ -1,22 +1,26 @@
 import React from 'react'
 import { Flex, Box, Text } from 'rebass'
+
 import ProjectPreview from './ProjectPreview'
-import TransitionLinkComponent from '@utils/TransitionLink'
 import Button from '@components/buttons'
+import { breakpoints } from '@styles/Theme'
+import { TRANSITION_DURATION } from '@utils/constants'
+import Viewport from '@utils/Viewport'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 export const columns = {
   0 : {
-    width: [1, 1/2, 1/3, 1/3],
+    width: [1, 1/2, 1/2, 4.5/12, 1/3],
   },
   1 : {
-    width: [1, 1/2, 1/2, 1/2],
+    width: [1, 1/2],
     ml: ['auto'],
     mt: [0, 5],
   },
   2 : {
-    width: [1, 1/2, 1/2, 1/3],
-    mt: [0, 0, '-30vh'],
-    ml: [0, 0, `${(1/6)*100}%`]
+    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+    mt: [0, 0, -5, '-30vh'],
+    ml: [0, 0, 0, `${((6 - 4.5) / 12)*100}%`]
   },
 }
 
@@ -25,30 +29,49 @@ export const ProjectHomeCol = (index) => {
   return column
 }
 
+const mobileBreakpoint = parseInt(breakpoints[1])
+
 class ProjectsHome extends React.Component {
 
   list() {
     if (this.props.data) {
-      return this.props.data.edges.map((project, index) =>
-        <ProjectPreview key={index} index={index} project={project} columns={ProjectHomeCol(index)} offset={index % 2 ? 120 : 0} />
-      )
+      const isMobile = Viewport.width < mobileBreakpoint
+      const getDelay = (index) => {
+        if( isMobile ) return index === 0 ? TRANSITION_DURATION * 3000 : 0
+        else return index < 2 ? TRANSITION_DURATION * 2000 + index * 250 : 0
+      }
+
+      return this.props.data.edges.map((project, index) => {
+        const offset = isMobile ? 0 : ( index % 2 ? 120 : 0 )
+        const delay = getDelay(index)
+
+        return (
+          <ProjectPreview
+            key={index}
+            delay={delay}
+            project={project}
+            columns={ProjectHomeCol(index)}
+            offset={offset}
+          />
+        )
+      })
     }
   }
 
   render() {
     return (
       <>
-        <Flex mb={[5]} mx={[-2, -4]} flexWrap={`wrap`}>
+        <Flex mb={[5]} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
           {this.list()}
         </Flex>
-        <Flex mb={[5]} mx={[-2, -4]} justifyContent={`center`} flexDirection={`column`}>
+        <Flex mb={[5]} mx={['-5vw', null, -3, -4]} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
               <Button>Hey, there’s more work here !</Button>
             </TransitionLinkComponent>
           </Box>
-          <Box width={[1,3/4]} pt={[5]} pb={[5]} m={`auto`}>
-            <Text fontSize={[2,3,3,`2vw`]} textAlign={`center`} className={`fw-300`}>
+          <Box width={[10/12, 3/4]} pt={[5]} pb={[0, null, 5]} m={`auto`}>
+            <Text fontSize={['5.314009662vw', null, 3, `2vw`]} textAlign={`center`} className={`fw-300`}>
               We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.
             </Text>
           </Box>

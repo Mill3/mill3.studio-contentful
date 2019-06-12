@@ -14,6 +14,7 @@ const CheckboxStyle = styled.input`
   border-radius: 100%;
   cursor: pointer;
   outline: none;
+  flex: 0 0 auto;
 
   &:checked {
     background: ${colors.blue};

@@ -17,7 +17,7 @@ const ProjectPoses = posed.article({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0),
+    delay: ({ delay }) => delay,
     transition: {
       type: 'spring',
       stiffness: 30,
@@ -115,7 +115,7 @@ const ProjectPreview = (props) => {
     }
   }
 
-  const { project, index, columns, offset } = props
+  const { project, delay, columns, offset } = props
   const { slug, colorMain, imageMain, imageHover, videoPreview, name } = project.node
   const Wrapper = offset === 0 ? InView : ScrollPercentage
 
@@ -134,55 +134,63 @@ const ProjectPreview = (props) => {
 
         return (
           <Box
-            as={ProjectPreviewItem}
+            as="div"
             ref={ref}
-            index={index}
-            initialPose={'hidden'}
-            pose={isVisible ? 'visible' : 'hidden'}
-            px={[2, 4]}
-            mb={[2, 2, '5vh']}
+            px={[0, 0, 3, 4]}
+            mb={['40px', null, '5vh']}
             {...columns}
-            color={colorMain}
           >
-            <TransitionLinkComponent
-              to={`/projects/${slug}`}
-              title={name}
+            <Box
+              as={ProjectPreviewItem}
+              delay={delay}
+              initialPose={'hidden'}
+              pose={isVisible ? 'visible' : 'hidden'}
+              width={'100%'}
               color={colorMain}
-              onMouseEnter={e => onHover(true)}
-              onMouseLeave={e => onHover(false)}
-              style={transform}
             >
-              <Box as={`figure`} mb={[4]}>
-                <ProjectHoverPane color={colorMain}>
-                  {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
-                  {videoPreview && (
-                    <video muted playsInline loop ref={videoRef}>
-                      <source src={videoPreview.file.url} type="video/mp4" />
-                    </video>
-                  )}
-                </ProjectHoverPane>
-                <FigureBox>
-                  <Img fade={false} fluid={imageMain.fluid} />
-                </FigureBox>
-              </Box>
-              <footer>
-                <Text
-                  as={`h3`}
-                  className={`fw-300 is-sans`}
-                  fontSize={[3, 3, 4]}
-                  mb={[0]}
-                >
-                  {name}
-                </Text>
-                <Text
-                  as={`h4`}
-                  className={`fw-300 is-serif is-gray`}
-                  fontSize={[3]}
-                >
-                  Branding
-                </Text>
-              </footer>
-            </TransitionLinkComponent>
+              <TransitionLinkComponent
+                to={`/projects/${slug}`}
+                title={name}
+                color={colorMain}
+                onMouseEnter={e => onHover(true)}
+                onMouseLeave={e => onHover(false)}
+                style={transform}
+              >
+                <Box as={`figure`} mb={[4]}>
+                  <ProjectHoverPane color={colorMain}>
+                    {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
+                    {videoPreview && (
+                      <video muted playsInline loop ref={videoRef}>
+                        <source src={videoPreview.file.url} type="video/mp4" />
+                      </video>
+                    )}
+                  </ProjectHoverPane>
+                  <FigureBox>
+                    <Img fade={false} fluid={imageMain.fluid} />
+                  </FigureBox>
+                </Box>
+
+                <Box as={`footer`} px={['5vw', null, 0]}>
+                  <Text
+                    as={`h3`}
+                    className={`fw-300 is-sans`}
+                    fontSize={[3, 3, 4]}
+                    m={[0]}
+                  >
+                    {name}
+                  </Text>
+                  <Text
+                    as={`h4`}
+                    className={`fw-300 is-serif is-gray`}
+                    fontSize={[3]}
+                    m={0}
+                  >
+                    Branding
+                  </Text>
+                </Box>
+
+              </TransitionLinkComponent>
+            </Box>
           </Box>
         )
       }}
@@ -191,7 +199,7 @@ const ProjectPreview = (props) => {
 }
 
 ProjectPreview.defaultProps = {
-  index: 0,
+  delay: 0,
   columns: {
     width: 1 / 2,
     ml: [0],

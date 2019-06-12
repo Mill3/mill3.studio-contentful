@@ -5,17 +5,48 @@ import Layout from '@components/layout'
 import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
 
+import { breakpoints } from '@styles/Theme'
+import { TRANSITION_DURATION } from '@utils/constants'
+import Viewport from '@utils/Viewport'
+
+const mobileBreakpoint = parseInt(breakpoints[1])
+const tabletBreakpoint = parseInt(breakpoints[2])
+
 class ProjectsIndex extends Component {
 
   list() {
 
     const columns = {
-      width: [1, 1/2, 1/3],
+      width: [1, 1, 1/2, 1/3],
+    }
+    const isMobile = Viewport.width < mobileBreakpoint
+    const isTablet = Viewport.width < tabletBreakpoint
+
+    const getOffset = (index) => {
+      if( isMobile ) return 0
+      else if( isTablet ) return index % 2 === 1 ? -160 : 0
+      else return index % 3 === 1 ? -160 : 0
+    }
+    const getDelay = (index) => {
+      if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2000 : 0
+      else if( isTablet ) return ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0)
+      else return ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0)
     }
 
     if (this.props.data) {
       return this.props.data.allContentfulProjects.edges.map((project, index) => {
-          return <ProjectPreview key={index} index={index} project={project} columns={columns} offset={index % 3 === 1 ? -160 : 0} />
+          const offset = getOffset(index)
+          const delay = getDelay(index)
+
+          return (
+            <ProjectPreview
+              key={index}
+              delay={delay}
+              project={project}
+              columns={columns}
+              offset={offset}
+            />
+          )
         }
       )
     }
@@ -36,7 +67,7 @@ class ProjectsIndex extends Component {
               We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.
             </Text>
           </Box>
-          <Flex as={`section`} mx={[-2, -4]} flexWrap={`wrap`}>
+          <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
             {this.list()}
           </Flex>
         </Container>

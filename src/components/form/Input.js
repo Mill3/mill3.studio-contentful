@@ -1,7 +1,8 @@
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
+import { Text } from 'rebass'
 
-import { colors, fonts, fontSizes } from '@styles/Theme'
+import { colors } from '@styles/Theme'
 
 
 const InputStyle = styled.input`
@@ -10,9 +11,6 @@ const InputStyle = styled.input`
   border: none;
   border-bottom: 1px solid #D1D1D1;
   padding: 0.3em 0.9em;
-  font-size: ${fontSizes[4]}px;
-  font-family: ${fonts.sans};
-  font-weight: 300;
   width: 100%;
   outline: none;
 
@@ -26,7 +24,7 @@ const InputStyle = styled.input`
 
 const Input = forwardRef((props, ref) => {
   return (
-    <InputStyle ref={ref} type="text" {...props} />
+    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, 4]} fontWeight={300} {...props} />
   )
 })
 
