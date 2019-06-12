@@ -48,11 +48,15 @@ const NavItemPoses = posed.li({
 })
 
 const NavWrapper = styled.nav`
-  color: ${props => props.inverted ? 'white' : 'black' };
+  color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
 
   a {
-    color: ${props => props.inverted ? 'white' : 'black' };
+    color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.gray };
     display: inline-block;
+
+    &[aria-current] {
+      color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
+    }
   }
 `
 
@@ -123,6 +127,7 @@ const NavItem = styled(NavItemPoses)`
     padding-bottom: 0;
     padding-right: 0;
   }
+
 `
 
 
