@@ -15,7 +15,7 @@ class ProjectsIndex extends Component {
 
     if (this.props.data) {
       return this.props.data.allContentfulProjects.edges.map((project, index) => {
-          return <ProjectPreview key={index} index={index} project={project} columns={columns} offset={index % 3 === 1 ? -60 : 0} />
+          return <ProjectPreview key={index} index={index} project={project} columns={columns} offset={index % 3 === 1 ? -160 : 0} />
         }
       )
     }

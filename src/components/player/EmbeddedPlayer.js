@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import VisibilitySensor from 'react-visibility-sensor'
 import ProximityFeedback from 'react-proximity-feedback'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -13,9 +14,20 @@ class EmbeddedPlayer extends Component {
   constructor(props) {
     super(props)
     this.startVideo = this.startVideo.bind(this)
+    this.playRef = React.createRef()
     this.state = {
       playing: false,
       visible: false,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      this.refs.player.player &&
+      this.state.playing &&
+      !this.state.isVisible
+    ) {
+      this.pauseVideo()
     }
   }
 
@@ -47,22 +59,32 @@ class EmbeddedPlayer extends Component {
 
   render() {
     return (
-      <>
+      <VisibilitySensor
+        onChange={e => this.setVisible(e)}
+        partialVisibility={true}
+        offset={{ top: -50 }}
+      >
         <FigureBox ratio={9 / 16}>
           <PlayerInner>
-            {this.props.poster &&
+            {this.props.poster && (
               <>
-                <PlayButton
-                  visible={!this.state.playing}
-                  onClick={() => this.startVideo()}
-                >
-                  <Play />
-                </PlayButton>
+                <ProximityFeedback throttleInMs={1}>
+                  {({ ref, distance }) => (
+                    <PlayButton
+                      ref={ref}
+                      visible={!this.state.playing}
+                      scale={(distance < 300) ? 1 + ((300 - distance) / 750) : 1}
+                      onClick={() => this.startVideo()}
+                    >
+                      <Play />
+                    </PlayButton>
+                  )}
+                </ProximityFeedback>
                 <PlayerPoster visible={!this.state.playing}>
                   <img src={this.props.poster} />
                 </PlayerPoster>
               </>
-            }
+            )}
             <ReactPlayer
               ref="player"
               url={this.props.url}
@@ -87,17 +109,14 @@ class EmbeddedPlayer extends Component {
             />
           </PlayerInner>
         </FigureBox>
-      </>
+      </VisibilitySensor>
     )
   }
 }
 
 EmbeddedPlayer.propTypes = {
   url: PropTypes.string.isRequired,
-  poster: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
+  poster: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 }
 
 export default EmbeddedPlayer
@@ -114,7 +133,7 @@ const PlayerPoster = styled.figure`
   width: 100%;
   height: 100%;
   z-index: 5;
-  transition: opacity 1s;
+  transition: opacity 1s, transform 0.125s;
   opacity: ${props => (props.visible ? 1 : 0)};
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
   img {
@@ -132,9 +151,10 @@ export const PlayButton = styled.a`
   cursor: pointer;
   transition: opacity 1s;
   opacity: ${props => (props.visible ? 1 : 0)};
+  opacity: ${props => (props.visible ? 1 : 0)};
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
   display: inline-block;
-  transform: translate(-50%, -50%);
+  transform: ${props => (`translate(-50%, -50%) scale(${props.scale})`)};
   width: 80px;
   height: 80px;
   background: black;
@@ -149,8 +169,8 @@ export const PlayButton = styled.a`
     width: 15px;
   }
 
-  &:hover {
+  /* &:hover {
     width: 94px;
     height: 94px;
-  }
+  } */
 `

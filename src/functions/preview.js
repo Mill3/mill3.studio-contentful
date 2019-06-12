@@ -43,6 +43,24 @@ const contentRowFormatter = (row) => {
       return (fields[type] = {"text": value.content})
     }
 
+    if (contentfulTypeName === 'ContentfulContentText' && type == 'textColumns') {
+      let items = []
+      Object.entries(value).map((imageItem) => {
+        let fields = imageItem[1].fields
+        console.log('fields:', fields)
+        // Object.entries(fields).map((imageItemField) => {
+        //   let [imageItemFieldType, imageItemFieldValue] = imageItemField
+        //   if (imageItemFieldType === 'text') {
+        //     fields[imageItemFieldType] = imageItemFieldValue.content
+        //   }
+        // })
+        items.push(fields)
+      })
+
+      // push new reformatted entry
+      return (fields[type] = items)
+    }
+
     if (contentfulTypeName === 'ContentfulContentImages' && type == 'overlayImage') {
       return (fields[type] = { file: value.fields.file })
     }
