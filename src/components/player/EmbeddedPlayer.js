@@ -68,7 +68,7 @@ class EmbeddedPlayer extends Component {
           <PlayerInner>
             {this.props.poster && (
               <>
-                <ProximityFeedback throttleInMs={125}>
+                <ProximityFeedback throttleInMs={1}>
                   {({ ref, distance }) => (
                     <PlayButton
                       ref={ref}
