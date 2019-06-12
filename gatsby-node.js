@@ -65,6 +65,7 @@ exports.createPages = ({ graphql, actions }) => {
       // get templates
       const ProjectIndexTemplate = path.resolve(`./src/components/projects/ProjectsIndex.js`)
       const ProjectSingleTemplate = path.resolve(`./src/components/projects/ProjectSingle.js`)
+      const posts = result.data.allContentfulProjects.edges
 
       // Projects Index page
       _.each(locales, locale => {
@@ -77,7 +78,11 @@ exports.createPages = ({ graphql, actions }) => {
         })
       })
 
-      _.each(result.data.allContentfulProjects.edges, edge => {
+      _.each(posts, (edge, index) => {
+
+        const next = index === posts.length - 1 ? posts[0].node : posts[index + 1].node
+        // console.log('next:', next)
+
         createPage({
           path: `/${edge.node.node_locale}/projects/${edge.node.slug}/`,
           component: slash(ProjectSingleTemplate),
@@ -85,7 +90,8 @@ exports.createPages = ({ graphql, actions }) => {
             id: edge.node.id,
             contentful_id:  edge.node.contentful_id,
             slug:  edge.node.slug,
-            locale: edge.node.node_locale
+            locale: edge.node.node_locale,
+            nextId: next ? next.id : null
           },
         })
       })

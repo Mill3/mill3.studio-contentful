@@ -20,6 +20,8 @@ const SelectStyle = styled.select`
   line-height: 1.48;
   flex: 1 1 auto;
   overflow: hidden;
+  position: relative;
+  transform: translateY(-10%);
 
   option {
     padding: 0;

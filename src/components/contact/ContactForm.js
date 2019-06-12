@@ -2,7 +2,7 @@ import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass'
 import { omit } from 'lodash'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import axios from 'axios'
 import { debounce } from 'lodash'
 
@@ -17,6 +17,9 @@ import Viewport from '@utils/Viewport'
 
 const FormStyle = styled.form`
   color: ${colors.black};
+  select:focus {
+    outline: none;
+  }
 `
 const FieldGroupStyle = styled.div`
   width: 100%;
@@ -27,7 +30,35 @@ const LabelStyle = styled.label`
   display: block;
 `
 
+const FadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const FadeOut = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const FormFooter = styled.footer`
+  opacity: 0;
+  animation-delay: 0.125s;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: ${props => props.visible ? FadeIn : 'none'};
+  display: ${props => props.visible ? 'block' : 'none'};
+`
+
 const selectOptions = {
+  select: '...',
   project: 'project',
   cv: 'cv',
   idea: 'ideas',
@@ -69,11 +100,13 @@ class ContactForm extends Component {
 
     this.state = {
       activeField: null,
+      selectedIndex: 0,
       monitorScroll: true,
       submitting: false,
     }
 
     this.formRef = createRef()
+    this.typeRef = createRef()
     this.nameRef = createRef()
     this.emailRef = createRef()
     this.companyRef = createRef()
@@ -228,7 +261,7 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { activeField, submitting } = this.state
+    const { activeField, submitting, selectedIndex } = this.state
 
     return (
       <Container fluid>
@@ -237,70 +270,78 @@ class ContactForm extends Component {
 
             <Flex flexWrap={["wrap", null, null, "nowrap"]} justifyContent={["center", null, "start"]} alignItems="center" pb={4} width={'100%'}>
               <Text as="label" className="is-sans is-light" fontSize={[4, null, 6]} mb={0} mr={[0, null, null, 3]} htmlFor="type" css={{flex: '0 0 auto'}}>Hey ! Share us your</Text>
-              <Select id="type" name="type">
+              <Select ref={this.typeRef} id="type" name="type" onChange={e => this.setState({ selectedIndex: this.typeRef.current.selectedIndex })}>
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
                   return <option value={key} key={index}>{value}</option>
                 })}
               </Select>
             </Flex>
 
-            <FieldGroup
-              ref={ this.nameRef }
-              name="name"
-              type="text"
-              label="1. You should have a name"
-              active={ activeField === 'name' }
-              onActive={ this.onFocusChange }
-            />
+            <Box as={FormFooter} visible={selectedIndex > 0} pt={4}>
 
-            <FieldGroup
-              ref={ this.emailRef }
-              name="email"
-              type="email"
-              label="2. Without a dought an email"
-              active={ activeField === 'email' }
-              onActive={ this.onFocusChange }
-            />
+              <FieldGroup
+                ref={ this.nameRef }
+                name="name"
+                type="text"
+                label="1. You should have a name"
+                active={ activeField === 'name' }
+                onActive={ this.onFocusChange }
+              />
 
-            <FieldGroup
-              ref={ this.companyRef }
-              name="company"
-              type="text"
-              label="3. Possibly a company name"
-              active={ activeField === 'company' }
-              onActive={ this.onFocusChange }
-            />
+              <FieldGroup
+                ref={ this.emailRef }
+                name="email"
+                type="email"
+                label="2. Without a dought an email"
+                active={ activeField === 'email' }
+                onActive={ this.onFocusChange }
+              />
 
-            <FieldGroup
-              ref={ this.projectTypeRef }
-              name="project-type"
-              type="text"
-              label="4. First thing first, what's your project type"
-              active={ activeField === 'project-type' }
-              onActive={ this.onFocusChange }
-            />
+              <FieldGroup
+                ref={ this.companyRef }
+                name="company"
+                type="text"
+                label="3. Possibly a company name"
+                active={ activeField === 'company' }
+                onActive={ this.onFocusChange }
+              />
 
-            <FieldGroup
-              ref={ this.budgetRef }
-              name="budget"
-              type="text"
-              label="5. Budget in mind"
-              active={ activeField === 'budget' }
-              onActive={ this.onFocusChange }
-            />
+              <FieldGroup
+                ref={ this.projectTypeRef }
+                name="project-type"
+                type="text"
+                label="4. First thing first, what's your project type"
+                active={ activeField === 'project-type' }
+                onActive={ this.onFocusChange }
+              />
 
-            <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
-              <Checkbox ref={this.subscribeRef} id="subscribe" name="subscribe" value="1" onFocus={(e) => this.onFocusChange(e.target.name)} />
-              <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
-            </Flex>
+              <FieldGroup
+                ref={ this.budgetRef }
+                name="budget"
+                type="text"
+                label="5. Budget in mind"
+                active={ activeField === 'budget' }
+                onActive={ this.onFocusChange }
+              />
 
-            <Button type="submit" disabled={submitting}>Send</Button>
+              <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
+                <Checkbox ref={this.subscribeRef} id="subscribe" name="subscribe" value="1" onFocus={(e) => this.onFocusChange(e.target.name)} />
+                <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.</Text>
+              </Flex>
+
+              <Button type="submit" disabled={submitting}>Send</Button>
+
+            </Box>
 
           </Flex>
         </Box>
       </Container>
     )
   }
+}
+
+Container.defaultProps = {
+  verticalSpacer: 0
 }
 
 export default ContactForm

@@ -7,6 +7,10 @@ export const query = graphql`
     node_locale
     name
     colorMain
+    category {
+      id
+      title
+    }
     imageMain {
       fluid(maxWidth: 1800, quality: 85) {
         ...GatsbyContentfulFluid_withWebp_noBase64

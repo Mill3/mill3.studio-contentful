@@ -8,6 +8,7 @@ import SEO from '@components/seo'
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import HeaderIntro from '@components/header/HeaderIntro'
+import ContactForm from '@components/contact/ContactForm'
 
 import Container from '@styles/Container'
 
@@ -20,6 +21,7 @@ const IndexPage = ({ pageContext, data }) => (
       }
     </Container>
     <ClientsTicker/>
+    <ContactForm my={[2,3,5]} />
   </Layout>
 )
 

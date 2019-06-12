@@ -104,9 +104,9 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   }
 `
 
-const ProjectPreview = (props) => {
+const ProjectPreview = props => {
   const videoRef = React.createRef()
-  const onHover = (isHover) => {
+  const onHover = isHover => {
     if (isHover && videoRef.current) {
       videoRef.current.currentTime = 0
       videoRef.current.play()
@@ -116,7 +116,7 @@ const ProjectPreview = (props) => {
   }
 
   const { project, delay, columns, offset } = props
-  const { slug, colorMain, imageMain, imageHover, videoPreview, name } = project.node
+  const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
   const Wrapper = offset === 0 ? InView : ScrollPercentage
 
   let isVisible = false
@@ -125,12 +125,12 @@ const ProjectPreview = (props) => {
     <Wrapper>
       {({ inView = false, percentage = null, ref }) => {
         // once visible once, never set it back to invisible
-        if( isVisible === false ) {
+        if (isVisible === false) {
           isVisible = inView === true || percentage > 0
         }
 
         // only calculate transformations if required
-        const transform = offset === 0 ? {} : {transform: `translate3d(0, ${percentage * offset}px, 0)`}
+        const transform = offset === 0 ? {} : { transform: `translate3d(0, ${percentage * offset}px, 0)` }
 
         return (
           <Box
@@ -174,19 +174,16 @@ const ProjectPreview = (props) => {
                   <Text
                     as={`h3`}
                     className={`fw-300 is-sans`}
-                    fontSize={[3, 3, 4]}
+                    fontSize={[3, 2, 2, `28px`]}
                     m={[0]}
                   >
                     {name}
                   </Text>
-                  <Text
-                    as={`h4`}
-                    className={`fw-300 is-serif is-gray`}
-                    fontSize={[3]}
-                    m={0}
-                  >
-                    Branding
-                  </Text>
+                  {category && (
+                    <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[2, 2, 2, `19px`]} m={0}>
+                      {category[0].title}
+                    </Text>
+                  )}
                 </Box>
 
               </TransitionLinkComponent>

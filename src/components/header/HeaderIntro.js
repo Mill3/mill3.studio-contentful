@@ -12,8 +12,6 @@ import { TRANSITION_DURATION } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
 
-
-
 const HeaderIntroPoses = posed.header({
   init: {
     y: `102vh`,
