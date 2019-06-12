@@ -42,7 +42,7 @@ export const RowContainer = ({alignContent, backgroundColor, children}) => {
   let pr = alignContent === ALIGN_VALUES['right'] ? responsiveGap : [0]
 
   return (
-    <Wrapper pl={pl} pr={pr} alignContent={`center`} backgroundColor={backgroundColor ? backgroundColor : `transparent`}>
+    <Wrapper fluid={true} pl={pl} pr={pr} alignContent={`center`} backgroundColor={backgroundColor ? backgroundColor : `transparent`}>
       {children}
     </Wrapper>
   )
