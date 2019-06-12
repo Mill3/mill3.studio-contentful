@@ -6,7 +6,7 @@ import Button from '@components/buttons'
 
 export const columns = {
   0 : {
-    width: [1, 1/2, 1/3, 1/3],
+    width: [1, 1/2, 1/3, `35%`],
   },
   1 : {
     width: [1, 1/2, 1/2, 1/2],
@@ -14,9 +14,9 @@ export const columns = {
     mt: [0, 5],
   },
   2 : {
-    width: [1, 1/2, 1/2, 1/3],
+    width: [1, 1/2, 1/2, `35%`],
     mt: [0, 0, '-30vh'],
-    ml: [0, 0, `${(1/6)*100}%`]
+    ml: [0, 0, `${(1/8)*100}%`]
   },
 }
 

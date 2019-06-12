@@ -17,7 +17,7 @@ const FooterContainer = styled.footer`
 const Footer = () => {
   return (
     <Box mt={[4, 5]} pt={[4]} pb={[4]} as={FooterContainer}>
-      <Container>
+      <Container fluid>
         <Flex flexWrap={'wrap'}>
           <Box as={`aside`} width={[1, 1, 1, 1 / 2, '444px']}>
             <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>

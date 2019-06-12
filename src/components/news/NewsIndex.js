@@ -30,7 +30,7 @@ class NewsIndex extends Component {
   render() {
     return (
       <Layout locale={this.props.pageContext.locale}>
-        <Container>
+        <Container fluid>
           <Box as={`header`} my={[3,3,6]}>
             <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
               <em>Unformal</em>, long form.
