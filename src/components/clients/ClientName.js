@@ -10,7 +10,7 @@ export const ClientNameHeading = styled.h4`
   cursor: crosshair;
   transition: color 1s;
   &:hover {
-    color: ${props => props.hoverColor ? props.hoverColor : props.theme.colors.blue};
+    color: black;
   }
 `
 
