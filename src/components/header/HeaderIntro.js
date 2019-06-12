@@ -12,8 +12,6 @@ import { TRANSITION_DURATION } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
 
-
-
 const HeaderIntroPoses = posed.header({
   init: {
     y: `102vh`,
@@ -36,6 +34,7 @@ const Header = styled(HeaderIntroPoses)`
   position: relative;
   height: 80vh;
   max-width: 100vw;
+  /* overflow-x: hidden; */
 
   h2 {
     margin: 0;

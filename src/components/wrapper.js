@@ -6,6 +6,9 @@ import { debounce } from 'lodash'
 
 const WrapperStyle = styled.div`
   height: 100vh;
+  max-width: 100vw;
+  /* overflow-x: hidden; */
+  /* overflow-y: auto; */
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
 `
 
