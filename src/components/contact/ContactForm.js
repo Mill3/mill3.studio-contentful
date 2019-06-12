@@ -97,6 +97,7 @@ class ContactForm extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.onFocusChange = this.onFocusChange.bind(this)
     this.onScroll = this.onScroll.bind(this)
+    this.debounced = debounce(() => this.setState({ monitorScroll: true }), 1000)
   }
 
   componentDidMount() {
@@ -175,9 +176,7 @@ class ContactForm extends Component {
     // scroll this field into viewport vertical center
     if( this.scrollbar ) this.scrollbar.scrollIntoView(ref.current, {alignToTop: true, offsetTop: vh - th});
 
-    debounce(() => {
-      this.setState({ monitorScroll: true })
-    }, 1000)()
+    this.debounced()
   }
   onScroll({ offset }) {
 
