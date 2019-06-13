@@ -86,7 +86,7 @@ const Layout = ({ locale, withIntro, introComponent, children }) => {
                       <Wrapper id="wrapper">
                         <TransitionPane
                           visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
-                          duration={['exiting', 'exited'].includes(transitionStatus) ? TRANSITION_EXIT_DURATION : TRANSITION_ENTERING_DURATION * 2}
+                          duration={['exiting', 'exited'].includes(transitionStatus) ? TRANSITION_EXIT_DURATION : TRANSITION_ENTERING_DURATION}
                           backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
                         >
                           <Text fontSize={[2, 3, `5vw`]} className={`is-sans fw-300`}>
