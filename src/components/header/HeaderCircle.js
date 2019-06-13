@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import { TweenLite, TimelineLite, Power4 } from 'gsap'
 
 import Circle from '@svg/Circle'
@@ -28,8 +28,11 @@ class HeaderCircle extends React.Component {
     this.state = {
       rotation: 3600,
     }
-    this.timeScale = { value: 1 };
+
+    this.timeScale = { value: 1 }
     this.ref = React.createRef()
+    this.onMouseWheelCompleted = this.onMouseWheelCompleted.bind(this)
+    this.onMouseWheelDebounce = debounce(this.onMouseWheelCompleted, 750)
   }
 
   componentDidMount() {
@@ -50,31 +53,32 @@ class HeaderCircle extends React.Component {
       const Hamster = require('hamsterjs')
 
       this.mouseWheel = Hamster(window)
-
       this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
         this.timeScale.value = 3.25;
         this.timeline.timeScale(this.timeScale.value)
 
         // reset transformation value after a few seconds
-        _.debounce(() => {
-          TweenLite.to(this.timeScale, 0.75, {
-            value: 1,
-            onUpdate: () => {
-              this.timeline.timeScale(this.timeScale.value)
-            },
-          })
-        }, 750)()
+        this.onMouseWheelDebounce()
       })
     }
+  }
+
+  onMouseWheelCompleted() {
+    TweenLite.to(this.timeScale, 0.75, {
+      value: 1,
+      onUpdate: () => {
+        this.timeline.timeScale(this.timeScale.value)
+      },
+    })
   }
 
   render() {
     return (
       <CircleContainer speed={this.state.speed} {...this.props}>
-        <Box width={['25vw', '15vw', '12vw']} pl={['5vw']}>
-          <figure ref={this.ref}>
+        <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
+          <Box as="figure" ref={this.ref} m={0}>
             <Circle />
-          </figure>
+          </Box>
         </Box>
       </CircleContainer>
     )

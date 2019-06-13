@@ -158,14 +158,15 @@ class HeaderIntro extends Component {
     const { x, y, skew } = this.state
 
     const isMobile = Viewport.width < mobileBreakpoint
+
     const angle = skew * (isMobile ? 15 : 10)
     const horizontal = isMobile ? 400 : 200
     const top = skew * Viewport.height * (isMobile ? -0.1 : -0.2)
 
     // tangent of angle = opposite / adjacent
     const radian = angle * Math.PI / 180
-    const adjacent = Viewport.width
-    const opposite = Math.tan(radian) * adjacent
+    const adjacent = Viewport.width - Viewport.width * 0.05
+    const opposite = Math.tan(radian) * adjacent * 0.3
 
     const t1 = { transform: `skewY(-${angle}deg) translate3d(${(x || 0) * -horizontal}px, ${y}px, 0)` }
     const t2 = { transform: `skewY(-${angle}deg) translate3d(${(x || 0) * horizontal}px, ${y}px, 0)` }
