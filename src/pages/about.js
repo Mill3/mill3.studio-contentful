@@ -3,7 +3,7 @@ import React from 'react'
 import { Box, Flex, Text } from 'rebass'
 
 import Layout from '@components/layout'
-import ChipButton from '@components/buttons'
+import { ChipButton } from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import Container from '@styles/Container'
 
@@ -21,7 +21,7 @@ const Service = (props) => {
 
 const About = ({ pageContext }) => (
   <Layout locale={pageContext.locale}>
-    <Container css={{position: 'relative'}}>
+    <Container fluid css={{position: 'relative'}}>
       <Box as="header" className="is-center" mb={[6, 6, 5, 6]}>
         <Text as={`h1`} fontSize={fontSizes} fontFamily="serif" mb={[5, 5, 4, 5]}>About.</Text>
         <Text as="p" fontSize={subtitleFontSizes} width={[1, 1, '90%', '60vw']} mb={4} mx="auto">Founded in 2011, our agency is specialized in the analysis, strategy and development of brands and web platforms.</Text>
