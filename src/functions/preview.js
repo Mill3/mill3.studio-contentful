@@ -74,6 +74,15 @@ const contentRowFormatter = (row) => {
       return (fields[type] = medias)
     }
 
+    if (contentfulTypeName === 'ContentfulContentSlides' && type == 'medias') {
+      let medias = []
+      Object.entries(value).map((media, index) => {
+        medias.push(media[1].fields)
+      })
+      // push new formatted array
+      return (fields[type] = medias)
+    }
+
     //
     // TODO: refactor me in a method
     //

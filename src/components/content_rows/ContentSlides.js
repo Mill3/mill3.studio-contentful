@@ -22,6 +22,9 @@ const flickityOptions = {
   selectedAttraction: 0.01,
   friction: 0.15,
   cellAlign: 'left',
+  freeScroll: true,
+  // wrapAround: true,
+  // lazyLoad: 8
 }
 
 const SliderItemContainer = styled.figure`
