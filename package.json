@@ -38,6 +38,7 @@
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-flickity-component": "^3.3.0",
     "react-helmet": "^5.2.1",
     "react-intersection-observer": "^8.23.0",
     "react-intl": "^2.9.0",

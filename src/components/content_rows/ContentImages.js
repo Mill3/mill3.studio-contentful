@@ -12,7 +12,7 @@ import {
   VERTICAL_SPACER,
 } from './index'
 
-const ContentImage = ({ img, backgroundColor, index }) => {
+export const ContentImage = ({ img, backgroundColor, index }) => {
   const [visible, setVisible] = useState(false)
 
   return (

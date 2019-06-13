@@ -77,7 +77,6 @@ const postBody = styled.div`
 const ContentText = ({ data }) => {
   return (
     <RowContainer
-      // alignContent={ALIGN_VALUES['center']}
       backgroundColor={data.backgroundColor}
     >
       {data.text && (

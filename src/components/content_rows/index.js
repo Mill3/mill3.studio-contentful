@@ -7,6 +7,7 @@ import Container from '@styles/Container'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
+import ContentSlides from './ContentSlides'
 
 export const ALIGN_VALUES = {
   'center': 'center',
@@ -24,6 +25,7 @@ export const CONTENT_ROW_TYPES = {
   'text': 'ContentfulContentText',
   'images': 'ContentfulContentImages',
   'videos': 'ContentfulContentVideos',
+  'slides': 'ContentfulContentSlides',
 }
 
 // responsive value between each row
@@ -80,6 +82,8 @@ class ContentRow extends Component {
           return <ContentImages key={index} data={row} />
         case CONTENT_ROW_TYPES['videos']:
           return <ContentVideos key={index} data={row} />
+        case CONTENT_ROW_TYPES['slides']:
+            return <ContentSlides key={index} data={row} />
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component

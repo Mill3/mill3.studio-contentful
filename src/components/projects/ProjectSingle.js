@@ -13,7 +13,7 @@ import Button, { LinkButton } from '@components/buttons'
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      {console.log(data.next)}
+      {/* {console.log(data)} */}
       <Container>
         <SingleHeader
           label="Projects:"
@@ -89,6 +89,9 @@ export const projectQuery = graphql`
         }
         ... on ContentfulContentVideos {
           ...ContentVideosFragement
+        }
+        ... on ContentfulContentSlides {
+          ...ContentSlidesFragement
         }
       }
     }
