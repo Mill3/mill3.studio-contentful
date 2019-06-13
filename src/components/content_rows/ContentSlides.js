@@ -5,15 +5,15 @@ import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
 import VisibilitySensor from 'react-visibility-sensor'
 
-if (typeof window === `object`) {
-  const Flickity = require('react-flickity-component')
-}
-
 import '@styles/flickity.css'
 
 import { MediaItemVideo } from './ContentImages'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { RowContainer, ALIGN_VALUES, VERTICAL_SPACER, GRID_GUTTER } from './index'
+
+const Flickity = typeof window === `object` ? require('react-flickity-component') : null
+// if (typeof window === `object`) {
+// }
 
 const flickityOptions = {
   prevNextButtons: false,
