@@ -4,6 +4,7 @@ import { Flex, Box, Text } from 'rebass'
 import SplitText from 'react-pose-text'
 
 import ContactForm from '@components/contact/ContactForm'
+import ContactTicker from '@components/contact/ContactTicker'
 import Layout from '@components/layout'
 import Container from '@styles/Container'
 import { header } from '@styles/Theme'
@@ -84,6 +85,7 @@ const About = ({ pageContext }) => (
     </Flex>
 
     <ContactForm />
+    <ContactTicker />
   </Layout>
 );
 
