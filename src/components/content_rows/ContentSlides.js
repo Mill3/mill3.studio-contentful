@@ -33,7 +33,7 @@ const SliderItemContainer = styled.figure`
     object-fit: contain;
     opacity: ${props => props.dragging ? 0.5 : 1};
     /* clip-path: ${props => props.dragging ? `inset(5px 30px)` : `inset(0px 0px)`}; */
-    transform: ${props => props.dragging ? `scale(0.675)` : `scale(1)`};
+    transform: ${props => props.dragging ? `scale(0.775)` : `scale(1)`};
     transition-delay: ${props => `${(props.index + 1) * 15}ms`};
     transition: all 0.425s ${props => props.dragging ? `ease-in-out` : `ease-in-out`} ${props => `${(props.index + 1) * 25}ms`};
     /* transition-property: transform; */
