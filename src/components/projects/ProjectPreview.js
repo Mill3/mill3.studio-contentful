@@ -26,6 +26,12 @@ const ProjectPoses = posed.article({
   },
 })
 
+const ProjectWrapper = styled.div`
+  &:last-child {
+    margin-bottom: 0 !important;
+  }
+`
+
 const ProjectHoverPane = styled.picture`
   display: flex;
   justify-content: center;
@@ -134,10 +140,10 @@ const ProjectPreview = props => {
 
         return (
           <Box
-            as="div"
+            as={ProjectWrapper}
             ref={ref}
-            px={[0, 0, 3, 4]}
-            mb={['40px', null, '5vh']}
+            px={[0, null, 3, 4]}
+            mb={['40px', null, '50px', '70px']}
             {...columns}
           >
             <Box

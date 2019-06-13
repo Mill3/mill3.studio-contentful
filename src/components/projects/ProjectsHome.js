@@ -61,7 +61,7 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <>
-        <Flex mb={[5]} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
+        <Flex mb={['90px', null, '80px']} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
           {this.list()}
         </Flex>
         <Flex mb={[5]} mx={['-5vw', null, -3, -4]} justifyContent={`center`} flexDirection={`column`}>
@@ -70,7 +70,7 @@ class ProjectsHome extends React.Component {
               <Button>Hey, there’s more work here !</Button>
             </TransitionLinkComponent>
           </Box>
-          <Box width={[10/12, 3/4]} pt={[5]} pb={[0, null, 5]} m={`auto`}>
+          <Box width={[10/12, 3/4]} pt={['80px', null, '110px']} pb={[0, null, 5]} m={`auto`}>
             <Text fontSize={['5.314009662vw', null, 3, `2vw`]} textAlign={`center`} className={`fw-300`}>
               We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.
             </Text>

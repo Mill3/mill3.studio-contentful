@@ -3,7 +3,7 @@ import React from 'react'
 import { Box, Flex, Text } from 'rebass'
 
 import Layout from '@components/layout'
-import ChipButton from '@components/buttons/ChipButton'
+import ChipButton from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import Container from '@styles/Container'
 
