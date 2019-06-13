@@ -17,6 +17,7 @@ const Header = styled.header`
   height: 70vh;
 `
 
+/*
 const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
@@ -30,9 +31,24 @@ const charPoses = {
     },
   },
 }
+*/
+const wordPoses = {
+  exit: { opacity: 0, y: 20 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    delay: ({ wordIndex, delay = 0 }) => 500 + wordIndex * 75 + delay,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  },
+}
 
 const fontSizes = ['6.763285024vw', null, '6.2vw', '3.611111111vw']
 
+/*
 const About = ({ pageContext }) => (
   <Layout locale={pageContext.locale}>
 
@@ -78,6 +94,55 @@ const About = ({ pageContext }) => (
             >
               Give us a call, join our social fun or, fill out the form below.
             </SplitText>
+          </Text>
+        </Box>
+
+      </Container>
+    </Flex>
+
+    <ContactForm />
+    <ContactTicker />
+  </Layout>
+);
+*/
+
+const About = ({ pageContext }) => (
+  <Layout locale={pageContext.locale}>
+
+    <Flex
+      alignItems={`center`}
+      as={Header}
+      className="z-negative"
+    >
+      <Container fluid>
+
+        <Box width={`100%`}>
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            lineHeight={[`1.4`, null, `1.2`]}
+            className={`is-serif fw-300`}
+            textAlign="center"
+            m={0}
+            mb={2}
+          >
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses}>
+              We would love to talk.
+            </SplitText>
+          </Text>
+
+          <Text
+            as={`h2`}
+            fontSize={fontSizes}
+            width={[`85%`, null, `90%`, `65%`]}
+            lineHeight={[`1.1`, null, `1.2`]}
+            className={`is-sans is-normal`}
+            textAlign="center"
+            m={'0 auto'}
+          >
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>Give us a call, </SplitText>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={2500}>join our social fun </SplitText>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={3800}>or, fill out the form below.</SplitText>
           </Text>
         </Box>
 
