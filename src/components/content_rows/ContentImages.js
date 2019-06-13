@@ -35,7 +35,7 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
           index={index}
           initialPose={'hidden'}
           pose={visible ? 'visible' : 'hidden'}
-          m="0"
+          mb={0}
         >
           {img && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
             <img
@@ -119,11 +119,13 @@ export default ContentImages
 const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
+  line-height: 0;
 `
 
 const MediaItemVideo = styled.video`
   margin: 0;
   width: 100%;
+  height: 100%;
   object-fit: cover;
 `
 
@@ -131,6 +133,7 @@ const ContentImagePoses = posed.figure({
   hidden: {
     opacity: 0,
     y: 150,
+    margin: 0
   },
   visible: {
     opacity: 1,

@@ -14,8 +14,35 @@ import Container from '@styles/Container'
 import { colors } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
+const FadeIn = keyframes`
+  from {
+    opacity: 0;
+    max-height: 0px;
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+  }
+`
+
+const Collapse = keyframes`
+  to {
+    opacity: 0;
+    max-height: 0px;
+  }
+  from {
+    opacity: 1;
+    max-height: 2000px;
+  }
+`
+
 const FormStyle = styled.form`
   color: ${colors.black};
+  /* display: ${props => props.visible ? 'block' : 'none'}; */
+  /* animation-delay: 0.125s; */
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
   select:focus {
     outline: none;
   }
@@ -29,45 +56,25 @@ const LabelStyle = styled.label`
   display: block;
 `
 
-const FadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-
-/*
-const FadeOut = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-*/
-
 const FormFooter = styled.footer`
-  opacity: 0;
-  animation-delay: 0.125s;
+  /* opacity: 0; */
+  /* animation-delay: 0.125s; */
   animation-duration: 1s;
   animation-fill-mode: both;
-  animation-name: ${props => (props.visible ? FadeIn : 'none')};
-  display: ${props => (props.visible ? 'block' : 'none')};
+  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
+  /* display: ${props => (props.visible ? 'block' : 'none')}; */
 `
 
 const selectOptions = {
   select: '...',
   project: 'project',
-  cv: 'cv',
+  // cv: 'cv',
   idea: 'ideas',
   partnership: 'partnership',
 }
 
 const FieldGroup = forwardRef((props, ref) => {
-  const { name, label, type, active, error, onActive } = props
+  const { name, label, type, active, error, onActive, validate } = props
   const childProps = omit(props, ['name', 'label', 'type', 'children', 'active', 'error', 'onActive'])
   const onFocus = () => {
     onActive(name)
@@ -96,6 +103,8 @@ const FieldGroup = forwardRef((props, ref) => {
         placeholder="Type your answer here"
         onFocus={onFocus}
         onBlur={onBlur}
+        onSubmit={e => console.log(e)}
+        {...validate}
       />
       {error ? <span class="is-sans h6">{error}</span> : null}
     </Flex>
@@ -115,6 +124,7 @@ class ContactForm extends Component {
       selectedIndex: 0,
       monitorScroll: true,
       submitting: false,
+      submitted: false,
     }
 
     this.formRef = createRef()
@@ -147,6 +157,7 @@ class ContactForm extends Component {
       this.scrollbar.addListener(this.onScroll)
     })
   }
+
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
@@ -169,6 +180,32 @@ class ContactForm extends Component {
       values[name] = value
     })
 
+    if (this.scrollbar) this.scrollbar.scrollIntoView(this.formRef.current, { alignToTop: true })
+
+    this.submit(values)
+
+    // prevent form default action
+    return false
+  }
+
+  validate() {
+    console.log('should validate:', Array.from(this.formRef.current.elements))
+
+    Array.from(this.formRef.current.elements).forEach(el => {
+      const type = el.type
+      const name = el.name
+      const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
+
+      console.log(value);
+
+    })
+
+    this.setState({ submitting: false })
+    return false
+  }
+
+  submit(values) {
+    // console.log('values:', values, axios)
     // send data
     axios
       .get(process.env.ZAPIER_HOOK, {
@@ -183,15 +220,13 @@ class ContactForm extends Component {
         else console.log('ERROR SENDING DATA TO ZAPIER')
       })
       .finally(() => {
-        this.setState({ submitting: false })
+        this.setState({ submitted: true })
       })
       .catch(error => {
         console.log('ERROR SENDING DATA TO ZAPIER', error)
       })
-
-    // prevent form default action
-    return false
   }
+
   onFocusChange(field) {
     // check if field has changed
     if (field === this.state.activeField) return
@@ -218,6 +253,7 @@ class ContactForm extends Component {
 
     this.debounced()
   }
+
   onScroll({ offset }) {
     const { activeField, monitorScroll } = this.state
 
@@ -273,21 +309,20 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { activeField, submitting, selectedIndex } = this.state
+    const { activeField, submitting, submitted, selectedIndex } = this.state
 
     return (
       <Container fluid {...this.props}>
-        <Box bg={colors.lightGray} px={`5vw`}>
+        <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={5}>
           <Flex
             as={FormStyle}
             ref={this.formRef}
             flexDirection="column"
             alignItems={['center', null, 'start']}
-            pt={6}
-            pb={6}
             width={[`100%`, null, `75%`, `50%`]}
             mx="auto"
             onSubmit={this.onSubmit}
+            visible={submitted ? false : true}
           >
             <Flex
               flexWrap={['wrap', null, null, 'nowrap']}
@@ -323,7 +358,8 @@ class ContactForm extends Component {
               </Select>
             </Flex>
 
-            <Box as={FormFooter} visible={selectedIndex > 0} pt={4}>
+            <Box as={FormFooter} visible={selectedIndex > 0 && !submitted} pt={4}>
+              {submitting}
               <FieldGroup
                 ref={this.nameRef}
                 name="name"
@@ -331,6 +367,9 @@ class ContactForm extends Component {
                 label="1. You should have a name"
                 active={activeField === 'name'}
                 onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
               />
 
               <FieldGroup
@@ -340,6 +379,9 @@ class ContactForm extends Component {
                 label="2. Without a dought an email"
                 active={activeField === 'email'}
                 onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
               />
 
               <FieldGroup
@@ -358,6 +400,9 @@ class ContactForm extends Component {
                 label="4. First thing first, what's your project type"
                 active={activeField === 'project-type'}
                 onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
               />
 
               <FieldGroup
