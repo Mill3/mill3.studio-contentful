@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
-import Flickity from 'react-flickity-component'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
 import VisibilitySensor from 'react-visibility-sensor'
+
+if (typeof window === `object`) {
+  const Flickity = require('react-flickity-component')
+}
 
 import '@styles/flickity.css'
 
@@ -40,7 +43,7 @@ const SliderItemContainer = styled.figure`
 export const SlideItem = ({ img, dragging, index }) => {
   return (
     <Box as={SliderItemContainer} dragging={dragging} index={index} width={['35vw']} pr={[2, 3, `${GRID_GUTTER}px`]}>
-      {img && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+      {img && img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
         <img
           src={img.fixed ? img.fixed.src : img.file.url}
           className="img-fluid"
@@ -57,17 +60,20 @@ class ContentSlides extends Component {
   }
 
   componentDidMount() {
-    console.log('this.slider:', this.slider)
-    this.slider.on('pointerDown', () => {
-      this.setState({
-        dragging: true
+
+    if(this.slider) {
+      this.slider.on('pointerDown', () => {
+        this.setState({
+          dragging: true
+        })
       })
-    })
-    this.slider.on('pointerUp', () => {
-      this.setState({
-        dragging: false
+      this.slider.on('pointerUp', () => {
+        this.setState({
+          dragging: false
+        })
       })
-    })
+    }
+
   }
 
   render() {
@@ -76,9 +82,11 @@ class ContentSlides extends Component {
     return (
       <RowContainer alignContent={ALIGN_VALUES['center']}>
         <Box as={'div'} mb={VERTICAL_SPACER}>
-          <Flickity flickityRef={c => this.slider = c} options={flickityOptions} elementType="article" disableImagesLoaded={true}>
-            {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
-          </Flickity>
+          {(typeof window === `object`) &&
+            <Flickity flickityRef={c => this.slider = c} options={flickityOptions} elementType="article" disableImagesLoaded={true}>
+              {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
+            </Flickity>
+          }
         </Box>
       </RowContainer>
     )
