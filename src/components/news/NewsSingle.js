@@ -10,12 +10,14 @@ import SingleHeader from '@components/elements/SingleHeader'
 const NewsSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      <SingleHeader
-        label="Words words words:"
-        title={data.news.title}
-        subHeading={data.news.subHeading ? data.news.subHeading.subHeading : null}
-        media={data.news.headerMedia}
-      />
+      <Container fluid>
+        <SingleHeader
+          label="Words words words:"
+          title={data.news.title}
+          subHeading={data.news.subHeading ? data.news.subHeading.subHeading : null}
+          media={data.news.headerMedia}
+        />
+      </Container>
       <ContentRow data={data.news.contentRows} />
     </Layout>
   );

@@ -13,8 +13,8 @@ import Button, { LinkButton } from '@components/buttons'
 const ProjectSingle = ({ pageContext, data }) => {
   return (
     <Layout locale={pageContext.locale}>
-      {/* {console.log(data)} */}
-      <Container>
+
+      <Container fluid>
         <SingleHeader
           label="Projects:"
           title={data.project.name}
@@ -22,7 +22,9 @@ const ProjectSingle = ({ pageContext, data }) => {
           media={data.project.headerMedia}
         />
       </Container>
+
       <ContentRow data={data.project.contentRows} />
+
       <Flex flexDirection={`column`}>
         {data.project.url &&
         <Box mx="auto">
@@ -48,6 +50,7 @@ const ProjectSingle = ({ pageContext, data }) => {
           </Box>
         }
       </Flex>
+
     </Layout>
   )
 }

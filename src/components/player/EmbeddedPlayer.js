@@ -8,7 +8,7 @@ import FigureBox from '@utils/FigureBox'
 
 import Play from '@svg/Play'
 
-const PREVIEW_MODE_CLASSNAME = `in-preview`
+//const PREVIEW_MODE_CLASSNAME = `in-preview`
 
 class EmbeddedPlayer extends Component {
   constructor(props) {
@@ -81,7 +81,7 @@ class EmbeddedPlayer extends Component {
                   )}
                 </ProximityFeedback>
                 <PlayerPoster visible={!this.state.playing}>
-                  <img src={this.props.poster} />
+                  <img src={this.props.poster} alt="" />
                 </PlayerPoster>
               </>
             )}

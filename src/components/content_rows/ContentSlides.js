@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import posed from 'react-pose'
-import { Flex, Box } from 'rebass'
-import VisibilitySensor from 'react-visibility-sensor'
+//import posed from 'react-pose'
+import { Box } from 'rebass'
+//import VisibilitySensor from 'react-visibility-sensor'
 
 import '@styles/flickity.css'
 
-import { MediaItemVideo } from './ContentImages'
+//import { MediaItemVideo } from './ContentImages'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { RowContainer, ALIGN_VALUES, VERTICAL_SPACER, GRID_GUTTER } from './index'
 

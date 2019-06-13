@@ -38,6 +38,7 @@ const FadeIn = keyframes`
   }
 `
 
+/*
 const FadeOut = keyframes`
   from {
     opacity: 0;
@@ -46,6 +47,7 @@ const FadeOut = keyframes`
     opacity: 1;
   }
 `
+*/
 
 const FormFooter = styled.footer`
   opacity: 0;
