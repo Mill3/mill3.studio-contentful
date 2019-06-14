@@ -2,7 +2,7 @@ import React from 'react'
 
 const Form = () => (
   <svg width="110px" height="111px" viewBox="0 0 110 111" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <g id="Maquettes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="Maquettes" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g id="LETS_TALK" transform="translate(-104.000000, -535.000000)">
               <g id="Group-29" transform="translate(161.426363, 592.524773) rotate(127.000000) translate(-161.426363, -592.524773) translate(104.426363, 536.024773)">
                   <g id="Group-28" transform="translate(0.606562, 0.237119)">

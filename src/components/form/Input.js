@@ -6,7 +6,6 @@ import { colors } from '@styles/Theme'
 
 
 const InputStyle = styled.input`
-  color: ${colors.black};
   background: none;
   border: none;
   border-bottom: 1px solid #D1D1D1;
@@ -24,7 +23,7 @@ const InputStyle = styled.input`
 
 const Input = forwardRef((props, ref) => {
   return (
-    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, 4]} fontWeight={300} {...props} />
+    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, 4]} fontWeight={300} color={['blue', null, 'black']} {...props} />
   )
 })
 

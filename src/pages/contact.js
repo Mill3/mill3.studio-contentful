@@ -83,7 +83,7 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: 0.075em;
   background: ${props => props.theme.colors.black};
   transform-origin: top left;
   transform: scaleX(1);
