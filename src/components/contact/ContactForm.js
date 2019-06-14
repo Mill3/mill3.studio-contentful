@@ -5,6 +5,7 @@ import { omit } from 'lodash'
 import styled, { keyframes } from 'styled-components'
 import axios from 'axios'
 import { debounce } from 'lodash'
+import { isBrowser } from 'react-device-detect'
 
 import ContactIcon from '@components/contact/ContactIcon'
 import Button from '@components/form/Button'
@@ -305,7 +306,10 @@ class ContactForm extends Component {
         const ref = this.formRefs[activeField]
         if (!ref || !ref.current) return
 
-        ref.current.focus()
+        // focus only if browser is desktop
+        if (isBrowser) {
+          ref.current.focus()
+        }
       }
     )
   }
