@@ -12,7 +12,6 @@
     "@popmotion/popcorn": "^0.4.0",
     "axios": "^0.19.0",
     "babel-preset-gatsby": "^0.1.11",
-    "color-convert": "^2.0.0",
     "contentful": "^7.6.0",
     "deepmerge": "^3.2.0",
     "gatsby": "^2.8.2",
@@ -50,13 +49,11 @@
     "react-proximity-feedback": "^1.1.0",
     "react-scroll-percentage": "^4.0.7",
     "react-smooth-scrollbar": "^8.0.6",
-    "react-visibility-sensor": "^5.0.2",
     "rebass": "^3.1.1",
     "smooth-scrollbar": "^8.4.0",
     "styled-components": "^4.2.1",
     "styled-components-breakpoint": "^2.1.1",
-    "styled-reboot": "^3.0.2",
-    "stylefire": "^4.1.4"
+    "styled-reboot": "^3.0.2"
   },
   "keywords": [
     "gatsby"

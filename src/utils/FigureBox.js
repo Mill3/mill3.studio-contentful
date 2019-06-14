@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'rebass'
@@ -42,24 +42,23 @@ const FigureBoxInner = styled.div`
   left: 0px;
 `
 
-class FigureBox extends Component {
-
-  render() {
-    return (
-      <Box as={FigureBoxContainer}
-        ratio={this.props.ratio}
-        innerShadow={this.props.innerShadow}
-        withGutter={this.props.withGutter}
-        overflow={this.props.overflow}
-        {...this.props}
-      >
-        <FigureBoxInner>
-          {this.props.children}
-        </FigureBoxInner>
-      </Box>
-    )
-  }
-}
+const FigureBox = forwardRef((props, ref) => {
+  return (
+    <Box
+      ref={ref}
+      as={FigureBoxContainer}
+      ratio={props.ratio}
+      innerShadow={props.innerShadow}
+      withGutter={props.withGutter}
+      overflow={props.overflow}
+      {...props}
+    >
+      <FigureBoxInner>
+        {props.children}
+      </FigureBoxInner>
+    </Box>
+  )
+})
 
 FigureBox.defaultProps = {
   ratio: 1 / 1,
