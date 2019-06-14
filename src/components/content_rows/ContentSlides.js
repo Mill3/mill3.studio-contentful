@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-//import posed from 'react-pose'
 import { Box } from 'rebass'
-//import VisibilitySensor from 'react-visibility-sensor'
 
 import '@styles/flickity.css'
 

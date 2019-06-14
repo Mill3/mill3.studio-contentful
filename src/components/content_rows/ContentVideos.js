@@ -1,7 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import { Box } from 'rebass'
-// import VisibilitySensor from 'react-visibility-sensor'
 
 import EmbeddedPlayer from '@components/player/EmbeddedPlayer'
 

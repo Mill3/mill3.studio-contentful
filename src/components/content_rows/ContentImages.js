@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
-import VisibilitySensor from 'react-visibility-sensor'
+import { useInView } from 'react-intersection-observer'
+
 
 import { getContentType, CONTENT_TYPES } from '@utils'
 import {
@@ -13,73 +14,52 @@ import {
 } from './index'
 
 export const ContentImage = ({ img, backgroundColor, index }) => {
-  const [visible, setVisible] = useState(false)
+  const [ ref, inView ] = useInView({ triggerOnce: true })
 
   return (
-    <VisibilitySensor
-      // this lock the visibily effect once its set to true
-      // default is false, set value from onChange event, then always set to true
-      onChange={e => setVisible(!visible ? e : true)}
-      partialVisibility={true}
-      offset={{ top: -50 }}
+    <Flex
+      ref={ref}
+      as={ContentImageFlexWrapper}
+      backgroundColor={backgroundColor ? backgroundColor : `transparent`}
+      py={backgroundColor ? VERTICAL_SPACER : 0}
+      alignItems={`center`}
+      justifyContent={`center`}
     >
-      <Flex
-        as={ContentImageFlexWrapper}
-        backgroundColor={backgroundColor ? backgroundColor : `transparent`}
-        py={backgroundColor ? VERTICAL_SPACER : 0}
-        alignItems={`center`}
-        justifyContent={`center`}
+      <Box
+        as={ContentImagePoses}
+        index={index}
+        initialPose={'hidden'}
+        pose={inView ? 'visible' : 'hidden'}
+        mb={0}
       >
-        <Box
-          as={ContentImagePoses}
-          index={index}
-          initialPose={'hidden'}
-          pose={visible ? 'visible' : 'hidden'}
-          mb={0}
-        >
-          {img && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-            <img
-              src={img.fixed ? img.fixed.src : img.file.url}
-              className="img-fluid"
-              alt={`${img.description || img.id}`}
-            />
-          )}
+        {img && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+          <img
+            src={img.fixed ? img.fixed.src : img.file.url}
+            className="img-fluid"
+            alt={`${img.description || img.id}`}
+          />
+        )}
 
-          {img && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-            <MediaItemVideo autoPlay loop playsInline muted>
-              <source src={img.file.url} type={img.file.contentType} />
-            </MediaItemVideo>
-          )}
+        {img && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+          <MediaItemVideo autoPlay loop playsInline muted>
+            <source src={img.file.url} type={img.file.contentType} />
+          </MediaItemVideo>
+        )}
 
-          {img && img.description && (
-            <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
-              {img.description}
-            </Box>
-          )}
-        </Box>
-      </Flex>
-    </VisibilitySensor>
+        {img && img.description && (
+          <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
+            {img.description}
+          </Box>
+        )}
+      </Box>
+    </Flex>
   )
 }
 
 const OverlayImage = ({ img }) => {
-  const [visible, setVisible] = useState(false)
-
-  return (
-    <VisibilitySensor
-      // this lock the visibily effect once its set to true
-      // default is false, set value from onChange event, then always set to true
-      onChange={e => setVisible(!visible ? e : true)}
-      partialVisibility={true}
-      offset={{ top: -500 }}
-    >
-      <OverlayImagePoses
-        src={img.file.url}
-        initialPose={'hidden'}
-        pose={visible ? `visible` : 'hidden'}
-      />
-    </VisibilitySensor>
-  )
+  const [ ref, inView ] = useInView({ triggerOnce: true })
+  // offset={{ top: -500 }}
+  return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 
 const ContentImages = ({ data }) => {
