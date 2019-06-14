@@ -63,7 +63,7 @@ const TextWrapper = styled(Flex)`
   overflow: hidden;
   transform-origin: top center;
 
-  @media (min-width: ${breakpoints[2]}) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     padding-bottom: 0;
   }
 `
@@ -81,7 +81,7 @@ const TextWrapperCopy = styled(Flex)`
   z-index: 1;
   pointer-events: none;
 
-  @media (min-width: ${breakpoints[2]}) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     height: 150vh;
     padding-bottom: 70vh;
   }
