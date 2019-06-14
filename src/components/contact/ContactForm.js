@@ -1,5 +1,6 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Box, Flex, Text } from 'rebass'
 import { omit } from 'lodash'
 import styled, { keyframes } from 'styled-components'
@@ -41,11 +42,13 @@ const Collapse = keyframes`
 
 const FormStyle = styled.form`
   color: ${colors.black};
+  pointer-events: ${props => props.disabled ? 'none' : 'all'};
+  opacity: ${props => props.disabled ? 0.25 : 1};
   /* display: ${props => props.visible ? 'block' : 'none'}; */
   /* animation-delay: 0.125s; */
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
+  /* animation-duration: 1s; */
+  /* animation-fill-mode: both; */
+  /* animation-name: ${props => (props.visible ? FadeIn : Collapse)}; */
   select:focus {
     outline: none;
   }
@@ -60,12 +63,15 @@ const LabelStyle = styled.label`
 `
 
 const FormFooter = styled.footer`
-  /* opacity: 0; */
-  /* animation-delay: 0.125s; */
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: ${props => (props.visible ? FadeIn : Collapse)};
-  /* display: ${props => (props.visible ? 'block' : 'none')}; */
+`
+
+const ConfirmMessage = styled.footer`
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
 `
 
 const selectOptions = {
@@ -183,8 +189,6 @@ class ContactForm extends Component {
       values[name] = value
     })
 
-    if (this.scrollbar) this.scrollbar.scrollIntoView(this.formRef.current, { alignToTop: true })
-
     this.submit(values)
 
     // prevent form default action
@@ -258,10 +262,10 @@ class ContactForm extends Component {
   }
 
   onScroll({ offset }) {
-    const { activeField, monitorScroll } = this.state
+    const { activeField, monitorScroll, submitted } = this.state
 
-    // if enabled
-    if (monitorScroll !== true) return
+    // if enabled or before has submitted
+    if (monitorScroll !== true || submitted === true) return
 
     const vh = Viewport.height * 0.5
     const threshold = vh * 0.5
@@ -307,7 +311,7 @@ class ContactForm extends Component {
         if (!ref || !ref.current) return
 
         // focus only if browser is desktop
-        if (isBrowser) {
+        if (isBrowser && !submitted) {
           ref.current.focus()
         }
       }
@@ -321,7 +325,7 @@ class ContactForm extends Component {
       <Container fluid {...this.props} css={{position: 'relative'}}>
         <ContactIcon />
 
-        <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={5}>
+        <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={3}>
           <Flex
             as={FormStyle}
             ref={this.formRef}
@@ -330,7 +334,8 @@ class ContactForm extends Component {
             width={[`100%`, null, `75%`, `50%`]}
             mx="auto"
             onSubmit={this.onSubmit}
-            visible={submitted ? false : true}
+            // visible={submitted ? false : true}
+            disabled={submitting || submitted ? true : false}
           >
             <Flex
               flexWrap={['wrap', null, null, 'nowrap']}
@@ -366,7 +371,7 @@ class ContactForm extends Component {
               </Select>
             </Flex>
 
-            <Box as={FormFooter} visible={selectedIndex > 0 && !submitted} pt={4}>
+            <Box as={FormFooter} visible={selectedIndex > 0} pt={4} pb={5}>
               {submitting}
               <FieldGroup
                 ref={this.nameRef}
@@ -439,7 +444,17 @@ class ContactForm extends Component {
                 Send
               </Button>
             </Box>
+
+
           </Flex>
+
+          {/* confirm message at the end */}
+          <Box as={ConfirmMessage} visible={submitted}>
+            <Text as="h3" className="is-sans is-light" textAlign="center" fontSize={[4, null, 6]} py={[2,3,5]}>
+              <FormattedMessage id="Thank you!" />
+            </Text>
+          </Box>
+
         </Box>
       </Container>
     )
