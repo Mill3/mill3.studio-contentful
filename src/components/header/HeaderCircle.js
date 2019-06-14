@@ -74,13 +74,13 @@ class HeaderCircle extends React.Component {
 
   render() {
     return (
-      <CircleContainer speed={this.state.speed} {...this.props}>
+      <Box as={CircleContainer} speed={this.state.speed} {...this.props}>
         <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
           <Box as="figure" ref={this.ref} m={0}>
             <Circle />
           </Box>
         </Box>
-      </CircleContainer>
+      </Box>
     )
   }
 }

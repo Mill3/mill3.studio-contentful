@@ -5,6 +5,7 @@ import Layout from '@components/layout'
 import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
 
+import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import Viewport from '@utils/Viewport'
@@ -67,7 +68,9 @@ class ProjectsIndex extends Component {
               We trully believe that good work needs dedicated team, less talking, more doing. <br/>Good research leads to effective design, better tech stacks and tailor-made outcomes.
             </Text>
           </Box>
-          <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
+          <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`} css={{position: 'relative'}}>
+            <HeaderCircle pl={['5vw', null, 0]} ml={[0, null, -3]} css={{top: 0, bottom: 'auto', transform: 'translateY(-55%)'}} />
+
             {this.list()}
           </Flex>
         </Container>
