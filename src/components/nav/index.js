@@ -11,38 +11,51 @@ import TransitionLinkComponent from '@utils/TransitionLink'
 const NavContainerPoses = posed.ul({
   hidden: {
     y: '-100%',
-    delay: 200,
+    delay: ({ children }) => children.length * 35 + 75,
+    transition: {
+      type: 'tween',
+      duration: 350,
+      ease: 'circIn',
+    },
     staggerChildren: 35,
     staggerDirection: -1,
-    transition: {
-      type: 'spring',
-      stiffness: 50,
-      mass: 1.125,
-    }
   },
   visible: {
     y: '0%',
+    transition: {
+      type: 'tween',
+      duration: 450,
+      ease: 'circOut',
+    },
     delayChildren: 350,
     staggerChildren: 50,
-    transition: {
-      type: 'spring',
-      stiffness: 50,
-      mass: 1.125,
-    }
   }
 })
 
 const NavItemPoses = posed.li({
   hidden: {
+    x: 40,
     opacity: 0,
     transition: {
+      type: 'tween',
       duration: 175,
+      ease: 'easeIn',
     }
   },
   visible: {
+    x: 0,
     opacity: 1,
     transition: {
-      duration: 250,
+      type: 'tween',
+      x: {
+        from: -40,
+        duration: 250,
+        ease: 'easeOut',
+      },
+      opacity: {
+        duration: 150,
+        ease: 'linear',
+      },
     }
   }
 })
@@ -68,14 +81,54 @@ const NavWrapper = styled.nav`
 
 const NavBurger = styled.button`
   position: relative;
+  width: 30px;
+  height: 30px;
   z-index: 20;
-  background: none;
   border: 0;
-  outline: none;
-  color: inherit;
+  background: none;
+  transform-origin: center center;
+  transform: rotate(0deg);
+  transition: transform 250ms cubic-bezier(0.645, 0.045, 0.355, 1); /* ease-in-out-cubic */
+
+  &:focus {
+    transform: rotate(90deg);
+  }
+
+  &.expanded {
+    transition: none;
+  }
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     display: none;
+  }
+`
+const NavBurgerDot = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 100%;
+  background: ${props => props.theme.colors.white};
+  transition: transform 350ms cubic-bezier(0.645, 0.045, 0.355, 1); /* ease-in-out-cubic */
+
+  &:nth-child(1),
+  &:nth-child(2) {
+    transform: translate(-12px, 0);
+  }
+  &:nth-child(3),
+  &:nth-child(4) {
+    transform: translate(12px, 0);
+  }
+
+  ${NavBurger}.expanded & {
+    transition: transform 450ms cubic-bezier(0.175, 0.885, 0.32, 1.6); /* ease-out-back */
+
+    &:nth-child(1) { transform: translate(-9px, -9px) }
+    &:nth-child(2) { transform: translate(-9px, 9px) }
+    &:nth-child(3) { transform: translate(9px, -9px); }
+    &:nth-child(4) { transform: translate(9px, 9px); }
   }
 `
 
@@ -164,7 +217,13 @@ class Nav extends React.Component {
     return (
       <NavWrapper inverted={inverted}>
 
-        <NavBurger onClick={e => this.toggle()}>Menu</NavBurger>
+        <NavBurger className={visible ? 'expanded' : null} onClick={e => this.toggle()} aria-label="Menu">
+          <NavBurgerDot />
+          <NavBurgerDot />
+          <NavBurgerDot />
+          <NavBurgerDot />
+          <NavBurgerDot />
+        </NavBurger>
 
         <NavContainer initialPose={'hidden'} pose={visible ? 'visible' : 'hidden'} visible={visible} inverted={inverted}>
 
