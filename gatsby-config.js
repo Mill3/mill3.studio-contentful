@@ -20,6 +20,7 @@ module.exports = {
     title: `MILL3 Studio`,
     description: `Mill3 is a digital studio established in Montréal and specialized in strategy, design & web development.`,
     author: `MILL3 Studio`,
+    siteUrl: `https://mill3.studio/`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -81,7 +82,24 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-sitemap`
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        query: `
+        {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+          allSitePage {
+            edges {
+              node {
+                path
+              }
+            }
+          }
+        }`
+      }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
