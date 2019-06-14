@@ -6,6 +6,7 @@ import styled, { keyframes } from 'styled-components'
 import axios from 'axios'
 import { debounce } from 'lodash'
 
+import ContactIcon from '@components/contact/ContactIcon'
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
@@ -13,6 +14,7 @@ import Select from '@components/form/Select'
 import Container from '@styles/Container'
 import { colors } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
+
 
 const FadeIn = keyframes`
   from {
@@ -193,7 +195,7 @@ class ContactForm extends Component {
 
     Array.from(this.formRef.current.elements).forEach(el => {
       const type = el.type
-      const name = el.name
+      //const name = el.name
       const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
 
       console.log(value);
@@ -312,7 +314,9 @@ class ContactForm extends Component {
     const { activeField, submitting, submitted, selectedIndex } = this.state
 
     return (
-      <Container fluid {...this.props}>
+      <Container fluid {...this.props} css={{position: 'relative'}}>
+        <ContactIcon />
+
         <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={5}>
           <Flex
             as={FormStyle}
@@ -436,10 +440,6 @@ class ContactForm extends Component {
       </Container>
     )
   }
-}
-
-Container.defaultProps = {
-  verticalSpacer: 0,
 }
 
 export default ContactForm
