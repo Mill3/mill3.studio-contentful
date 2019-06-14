@@ -41,7 +41,7 @@ class NewsIndex extends Component {
           </Box>
 
           <Flex as={ListGridStyle} flexWrap={`wrap`}>
-            <HeaderCircle css={{bottom: '100%', left: 0, marginBottom: '0.25vw', marginLeft: '-4.5vw', 'pointer-events': 'none'}} />
+            <HeaderCircle css={{bottom: '100%', marginBottom: '0.25vw', marginLeft: '-4.5vw'}} />
 
             {this.list()}
           </Flex>

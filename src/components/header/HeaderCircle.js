@@ -1,88 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Box } from 'rebass'
-import { debounce } from 'lodash'
-import { TweenLite, TimelineLite, Power4 } from 'gsap'
 
 import Circle from '@svg/Circle'
+import CircularIcon from '@utils/CircularIcon'
 
-const CircleContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  z-index: 100;
-  transform: translateY(50%);
-  background-blend-mode: lighten;
-  svg {
-    width: 100%;
-    height: auto;
-  }
-`
-
-class HeaderCircle extends React.Component {
-  static mouseWheel
-  static timeline
-  static rotateTween
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      rotation: 3600,
-    }
-
-    this.timeScale = { value: 1 }
-    this.ref = React.createRef()
-    this.onMouseWheelCompleted = this.onMouseWheelCompleted.bind(this)
-    this.onMouseWheelDebounce = debounce(this.onMouseWheelCompleted, 750)
-  }
-
-  componentDidMount() {
-    this.rotation()
-    this.mouse()
-  }
-
-  rotation() {
-    this.timeline = new TimelineLite({ repeat: true })
-    this.timeline.to(this.ref.current, 6000, {
-      rotation: '+=54000',
-      ease: Power4.easeOut,
-    })
-  }
-
-  mouse() {
-    if (typeof window === 'object') {
-      const Hamster = require('hamsterjs')
-
-      this.mouseWheel = Hamster(window)
-      this.mouseWheel.wheel((event, delta, deltaX, deltaY) => {
-        this.timeScale.value = 3.25;
-        this.timeline.timeScale(this.timeScale.value)
-
-        // reset transformation value after a few seconds
-        this.onMouseWheelDebounce()
-      })
-    }
-  }
-
-  onMouseWheelCompleted() {
-    TweenLite.to(this.timeScale, 0.75, {
-      value: 1,
-      onUpdate: () => {
-        this.timeline.timeScale(this.timeScale.value)
-      },
-    })
-  }
-
-  render() {
-    return (
-      <Box as={CircleContainer} speed={this.state.speed} {...this.props}>
-        <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
-          <Box as="figure" ref={this.ref} m={0}>
-            <Circle />
-          </Box>
-        </Box>
-      </Box>
-    )
-  }
-}
+const HeaderCircle = (props) => (
+  <CircularIcon css={{bottom: 0, transform: 'translateY(50%)', backgroundBlendMode: 'lighten'}} {...props}>
+    <Circle />
+  </CircularIcon>
+)
 
 export default HeaderCircle
