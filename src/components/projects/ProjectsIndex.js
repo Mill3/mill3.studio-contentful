@@ -57,14 +57,14 @@ class ProjectsIndex extends Component {
       <Layout locale={this.props.pageContext.locale}>
         <Container fluid>
           <Box as={`header`} mb={6}>
-            <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
+            <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
               <span className="is-sans">Work </span>
               <span className="is-serif">Work </span>
               <span className="is-sans">Work </span>
               <span className="is-serif">Work </span>
             </Text>
-            <Text as={`h3`} fontSize={[3,3,4]} px={[2,4,6,`10vw`,'14vw']} mb={0} textAlign={`center`}>
-              We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.
+            <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
+              We trully believe that good work needs dedicated team, less talking, more doing. <br/>Good research leads to effective design, better tech stacks and tailor-made outcomes.
             </Text>
           </Box>
           <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
