@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
+import posed from 'react-pose'
 import { Flex, Box, Text } from 'rebass'
 import SplitText from 'react-pose-text'
 
@@ -35,13 +36,15 @@ const wordPoses = {
 const fontSizes = ['6.763285024vw', null, '6.2vw', '3.611111111vw']
 
 const frames = Array(20).fill(0).map((value, index, arr) => {
-  const half = arr.length * 0.5
-  const percentage = index * 2
-  const distance = index - half
-  const scale = 1//Math.min(1, distance / (half * 0.8))
-  const x = index === 0 || index === arr.length - 1 ? 0 : ( index % 2 === 1 ? 0.015 : -0.015 )
+  const half = (arr.length - 1) * 0.5
+  const duration = half * 0.65
+  const scaleRatio = 0.68
 
-  //console.log(index, distance)
+  const percentage = index * 2
+  const distance = Math.abs(index - half)
+  const maximum = Math.max(1, half / duration * scaleRatio)
+  const scale = maximum / Math.max(1, distance / duration * scaleRatio)
+  const x = index === 0 || index === arr.length - 1 ? 0 : ( index % 2 === 1 ? 0.015 : -0.015 )
 
   return `${percentage}% { transform: scale(${scale}) translate3d(${x}em, 0, 0); }`
 })
@@ -54,20 +57,36 @@ const PhoneCall = styled.a`
   display: inline-block;
   line-height: 1;
   color: ${props => props.theme.colors.black} !important;
+  transform-origin: center center;
   transform: scale(1) translate3d(0, 0, 0);
-
-  .phoneCall--underline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: ${props => props.theme.colors.black};
-  }
 
   &:hover {
     animation: ${PhoneAnimation} 3000ms infinite;
   }
+`
+const PhoneCallUnderlinePoses = posed.span({
+  exit: {
+    scaleX: 0,
+  },
+  enter: {
+    scaleX: 1,
+    delay: ({ delay = 0 }) => 500 + delay,
+    transition: {
+      scaleX: {
+        type: 'spring',
+      },
+    },
+  },
+})
+const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: ${props => props.theme.colors.black};
+  transform-origin: top left;
+  transform: scaleX(1);
 `
 
 
@@ -109,7 +128,7 @@ const About = ({ pageContext }) => (
 
             <Text as={PhoneCall} href="tel:514-561-1550">
               <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>a call</SplitText>
-              <span className="phoneCall--underline" aria-hidden="true"></span>
+              <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={1500} aria-hidden="true" />
             </Text>
 
             <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={2500}>, join our social fun </SplitText>
