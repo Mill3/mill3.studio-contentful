@@ -72,7 +72,7 @@ const Header = ({ siteTitle, withIntro, introComponent, intl: { locale } }) => (
                 </h1>
               </Box>
 
-              <Box width={'auto'} ml={`auto`}>
+              <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
                 <Nav inverted={withIntro} />
               </Box>
 

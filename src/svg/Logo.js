@@ -1,7 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { breakpoints } from '@styles/Theme'
+
 const LogoSVG = styled.svg`
+  display: block;
+  width: 24.879227053vw;
+  height: auto;
+
+  @media (min-width: ${breakpoints[1]}) {
+    width: 154px;
+  }
+
   polygon, path {
     fill: ${props => props.inverted ? '#fff' : '#000' };
   }

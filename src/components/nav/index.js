@@ -86,6 +86,7 @@ const NavBurger = styled.button`
   z-index: 20;
   border: 0;
   background: none;
+  color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
   transform-origin: center center;
   transform: rotate(0deg);
   transition: transform 250ms cubic-bezier(0.645, 0.045, 0.355, 1); /* ease-in-out-cubic */
@@ -110,7 +111,7 @@ const NavBurgerDot = styled.span`
   height: 6px;
   margin: -3px 0 0 -3px;
   border-radius: 100%;
-  background: ${props => props.theme.colors.white};
+  background: currentColor;
   transition: transform 350ms cubic-bezier(0.645, 0.045, 0.355, 1); /* ease-in-out-cubic */
 
   &:nth-child(1),
@@ -217,7 +218,7 @@ class Nav extends React.Component {
     return (
       <NavWrapper inverted={inverted}>
 
-        <NavBurger className={visible ? 'expanded' : null} onClick={e => this.toggle()} aria-label="Menu">
+        <NavBurger className={visible ? 'expanded' : null} onClick={e => this.toggle()} aria-label="Menu" inverted={inverted}>
           <NavBurgerDot />
           <NavBurgerDot />
           <NavBurgerDot />
