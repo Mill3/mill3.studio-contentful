@@ -13,7 +13,7 @@ import ContactForm from '@components/contact/ContactForm'
 import Container from '@styles/Container'
 
 const IndexPage = ({ pageContext, data }) => (
-  <Layout locale={pageContext.locale} withIntro={true} introComponent={HeaderIntro}>
+  <>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <Container fluid>
       {data.allContentfulProjects &&
@@ -22,7 +22,7 @@ const IndexPage = ({ pageContext, data }) => (
     </Container>
     <ClientsTicker/>
     <ContactForm my={[2,3,5]} />
-  </Layout>
+  </>
 )
 
 IndexPage.propTypes = {
