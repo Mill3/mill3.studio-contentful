@@ -40,11 +40,14 @@ class CircularIcon extends Component {
     this.mouse()
   }
   componentWillUnmount() {
-    if( this.tween ) this.tween.kill()
-    this.tween = null
-
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
+
+    if( this.timeScaleTween ) this.timeScaleTween.kill()
+    this.timeScaleTween = null
+
+    if( this.tween ) this.tween.kill()
+    this.tween = null
   }
 
   rotation() {
@@ -75,7 +78,8 @@ class CircularIcon extends Component {
     this.animated = false
   }
   updateTimeScale(value, duration) {
-    TweenLite.to(this.timeScale, duration, {value, onUpdate: () => this.tween.timeScale(this.timeScale.value) })
+    if( this.timeScaleTween ) this.timeScaleTween.kill()
+    this.timeScaleTween = TweenLite.to(this.timeScale, duration, {value, onUpdate: () => this.tween.timeScale(this.timeScale.value) })
   }
 
   render() {
