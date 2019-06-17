@@ -48,6 +48,7 @@
     "react-proximity-feedback": "^1.1.0",
     "react-scroll-percentage": "^4.0.7",
     "react-smooth-scrollbar": "^8.0.6",
+    "react-transition-group": "^4.1.1",
     "rebass": "^3.1.1",
     "smooth-scrollbar": "^8.4.0",
     "styled-components": "^4.2.1",

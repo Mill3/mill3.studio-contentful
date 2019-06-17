@@ -59,13 +59,10 @@ class Header extends React.Component {
         <Container fluid className={`z-10`}>
           <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
             <Box width={'auto'} className={`is-relative z-20`}>
-              <h1>
-                <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
-                  <Logo inverted={withIntro} />
-                </TransitionLinkComponent>
-              </h1>
+              <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
+                <Logo inverted={withIntro} />
+              </TransitionLinkComponent>
             </Box>
-
             <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
               <Nav inverted={withIntro} />
             </Box>
