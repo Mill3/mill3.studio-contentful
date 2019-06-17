@@ -69,7 +69,7 @@ const NavWrapper = styled.nav`
     transition: color 0.75s;
 
     &:hover {
-      color: ${props => props.theme.colors.black};
+      color: ${props => props.inverted ? props.theme.colors.gray : props.theme.colors.black};
       text-decoration: none;
     }
 

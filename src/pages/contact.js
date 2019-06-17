@@ -8,14 +8,12 @@ import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
 import Layout from '@components/layout'
 import Container from '@styles/Container'
-import { header } from '@styles/Theme'
+import { space, header } from '@styles/Theme'
 
 
 const Header = styled.header`
   position: relative;
-  margin-top: -${header.height}px;
-  padding-top: ${header.height}px;
-  height: 70vh;
+  height: calc(74vh - ${header.height}px - ${space[5]}px);
   color: ${props => props.theme.colors.black};
 `
 
@@ -66,10 +64,10 @@ const PhoneCall = styled.a`
 `
 const PhoneCallUnderlinePoses = posed.span({
   exit: {
-    scaleX: 0,
+    scaleX: 0.001,
   },
   enter: {
-    scaleX: 1,
+    scaleX: 0.999,
     delay: ({ delay = 0 }) => 500 + delay,
     transition: {
       scaleX: {
@@ -86,7 +84,7 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
   height: 0.075em;
   background: ${props => props.theme.colors.black};
   transform-origin: top left;
-  transform: scaleX(1);
+  transform: scaleX(0.999);
 `
 
 
@@ -97,6 +95,7 @@ const About = ({ pageContext }) => (
       alignItems={`center`}
       as={Header}
       className="z-negative"
+      pt={[3, null, 5]}
     >
       <Container fluid>
 
@@ -128,18 +127,18 @@ const About = ({ pageContext }) => (
 
             <Text as={PhoneCall} href="tel:514-561-1550">
               <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>a call</SplitText>
-              <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={1500} aria-hidden="true" />
+              <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={2500} aria-hidden="true" />
             </Text>
 
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={2500}>, join our social fun </SplitText>
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={3800}>or, fill out the form below.</SplitText>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1500}>, join our social fun </SplitText>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1800}>or, fill out the form below.</SplitText>
           </Text>
         </Box>
 
       </Container>
     </Flex>
 
-    <ContactForm />
+    <ContactForm snapIcon={false} />
     <ContactTicker />
   </Layout>
 );

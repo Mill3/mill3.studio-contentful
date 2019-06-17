@@ -124,6 +124,12 @@ class ContactForm extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
   }
+  static propTypes = {
+    snapIcon: PropTypes.bool,
+  }
+  static defaultProps = {
+    snapIcon: true,
+  }
 
   constructor(props) {
     super(props)
@@ -134,6 +140,7 @@ class ContactForm extends Component {
       monitorScroll: true,
       submitting: false,
       submitted: false,
+      scrollY: 0,
     }
 
     this.formRef = createRef()
@@ -264,6 +271,8 @@ class ContactForm extends Component {
   onScroll({ offset }) {
     const { activeField, monitorScroll, submitted } = this.state
 
+    if( this.props.snapIcon !== true ) this.setState({ scrollY: offset.y })
+
     // if enabled or before has submitted
     if (monitorScroll !== true || submitted === true) return
 
@@ -319,11 +328,13 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { activeField, submitting, submitted, selectedIndex } = this.state
+    const { activeField, submitting, submitted, selectedIndex, scrollY } = this.state
 
     return (
       <Container fluid {...this.props} css={{position: 'relative'}}>
-        <ContactIcon />
+        <div style={{transform: `translate3d(0, ${scrollY * 0.1}px, 0)`}}>
+          <ContactIcon />
+        </div>
 
         <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={3}>
           <Flex
