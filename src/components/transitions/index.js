@@ -77,20 +77,14 @@ class TransitionPane extends React.Component {
 
   render() {
     return (
-      <TransitionState>
-        {({ transitionStatus, entry, exit }) => {
-          return (
-            <TransitionPaneStyle
-              backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
-              initialPose={`init`}
-              pose={['exiting', 'exited', 'entering'].includes(transitionStatus) ? 'visible' : 'hidden'}
-            >
-              {/* <DisplayState /> */}
-              <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle}</Text>
-            </TransitionPaneStyle>
-          )
-        }}
-      </TransitionState>
+      <TransitionPaneStyle
+        backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
+        initialPose={`init`}
+        pose={'visible'}
+      >
+        {/* <DisplayState /> */}
+        <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle}</Text>
+      </TransitionPaneStyle>
     )
   }
 }

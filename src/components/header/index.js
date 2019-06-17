@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
-import { TransitionState } from "gatsby-plugin-transition-link"
+// import { TransitionState } from "gatsby-plugin-transition-link"
 import posed from 'react-pose'
 
 import Container from '@styles/Container'
@@ -12,9 +12,7 @@ import Nav from '@components/nav/index'
 import Logo from '@svg/Logo'
 import { colors } from '@styles/Theme'
 
-import {
-  TRANSITION_DURATION
-} from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const SiteHeaderPoses = posed.header({
   exited: {
@@ -23,10 +21,10 @@ const SiteHeaderPoses = posed.header({
   enteringInverted: {
     transition: {
       backgroundColor: {
-        delay: TRANSITION_DURATION * 1000
-      }
-    }
-  }
+        delay: TRANSITION_DURATION * 1000,
+      },
+    },
+  },
 })
 
 const SiteHeader = styled(SiteHeaderPoses)`
@@ -38,59 +36,47 @@ const HeaderStyle = styled.div`
   height: ${props => props.theme.header.height}px;
 `
 
+// choose animation for header
+const pose = withIntro => {
+  if (withIntro) {
+    return 'enteringInverted'
+  } else {
+    return 'entered'
+  }
+}
 
-const Header = ({ siteTitle, withIntro, introComponent, intl: { locale } }) => (
-  <TransitionState>
-    {({ transitionStatus }) => {
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {  }
+  }
+  render() {
+    const { withIntro, introComponent, intl: { locale } } = this.props
+    const IntroComponent = introComponent || null
 
-      // choose animation for header
-      const pose = (transitionStatus) => {
-        if (withIntro && ['entering', 'entered'].includes(transitionStatus)) {
-          return 'enteringInverted'
-        } else {
-          return ['entering', 'entered'].includes(transitionStatus) ? 'entered' : 'exited'
-        }
-      }
-      const IntroComponent = introComponent || null;
+    return (
+      <Box as={SiteHeader} pose={pose()} mb={[5]}>
+        <Container fluid className={`z-10`}>
+          <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
+            <Box width={'auto'} className={`is-relative z-20`}>
+              <h1>
+                <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
+                  <Logo inverted={withIntro} />
+                </TransitionLinkComponent>
+              </h1>
+            </Box>
 
-      return (
-        <Box
-          as={SiteHeader}
-          pose={pose(transitionStatus)}
-          mb={[5]}
-        >
+            <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+              <Nav inverted={withIntro} />
+            </Box>
+          </Flex>
+        </Container>
 
-          <Container fluid className={`z-10`}>
-
-            <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3,4,'62px']}>
-
-              <Box width={'auto'} className={`is-relative z-20`}>
-                <h1>
-                  <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
-                    <Logo inverted={withIntro} />
-                  </TransitionLinkComponent>
-                </h1>
-              </Box>
-
-              <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
-                <Nav inverted={withIntro} />
-              </Box>
-
-            </Flex>
-
-          </Container>
-
-          {withIntro && IntroComponent &&
-            <IntroComponent transitionStatus={transitionStatus} />
-          }
-
-        </Box>
-
-      )
-
-    }}
-  </TransitionState>
-)
+        {withIntro && IntroComponent && <IntroComponent transitionStatus={'entering'} />}
+      </Box>
+    );
+  }
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,

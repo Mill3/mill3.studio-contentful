@@ -154,7 +154,7 @@ class HeaderIntro extends Component {
   }
 
   render() {
-    const { transitionStatus, intl } = this.props
+    const { intl } = this.props
     const { x, y, skew } = this.state
 
     const isMobile = Viewport.width < mobileBreakpoint
@@ -187,11 +187,7 @@ class HeaderIntro extends Component {
           >
             <SplitText
               initialPose={`exit`}
-              pose={
-                ['entering', 'entered', 'POP'].includes(transitionStatus)
-                  ? `enter`
-                  : `exit`
-              }
+              pose={`enter`}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
@@ -207,11 +203,7 @@ class HeaderIntro extends Component {
           >
             <SplitText
               initialPose={`exit`}
-              pose={
-                ['entering', 'entered', 'POP'].includes(transitionStatus)
-                  ? `enter`
-                  : `exit`
-              }
+              pose={`enter`}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
