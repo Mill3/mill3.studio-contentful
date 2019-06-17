@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
-import { TransitionState } from 'gatsby-plugin-transition-link'
+// import { TransitionState } from 'gatsby-plugin-transition-link'
 import { ThemeProvider } from 'styled-components'
-import { Text } from 'rebass'
 import Scrollbar from 'react-smooth-scrollbar'
 
 import { TRANSITION_ENTERING_DURATION, TRANSITION_EXIT_DURATION } from '@utils/constants'
@@ -79,35 +78,43 @@ const Layout = ({ locale, withIntro, introComponent, children }) => {
             <GlobalStyle />
 
             <ThemeProvider theme={Theme}>
-              <Scrollbar damping={0.08} thumbMinSize={55} alwaysShowTracks={false} continuousScrolling={true} onScroll={onScroll}>
-                <TransitionState>
-                  {({ transitionStatus, entry, exit }) => {
-                    return (
-                      <Wrapper id="wrapper">
-                        <TransitionPane
-                          visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
-                          duration={['exiting', 'exited'].includes(transitionStatus) ? TRANSITION_EXIT_DURATION : TRANSITION_ENTERING_DURATION}
-                          backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
-                        >
-                          <Text fontSize={[2, 3, `5vw`]} className={`is-sans fw-300`}>
-                            {entry.state.transitionTitle || ''}
-                          </Text>
-                        </TransitionPane>
+              <Scrollbar
+                damping={0.08}
+                thumbMinSize={55}
+                alwaysShowTracks={false}
+                continuousScrolling={true}
+                onScroll={onScroll}
+              >
+                <Wrapper id="wrapper">
+                  {/* <TransitionPane
+                    visible={['exiting', 'exited', 'entering'].includes(transitionStatus) ? true : false}
+                    duration={
+                      ['exiting', 'exited'].includes(transitionStatus)
+                        ? TRANSITION_EXIT_DURATION
+                        : TRANSITION_ENTERING_DURATION
+                    }
+                    backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
+                  >
+                    <Text fontSize={[2, 3, `5vw`]} className={`is-sans fw-300`}>
+                      {entry.state.transitionTitle || ''}
+                    </Text>
+                  </TransitionPane> */}
 
-                        {/* wrapper for main content including the main header, preventing any horizontal scrollbar */}
-                        <NoOverflowWrapper>
-                          {/* main header */}
-                          <Header withIntro={withIntro} introComponent={introComponent} siteTitle={data.site.siteMetadata.title} />
+                  {/* wrapper for main content including the main header, preventing any horizontal scrollbar */}
+                  <NoOverflowWrapper>
+                    {/* main header */}
+                    <Header
+                      withIntro={withIntro}
+                      introComponent={introComponent}
+                      siteTitle={data.site.siteMetadata.title}
+                    />
 
-                          {/* main wrapper containing children pages */}
-                          <Main children={children} />
-                        </NoOverflowWrapper>
+                    {/* main wrapper containing children pages */}
+                    <Main children={children} />
+                  </NoOverflowWrapper>
 
-                        <Footer />
-                      </Wrapper>
-                    )
-                  }}
-                </TransitionState>
+                  <Footer />
+                </Wrapper>
               </Scrollbar>
             </ThemeProvider>
           </React.Fragment>

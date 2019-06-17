@@ -436,6 +436,11 @@ class ContactForm extends Component {
                 label="5. Budget in mind"
                 active={activeField === 'budget'}
                 onActive={this.onFocusChange}
+                validate={{
+                  required: true,
+                  step:"any",
+                  pattern:"[-+]?[0-9]*[.,]?[0-9]+"
+                }}
               />
 
               <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>

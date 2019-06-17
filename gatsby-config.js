@@ -75,12 +75,12 @@ module.exports = {
         icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
       },
     },
-    {
-      resolve: 'gatsby-plugin-transition-link',
-      options: {
-        layout: require.resolve(`./src/layout`),
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-transition-link',
+    //   options: {
+    //     layout: require.resolve(`./src/layout`),
+    //   },
+    // },
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
