@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 
-import { colors, fonts, fontSizes } from '@styles/Theme'
+import { colors, fonts } from '@styles/Theme'
 
 
 const SelectStyle = styled.select`

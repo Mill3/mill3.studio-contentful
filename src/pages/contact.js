@@ -6,7 +6,6 @@ import SplitText from 'react-pose-text'
 
 import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
-import Layout from '@components/layout'
 import Container from '@styles/Container'
 import { space, header } from '@styles/Theme'
 
@@ -88,8 +87,8 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
 `
 
 
-const About = ({ pageContext }) => (
-  <Layout locale={pageContext.locale}>
+const Contact = ({ pageContext }) => (
+  <>
 
     <Flex
       alignItems={`center`}
@@ -140,7 +139,7 @@ const About = ({ pageContext }) => (
 
     <ContactForm snapIcon={false} />
     <ContactTicker />
-  </Layout>
+  </>
 );
 
-export default About
+export default Contact
