@@ -5,7 +5,7 @@ export const defaultContextValue = {
     withIntro: false,
     headerIntroComponent: null,
     transitionTitle: `Mill3`,
-    transitionColor: `red`
+    transitionColor: `rebeccapurple`
   },
   set: () => {},
 }

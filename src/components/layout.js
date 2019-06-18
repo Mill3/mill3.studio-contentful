@@ -62,6 +62,7 @@ class Layout extends React.Component {
 
   render() {
     const { inTransition } = this.state
+    const { options } = this.state
     const { children } = this.props
     const locale = `en`
     const onScroll = () => {
@@ -79,8 +80,8 @@ class Layout extends React.Component {
                   <React.Fragment>
                     <TransitionPane
                       state={inTransition ? 'visible' : 'hidden'}
-                      color="#ff0000"
-                      title={this.state.options.transitionTitle}
+                      color={options.transitionColor}
+                      title={options.transitionTitle}
                     />
 
                     <Scrollbar

@@ -60,10 +60,6 @@ class Header extends React.Component {
   }
 
   render() {
-    const {
-      intl: { locale },
-    } = this.props
-
     return (
       <LayoutContext.Consumer>
         {({ options }) => (
