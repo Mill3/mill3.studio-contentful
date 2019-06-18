@@ -20,7 +20,7 @@ const Service = (props) => {
 };
 
 const About = ({ pageContext }) => (
-  <Layout locale={pageContext.locale}>
+  <React.Fragment>
     <Container fluid css={{position: 'relative'}}>
       <Box as="header" className="is-center" mb={[6, 6, 5, 6]}>
         <Text as={`h1`} fontSize={fontSizes} fontFamily="serif" mb={[5, 5, 4, 5]}>About.</Text>
@@ -51,7 +51,7 @@ const About = ({ pageContext }) => (
     </Container>
 
     <ClientsTicker quantity={5} />
-  </Layout>
+  </React.Fragment>
 );
 
 export default About

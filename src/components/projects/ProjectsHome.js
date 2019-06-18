@@ -1,5 +1,6 @@
 import React from 'react'
 import { Flex, Box, Text } from 'rebass'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ProjectPreview from './ProjectPreview'
 import Button from '@components/buttons'
@@ -59,6 +60,7 @@ class ProjectsHome extends React.Component {
   }
 
   render() {
+    const { intl } = this.props
     return (
       <>
         <Flex mb={['90px', null, '80px']} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
@@ -67,12 +69,14 @@ class ProjectsHome extends React.Component {
         <Flex mb={[5]} mx={['-5vw', null, -3, -4]} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
-              <Button>Hey, there’s more work here !</Button>
+              <Button>
+                {intl.formatMessage({id: 'projects.Button' })}
+              </Button>
             </TransitionLinkComponent>
           </Box>
           <Box width={[10/12, 3/4]} pt={['80px', null, '110px']} pb={[0, null, 5]} m={`auto`}>
             <Text fontSize={['5.314009662vw', null, 3, `2vw`]} textAlign={`center`} className={`fw-300`}>
-              We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.
+              <FormattedMessage id="projects.HomeOutro" />
             </Text>
           </Box>
         </Flex>
@@ -81,4 +85,4 @@ class ProjectsHome extends React.Component {
   }
 }
 
-export default ProjectsHome
+export default injectIntl(ProjectsHome)

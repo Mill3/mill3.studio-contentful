@@ -5,7 +5,7 @@ import { Link } from 'gatsby'
 import { injectIntl } from 'react-intl'
 import { Text } from 'rebass'
 
-import locales from '@locales'
+import locales from '@locales/locales'
 
 const SwitcherLink = styled.a`
   display: ${props => props.hidden ? 'none' : 'inline-block'};

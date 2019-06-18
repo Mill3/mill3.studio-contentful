@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import ProjectPreview from './ProjectPreview'
-import Layout from '@components/layout'
+import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
 
@@ -9,6 +9,8 @@ import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import Viewport from '@utils/Viewport'
+
+// import { LayoutContext } from '@components/contexts/LayoutContext'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
@@ -55,26 +57,25 @@ class ProjectsIndex extends Component {
 
   render() {
     return (
-      <Layout locale={this.props.pageContext.locale}>
+      <>
         <Container fluid>
           <Box as={`header`} mb={6}>
             <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
-              <span className="is-sans">Work </span>
-              <span className="is-serif">Work </span>
-              <span className="is-sans">Work </span>
-              <span className="is-serif">Work </span>
+              <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
+              <span className="is-serif"><FormattedMessage id="nav.Work" /> </span>
+              <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
+              <span className="is-serif"><FormattedMessage id="nav.Work" /> </span>
             </Text>
             <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
-              We trully believe that good work needs dedicated team, less talking, more doing. <br/>Good research leads to effective design, better tech stacks and tailor-made outcomes.
+              <FormattedMessage id="projects.Intro" />
             </Text>
           </Box>
           <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`} css={{position: 'relative'}}>
             <HeaderCircle pl={['5vw', null, 0]} ml={[0, null, -3]} css={{top: 0, bottom: 'auto', transform: 'translateY(-55%)'}} />
-
             {this.list()}
           </Flex>
         </Container>
-      </Layout>
+      </>
     );
   }
 }

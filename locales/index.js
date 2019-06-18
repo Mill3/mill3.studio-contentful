@@ -1,11 +1,114 @@
-module.exports = {
-  en: {
-    path: 'en',
-    locale: 'English',
-    default: true
+import { defineMessages } from 'react-intl'
+
+const messages = defineMessages({
+  work: {
+    id: 'nav.Work',
+    defaultMessage: 'Work'
   },
-  fr: {
-    path: 'fr',
-    locale: 'Français',
+  work: {
+    id: 'nav.About',
+    defaultMessage: 'About'
+  },
+  work: {
+    id: 'nav.Journal',
+    defaultMessage: 'Journal'
+  },
+  work: {
+    id: 'nav.Contact',
+    defaultMessage: 'Let\'s Talk'
+  },
+  introA: {
+    id: 'intro.LineA',
+    defaultMessage: 'Craft, code and smile.'
+  },
+  introB: {
+    id: 'intro.LineB',
+    defaultMessage: 'We are a digital agency.'
+  },
+  thankYou: {
+    id: 'contact.ThankYou',
+    defaultMessage: 'Thank you!'
+  },
+  contactIntroLine1: {
+    id: 'contact.ContactIntroPart1',
+    defaultMessage: 'We would love to talk.'
+  },
+  contactIntroLine2: {
+    id: 'contact.ContactIntroPart2',
+    defaultMessage: 'Give us '
+  },
+  contactIntroLine3: {
+    id: 'contact.ContactIntroPart3',
+    defaultMessage: 'a call'
+  },
+  contactIntroLine4: {
+    id: 'contact.ContactIntroPart4',
+    defaultMessage: ', join our social fun'
+  },
+  contactIntroLine5: {
+    id: 'contact.ContactIntroPart5',
+    defaultMessage: 'or, fill out the form below.'
+  },
+  contactFormIntro: {
+    id: 'contact.FormIntroLine',
+    defaultMessage: 'Hey ! Share us your'
+  },
+  contactChoice1: {
+    id: 'choices....',
+    defaultMessage: '...'
+  },
+  contactChoice2: {
+    id: 'choices.project',
+    defaultMessage: 'project'
+  },
+  contactChoice3: {
+    id: 'choices.ideas',
+    defaultMessage: 'ideas'
+  },
+  contactChoice4: {
+    id: 'choices.partnership',
+    defaultMessage: 'partnership'
+  },
+  contactField1: {
+    id: 'fields.name',
+    defaultMessage: '1. You should have a name'
+  },
+  contactField2: {
+    id: 'fields.email',
+    defaultMessage: '2. Without a dought an email'
+  },
+  contactField3: {
+    id: 'fields.company',
+    defaultMessage: '3. Possibly a company name'
+  },
+  contactField4: {
+    id: 'fields.project',
+    defaultMessage: '4. First thing first, what\'s your project type'
+  },
+  contactField5: {
+    id: 'fields.budget',
+    defaultMessage: '5. Budget in mind'
+  },
+  contactSubscribe: {
+    id: 'contact.Subscribe',
+    defaultMessage: 'We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.'
+  },
+  submit: {
+    id: 'submit',
+    defaultMessage: 'Submit'
+  },
+  projectsIntro: {
+    id: 'projects.Intro',
+    defaultMessage: 'We trully believe that good work needs dedicated team, less talking, more doing. <br/>Good research leads to effective design, better tech stacks and tailor-made outcomes.'
+  },
+  projectsButton: {
+    id: 'projects.Button',
+    defaultMessage: 'Hey, there’s more work here !'
+  },
+  projectsHomeOutro: {
+    id: 'projects.HomeOutro',
+    defaultMessage: 'We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.'
   }
-}
+})
+
+export default messages

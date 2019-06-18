@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
-// import { TransitionState } from 'gatsby-plugin-transition-link'
 import { ThemeProvider } from 'styled-components'
 import Scrollbar from 'react-smooth-scrollbar'
+
+// import ContextConsumer from "./Context"
+
+import LayoutContext, { defaultContextValue } from '@components/contexts/LayoutContext'
 
 import { TRANSITION_ENTERING_DURATION, TRANSITION_EXIT_DURATION } from '@utils/constants'
 
@@ -14,8 +17,8 @@ import enData from 'react-intl/locale-data/en'
 import frData from 'react-intl/locale-data/fr'
 
 // messages
-import en from '@locales/en/en.json'
-import fr from '@locales/fr/fr.json'
+import en from '@locales/en.json'
+import fr from '@locales/fr.json'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -26,9 +29,10 @@ import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 //import { hidden } from 'ansi-colors'
 
-const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
+const messages = { en, fr }
+console.log('messages:', messages)
 addLocaleData([...enData, ...frData])
 
 const TransitionPane = styled.div`
@@ -55,25 +59,36 @@ const NoOverflowWrapper = styled.div`
   max-width: 100vw;
   overflow: hidden;
 `
+const onScroll = () => {
+  if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+}
 
-const Layout = ({ locale, withIntro, introComponent, children }) => {
-  const onScroll = () => {
-    if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+class Layout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.setOptions = this.setOptions.bind(this)
+    this.state = {
+      ...defaultContextValue,
+      set: this.setOptions,
+    }
   }
 
-  return (
-    <StaticQuery
-      query={graphql`
-        query SiteTitleQuery {
-          site {
-            siteMetadata {
-              title
-            }
-          }
-        }
-      `}
-      render={data => (
-        <IntlProvider locale={locale} messages={messages[locale]}>
+  setOptions(newData) {
+    this.setState(state => ({
+      options: {
+        ...this.state.options,
+        ...newData,
+      },
+    }))
+  }
+
+  render() {
+    const { children } = this.props
+    const locale = `en`
+
+    return (
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <LayoutContext.Provider value={this.state}>
           <React.Fragment>
             <GlobalStyle />
 
@@ -103,11 +118,7 @@ const Layout = ({ locale, withIntro, introComponent, children }) => {
                   {/* wrapper for main content including the main header, preventing any horizontal scrollbar */}
                   <NoOverflowWrapper>
                     {/* main header */}
-                    <Header
-                      withIntro={withIntro}
-                      introComponent={introComponent}
-                      siteTitle={data.site.siteMetadata.title}
-                    />
+                    <Header />
 
                     {/* main wrapper containing children pages */}
                     <Main children={children} />
@@ -118,10 +129,10 @@ const Layout = ({ locale, withIntro, introComponent, children }) => {
               </Scrollbar>
             </ThemeProvider>
           </React.Fragment>
-        </IntlProvider>
-      )}
-    />
-  )
+        </LayoutContext.Provider>
+      </IntlProvider>
+    )
+  }
 }
 
 Layout.defaultProps = {

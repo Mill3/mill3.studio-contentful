@@ -1,4 +1,5 @@
 import React from 'react'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Box, Text } from 'rebass'
@@ -6,10 +7,8 @@ import SplitText from 'react-pose-text'
 
 import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
-import Layout from '@components/layout'
 import Container from '@styles/Container'
 import { space, header } from '@styles/Theme'
-
 
 const Header = styled.header`
   position: relative;
@@ -33,19 +32,21 @@ const wordPoses = {
 
 const fontSizes = ['6.763285024vw', null, '6.2vw', '3.611111111vw']
 
-const frames = Array(20).fill(0).map((value, index, arr) => {
-  const half = (arr.length - 1) * 0.5
-  const duration = half * 0.65
-  const scaleRatio = 0.68
+const frames = Array(20)
+  .fill(0)
+  .map((value, index, arr) => {
+    const half = (arr.length - 1) * 0.5
+    const duration = half * 0.65
+    const scaleRatio = 0.68
 
-  const percentage = index * 2
-  const distance = Math.abs(index - half)
-  const maximum = Math.max(1, half / duration * scaleRatio)
-  const scale = maximum / Math.max(1, distance / duration * scaleRatio)
-  const x = index === 0 || index === arr.length - 1 ? 0 : ( index % 2 === 1 ? 0.015 : -0.015 )
+    const percentage = index * 2
+    const distance = Math.abs(index - half)
+    const maximum = Math.max(1, (half / duration) * scaleRatio)
+    const scale = maximum / Math.max(1, (distance / duration) * scaleRatio)
+    const x = index === 0 || index === arr.length - 1 ? 0 : index % 2 === 1 ? 0.015 : -0.015
 
-  return `${percentage}% { transform: scale(${scale}) translate3d(${x}em, 0, 0); }`
-})
+    return `${percentage}% { transform: scale(${scale}) translate3d(${x}em, 0, 0); }`
+  })
 
 const PhoneAnimation = keyframes`
   ${frames.join('')}
@@ -87,18 +88,10 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
   transform: scaleX(0.999);
 `
 
-
-const About = ({ pageContext }) => (
-  <Layout locale={pageContext.locale}>
-
-    <Flex
-      alignItems={`center`}
-      as={Header}
-      className="z-negative"
-      pt={[3, null, 5]}
-    >
+const About = ({ pageContext, intl }) => (
+  <React.Fragment>
+    <Flex alignItems={`center`} as={Header} className="z-negative" pt={[3, null, 5]}>
       <Container fluid>
-
         <Box width={`100%`}>
           <Text
             as={`h2`}
@@ -110,7 +103,8 @@ const About = ({ pageContext }) => (
             mb={2}
           >
             <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses}>
-              We would love to talk.
+              {intl.formatMessage({ id: 'contact.ContactIntroPart1' }).toString()}
+              {/* We would love to talk. */}
             </SplitText>
           </Text>
 
@@ -123,24 +117,32 @@ const About = ({ pageContext }) => (
             textAlign="center"
             m={'0 auto'}
           >
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>Give us </SplitText>
-
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>
+              {intl.formatMessage({ id: 'contact.ContactIntroPart2' }).toString()}
+            </SplitText>
+            <span>&nbsp;</span>
             <Text as={PhoneCall} href="tel:514-561-1550">
-              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>a call</SplitText>
+              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>
+                {intl.formatMessage({ id: 'contact.ContactIntroPart3' }).toString()}
+              </SplitText>
               <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={2500} aria-hidden="true" />
             </Text>
 
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1500}>, join our social fun </SplitText>
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1800}>or, fill out the form below.</SplitText>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1500}>
+              {intl.formatMessage({ id: 'contact.ContactIntroPart4' }).toString()}
+            </SplitText>
+            <span>&nbsp;</span>
+            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1800}>
+              {intl.formatMessage({ id: 'contact.ContactIntroPart5' }).toString()}
+            </SplitText>
           </Text>
         </Box>
-
       </Container>
     </Flex>
 
     <ContactForm snapIcon={false} />
     <ContactTicker />
-  </Layout>
-);
+  </React.Fragment>
+)
 
-export default About
+export default injectIntl(About)

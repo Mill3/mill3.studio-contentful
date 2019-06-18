@@ -12,6 +12,8 @@ import { TRANSITION_DURATION } from '@utils/constants'
 
 import HeaderCircle from './HeaderCircle'
 
+// import messages from "@locales"
+
 const HeaderIntroPoses = posed.header({
   init: {
     y: `102vh`,
@@ -185,12 +187,13 @@ class HeaderIntro extends Component {
             className={`is-serif fw-200`}
             style={t1}
           >
+            {/* <FormattedMessage id="intro.LineB" /> */}
             <SplitText
               initialPose={`exit`}
               pose={`enter`}
               charPoses={charPoses}
             >
-              {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
+              {intl.formatMessage({ id: 'intro.LineA' }).toString()}
             </SplitText>
           </Text>
 
@@ -206,7 +209,7 @@ class HeaderIntro extends Component {
               pose={`enter`}
               charPoses={charPoses}
             >
-              {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
+              {intl.formatMessage({ id: 'intro.LineB' }).toString()}
             </SplitText>
           </Text>
         </Flex>
@@ -220,7 +223,7 @@ class HeaderIntro extends Component {
             style={t1}
           >
             <SplitText>
-              {intl.formatMessage({ id: 'Craft, code and smile.' }).toString()}
+              {intl.formatMessage({ id: 'intro.LineA' }).toString()}
             </SplitText>
           </Text>
 
@@ -232,7 +235,7 @@ class HeaderIntro extends Component {
             style={t2}
           >
             <SplitText>
-              {intl.formatMessage({ id: 'We are a digital agency.' }).toString()}
+              {intl.formatMessage({ id: 'intro.LineB' }).toString()}
             </SplitText>
           </Text>
         </Flex>
