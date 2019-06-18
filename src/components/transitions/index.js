@@ -14,14 +14,14 @@ const Poses = posed.div({
     opacity: 1,
     backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
-      duration: (TRANSITION_DURATION / 2) * 1000
+      duration: TRANSITION_DURATION / 2
     }
   },
   hidden: {
     opacity: 0,
     backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
-      duration: (TRANSITION_DURATION / 2) * 1000
+      duration: TRANSITION_DURATION / 2
     }
   }
 })

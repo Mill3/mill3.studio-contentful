@@ -31,7 +31,7 @@ class ProjectsIndex extends Component {
       else return index % 3 === 1 ? -160 : 0
     }
     const getDelay = (index) => {
-      if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2000 : 0
+      if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2 : 0
       else if( isTablet ) return ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0)
       else return ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0)
     }

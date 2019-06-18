@@ -4,10 +4,9 @@ import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
-import { Transition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transition-group'
 import Scrollbar from 'react-smooth-scrollbar'
 
-// import main layout context
 import LayoutContext, { defaultContextValue } from '@components/contexts/LayoutContext'
 
 // Locale data
@@ -22,50 +21,66 @@ import Header from '@components/header'
 import Footer from '@components/footer'
 import TransitionPane from '@components/transitions'
 import Wrapper from '@components/wrapper'
-//import TransitionGroupPlus from '@utils/TransitionGroupPlus'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
+
+import DelayedTransition from '@utils/DelayedTransition'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
 
-const Layout = ({ location, withIntro, introComponent, children } ) => {
-  const [inTransition, setTransitionState] = useState(false)
-  const locale = `en`
-  const onScroll = () => {
-    if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+class Layout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.setOptions = this.setOptions.bind(this)
+    this.setTransitionState = this.setTransitionState.bind(this)
+    this.state = {
+      ...defaultContextValue,
+      inTransition: false,
+      set: this.setOptions,
+    }
   }
 
-  return (
-    <StaticQuery
-      query={graphql`
-        query SiteTitleQuery {
-          site {
-            siteMetadata {
-              title
-            }
-          }
-        }
-      `}
-      render={data => (
-        <Location>
-          {({ location }) => (
-            <IntlProvider locale={locale} messages={messages[locale]}>
+  setOptions(newData) {
+    this.setState(state => ({
+      options: {
+        ...this.state.options,
+        ...newData,
+      },
+    }))
+  }
+
+  setTransitionState(value) {
+    this.setState({
+      inTransition: value,
+    })
+  }
+
+  render() {
+    const { inTransition } = this.state
+    const { children } = this.props
+    const locale = `en`
+    const onScroll = () => {
+      if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+    }
+    return (
+      <Location>
+        {({ location }) => (
+          <IntlProvider locale={locale} messages={messages[locale]}>
+            <LayoutContext.Provider value={this.state}>
               <React.Fragment>
                 <GlobalStyle />
 
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>
-
-                    <div>{console.log(location)}</div>
-
                     <TransitionPane
                       state={inTransition ? 'visible' : 'hidden'}
                       color="#ff0000"
-                      title={data.site.siteMetadata.title}
+                      title={this.state.options.transitionTitle}
                     />
 
                     <Scrollbar
@@ -77,25 +92,23 @@ const Layout = ({ location, withIntro, introComponent, children } ) => {
                     >
                       <Wrapper>
                         {/* main header */}
-                        <Header
-                          withIntro={withIntro}
-                          introComponent={introComponent}
-                          siteTitle={data.site.siteMetadata.title}
-                        />
+                        <Header />
 
                         {/* main wrapper containing children pages */}
                         <TransitionGroup component="main">
-                          <Transition
+                          <DelayedTransition
                             key={location.pathname}
+                            name={location.pathname}
                             appear={false}
                             mountOnEnter={true}
                             unmountOnExit={true}
-                            timeout={{ enter: 850, exit: 750 }}
-                            onEntered={() => setTransitionState(false)}
-                            onExiting={() => setTransitionState(true)}
+                            delay={{ enter: TRANSITION_DURATION + 150 }}
+                            timeout={{ exit: TRANSITION_DURATION }}
+                            onEnter={e => this.setTransitionState(false)}
+                            onExit={e => this.setTransitionState(true)}
                           >
                             {children}
-                          </Transition>
+                          </DelayedTransition>
                         </TransitionGroup>
 
                         <Footer />
@@ -104,12 +117,12 @@ const Layout = ({ location, withIntro, introComponent, children } ) => {
                   </React.Fragment>
                 </ThemeProvider>
               </React.Fragment>
-            </IntlProvider>
-          )}
-        </Location>
-      )}
-    />
-  )
+            </LayoutContext.Provider>
+          </IntlProvider>
+        )}
+      </Location>
+    )
+  }
 }
 
 Layout.defaultProps = {

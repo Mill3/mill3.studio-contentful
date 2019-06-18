@@ -24,7 +24,7 @@ const HeaderIntroPoses = posed.header({
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: TRANSITION_DURATION * 3 * 1000,
+        duration: TRANSITION_DURATION * 3,
       },
     },
   },
@@ -97,7 +97,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => TRANSITION_DURATION * 2 * 1000 + charIndex * 30,
+    delay: ({ charIndex }) => TRANSITION_DURATION * 2 + charIndex * 30,
     transition: {
       y: {
         type: 'spring',

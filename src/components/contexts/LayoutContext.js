@@ -3,7 +3,9 @@ import React from "react"
 export const defaultContextValue = {
   options: {
     withIntro: false,
-    headerIntroComponent: null
+    headerIntroComponent: null,
+    transitionTitle: `Mill3`,
+    transitionColor: `red`
   },
   set: () => {},
 }
