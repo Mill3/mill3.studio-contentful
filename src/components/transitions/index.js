@@ -1,15 +1,9 @@
-// TODO: TO REMOVE, THIS COMPONENT IS DEPRECATED
 import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
-import { TransitionState } from "gatsby-plugin-transition-link"
 
-import {
-  TRANSITION_DURATION,
-  TRANSITION_DELAY,
-  TRANSITION_EXIT_DURATION
-} from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const Poses = posed.div({
   init: {
@@ -48,45 +42,12 @@ const TransitionPaneStyle = styled(Poses)`
   color: #fff;
 `
 
-function print_r(o) {
-  if (typeof window === `undefined`) return
-
-  return JSON.stringify(o, null, '\t')
-    .replace(/\n/g, '<br>')
-    .replace(/\t/g, '&nbsp;&nbsp;&nbsp;')
-}
-
-function DisplayState() {
+const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
   return (
-    <TransitionState>
-      {context =>
-        context ? (
-          <>{console.log(context)}</>
-        ) : null
-      }
-    </TransitionState>
+    <TransitionPaneStyle backgroundColor={color} initialPose={`init`} pose={state}>
+      <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{title}</Text>
+    </TransitionPaneStyle>
   )
-}
-
-class TransitionPane extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {  }
-  }
-
-  render() {
-    return (
-      <TransitionPaneStyle
-        backgroundColor={entry.state.transitionColor || exit.state.transitionColor}
-        initialPose={`init`}
-        pose={'visible'}
-      >
-        {/* <DisplayState /> */}
-        <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{entry.state.transitionTitle}</Text>
-      </TransitionPaneStyle>
-    )
-  }
 }
 
 export default TransitionPane

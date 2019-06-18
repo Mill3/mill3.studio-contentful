@@ -1,8 +1,6 @@
 import React from 'react'
-//import { Link } from 'gatsby'
 import { Box, Flex, Text } from 'rebass'
 
-import Layout from '@components/layout'
 import { ChipButton } from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import Container from '@styles/Container'
@@ -20,7 +18,7 @@ const Service = (props) => {
 };
 
 const About = ({ pageContext }) => (
-  <React.Fragment>
+  <>
     <Container fluid css={{position: 'relative'}}>
       <Box as="header" className="is-center" mb={[6, 6, 5, 6]}>
         <Text as={`h1`} fontSize={fontSizes} fontFamily="serif" mb={[5, 5, 4, 5]}>About.</Text>
@@ -51,7 +49,7 @@ const About = ({ pageContext }) => (
     </Container>
 
     <ClientsTicker quantity={5} />
-  </React.Fragment>
+  </>
 );
 
 export default About

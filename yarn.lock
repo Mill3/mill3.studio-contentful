@@ -5718,7 +5718,6 @@ gatsby-plugin-i18next@^1.1.7:
 gatsby-plugin-layout@^1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-layout/-/gatsby-plugin-layout-1.0.15.tgz#bb46eacd0d38d1a60ed6e423f624d899486f7830"
-  integrity sha512-hAdnwnnc2kTO/bJoi8uQXPrT/+XnkAYXccCAMAzs4bG19f93IrXMG1QQPEoB0rH6AMYC+pgUXYcOQXowWfoq2w==
   dependencies:
     "@babel/runtime" "^7.0.0"
 
@@ -10557,7 +10556,6 @@ react-transition-group@^2.5.0:
 react-transition-group@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.1.1.tgz#16efe9ac8c68306f6bef59c7da5a96b4dfd9fb32"
-  integrity sha512-K/N1wqJ2GRP2yj3WBqEUYa0KV5fiaAWpUfU9SpHOHefeKvyrO+VrnMBML21M19QZoVbDZKmuQFHZYoMMi1xuJA==
   dependencies:
     "@babel/runtime" "^7.4.5"
     dom-helpers "^3.4.0"
