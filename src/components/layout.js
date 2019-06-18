@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
 import { Transition, TransitionGroup } from 'react-transition-group'
 import Scrollbar from 'react-smooth-scrollbar'
+
+// import main layout context
+import LayoutContext, { defaultContextValue } from '@components/contexts/LayoutContext'
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -28,9 +32,8 @@ const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
 
-
-const Layout = ({ location, withIntro, introComponent, children }) => {
-  const [ inTransition, setTransitionState ] = useState(false)
+const Layout = ({ location, withIntro, introComponent, children } ) => {
+  const [inTransition, setTransitionState] = useState(false)
   const locale = `en`
   const onScroll = () => {
     if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
@@ -48,54 +51,62 @@ const Layout = ({ location, withIntro, introComponent, children }) => {
         }
       `}
       render={data => (
-        <IntlProvider locale={locale} messages={messages[locale]}>
-          <React.Fragment>
-            <GlobalStyle />
-
-            <ThemeProvider theme={Theme}>
+        <Location>
+          {({ location }) => (
+            <IntlProvider locale={locale} messages={messages[locale]}>
               <React.Fragment>
-                <TransitionPane state={inTransition ? 'visible' : 'hidden'} color="#ff0000" title={data.site.siteMetadata.title} />
+                <GlobalStyle />
 
-                <Scrollbar
-                  damping={0.08}
-                  thumbMinSize={55}
-                  alwaysShowTracks={false}
-                  continuousScrolling={true}
-                  onScroll={onScroll}
-                >
+                <ThemeProvider theme={Theme}>
+                  <React.Fragment>
 
-                  <Wrapper>
-                    {/* main header */}
-                    <Header
-                      withIntro={withIntro}
-                      introComponent={introComponent}
-                      siteTitle={data.site.siteMetadata.title}
+                    <div>{console.log(location)}</div>
+
+                    <TransitionPane
+                      state={inTransition ? 'visible' : 'hidden'}
+                      color="#ff0000"
+                      title={data.site.siteMetadata.title}
                     />
 
-                    {/* main wrapper containing children pages */}
-                    <TransitionGroup component="main">
-                      <Transition
-                        key={location.pathname}
-                        appear={false}
-                        mountOnEnter={true}
-                        unmountOnExit={true}
-                        timeout={{enter: 850, exit: 750}}
-                        onEntered={() => setTransitionState(false)}
-                        onExiting={() => setTransitionState(true)}
-                      >
-                        {children}
-                      </Transition>
-                    </TransitionGroup>
+                    <Scrollbar
+                      damping={0.08}
+                      thumbMinSize={55}
+                      alwaysShowTracks={false}
+                      continuousScrolling={true}
+                      onScroll={onScroll}
+                    >
+                      <Wrapper>
+                        {/* main header */}
+                        <Header
+                          withIntro={withIntro}
+                          introComponent={introComponent}
+                          siteTitle={data.site.siteMetadata.title}
+                        />
 
-                    <Footer />
-                  </Wrapper>
+                        {/* main wrapper containing children pages */}
+                        <TransitionGroup component="main">
+                          <Transition
+                            key={location.pathname}
+                            appear={false}
+                            mountOnEnter={true}
+                            unmountOnExit={true}
+                            timeout={{ enter: 850, exit: 750 }}
+                            onEntered={() => setTransitionState(false)}
+                            onExiting={() => setTransitionState(true)}
+                          >
+                            {children}
+                          </Transition>
+                        </TransitionGroup>
 
-                </Scrollbar>
+                        <Footer />
+                      </Wrapper>
+                    </Scrollbar>
+                  </React.Fragment>
+                </ThemeProvider>
               </React.Fragment>
-            </ThemeProvider>
-
-          </React.Fragment>
-        </IntlProvider>
+            </IntlProvider>
+          )}
+        </Location>
       )}
     />
   )

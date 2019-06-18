@@ -9,7 +9,7 @@ import SingleHeader from '@components/elements/SingleHeader'
 
 const NewsSingle = ({ pageContext, data }) => {
   return (
-    <Layout locale={pageContext.locale}>
+    <React.Fragment>
       <Container fluid>
         <SingleHeader
           label="Words words words:"
@@ -19,7 +19,7 @@ const NewsSingle = ({ pageContext, data }) => {
         />
       </Container>
       <ContentRow data={data.news.contentRows} />
-    </Layout>
+    </React.Fragment>
   );
 }
 

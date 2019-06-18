@@ -12,7 +12,7 @@ import Button, { LinkButton } from '@components/buttons'
 
 const ProjectSingle = ({ pageContext, data }) => {
   return (
-    <Layout locale={pageContext.locale}>
+    <React.Fragment>
 
       <Container fluid>
         <SingleHeader
@@ -51,7 +51,7 @@ const ProjectSingle = ({ pageContext, data }) => {
         }
       </Flex>
 
-    </Layout>
+    </React.Fragment>
   )
 }
 
