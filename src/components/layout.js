@@ -18,11 +18,12 @@ import Header from '@components/header'
 import Footer from '@components/footer'
 import TransitionPane from '@components/transitions'
 import Wrapper from '@components/wrapper'
-//import TransitionGroupPlus from '@utils/TransitionGroupPlus'
-import DelayedTransition from '@utils/DelayedTransition'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
+
+import DelayedTransition from '@utils/DelayedTransition'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
@@ -77,12 +78,14 @@ const Layout = ({ location, withIntro, introComponent, children }) => {
                     <TransitionGroup component="main">
                       <DelayedTransition
                         key={location.pathname}
+                        name={location.pathname}
                         appear={false}
                         mountOnEnter={true}
                         unmountOnExit={true}
-                        delay={{enter: 8000}}
-                        timeout={{enter: 0, exit: 0}}
-                        onExiting={() => setTransitionState(true)}
+                        delay={{enter: TRANSITION_DURATION + 150}}
+                        timeout={{exit: TRANSITION_DURATION}}
+                        onEnter={() => setTransitionState(false)}
+                        onExit={() => setTransitionState(true)}
                       >
                         {children}
                       </DelayedTransition>

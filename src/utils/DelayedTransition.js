@@ -10,7 +10,8 @@ const delaysShape = PropTypes.oneOfType([
   })
 ])
 
-export const DELAYED = 'delayed'
+export const DELAYED_ENTER = 'delayed-enter'
+export const DELAYED_EXIT = 'delayed-exit'
 
 class DelayedTransition extends Transition {
 
@@ -29,26 +30,65 @@ class DelayedTransition extends Transition {
     return { exit, enter, appear }
   }
 
+  updateStatus(mounting = false, nextStatus) {
+
+    if (nextStatus !== null) {
+      // nextStatus will always be ENTERING or EXITING.
+      const { status } = this.state
+
+      // if nextStatus is ENTERING and we are currently in DELAYED_ENTER, do nothing
+      if( status === DELAYED_ENTER && nextStatus === 'entering' ) return
+
+      // if nextStatus is EXITING and we are currently in DELAYED_EXIT, do nothing
+      if( status === DELAYED_EXIT && nextStatus === 'exiting' ) return
+
+    }
+
+    super.updateStatus(mounting, nextStatus)
+  }
+
   performEnter(node, mounting) {
     const delays = this.getDelays()
     const appearing = this.context ? this.context.isMounting : mounting
     const enterDelay = appearing ? delays.appear : delays.enter
 
-    if( enterDelay === 0 ) {
+    if( !enterDelay ) {
       super.performEnter(node, mounting)
       return
     }
 
-    this.safeSetState({ status: DELAYED }, () => {
+    if( this.state.status === DELAYED_ENTER ) {
+      return
+    }
+
+    this.safeSetState({ status: DELAYED_ENTER }, () => {
       this.onTransitionEnd(node, enterDelay, () => {
         super.performEnter(node, mounting)
+      })
+    })
+  }
+  performExit(node) {
+    const delays = this.getDelays()
+
+    if( !delays.exit ) {
+      super.performExit(node)
+      return
+    }
+
+    if( this.state.status === DELAYED_EXIT ) {
+      return
+    }
+
+    this.safeSetState({ status: DELAYED_EXIT }, () => {
+      this.onTransitionEnd(node, delays.exit, () => {
+        super.performExit(node)
       })
     })
   }
 
   render() {
     const status = this.state.status
-    if (status === DELAYED) {
+    if (status === DELAYED_ENTER) {
       return null
     }
 
@@ -89,6 +129,7 @@ DelayedTransition.propTypes = {
   },
 }
 
-DelayedTransition.DELAYED = DELAYED
+DelayedTransition.DELAYED_ENTER = DELAYED_ENTER
+DelayedTransition.DELAYED_EXIT = DELAYED_EXIT
 
 export default DelayedTransition

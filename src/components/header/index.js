@@ -25,7 +25,7 @@ const SiteHeaderPoses = posed.header({
   enteringInverted: {
     transition: {
       backgroundColor: {
-        delay: TRANSITION_DURATION * 1000,
+        delay: TRANSITION_DURATION,
       },
     },
   },
@@ -42,7 +42,7 @@ const HeaderStyle = styled.div`
 
 // choose animation for header
 const pose = withIntro => {
-  console.log('withIntro:', withIntro)
+  //console.log('withIntro:', withIntro)
   if (withIntro) {
     return 'enteringInverted'
   } else {

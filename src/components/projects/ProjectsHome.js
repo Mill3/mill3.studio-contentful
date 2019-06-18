@@ -38,8 +38,8 @@ class ProjectsHome extends React.Component {
     if (this.props.data) {
       const isMobile = Viewport.width < mobileBreakpoint
       const getDelay = (index) => {
-        if( isMobile ) return index === 0 ? TRANSITION_DURATION * 3000 : 0
-        else return index < 2 ? TRANSITION_DURATION * 2000 + index * 250 : 0
+        if( isMobile ) return index === 0 ? TRANSITION_DURATION * 3 : 0
+        else return index < 2 ? TRANSITION_DURATION * 2 + index * 250 : 0
       }
 
       return this.props.data.edges.map((project, index) => {
