@@ -51,11 +51,14 @@ const ProjectHoverPane = styled.picture`
   }
 
   .gatsby-image-wrapper {
-    flex: 0 0 100%;
-    height: 100%;
-    img {
+    /* flex: 0 0 100%; */
+    /* height: 100%; */
+    /* border: 1px solid rebeccapurple; */
+    /* img {
       object-position: left top !important;
-    }
+      object-fit: cover;
+      height: 100%;
+    } */
   }
 `
 
@@ -172,7 +175,7 @@ const ProjectPreview = props => {
                     )}
                   </ProjectHoverPane>
                   <FigureBox>
-                    <Img fade={false} fluid={imageMain.fluid} />
+                    <Img fade={false} fluid={imageMain.fluid} objectFit="cover" objectPosition="center center" style={{ height: `100%` }} />
                   </FigureBox>
                 </Box>
 

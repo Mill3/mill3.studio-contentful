@@ -9,7 +9,7 @@
 const _ = require(`lodash`)
 const path = require(`path`)
 const slash = require(`slash`)
-const locales = require('./locales')
+const locales = require('./locales/locales')
 
 exports.onCreateWebpackConfig = ({
   stage,
@@ -27,7 +27,6 @@ exports.onCreateWebpackConfig = ({
         '@utils': path.resolve(__dirname, 'src/utils/'),
         '@styles': path.resolve(__dirname, 'src/styles/'),
         '@svg': path.resolve(__dirname, 'src/svg/'),
-        // '@reducers': path.resolve(__dirname, 'src/reducers/'),
       },
       modules: [path.resolve(__dirname, "src"), "node_modules"],
     },

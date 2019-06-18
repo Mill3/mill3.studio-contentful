@@ -6,6 +6,10 @@ import { Flex, Box } from 'rebass'
 // import { TransitionState } from "gatsby-plugin-transition-link"
 import posed from 'react-pose'
 
+// import { LayoutConsumer } from '@components/contexts/LayoutContext'
+
+import LayoutContext from '@components/contexts/LayoutContext'
+
 import Container from '@styles/Container'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Nav from '@components/nav/index'
@@ -38,6 +42,7 @@ const HeaderStyle = styled.div`
 
 // choose animation for header
 const pose = withIntro => {
+  console.log('withIntro:', withIntro)
   if (withIntro) {
     return 'enteringInverted'
   } else {
@@ -46,32 +51,41 @@ const pose = withIntro => {
 }
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {  }
+
+  intro(options) {
+    const HeaderIntroElement = options.headerIntroComponent || null
+    return (
+      HeaderIntroElement ? <HeaderIntroElement transitionStatus={'entering'} /> : <></>
+    )
   }
+
   render() {
-    const { withIntro, introComponent, intl: { locale } } = this.props
-    const IntroComponent = introComponent || null
+    const {
+      intl: { locale },
+    } = this.props
 
     return (
-      <Box as={SiteHeader} pose={pose()} mb={[5]}>
-        <Container fluid className={`z-10`}>
-          <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
-            <Box width={'auto'} className={`is-relative z-20`}>
-              <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
-                <Logo inverted={withIntro} />
-              </TransitionLinkComponent>
-            </Box>
-            <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
-              <Nav inverted={withIntro} />
-            </Box>
-          </Flex>
-        </Container>
-
-        {withIntro && IntroComponent && <IntroComponent transitionStatus={'entering'} />}
-      </Box>
-    );
+      <LayoutContext.Consumer>
+        {({ options }) => (
+          <Box as={SiteHeader} pose={pose(options.withIntro)} mb={[5]}>
+            {/* {console.log(options)} */}
+            <Container fluid className={`z-10`}>
+              <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
+                <Box width={'auto'} className={`is-relative z-20`}>
+                  <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
+                    <Logo inverted={options.withIntro} />
+                  </TransitionLinkComponent>
+                </Box>
+                <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                  <Nav inverted={options.withIntro} />
+                </Box>
+              </Flex>
+            </Container>
+            {this.intro(options)}
+          </Box>
+        )}
+      </LayoutContext.Consumer>
+    )
   }
 }
 

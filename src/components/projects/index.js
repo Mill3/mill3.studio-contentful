@@ -12,11 +12,17 @@ export const query = graphql`
       title
     }
     imageMain {
+      fixed(width: 1800, quality: 85) {
+        ...GatsbyContentfulFixed_withWebp_noBase64
+      }
       fluid(maxWidth: 1800, quality: 85) {
         ...GatsbyContentfulFluid_withWebp_noBase64
       }
     }
     imageHover {
+      fixed(width: 1800, quality: 85) {
+        ...GatsbyContentfulFixed_withWebp_noBase64
+      }
       fluid(maxWidth: 1800, quality: 85) {
         ...GatsbyContentfulFluid_withWebp_noBase64
       }

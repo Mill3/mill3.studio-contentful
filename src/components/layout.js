@@ -11,8 +11,8 @@ import enData from 'react-intl/locale-data/en'
 import frData from 'react-intl/locale-data/fr'
 
 // messages
-import en from '@locales/en/en.json'
-import fr from '@locales/fr/fr.json'
+import en from '@locales/en.json'
+import fr from '@locales/fr.json'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -30,8 +30,9 @@ const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 addLocaleData([...enData, ...frData])
 
 
-const Layout = ({ locale, location, withIntro, introComponent, children }) => {
+const Layout = ({ location, withIntro, introComponent, children }) => {
   const [ inTransition, setTransitionState ] = useState(false)
+  const locale = `en`
   const onScroll = () => {
     if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
   }

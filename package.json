@@ -68,6 +68,8 @@
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "devDependencies": {
+    "babel-plugin-react-intl-auto": "^1.7.0",
+    "extract-react-intl-messages": "0.11.2",
     "netlify-cli": "^2.11.22",
     "netlify-lambda": "^1.4.13",
     "prettier": "^1.15.2"

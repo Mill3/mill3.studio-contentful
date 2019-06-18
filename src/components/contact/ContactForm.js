@@ -1,6 +1,6 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { Box, Flex, Text } from 'rebass'
 import { omit } from 'lodash'
 import styled, { keyframes } from 'styled-components'
@@ -77,7 +77,6 @@ const ConfirmMessage = styled.footer`
 const selectOptions = {
   select: '...',
   project: 'project',
-  // cv: 'cv',
   idea: 'ideas',
   partnership: 'partnership',
 }
@@ -329,6 +328,7 @@ class ContactForm extends Component {
 
   render() {
     const { activeField, submitting, submitted, selectedIndex, scrollY } = this.state
+    const { intl } = this.props
 
     return (
       <Container fluid {...this.props} css={{position: 'relative'}}>
@@ -364,7 +364,7 @@ class ContactForm extends Component {
                 htmlFor="type"
                 css={{ flex: '0 0 auto' }}
               >
-                Hey ! Share us your
+                <FormattedMessage id="contact.FormIntroLine" />
               </Text>
               <Select
                 ref={this.typeRef}
@@ -375,7 +375,7 @@ class ContactForm extends Component {
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
                   return (
                     <option value={key} key={index}>
-                      {value}
+                      {intl.formatMessage({ id: `choices.${value}` }).toString()}
                     </option>
                   )
                 })}
@@ -388,7 +388,7 @@ class ContactForm extends Component {
                 ref={this.nameRef}
                 name="name"
                 type="text"
-                label="1. You should have a name"
+                label={intl.formatMessage({id: 'fields.name'})}
                 active={activeField === 'name'}
                 onActive={this.onFocusChange}
                 validate={{
@@ -400,7 +400,7 @@ class ContactForm extends Component {
                 ref={this.emailRef}
                 name="email"
                 type="email"
-                label="2. Without a dought an email"
+                label={intl.formatMessage({id: 'fields.email'})}
                 active={activeField === 'email'}
                 onActive={this.onFocusChange}
                 validate={{
@@ -412,7 +412,7 @@ class ContactForm extends Component {
                 ref={this.companyRef}
                 name="company"
                 type="text"
-                label="3. Possibly a company name"
+                label={intl.formatMessage({id: 'fields.company'})}
                 active={activeField === 'company'}
                 onActive={this.onFocusChange}
               />
@@ -421,7 +421,7 @@ class ContactForm extends Component {
                 ref={this.projectTypeRef}
                 name="project-type"
                 type="text"
-                label="4. First thing first, what's your project type"
+                label={intl.formatMessage({id: 'fields.project'})}
                 active={activeField === 'project-type'}
                 onActive={this.onFocusChange}
                 validate={{
@@ -433,7 +433,7 @@ class ContactForm extends Component {
                 ref={this.budgetRef}
                 name="budget"
                 type="text"
-                label="5. Budget in mind"
+                label={intl.formatMessage({id: 'fields.budget'})}
                 active={activeField === 'budget'}
                 onActive={this.onFocusChange}
                 validate={{
@@ -452,12 +452,12 @@ class ContactForm extends Component {
                   onFocus={e => this.onFocusChange(e.target.name)}
                 />
                 <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>
-                  We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.
+                  <FormattedMessage id="contact.Subscribe" />
                 </Text>
               </Flex>
 
               <Button type="submit" disabled={submitting}>
-                Send
+                {intl.formatMessage({id: 'submit'}).toString()}
               </Button>
             </Box>
 
@@ -467,7 +467,7 @@ class ContactForm extends Component {
           {/* confirm message at the end */}
           <Box as={ConfirmMessage} visible={submitted}>
             <Text as="h3" className="is-sans is-light" textAlign="center" fontSize={[4, null, 6]} py={[2,3,5]}>
-              <FormattedMessage id="Thank you!" />
+              <FormattedMessage id="contact.ThankYou" />
             </Text>
           </Box>
 
@@ -477,4 +477,4 @@ class ContactForm extends Component {
   }
 }
 
-export default ContactForm
+export default injectIntl(ContactForm)
