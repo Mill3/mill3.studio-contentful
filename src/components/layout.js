@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
-import { Transition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transition-group'
 import Scrollbar from 'react-smooth-scrollbar'
 
 // Locale data
@@ -19,6 +19,7 @@ import Footer from '@components/footer'
 import TransitionPane from '@components/transitions'
 import Wrapper from '@components/wrapper'
 //import TransitionGroupPlus from '@utils/TransitionGroupPlus'
+import DelayedTransition from '@utils/DelayedTransition'
 
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
@@ -73,17 +74,17 @@ const Layout = ({ locale, location, withIntro, introComponent, children }) => {
 
                     {/* main wrapper containing children pages */}
                     <TransitionGroup component="main">
-                      <Transition
+                      <DelayedTransition
                         key={location.pathname}
                         appear={false}
                         mountOnEnter={true}
                         unmountOnExit={true}
-                        timeout={{enter: 850, exit: 750}}
-                        onEntered={() => setTransitionState(false)}
+                        delay={{enter: 8000}}
+                        timeout={{enter: 0, exit: 0}}
                         onExiting={() => setTransitionState(true)}
                       >
                         {children}
-                      </Transition>
+                      </DelayedTransition>
                     </TransitionGroup>
 
                     <Footer />
