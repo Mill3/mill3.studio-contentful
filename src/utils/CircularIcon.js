@@ -25,7 +25,7 @@ class CircularIcon extends Component {
     super(props)
 
     this.animated = false
-    this.timeScale = { value: 1 }
+    this.timeScale = null
     this.ref = React.createRef()
 
     this.onScroll = this.onScroll.bind(this)
@@ -36,22 +36,24 @@ class CircularIcon extends Component {
   }
 
   componentDidMount() {
+    this.timeScale = { value: 1 }
     this.rotation()
     this.mouse()
   }
+
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
 
-    if( this.timeScaleTween ) this.timeScaleTween.kill()
+    if (this.timeScaleTween) this.timeScaleTween.kill()
     this.timeScaleTween = null
 
-    if( this.tween ) this.tween.kill()
+    if (this.tween) this.tween.kill()
     this.tween = null
   }
 
   rotation() {
-    if( !this.ref || !this.ref.current ) return
+    if (!this.ref || !this.ref.current) return
 
     this.tween = TweenMax.to(this.ref.current, 8, {
       rotation: 360,
@@ -59,6 +61,7 @@ class CircularIcon extends Component {
       repeat: -1,
     })
   }
+
   mouse() {
     this.context.getScrollbar(s => {
       this.scrollbar = s
@@ -67,19 +70,25 @@ class CircularIcon extends Component {
   }
 
   onScroll() {
-    if( this.animated === true ) return
+    if (this.animated === true) return
     this.animated = true
 
-    this.updateTimeScale(3.25, 0.25)
+    this.updateTimeScale(3.25, 1.25)
     this.onMouseWheelDebounce()
   }
+
   onMouseWheelCompleted() {
-    this.updateTimeScale(1, 0.75)
+    this.updateTimeScale(1, 0.25)
     this.animated = false
   }
+
   updateTimeScale(value, duration) {
-    if( this.timeScaleTween ) this.timeScaleTween.kill()
-    this.timeScaleTween = TweenLite.to(this.timeScale, duration, {value, onUpdate: () => this.tween.timeScale(this.timeScale.value) })
+    if (this.timeScaleTween) this.timeScaleTween.kill()
+    this.timeScaleTween = TweenLite.to(this.timeScale, duration, {
+      value,
+      onUpdate: () => this.tween.timeScale(this.timeScale.value),
+      onComplete: () => { console.log(this.timeScale) }
+    })
   }
 
   render() {
@@ -89,7 +98,7 @@ class CircularIcon extends Component {
       <Container {...this.props}>
         <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
           <Box as="figure" ref={this.ref} m={0}>
-            { children }
+            {children}
           </Box>
         </Box>
       </Container>

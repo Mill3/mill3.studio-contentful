@@ -85,8 +85,8 @@ class Layout extends React.Component {
                   <React.Fragment>
                     <TransitionPane
                       state={inTransition ? 'visible' : 'hidden'}
-                      color={location.state.transitionColor}
-                      title={location.state.transitionTitle}
+                      color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
+                      title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
                     />
 
                     <Scrollbar
