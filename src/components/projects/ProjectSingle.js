@@ -24,31 +24,33 @@ const ProjectSingle = ({ pageContext, data }) => {
 
       <ContentRow data={data.project.contentRows} />
 
-      <Flex flexDirection={`column`}>
-        {data.project.url &&
-        <Box mx="auto">
-          <a href={data.project.url} target="_blank" without="true" rel="noopener noreferrer">
-            <Button>Visit website</Button>
-          </a>
-        </Box>
-        }
-        {data.next &&
-          <Box mx="auto" mt={4} mb={5}>
-            <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
-              <FormattedMessage id={`Next project :`} />
-            </Text>
-            <TransitionLinkComponent
-              to={`/projects/${data.next.slug}`}
-              title={data.next.name}
-              color={data.next.colorMain}
-            >
-              <LinkButton hoverColor={data.next.colorMain}>
-                {data.next.name}
-              </LinkButton>
-            </TransitionLinkComponent>
+      <Container fluid={true}>
+        <Flex flexDirection="column">
+          {data.project.url &&
+          <Box mx="auto">
+            <a href={data.project.url} target="_blank" without="true" rel="noopener noreferrer">
+              <Button>Visit website</Button>
+            </a>
           </Box>
-        }
-      </Flex>
+          }
+          {data.next &&
+            <Box mx="auto" mt={4} mb={5}>
+              <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
+                <FormattedMessage id={`Next project :`} />
+              </Text>
+              <TransitionLinkComponent
+                to={`/projects/${data.next.slug}`}
+                title={data.next.name}
+                color={data.next.colorMain}
+              >
+                <LinkButton hoverColor={data.next.colorMain}>
+                  {data.next.name}
+                </LinkButton>
+              </TransitionLinkComponent>
+            </Box>
+          }
+        </Flex>
+      </Container>
 
     </React.Fragment>
   )

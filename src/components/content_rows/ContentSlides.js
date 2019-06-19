@@ -6,12 +6,12 @@ import { Box } from 'rebass'
 import '@styles/flickity.css'
 
 //import { MediaItemVideo } from './ContentImages'
+import Container from '@styles/Container'
 import { getContentType, CONTENT_TYPES } from '@utils'
-import { RowContainer, ALIGN_VALUES, VERTICAL_SPACER, GRID_GUTTER } from './index'
+import FigureBox from '@utils/FigureBox'
+import { VERTICAL_SPACER, GRID_GUTTER } from './index'
 
 const Flickity = typeof window === `object` ? require('react-flickity-component') : null
-// if (typeof window === `object`) {
-// }
 
 const flickityOptions = {
   prevNextButtons: false,
@@ -21,36 +21,42 @@ const flickityOptions = {
   friction: 0.15,
   cellAlign: 'left',
   freeScroll: true,
+  contain: true,
   // wrapAround: true,
   // lazyLoad: 8
 }
 
-const SliderItemContainer = styled.figure`
-  height: 35vw;
-  margin: 0;
+const SliderContainer = styled.div`
+  max-width: 100vw;
   overflow: hidden;
+`
+const SliderItemContainer = styled.figure`
+  overflow: hidden;
+
   img {
     height: 100%;
     object-fit: contain;
     opacity: ${props => props.dragging ? 0.5 : 1};
-    /* clip-path: ${props => props.dragging ? `inset(5px 30px)` : `inset(0px 0px)`}; */
     transform: ${props => props.dragging ? `scale(0.775)` : `scale(1)`};
-    transition-delay: ${props => `${(props.index + 1) * 15}ms`};
-    transition: all 0.425s ${props => props.dragging ? `ease-in-out` : `ease-in-out`} ${props => `${(props.index + 1) * 25}ms`};
-    /* transition-property: transform; */
+    transition-delay: ${props => `${(props.index + 1) * 25}ms`};
+    transition-duration: 0.425s;
+    transition-timing-function: ease-in-out;
+    transition-property: opacity, transform;
   }
 `
 
 export const SlideItem = ({ img, dragging, index }) => {
   return (
-    <Box as={SliderItemContainer} dragging={dragging} index={index} width={['35vw']} pr={[2, 3, `${GRID_GUTTER}px`]}>
-      {img && img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-        <img
-          src={img.fixed ? img.fixed.src : img.file.url}
-          className="img-fluid"
-          alt={`${img.description || img.id}`}
-        />
-      )}
+    <Box as={SliderItemContainer} dragging={dragging} index={index} width={['66vw', null, '35vw']} px={[2, 3, `${GRID_GUTTER}px`]}>
+      <FigureBox>
+        {img && img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+          <img
+            src={img.fixed ? img.fixed.src : img.file.url}
+            className="img-fluid"
+            alt={`${img.description || img.id}`}
+          />
+        )}
+      </FigureBox>
     </Box>
   )
 }
@@ -80,16 +86,19 @@ class ContentSlides extends Component {
   render() {
     let { data } = this.props
     let { dragging } = this.state
+
     return (
-      <RowContainer alignContent={ALIGN_VALUES['center']}>
-        <Box as={'div'} mb={VERTICAL_SPACER}>
-          {(typeof window === `object`) &&
-            <Flickity flickityRef={c => this.slider = c} options={flickityOptions} elementType="article" disableImagesLoaded={true}>
-              {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
-            </Flickity>
-          }
-        </Box>
-      </RowContainer>
+      <Box as={SliderContainer}>
+        <Container fluid={true} mb={VERTICAL_SPACER}>
+          <Box mx={[-2, -3, `-${GRID_GUTTER}px`]}>
+            {(typeof window === `object`) &&
+              <Flickity flickityRef={c => this.slider = c} options={flickityOptions} elementType="article" disableImagesLoaded={true}>
+                {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
+              </Flickity>
+            }
+          </Box>
+        </Container>
+      </Box>
     )
   }
 }

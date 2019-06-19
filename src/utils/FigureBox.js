@@ -18,7 +18,8 @@ const FigureBoxContainer = styled.div`
 
   /* inner shadow on top */
   &:after {
-    content: '';
+    /* control visibility via props */
+    content: ${props => (props.innerShadow ? `` : `none`)};
     height: 40%;
     width: 100%;
     position: absolute;
@@ -26,8 +27,7 @@ const FigureBoxContainer = styled.div`
     bottom: -1px;
     background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     z-index: 1;
-    /* control visibility via props */
-    display: ${props => (props.innerShadow ? `block` : `none`)};
+    display: block;
   }
 
 `
