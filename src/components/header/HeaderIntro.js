@@ -139,7 +139,7 @@ class HeaderIntro extends Component {
 
   onScroll({ offset }) {
     const isMobile = Viewport.width < mobileBreakpoint
-    const x = Math.min(0.8, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
+    const x = Math.min(1, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
     const y = Math.min(Viewport.height, offset.y * 0.6)
     const skew = Math.min(1, offset.y / (Viewport.height * (isMobile ? 0.5 : 0.8)))
 
@@ -169,9 +169,11 @@ class HeaderIntro extends Component {
     const adjacent = Viewport.width - Viewport.width * 0.05
     const opposite = Math.tan(radian) * adjacent * 0.3
 
-    const t1 = { transform: `skewY(-${angle}deg) translate3d(${(x || 0) * -horizontal}px, ${y}px, 0)` }
-    const t2 = { transform: `skewY(-${angle}deg) translate3d(${(x || 0) * horizontal}px, ${y}px, 0)` }
-    const t3 = { transform: `skewY(${angle}deg) translate3d(0, ${top}px, 0)`}
+    // putting translate3d before skewY create a small vertical parallax between t1 and t2
+    // if you want to remove this vertical parallax effect, switch order between translate3d and skewY
+    const t1 = { transform: `translate3d(${(x || 0) * -horizontal}px, ${y}px, 0)skewY(-${angle}deg)` }
+    const t2 = { transform: `translate3d(${(x || 0) * horizontal}px, ${y}px, 0) skewY(-${angle}deg) ` }
+    const t3 = { transform: `translate3d(0, ${top}px, 0) skewY(${angle}deg)`}
     const t4 = { transform: `translate3d(0, -${opposite}px, 0)` }
 
     return (
