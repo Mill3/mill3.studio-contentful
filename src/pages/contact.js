@@ -12,7 +12,9 @@ import { space, header } from '@styles/Theme'
 
 const Header = styled.header`
   position: relative;
-  height: calc(74vh - ${header.height}px - ${space[5]}px);
+  margin-top: -${header.height}px;
+  padding-top: ${header.height - space[5]}px;
+  height: 74vh;
   color: ${props => props.theme.colors.black};
 `
 
@@ -90,7 +92,7 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
 
 const About = ({ pageContext, intl }) => (
   <React.Fragment>
-    <Flex alignItems={`center`} as={Header} className="z-negative" pt={[3, null, 5]}>
+    <Flex alignItems={`center`} as={Header} className="z-negative">
       <Container fluid>
         <Box width={`100%`}>
           <Text
