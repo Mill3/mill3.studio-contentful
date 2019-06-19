@@ -26,6 +26,7 @@ class CircularIcon extends Component {
 
     this.animated = false
     this.timeScale = null
+    this.tween = null
     this.ref = React.createRef()
 
     this.onScroll = this.onScroll.bind(this)
@@ -70,24 +71,23 @@ class CircularIcon extends Component {
   }
 
   onScroll() {
-    // if (this.animated === true) return
-    // this.animated = true
+    if (this.animated === true) return
+    this.animated = true
 
-    // this.updateTimeScale(3.25, 1.25)
-    // this.onMouseWheelDebounce()
+    this.updateTimeScale(3.25, 1.25)
+    this.onMouseWheelDebounce()
   }
 
   onMouseWheelCompleted() {
-    // this.updateTimeScale(1, 0.25)
-    // this.animated = false
+    this.updateTimeScale(1, 0.25)
+    this.animated = false
   }
 
-  updateTimeScale(value, duration) {
+  updateTimeScale(valueChange, duration) {
     if (this.timeScaleTween) this.timeScaleTween.kill()
     this.timeScaleTween = TweenLite.to(this.timeScale, duration, {
-      value,
-      onUpdate: () => this.tween.timeScale(this.timeScale.value),
-      onComplete: () => { console.log(this.timeScale) }
+      value: valueChange,
+      onUpdate: () => this.tween ? this.tween.timeScale(this.timeScale.value) : '',
     })
   }
 
