@@ -31,7 +31,7 @@ class Header extends React.Component {
             {({ options }) => (
               <Box as={SiteHeader}>
                 <Container fluid className={`z-10`}>
-                  <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']} pb={5}>
+                  <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                     <Box width={'auto'} className={`is-relative z-20`}>
                       <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
                         <Logo inverted={options.inverted} />

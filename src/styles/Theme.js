@@ -38,7 +38,7 @@ export const fontSizes = [
 ]
 
 export const header = {
-  height: 210,
+  height: 105,
 }
 
 export const rebootCSS = reboot({

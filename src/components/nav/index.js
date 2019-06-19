@@ -213,10 +213,15 @@ class Nav extends React.Component {
   // close burger on pathname change
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.pathname !== this.props.pathname) {
-      this.toggle()
+      this.close()
     }
   }
 
+  close() {
+    this.setState({
+      visible: false
+    })
+  }
   toggle() {
     this.setState({
       visible: !this.state.visible,
