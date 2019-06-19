@@ -95,13 +95,13 @@ class CircularIcon extends Component {
     const { children } = this.props
 
     return (
-      <Container {...this.props}>
+      <Box as={Container} {...this.props}>
         <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
           <Box as="figure" ref={this.ref} m={0}>
             {children}
           </Box>
         </Box>
-      </Container>
+      </Box>
     )
   }
 }

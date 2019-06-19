@@ -29,6 +29,23 @@ const ProjectPoses = posed.article({
 })
 
 const ProjectWrapper = styled(Box)`
+  footer {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  @media (max-width: 767px) {
+    &:nth-child(even) {
+      padding-left: 5vw;
+      padding-right: 5vw;
+
+      footer {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }  
+
   &:last-child {
     margin-bottom: 0 !important;
   }
@@ -50,17 +67,6 @@ const ProjectHoverPane = styled.picture`
     flex: 0 0 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .gatsby-image-wrapper {
-    /* flex: 0 0 100%; */
-    /* height: 100%; */
-    /* border: 1px solid rebeccapurple; */
-    /* img {
-      object-position: left top !important;
-      object-fit: cover;
-      height: 100%;
-    } */
   }
 `
 
@@ -224,7 +230,7 @@ class ProjectPreview extends Component {
         triggerOnce={true}
         onChange={this.onVisibilityChange}
         as={ProjectWrapper}
-        px={[0, null, 3, 4]}
+        px={[null, null, 3, 4]}
         mb={['40px', null, '50px', '70px']}
         {...columns}
       >
@@ -258,7 +264,7 @@ class ProjectPreview extends Component {
               </FigureBox>
             </Box>
 
-            <Box as={`footer`} px={['5vw', null, 0]}>
+            <Box as={`footer`} px={[null, null, 0]}>
               <Text
                 as={`h3`}
                 className={`fw-300 is-sans`}
