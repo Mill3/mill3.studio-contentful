@@ -1,8 +1,8 @@
 {
-  "choices....": "",
-  "choices.ideas": "",
-  "choices.partnership": "",
-  "choices.project": "",
+  "choices....": "choix...",
+  "choices.ideas": "idées",
+  "choices.partnership": "partenariat",
+  "choices.project": "projet",
   "contact.ContactIntroPart1": "",
   "contact.ContactIntroPart2": "",
   "contact.ContactIntroPart3": "",
@@ -18,12 +18,12 @@
   "fields.project": "",
   "intro.LineA": "",
   "intro.LineB": "",
-  "nav.About": "",
-  "nav.Contact": "",
-  "nav.Journal": "",
-  "nav.Work": "",
+  "nav.About": "À propos",
+  "nav.Contact": "Contact",
+  "nav.Journal": "Journal",
+  "nav.Work": "Projets",
   "projects.Button": "",
   "projects.HomeOutro": "",
   "projects.Intro": "",
-  "submit": ""
+  "submit": "Envoyer"
 }

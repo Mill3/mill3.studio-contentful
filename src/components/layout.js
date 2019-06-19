@@ -33,6 +33,10 @@ const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
 
+const getLocale = (location) => {
+  return location.pathname.split('/')[1]
+}
+
 class Layout extends React.Component {
   constructor(props) {
     super(props)
@@ -62,7 +66,6 @@ class Layout extends React.Component {
 
   render() {
     const { inTransition } = this.state
-    const { options } = this.state
     const { children } = this.props
     const locale = `en`
     const onScroll = () => {
@@ -71,17 +74,19 @@ class Layout extends React.Component {
     return (
       <Location>
         {({ location }) => (
-          <IntlProvider locale={locale} messages={messages[locale]}>
+          <IntlProvider locale={getLocale(location)} messages={messages[getLocale(location)]}>
             <LayoutContext.Provider value={this.state}>
               <React.Fragment>
+                {/* {console.log(location)} */}
+
                 <GlobalStyle />
 
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>
                     <TransitionPane
                       state={inTransition ? 'visible' : 'hidden'}
-                      color={options.transitionColor}
-                      title={options.transitionTitle}
+                      color={location.state.transitionColor}
+                      title={location.state.transitionTitle}
                     />
 
                     <Scrollbar
