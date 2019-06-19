@@ -47,13 +47,6 @@ const contentRowFormatter = (row) => {
       let items = []
       Object.entries(value).map((imageItem) => {
         let fields = imageItem[1].fields
-        console.log('fields:', fields)
-        // Object.entries(fields).map((imageItemField) => {
-        //   let [imageItemFieldType, imageItemFieldValue] = imageItemField
-        //   if (imageItemFieldType === 'text') {
-        //     fields[imageItemFieldType] = imageItemFieldValue.content
-        //   }
-        // })
         items.push(fields)
       })
 
@@ -149,6 +142,9 @@ export async function handler(event, context) {
 
   // get entry model
   model = entry.sys.contentType.sys.id
+
+  // set model type to fields
+  fields['model'] = model
 
   // loop each first level fields
   Object.entries(entry.fields).map(entryField => {

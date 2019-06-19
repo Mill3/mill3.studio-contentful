@@ -99,7 +99,7 @@ const messages = defineMessages({
   },
   projectsIntro: {
     id: 'projects.Intro',
-    defaultMessage: 'We trully believe that good work needs dedicated team, less talking, more doing. <br/>Good research leads to effective design, better tech stacks and tailor-made outcomes.'
+    defaultMessage: 'We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.'
   },
   projectsButton: {
     id: 'projects.Button',

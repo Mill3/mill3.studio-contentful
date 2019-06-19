@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 
+import { getContentfulEntryID } from '@utils/ContentfulClient'
 
-import { getContentfulEntryID } from "@utils/ContentfulClient"
-
-import ProjectSingle from "@components/projects/ProjectSingle"
+import ProjectSingle from '@components/projects/ProjectSingle'
+import NewsSingle from '@components/news/NewsSingle'
 
 class Preview extends Component {
-
   // static entryID = new URL(window.location.href).searchParams.get('entry')
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      data: null
+      data: null,
     }
     this.interval = null
     this.update = this.update.bind(this)
@@ -20,14 +19,12 @@ class Preview extends Component {
   }
 
   update() {
-    console.log(`this should fetch for new data`);
+    console.log(`this should fetch for new data`)
     fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}&locale=${this.props.pageContext.locale}`)
       .then(response => response.json())
       .then(node => {
         this.setState({
-          data: {
-            project: node.data
-          }
+          data: node.data,
         })
       })
   }
@@ -44,21 +41,31 @@ class Preview extends Component {
     clearInterval(this.interval)
   }
 
-  render() {
-
+  component(data) {
     const pageContext = {
-      locale: this.props.pageContext.locale
+      locale: this.props.pageContext.locale,
     }
+    const { model } = this.state.data
+    switch (model) {
+      case 'project':
+        return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
+        break
+      case 'news':
+        return <NewsSingle pageContext={pageContext} data={{ news: this.state.data }} />
+        break
+      default:
+        return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
+        break
+    }
+  }
 
+  render() {
     return (
-      <div>
-        {/* for previewing.. */}
-        {this.state.data &&
-          <ProjectSingle pageContext={pageContext} data={this.state.data} />
-        }
-      </div>
-    );
+      <React.Fragment>
+        {this.state.data ? this.component() : ''}
+      </React.Fragment>
+    )
   }
 }
 
-export default Preview;
+export default Preview
