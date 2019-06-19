@@ -65,7 +65,7 @@ const TextWrapper = styled(Flex)`
   transform-origin: top center;
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
-    padding-bottom: 0;
+    padding-bottom: ${header.height / 2}px;
   }
 `
 const TextWrapperCopy = styled(Flex)`
@@ -84,7 +84,7 @@ const TextWrapperCopy = styled(Flex)`
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     height: 150vh;
-    padding-bottom: 70vh;
+    padding-bottom: calc(70vh + ${header.height / 2}px);
   }
 `
 const TextStyle = styled.h2`
@@ -139,7 +139,7 @@ class HeaderIntro extends Component {
 
   onScroll({ offset }) {
     const isMobile = Viewport.width < mobileBreakpoint
-    const x = Math.min(1, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
+    const x = Math.min(0.8, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
     const y = Math.min(Viewport.height, offset.y * 0.6)
     const skew = Math.min(1, offset.y / (Viewport.height * (isMobile ? 0.5 : 0.8)))
 
