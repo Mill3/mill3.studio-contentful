@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Location } from '@reach/router'
 import React from 'react'
 import styled from 'styled-components'
 import { injectIntl, intlShape } from 'react-intl'
@@ -51,36 +52,37 @@ const pose = withIntro => {
 }
 
 class Header extends React.Component {
-
   intro(options) {
     const HeaderIntroElement = options.headerIntroComponent || null
-    return (
-      HeaderIntroElement ? <HeaderIntroElement transitionStatus={'entering'} /> : <></>
-    )
+    return HeaderIntroElement ? <HeaderIntroElement transitionStatus={'entering'} /> : <></>
   }
 
   render() {
     return (
-      <LayoutContext.Consumer>
-        {({ options }) => (
-          <Box as={SiteHeader} pose={pose(options.withIntro)} mb={[5]}>
-            {/* {console.log(options)} */}
-            <Container fluid className={`z-10`}>
-              <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
-                <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
-                    <Logo inverted={options.withIntro} />
-                  </TransitionLinkComponent>
-                </Box>
-                <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
-                  <Nav inverted={options.withIntro} />
-                </Box>
-              </Flex>
-            </Container>
-            {this.intro(options)}
-          </Box>
+      <Location>
+        {({ location }) => (
+          <LayoutContext.Consumer>
+            {({ options }) => (
+              <Box as={SiteHeader} pose={pose(options.withIntro)} mb={[5]}>
+                {/* {console.log(options)} */}
+                <Container fluid className={`z-10`}>
+                  <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} pt={[3, 4, '62px']}>
+                    <Box width={'auto'} className={`is-relative z-20`}>
+                      <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
+                        <Logo inverted={options.withIntro} />
+                      </TransitionLinkComponent>
+                    </Box>
+                    <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                      <Nav inverted={options.withIntro} pathname={location.pathname} />
+                    </Box>
+                  </Flex>
+                </Container>
+                {this.intro(options)}
+              </Box>
+            )}
+          </LayoutContext.Consumer>
         )}
-      </LayoutContext.Consumer>
+      </Location>
     )
   }
 }
@@ -89,7 +91,6 @@ Header.propTypes = {
   intl: intlShape.isRequired,
 }
 
-Header.defaultProps = {
-}
+Header.defaultProps = {}
 
 export default injectIntl(Header)

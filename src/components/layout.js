@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
-import { StaticQuery, graphql } from 'gatsby'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
 import { TransitionGroup } from 'react-transition-group'

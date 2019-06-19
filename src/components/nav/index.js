@@ -1,13 +1,12 @@
 import React from 'react'
+// import { Location } from '@reach/router'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
 import { FormattedMessage, defineMessages } from 'react-intl'
 
-
 import Switcher from '@components/nav/switcher'
 import TransitionLinkComponent from '@utils/TransitionLink'
-
 
 const NavContainerPoses = posed.ul({
   hidden: {
@@ -30,7 +29,7 @@ const NavContainerPoses = posed.ul({
     },
     delayChildren: 350,
     staggerChildren: 50,
-  }
+  },
 })
 
 const NavItemPoses = posed.li({
@@ -41,7 +40,7 @@ const NavItemPoses = posed.li({
       type: 'tween',
       duration: 175,
       ease: 'easeIn',
-    }
+    },
   },
   visible: {
     x: 0,
@@ -57,25 +56,25 @@ const NavItemPoses = posed.li({
         duration: 150,
         ease: 'linear',
       },
-    }
-  }
+    },
+  },
 })
 
 const NavWrapper = styled.nav`
-  color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
+  color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.black)};
 
   a {
-    color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.gray };
+    color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.gray)};
     display: inline-block;
     transition: color 0.75s;
 
     &:hover {
-      color: ${props => props.inverted ? props.theme.colors.gray : props.theme.colors.black};
+      color: ${props => (props.inverted ? props.theme.colors.gray : props.theme.colors.black)};
       text-decoration: none;
     }
 
     &[aria-current] {
-      color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
+      color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.black)};
     }
   }
 `
@@ -87,13 +86,14 @@ const NavBurger = styled.button`
   z-index: 20;
   border: 0;
   background: none;
-  color: ${props => props.inverted ? props.theme.colors.white : props.theme.colors.black };
+  color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.black)};
   transform-origin: center center;
   transform: rotate(0deg);
   transition: transform 250ms cubic-bezier(0.645, 0.045, 0.355, 1); /* ease-in-out-cubic */
 
   &:focus {
     transform: rotate(90deg);
+    outline: none;
   }
 
   &.expanded {
@@ -127,15 +127,23 @@ const NavBurgerDot = styled.span`
   ${NavBurger}.expanded & {
     transition: transform 450ms cubic-bezier(0.175, 0.885, 0.32, 1.6); /* ease-out-back */
 
-    &:nth-child(1) { transform: translate(-9px, -9px) }
-    &:nth-child(2) { transform: translate(-9px, 9px) }
-    &:nth-child(3) { transform: translate(9px, -9px); }
-    &:nth-child(4) { transform: translate(9px, 9px); }
+    &:nth-child(1) {
+      transform: translate(-9px, -9px);
+    }
+    &:nth-child(2) {
+      transform: translate(-9px, 9px);
+    }
+    &:nth-child(3) {
+      transform: translate(9px, -9px);
+    }
+    &:nth-child(4) {
+      transform: translate(9px, 9px);
+    }
   }
 `
 
 const NavContainer = styled(NavContainerPoses)`
-  background: ${props => props.inverted ? props.theme.colors.black : props.theme.colors.white};
+  background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
   padding: 84px 0 0 0;
   list-style: none;
@@ -149,7 +157,7 @@ const NavContainer = styled(NavContainerPoses)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  pointer-events: ${props => props.visible ? 'all' : 'none' };
+  pointer-events: ${props => (props.visible ? 'all' : 'none')};
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     background: none !important;
@@ -188,38 +196,48 @@ const NavItem = styled(NavItemPoses)`
     padding-bottom: 0;
     padding-right: 0;
   }
-
 `
 
-
-
-const fontSizes = [5,5,3,3]
+const fontSizes = [5, 5, 3, 3]
 
 class Nav extends React.Component {
+  // static contextType = Location.LocationContext
+
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      visible: false
+      visible: false,
     }
 
-    this.toggle = this.toggle.bind(this);
+    this.toggle = this.toggle.bind(this)
+  }
+
+  // close burger on pathname change
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.pathname !== this.props.pathname) {
+      this.toggle()
+    }
   }
 
   toggle() {
     this.setState({
       visible: !this.state.visible,
-    });
+    })
   }
 
   render() {
-    let { inverted } = this.props;
-    let { visible } = this.state;
+    let { inverted } = this.props
+    let { visible } = this.state
 
     return (
       <NavWrapper inverted={inverted}>
-
-        <NavBurger className={visible ? 'expanded' : null} onClick={e => this.toggle()} aria-label="Menu" inverted={inverted}>
+        <NavBurger
+          className={visible ? 'expanded' : null}
+          onClick={e => this.toggle()}
+          aria-label="Menu"
+          inverted={inverted}
+        >
           <NavBurgerDot />
           <NavBurgerDot />
           <NavBurgerDot />
@@ -227,8 +245,12 @@ class Nav extends React.Component {
           <NavBurgerDot />
         </NavBurger>
 
-        <NavContainer initialPose={'hidden'} pose={visible ? 'visible' : 'hidden'} visible={visible} inverted={inverted}>
-
+        <NavContainer
+          initialPose={'hidden'}
+          pose={visible ? 'visible' : 'hidden'}
+          visible={visible}
+          inverted={inverted}
+        >
           <NavItem>
             <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>
               <Text fontSize={fontSizes}>
@@ -264,12 +286,14 @@ class Nav extends React.Component {
           <NavItem>
             <Switcher fontSizes={fontSizes} />
           </NavItem>
-
         </NavContainer>
-
       </NavWrapper>
-    );
+    )
   }
+}
+
+Nav.defaultProps = {
+  pathname: null
 }
 
 export default Nav
