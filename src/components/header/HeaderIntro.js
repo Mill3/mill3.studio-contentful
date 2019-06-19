@@ -123,21 +123,28 @@ class HeaderIntro extends Component {
       skew: 0.0,
     }
 
+    this.mounted = false
     this.onScroll = this.onScroll.bind(this)
   }
 
   componentDidMount() {
+    this.mounted = true
+
     this.context.getScrollbar(scrollbar => {
       this.scrollbar = scrollbar
       this.scrollbar.addListener(this.onScroll)
     })
   }
   componentWillUnmount() {
+    this.mounted = false
+
     if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
   }
 
   onScroll({ offset }) {
+    if( !this.mounted ) return
+
     const isMobile = Viewport.width < mobileBreakpoint
     const x = Math.min(0.8, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
     const y = Math.min(Viewport.height, offset.y * 0.6)
