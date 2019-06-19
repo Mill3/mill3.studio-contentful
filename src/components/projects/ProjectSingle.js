@@ -3,7 +3,6 @@ import { graphql } from 'gatsby'
 import { Flex, Box, Text } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 
-import Layout from '@components/layout'
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'

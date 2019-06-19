@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 import ContentRow from '@components/content_rows'
-import Layout from '@components/layout'
 import Container from '@styles/Container'
 import SingleHeader from '@components/elements/SingleHeader'
 

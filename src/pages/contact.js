@@ -1,5 +1,5 @@
 import React from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Box, Text } from 'rebass'

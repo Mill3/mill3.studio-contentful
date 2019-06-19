@@ -3,7 +3,6 @@ import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 
-import Layout from '@components/layout'
 import HeaderCircle from '@components/header/HeaderCircle'
 import NewsPreview from '@components/news/NewsPreview'
 import Container from '@styles/Container'
