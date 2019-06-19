@@ -10,8 +10,6 @@ import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import Viewport from '@utils/Viewport'
 
-// import { LayoutContext } from '@components/contexts/LayoutContext'
-
 const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
 

@@ -1,9 +1,8 @@
 import React from 'react'
-// import { Location } from '@reach/router'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
-import { FormattedMessage, defineMessages } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import Switcher from '@components/nav/switcher'
 import TransitionLinkComponent from '@utils/TransitionLink'
@@ -201,8 +200,6 @@ const NavItem = styled(NavItemPoses)`
 const fontSizes = [5, 5, 3, 3]
 
 class Nav extends React.Component {
-  // static contextType = Location.LocationContext
-
   constructor(props) {
     super(props)
 

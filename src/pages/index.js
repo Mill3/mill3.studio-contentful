@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 
-import SEO from '@components/seo'
+//import SEO from '@components/seo'
 
+import HeaderIntro from '@components/header/HeaderIntro'
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ClientsTicker from '@components/clients/ClientsTicker'
-import HeaderIntro from '@components/header/HeaderIntro'
 import ContactForm from '@components/contact/ContactForm'
 
 import Container from '@styles/Container'
@@ -22,11 +22,10 @@ class IndexPage extends React.Component {
   }
 
   componentWillMount() {
-    this.context.set({ withIntro: true, headerIntroComponent: HeaderIntro, locale: this.props.locale })
+    this.context.set({ inverted: true, locale: this.props.locale })
   }
-
   componentWillUnmount() {
-    this.context.set({ withIntro: false, headerIntroComponent: null, locale: this.props.locale })
+    this.context.set({ inverted: false, locale: this.props.locale })
   }
 
   render() {
@@ -35,6 +34,7 @@ class IndexPage extends React.Component {
       <LayoutContext.Provider>
         <React.Fragment>
           {/* <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} /> */}
+          <HeaderIntro transitionStatus={'entering'} />
           <Container fluid>{data.allContentfulProjects && <ProjectsHome data={data.allContentfulProjects} />}</Container>
           <ClientsTicker />
           <ContactForm my={[2, 3, 5]} />

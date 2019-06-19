@@ -2,8 +2,7 @@ import React from "react"
 
 export const defaultContextValue = {
   options: {
-    withIntro: false,
-    headerIntroComponent: null
+    inverted: false,
   },
   set: () => {},
 }
