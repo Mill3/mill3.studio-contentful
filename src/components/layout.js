@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
 import { IntlProvider, addLocaleData } from 'react-intl'
@@ -41,6 +41,7 @@ class Layout extends React.Component {
     super(props)
     this.setOptions = this.setOptions.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
+    this.onScroll = this.onScroll.bind(this)
     this.state = {
       ...defaultContextValue,
       inTransition: false,
@@ -63,13 +64,15 @@ class Layout extends React.Component {
     })
   }
 
+  onScroll() {
+    if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+  }
+
   render() {
     const { inTransition } = this.state
     const { children } = this.props
-    const locale = `en`
-    const onScroll = () => {
-      if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
-    }
+    //const locale = `en`
+
     return (
       <Location>
         {({ location }) => (
@@ -93,7 +96,7 @@ class Layout extends React.Component {
                       thumbMinSize={55}
                       alwaysShowTracks={false}
                       continuousScrolling={true}
-                      onScroll={onScroll}
+                      onScroll={this.onScroll}
                     >
                       <Wrapper>
                         {/* main header */}

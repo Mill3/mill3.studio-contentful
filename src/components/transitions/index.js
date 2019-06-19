@@ -8,18 +8,15 @@ import { TRANSITION_DURATION } from '@utils/constants'
 const Poses = posed.div({
   init: {
     opacity: 0,
-    backgroundColor: '#000'
   },
   visible: {
     opacity: 1,
-    backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
       duration: TRANSITION_DURATION / 2
     }
   },
   hidden: {
     opacity: 0,
-    backgroundColor: ({ backgroundColor }) => backgroundColor ? backgroundColor : '#000',
     transition: {
       duration: TRANSITION_DURATION / 2
     }
@@ -40,6 +37,7 @@ const TransitionPaneStyle = styled(Poses)`
   justify-content: center;
   pointer-events: none;
   color: #fff;
+  background: ${props => props.backgroundColor || '#000'}
 `
 
 const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
