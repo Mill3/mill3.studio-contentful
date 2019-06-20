@@ -7,6 +7,7 @@ import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
+import { breakpoints } from '@styles/Theme'
 import FigureBox from '@utils/FigureBox'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Viewport from '@utils/Viewport'
@@ -29,12 +30,7 @@ const ProjectPoses = posed.article({
 })
 
 const ProjectWrapper = styled(Box)`
-  footer {
-    padding-left: 5vw;
-    padding-right: 5vw;
-  }
-
-  @media (max-width: 767px) {
+  @media (max-width: ${parseInt(breakpoints[1]) - 1}px) {
     &:nth-child(even) {
       padding-left: 5vw;
       padding-right: 5vw;
@@ -44,7 +40,7 @@ const ProjectWrapper = styled(Box)`
         padding-right: 0;
       }
     }
-  }  
+  }
 
   &:last-child {
     margin-bottom: 0 !important;
@@ -230,8 +226,8 @@ class ProjectPreview extends Component {
         triggerOnce={true}
         onChange={this.onVisibilityChange}
         as={ProjectWrapper}
-        px={[null, null, 3, 4]}
         mb={['40px', null, '50px', '70px']}
+        px={[null, null, 3, 4]}
         {...columns}
       >
         <Box
@@ -264,7 +260,7 @@ class ProjectPreview extends Component {
               </FigureBox>
             </Box>
 
-            <Box as={`footer`} px={[null, null, 0]}>
+            <Box as={`footer`} px={['5vw', null, 0]}>
               <Text
                 as={`h3`}
                 className={`fw-300 is-sans`}
