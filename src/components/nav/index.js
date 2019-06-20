@@ -144,7 +144,7 @@ const NavBurgerDot = styled.span`
 const NavContainer = styled(NavContainerPoses)`
   background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
-  padding: 84px 0 0 0;
+  padding: 150px 0 0 0;
   list-style: none;
   position: fixed;
   z-index: 5;
@@ -154,7 +154,7 @@ const NavContainer = styled(NavContainerPoses)`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
 
@@ -180,6 +180,9 @@ const NavItem = styled(NavItemPoses)`
   margin: 0;
   flex: 0 0 auto;
 
+  @media (min-height: 600px) {
+    padding: 2.5vh 0;
+  }
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     padding: 0 1.5vw;
     transform: none !important;

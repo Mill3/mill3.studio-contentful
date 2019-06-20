@@ -4,6 +4,7 @@ import ProjectPreview from './ProjectPreview'
 import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
+import styled from 'styled-components'
 
 import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
@@ -12,6 +13,10 @@ import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
+
+const ProjectIndexHeader = styled.header`
+  min-height: 50vh;
+`
 
 class ProjectsIndex extends Component {
 
@@ -57,7 +62,7 @@ class ProjectsIndex extends Component {
     return (
       <>
         <Container fluid>
-          <Box as={`header`} pb={6} className="is-relative">
+          <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={3} className="is-relative">
             <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
               <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
               <span className="is-serif"><FormattedMessage id="nav.Work" /> </span>
@@ -69,7 +74,7 @@ class ProjectsIndex extends Component {
             </Text>
 
             <HeaderCircle ml={['-5vw', null, -3, -4]} css={{transform: 'translateY(45%)'}} />
-          </Box>
+          </Flex>
           <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`} css={{position: 'relative'}}>
             {this.list()}
           </Flex>

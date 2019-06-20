@@ -8,6 +8,7 @@ import { colors } from '@styles/Theme'
 const InputStyle = styled.input`
   background: none;
   border: none;
+  border-radius: 0;
   border-bottom: 1px solid #D1D1D1;
   padding: 0.3em 0.9em;
   width: 100%;

@@ -456,9 +456,11 @@ class ContactForm extends Component {
                 </Text>
               </Flex>
 
-              <Button type="submit" disabled={submitting}>
-                {intl.formatMessage({id: 'submit'}).toString()}
-              </Button>
+              <Flex justifyContent={["center", null, "flex-start"]}>
+                <Button type="submit" disabled={submitting}>
+                  {intl.formatMessage({id: 'submit'}).toString()}
+                </Button>
+              </Flex>
             </Box>
 
 
