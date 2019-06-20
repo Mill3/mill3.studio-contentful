@@ -79,7 +79,6 @@ class Layout extends React.Component {
           <IntlProvider locale={getLocale(location)} messages={messages[getLocale(location)]}>
             <LayoutContext.Provider value={this.state}>
               <React.Fragment>
-                {/* {console.log(location)} */}
 
                 <GlobalStyle />
 

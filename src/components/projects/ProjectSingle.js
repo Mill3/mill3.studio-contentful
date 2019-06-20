@@ -8,43 +8,54 @@ import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Button, { LinkButton } from '@components/buttons'
+import SEO from '@components/seo'
 
 const ProjectSingle = ({ pageContext, data }) => {
+  const { project, next } = data
+
   return (
     <React.Fragment>
+
+      {/* SEO fields */}
+      <SEO
+        seo={project.seo}
+        title={!project.seo ? project.name : null}
+        description={!project.seo ? project.subHeading : null}
+        image={!project.seo ? project.headerMedia : null}
+      />
 
       <Container fluid>
         <SingleHeader
           label="Projects:"
-          title={data.project.name}
-          subHeading={data.project.subHeading ? data.project.subHeading.subHeading : null}
-          media={data.project.headerMedia}
+          title={project.name}
+          subHeading={project.subHeading ? project.subHeading.subHeading : null}
+          media={project.headerMedia}
         />
       </Container>
 
-      <ContentRow data={data.project.contentRows} />
+      <ContentRow data={project.contentRows} />
 
       <Container fluid={true}>
         <Flex flexDirection="column">
-          {data.project.url &&
+          {project.url &&
           <Box mx="auto">
-            <a href={data.project.url} target="_blank" without="true" rel="noopener noreferrer">
+            <a href={project.url} target="_blank" without="true" rel="noopener noreferrer">
               <Button>Visit website</Button>
             </a>
           </Box>
           }
-          {data.next &&
+          {next &&
             <Box mx="auto" mt={4} mb={5}>
               <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
                 <FormattedMessage id={`Next project :`} />
               </Text>
               <TransitionLinkComponent
-                to={`/projects/${data.next.slug}`}
-                title={data.next.name}
-                color={data.next.colorMain}
+                to={`/projects/${next.slug}`}
+                title={next.name}
+                color={next.colorMain}
               >
-                <LinkButton hoverColor={data.next.colorMain}>
-                  {data.next.name}
+                <LinkButton hoverColor={next.colorMain}>
+                  {next.name}
                 </LinkButton>
               </TransitionLinkComponent>
             </Box>
@@ -69,6 +80,9 @@ export const projectQuery = graphql`
       node_locale
       name
       url
+      seo {
+        ...seoFragment
+      }
       shortDescription {
         shortDescription
       }

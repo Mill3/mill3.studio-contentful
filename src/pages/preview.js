@@ -6,7 +6,6 @@ import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
 
 class Preview extends Component {
-  // static entryID = new URL(window.location.href).searchParams.get('entry')
 
   constructor(props) {
     super(props)
@@ -46,6 +45,8 @@ class Preview extends Component {
       locale: this.props.pageContext.locale,
     }
     const { model } = this.state.data
+
+    // pick content Single component
     switch (model) {
       case 'project':
         return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />

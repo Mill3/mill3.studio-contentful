@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 
-//import SEO from '@components/seo'
+import SEO from '@components/seo'
 
 import HeaderIntro from '@components/header/HeaderIntro'
 import ProjectsHome from '@components/projects/ProjectsHome'
@@ -24,6 +24,7 @@ class IndexPage extends React.Component {
   componentWillMount() {
     this.context.set({ inverted: true, locale: this.props.locale })
   }
+
   componentWillUnmount() {
     this.context.set({ inverted: false, locale: this.props.locale })
   }
@@ -32,6 +33,7 @@ class IndexPage extends React.Component {
     const { data } = this.props
     return (
       <LayoutContext.Provider>
+        <SEO title={null} />
         <React.Fragment>
           {/* <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} /> */}
           <HeaderIntro transitionStatus={'entering'} />

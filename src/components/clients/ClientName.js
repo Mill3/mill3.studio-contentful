@@ -1,17 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 export const ClientNameHeading = styled.h4`
   display: inline-block;
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
-  cursor: crosshair;
-  transition: color 1s;
-  &:hover {
+
+  a {
     color: black;
+    &:hover {
+      color: black;
+      text-decoration: none;
+    }
   }
+
 `
 
 class ClientName extends React.Component {
@@ -41,7 +46,9 @@ class ClientName extends React.Component {
           onMouseEnter={e => this.hover(true)}
           onMouseLeave={e => this.hover(false)}
         >
-        <span>{this.props.name}</span>
+        <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>
+          <span>{this.props.name}</span>
+        </TransitionLinkComponent>
       </Text>
     )
   }

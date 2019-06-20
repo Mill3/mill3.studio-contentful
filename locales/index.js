@@ -108,6 +108,14 @@ const messages = defineMessages({
   projectsHomeOutro: {
     id: 'projects.HomeOutro',
     defaultMessage: 'We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.'
+  },
+  contactUs: {
+    id: 'Contact us',
+    defaultMessage: 'Contact us'
+  },
+  aboutUs: {
+    id: 'About us',
+    defaultMessage: 'About us'
   }
 })
 

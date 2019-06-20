@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 
+import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
 import NewsPreview from '@components/news/NewsPreview'
 import Container from '@styles/Container'
@@ -29,6 +30,7 @@ class NewsIndex extends Component {
   render() {
     return (
       <React.Fragment>
+        <SEO title={`nav.Journal`} translate={true} />
         <Container fluid>
           <Box as={`header`} my={[3,3,6]}>
             <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
