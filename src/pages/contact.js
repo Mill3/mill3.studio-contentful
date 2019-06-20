@@ -5,6 +5,7 @@ import posed from 'react-pose'
 import { Flex, Box, Text } from 'rebass'
 import SplitText from 'react-pose-text'
 
+import SEO from '@components/seo'
 import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
 import Container from '@styles/Container'
@@ -92,6 +93,9 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
 
 const About = ({ pageContext, intl }) => (
   <React.Fragment>
+
+    <SEO title="Contact us" translate={true} />
+
     <Flex alignItems={`center`} as={Header} className="z-negative">
       <Container fluid>
         <Box width={`100%`}>

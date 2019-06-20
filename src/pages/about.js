@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Flex, Text } from 'rebass'
 
+import SEO from '@components/seo'
 import { ChipButton } from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import Container from '@styles/Container'
@@ -19,6 +20,9 @@ const Service = (props) => {
 
 const About = ({ pageContext }) => (
   <>
+
+    <SEO title="About us" translate={true} />
+
     <Container fluid css={{position: 'relative'}}>
       <Box as="header" className="is-center" mb={[6, 6, 5, 6]}>
         <Text as={`h1`} fontSize={fontSizes} fontFamily="serif" mb={[5, 5, 4, 5]}>About.</Text>

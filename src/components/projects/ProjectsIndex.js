@@ -3,9 +3,10 @@ import { graphql } from 'gatsby'
 import ProjectPreview from './ProjectPreview'
 import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
-import { Flex, Box, Text } from 'rebass'
+import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
+import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
@@ -61,6 +62,7 @@ class ProjectsIndex extends Component {
   render() {
     return (
       <>
+        <SEO title={`nav.Work`} translate={true} />
         <Container fluid>
           <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={3} className="is-relative">
             <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
