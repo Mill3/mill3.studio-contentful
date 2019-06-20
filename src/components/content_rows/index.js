@@ -50,6 +50,26 @@ export const RowContainer = ({alignContent, backgroundColor, children}) => {
   )
 }
 
+const AnimatedBg = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+`
+
+export const AnimatedBackgroundRowContainer = ({backgroundColor, children, ...props}) => {
+  return (
+    <Box className="is-relative">
+      <Box as={AnimatedBg} backgroundColor={backgroundColor}  />
+      <RowContainer {...props}>
+        <h1>Animation background row container</h1>
+        {children}
+      </RowContainer>
+    </Box>
+  )
+}
+
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,
   // we must add an extra cell to the array producing 1 more grid-column.

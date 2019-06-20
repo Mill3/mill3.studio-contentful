@@ -6,7 +6,7 @@ import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import { RowContainer, Grid, VERTICAL_SPACER } from './index'
+import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
 
 import EmbeddedAsset from './EmbeddedAsset'
 
@@ -76,10 +76,11 @@ const postBody = styled.div`
 `
 
 const ContentText = ({ data }) => {
+  const { backgroundColor } = data
+  const Wrapper = backgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+
   return (
-    <RowContainer
-      backgroundColor={data.backgroundColor}
-    >
+    <Wrapper backgroundColor={data.backgroundColor}>
       {data.text && (
         <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
           <Box
@@ -105,7 +106,7 @@ const ContentText = ({ data }) => {
           </Grid>
         </Box>
       )}
-    </RowContainer>
+    </Wrapper>
   )
 }
 
