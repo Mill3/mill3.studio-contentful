@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
-import { Text } from 'rebass'
+import { Flex, Text } from 'rebass'
 
 import { TRANSITION_DURATION } from '@utils/constants'
 
@@ -32,9 +32,6 @@ const TransitionPaneStyle = styled(Poses)`
   width: 100vw;
   height: 100vh;
   z-index: 100000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
   color: #fff;
   background: ${props => props.backgroundColor || '#000'}
@@ -42,9 +39,9 @@ const TransitionPaneStyle = styled(Poses)`
 
 const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
   return (
-    <TransitionPaneStyle backgroundColor={color} initialPose={`init`} pose={state}>
-      <Text fontSize={[2,3,`5vw`]} className={`is-sans fw-300`}>{title}</Text>
-    </TransitionPaneStyle>
+    <Flex as={TransitionPaneStyle} p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
+      <Text fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>{title}</Text>
+    </Flex>
   )
 }
 
