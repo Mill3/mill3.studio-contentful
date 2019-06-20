@@ -63,15 +63,15 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Box mb={[4, 5]}>
-          <Text textAlign="center" as={`h6`} fontSize={[2, 3]} color="blue">
+        <Box mb={['30px']}>
+          <Text textAlign="center" as={`h6`} fontSize={[2, 3]} mb={[3, null, 0]} color="blue">
             <FormattedMessage id={label} />
           </Text>
 
           <Text
             textAlign="center"
             as={`h1`}
-            fontSize={[5, 4, 5, '3.611111111vw']}
+            fontSize={['28px', null, 5, '3.611111111vw']}
             lineHeight={'1.2'}
             mb={0}
             className={`is-serif fw-400`}
@@ -84,7 +84,8 @@ class SingleHeader extends Component {
               textAlign="center"
               as={`h4`}
               fontSize={[3, 3, `2vw`]}
-              pt={[3, null, 4]}
+              pt={['24px', null, 4]}
+              mb={0}
             >
               {subHeading}
             </Text>

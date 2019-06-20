@@ -144,7 +144,7 @@ const NavBurgerDot = styled.span`
 const NavContainer = styled(NavContainerPoses)`
   background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
-  padding: 150px 0 0 0;
+  padding: 40vw 0 0 0;
   list-style: none;
   position: fixed;
   z-index: 5;
@@ -176,13 +176,10 @@ const NavContainer = styled(NavContainerPoses)`
 `
 
 const NavItem = styled(NavItemPoses)`
-  padding: 1.5vh 0;
+  padding: 4vw 0;
   margin: 0;
   flex: 0 0 auto;
 
-  @media (min-height: 600px) {
-    padding: 2.5vh 0;
-  }
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     padding: 0 1.5vw;
     transform: none !important;
@@ -200,7 +197,7 @@ const NavItem = styled(NavItemPoses)`
   }
 `
 
-const fontSizes = [5, 5, 3, 3]
+const fontSizes = ['10.144927536vw', null, 3, 3]
 
 class Nav extends React.Component {
   constructor(props) {
