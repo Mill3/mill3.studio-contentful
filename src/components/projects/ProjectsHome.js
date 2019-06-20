@@ -6,6 +6,7 @@ import ProjectPreview from './ProjectPreview'
 import Button from '@components/buttons'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
+import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 import TransitionLinkComponent from '@utils/TransitionLink'
 
@@ -37,13 +38,28 @@ class ProjectsHome extends React.Component {
   list() {
     if (this.props.data) {
       const isMobile = Viewport.width < mobileBreakpoint
+      const getOffset = (index) => {
+        if( isMobile ) return 0
+
+        // calculate modulo of 3
+        const mod = index % 3
+        if( mod === 0 ) return 0
+
+        return new ResponsiveProp([
+          null,
+          null,
+          [null, 180, 0][mod],
+          [null, 120, -60][mod],
+          [null, null, -140][mod]
+        ])
+      }
       const getDelay = (index) => {
         if( isMobile ) return index === 0 ? TRANSITION_DURATION * 3 : 0
         else return index < 2 ? TRANSITION_DURATION * 2 + index * 250 : 0
       }
 
       return this.props.data.edges.map((project, index) => {
-        const offset = isMobile ? 0 : ( index % 2 ? 120 : 0 )
+        const offset = getOffset(index)
         const delay = getDelay(index)
 
         return (

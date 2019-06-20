@@ -10,10 +10,10 @@ import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
+import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
-const tabletBreakpoint = parseInt(breakpoints[2])
 
 const ProjectIndexHeader = styled.header`
   min-height: 50vh;
@@ -27,17 +27,24 @@ class ProjectsIndex extends Component {
       width: [1, 1, 1/2, 1/3],
     }
     const isMobile = Viewport.width < mobileBreakpoint
-    const isTablet = Viewport.width < tabletBreakpoint
 
     const getOffset = (index) => {
       if( isMobile ) return 0
-      else if( isTablet ) return index % 2 === 1 ? -160 : 0
-      else return index % 3 === 1 ? -160 : 0
+      else return new ResponsiveProp([
+        null,
+        null,
+        index % 2 === 1 ? -160 : 0,
+        index % 3 === 1 ? -160 : 0
+      ])
     }
     const getDelay = (index) => {
       if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2 : 0
-      else if( isTablet ) return ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0)
-      else return ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0)
+      else return new ResponsiveProp([
+        null,
+        null,
+        ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0),
+        ((index % 3) + 1) * 125 + (index < 3 ? 250 : 0)
+      ])
     }
 
     if (this.props.data) {

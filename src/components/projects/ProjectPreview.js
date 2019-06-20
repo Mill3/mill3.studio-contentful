@@ -9,8 +9,10 @@ import { debounce } from 'lodash'
 
 import { breakpoints } from '@styles/Theme'
 import FigureBox from '@utils/FigureBox'
+import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Viewport from '@utils/Viewport'
+
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -121,6 +123,11 @@ class ProjectPreview extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
   }
+  static propTypes = {
+    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
+    columns: PropTypes.object,
+    offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
+  }
   static defaultProps = {
     delay: 0,
     columns: {
@@ -185,7 +192,11 @@ class ProjectPreview extends Component {
     }
   }
   onScroll({ offset }) {
-    if( !this.mounted || !this.state.inView || this.props.offset === 0 || !this.rect ) return
+    if( !this.mounted || !this.state.inView || !this.rect ) return
+    if( this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0 ) {
+      if( this.state.percentage !== 0 ) this.setState({ percentage: 0 })
+      return
+    }
 
     const h = this.rect.height
     const vh = Viewport.height + h - this.rect.offset
@@ -216,9 +227,16 @@ class ProjectPreview extends Component {
     const { project, delay, columns, offset } = this.props
     const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
     const { inView, percentage } = this.state
+    let transform
+
 
     // only calculate transformations if required
-    const transform = (inView && offset !== 0) ? { transform: `translate3d(0, ${percentage * offset}px, 0)` } : {}
+    if( inView ) {
+      const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
+      transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
+    }
+    else transform = {}
+
 
     return (
       <InView
@@ -232,7 +250,7 @@ class ProjectPreview extends Component {
       >
         <Box
           as={ProjectPreviewItem}
-          delay={delay}
+          delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
           initialPose={'hidden'}
           pose={inView ? 'visible' : 'hidden'}
           width={'100%'}

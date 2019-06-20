@@ -11,6 +11,9 @@ const Viewport = (() => {
   const off = (callback) => {
     if( hasWindow ) window.removeEventListener('resize', callback)
   }
+  const mq = (query) => {
+    return hasWindow ? window.matchMedia(query).matches : false
+  }
 
   let width = 0
   let height = 0
@@ -25,6 +28,7 @@ const Viewport = (() => {
     height,
     on,
     off,
+    mq,
   }
 })()
 

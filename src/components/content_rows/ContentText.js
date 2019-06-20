@@ -59,6 +59,7 @@ const postBody = styled.div`
   }
 
   p {
+    font-size: 18px;
     margin-bottom: 2rem;
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
