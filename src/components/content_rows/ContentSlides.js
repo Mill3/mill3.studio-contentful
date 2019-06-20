@@ -22,7 +22,7 @@ const flickityOptions = {
   cellAlign: 'left',
   freeScroll: true,
   contain: true,
-  wrapAround: true
+  // wrapAround: true,
   // lazyLoad: 8
 }
 

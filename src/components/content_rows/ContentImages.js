@@ -84,7 +84,7 @@ const ContentImages = ({ data }) => {
           <ContentImage img={imageItem.media} backgroundColor={imageItem.backgroundColor} index={index} key={index} />
         ))}
         {/* add extra image on top */}
-        {data.overlayImage && <OverlayImage img={data.overlayImage} className="img-fluid" />}
+        {data.overlayImage && <OverlayImage img={data.overlayImage} className="-img-fluid" />}
       </Box>
     </RowContainer>
   )
@@ -135,7 +135,8 @@ const OverlayImagePoses = posed.img({
     left: `50%`,
     y: `0%`,
     x: `-50%`,
-    zIndex: 10
+    zIndex: 10,
+    maxWidth: `80vw`
   },
   visible: {
     opacity: 1,
