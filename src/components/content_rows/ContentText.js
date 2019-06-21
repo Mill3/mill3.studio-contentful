@@ -15,7 +15,7 @@ const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => (
   <Box
     as={`blockquote`}
-    mx={[0, 0, '-5vw']}
+    mx={[0, 0, 0, 0, '-5vw']}
     mb={[2, 2, 2]}
     // color="blue"
     className="is-serif is-center"
@@ -58,6 +58,17 @@ const postBody = styled.div`
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
+  /* special style for H2 */
+  h2 {
+    text-align: center;
+    line-height: 1.1;
+    margin-top: 4rem;
+    @media (min-width: ${props => props.theme.breakpoints[4]}) {
+      margin-left: -5vw;
+      margin-right: -5vw;
+    }
+  }
+
   p {
     font-size: 18px;
     margin-bottom: 2rem;
@@ -66,6 +77,14 @@ const postBody = styled.div`
 
   a {
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
+  }
+
+  /* blockquote */
+  blockquote {
+    p {
+      font-size: 1.85vw;
+      font-style: italic;
+    }
   }
 
   /* paragraph following a blockquote  */

@@ -109,7 +109,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
       video,
       .gatsby-image-wrapper {
-        transition-delay: 0.4s;
+        transition-delay: 0.125s;
         transform: translateY(0%);
         opacity: 1;
         transform: scale(1);

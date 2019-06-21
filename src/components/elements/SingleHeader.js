@@ -33,7 +33,7 @@ class SingleHeader extends Component {
     const { media } = this.props
 
     return (
-      <FigureBox ratio={6 / 16} mb={[5]} overflow="hidden">
+      <Box px={[0,0,0,0,`10vw`]} my={[3,6]}>
         {/* video */}
         {getContentType(media.file.contentType) === CONTENT_TYPES['video'] && (
           <Box as={FigureVideo} autoPlay loop playsInline muted>
@@ -51,7 +51,7 @@ class SingleHeader extends Component {
             />
           </Box>
         )}
-      </FigureBox>
+      </Box>
     )
   }
 
@@ -63,7 +63,7 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Box mb={['30px']}>
+        <Box mb={['30px']} mt={!media ? [6] : [0]}>
           <Text textAlign="center" as={`h6`} fontSize={[2, 3]} mb={[3, null, 0]} color="blue">
             <FormattedMessage id={label} />
           </Text>
@@ -83,9 +83,10 @@ class SingleHeader extends Component {
             <Text
               textAlign="center"
               as={`h4`}
-              fontSize={[3, 3, `2vw`]}
+              fontSize={[3, 3, `1.65vw`]}
               pt={['24px', null, 4]}
-              mb={0}
+              px={[0,0,0,0,`10vw`]}
+              mb={5}
             >
               {subHeading}
             </Text>
