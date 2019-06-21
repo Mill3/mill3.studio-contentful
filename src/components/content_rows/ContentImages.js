@@ -14,7 +14,7 @@ import {
   HORIZONTAL_SPACER,
 } from './index'
 
-export const ContentImage = ({ img, backgroundColor, index }) => {
+export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
   const [ ref, inView ] = useInView({ triggerOnce: true })
 
   return (
@@ -28,6 +28,7 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
     >
       <Box
         as={ContentImagePoses}
+        width={noStrech ? `auto` : `100%`}
         index={index}
         initialPose={'hidden'}
         pose={inView ? 'visible' : 'hidden'}
@@ -36,7 +37,7 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
         {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
           <img
             src={img.fixed ? img.fixed.src : img.file.url}
-            className="xx---img-fluid"
+            className={`img-fluid`}
             alt={`${img.description || img.id}`}
           />
         )}
@@ -68,6 +69,7 @@ const ContentImages = ({ data }) => {
       alignContent={data.alignContent}
       backgroundColor={data.backgroundColor}
     >
+      {console.log(data)}
       <Box
         as={Grid}
         py={data.backgroundColor ? VERTICAL_SPACER : 0} // add vertical padding when has a background color
@@ -78,10 +80,10 @@ const ContentImages = ({ data }) => {
         alignItems={data.alignVertical}
       >
         {data.medias && data.medias.map((img, index) => (
-          <ContentImage img={img} index={index} key={index} />
+          <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} />
         ))}
         {data.imageItems && data.imageItems.map((imageItem, index) => (
-          <ContentImage img={imageItem.media} backgroundColor={imageItem.backgroundColor} index={index} key={index} />
+          <ContentImage img={imageItem.media} noStrech={data.noStrechedImages} backgroundColor={imageItem.backgroundColor} index={index} key={index} />
         ))}
         {/* add extra image on top */}
         {data.overlayImage && <OverlayImage img={data.overlayImage} className="-img-fluid" />}
@@ -100,12 +102,12 @@ const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
-  figure {
+  /* figure {
     width: 100%;
   }
-  img {
-    width: 100% !important;
-  }
+  /* img {
+    width: 100% !important; */
+  } */
 `
 
 const MediaItemVideo = styled.video`
@@ -119,7 +121,8 @@ const ContentImagePoses = posed.figure({
   hidden: {
     opacity: 0,
     y: 150,
-    margin: 0
+    margin: 0,
+    width: ({ width }) => (width)
   },
   visible: {
     opacity: 1,
@@ -162,6 +165,7 @@ export const ContentImagesFragement = graphql`
     alignVertical
     gaplessGrid
     noBottomMargin
+    noStrechedImages
     backgroundColor
     overlayImage {
       file {

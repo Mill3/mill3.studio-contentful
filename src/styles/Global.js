@@ -166,6 +166,10 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
 
+  .img-forced {
+    width: 100%;
+  }
+
   .is-center {
     text-align: center;
   }
