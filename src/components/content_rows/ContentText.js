@@ -76,8 +76,7 @@ const postBody = styled.div`
 `
 
 const ContentText = ({ data }) => {
-  const { backgroundColor } = data
-  const Wrapper = backgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+  const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   return (
     <Wrapper backgroundColor={data.backgroundColor}>
@@ -118,6 +117,7 @@ export const ContentTextFragement = graphql`
     title
     textColor
     backgroundColor
+    fadeInBackgroundColor
     itemsPerRow
     text {
       text

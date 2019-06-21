@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'rebass'
+import { InView } from 'react-intersection-observer'
 
 import Container from '@styles/Container'
 import ContentText from './ContentText'
@@ -56,19 +57,110 @@ const AnimatedBg = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: -1;
+  opacity: ${props => props.opacity};
+  transform: translate3d(0, 0px, 0);
+  transition: opacity 250ms linear;
 `
 
-export const AnimatedBackgroundRowContainer = ({backgroundColor, children, ...props}) => {
-  return (
-    <Box className="is-relative">
-      <Box as={AnimatedBg} backgroundColor={backgroundColor}  />
-      <RowContainer {...props}>
-        <h1>Animation background row container</h1>
-        {children}
-      </RowContainer>
-    </Box>
-  )
+export class AnimatedBackgroundRowContainer extends Component {
+  static contextTypes = {
+    getScrollbar: PropTypes.func,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      inView: false,
+    }
+
+    this.exitViewportTicker = null
+
+    this.onVisibilityChange = this.onVisibilityChange.bind(this)
+    this.onExitCompleted = this.onExitCompleted.bind(this)
+    this.onScroll = this.onScroll.bind(this)
+  }
+
+  componentDidMount() {
+    this.context.getScrollbar(s => {
+      this.scrollbar = s
+    })
+  }
+  componentWillUnmount() {
+    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
+    this.scrollbar = null
+
+    // cancel timeout
+    if( this.exitViewportTicker ) clearTimeout(this.exitViewportTicker)
+    this.exitViewportTicker = null
+  }
+
+  onVisibilityChange(inView) {
+    if( inView ) {
+      // if already in view, skip
+      if( this.state.inView === true ) return
+
+      // cancel timeout
+      clearTimeout(this.exitViewportTicker)
+
+      // register scroll listener
+      if( this.scrollbar && !this.exitViewportTicker ) this.scrollbar.addListener(this.onScroll)
+
+      // destroy timeout
+      this.exitViewportTicker = null
+
+      // update state
+      this.setState({
+        inView: true,
+        y: this.scrollbar.offset.y,
+      })
+    }
+    else {
+      // if already outside of viewport, skip
+      if( this.state.inView === false ) return
+
+      // cancel timeout
+      clearTimeout(this.exitViewportTicker)
+      this.exitViewportTicker = null
+
+      // update state
+      this.setState({
+        inView: false,
+      }, () => {
+        this.exitViewportTicker = setTimeout(this.onExitCompleted, 250)
+      })
+    }
+  }
+  onExitCompleted() {
+    // destroy timeout
+    this.exitViewportTicker = null
+
+    // unregister scroll listener
+    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+  }
+  onScroll({ offset }) {
+    this.setState({
+      y: offset.y,
+    })
+  }
+
+  render() {
+    const { backgroundColor, children, ...props } = this.props
+    const { inView, y } = this.state
+    const t = { transform: `translate3d(0, ${y}px, 0)`}
+
+    return (
+      <InView as={Box} onChange={this.onVisibilityChange}>
+        <Box as={AnimatedBg} backgroundColor={backgroundColor} opacity={inView ? 1 : 0} style={t} />
+        <RowContainer {...props}>
+          {children}
+        </RowContainer>
+      </InView>
+    )
+  }
 }
+
 
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,
