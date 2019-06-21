@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 
 import { colors, fonts } from '@styles/Theme'
+import ARROW_DOWN from '@svg/select-arrow-down.svg'
 
 
 const SelectStyle = styled.select`
@@ -10,7 +11,12 @@ const SelectStyle = styled.select`
   border: none;
   border-bottom: 2px solid #D1D1D1;
   border-radius: 0;
-  background: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: top 55% right 0.5em;
+  background-image: url(${ARROW_DOWN});
+  background-size: auto 20%;
   padding: 0 0.5em;
   width: auto;
   max-width: 100%;

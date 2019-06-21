@@ -71,7 +71,7 @@ const FieldGroup = forwardRef((props, ref) => {
     <Flex
       as={FieldGroupStyle}
       flexDirection="column"
-      alignItems={['center', null, 'start']}
+      alignItems={'center'}
       py={5}
       active={active}
       {...childProps}
@@ -317,7 +317,7 @@ class ContactForm extends Component {
             as={FormStyle}
             ref={this.formRef}
             flexDirection="column"
-            alignItems={['center', null, 'start']}
+            alignItems={'center'}
             width={[`100%`, null, `75%`, `50%`]}
             mx="auto"
             onSubmit={this.onSubmit}
@@ -326,7 +326,7 @@ class ContactForm extends Component {
           >
             <Flex
               flexWrap={['wrap', null, null, 'nowrap']}
-              justifyContent={['center', null, 'start']}
+              justifyContent={'center'}
               alignItems="center"
               pb={4}
               width={'100%'}
@@ -433,7 +433,7 @@ class ContactForm extends Component {
                   </Text>
                 </Flex>
 
-                <Flex justifyContent={["center", null, "flex-start"]}>
+                <Flex justifyContent={"center"}>
                   <Button type="submit" disabled={submitting}>
                     {intl.formatMessage({id: 'submit'}).toString()}
                   </Button>
