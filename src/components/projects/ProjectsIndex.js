@@ -34,7 +34,7 @@ class ProjectsIndex extends Component {
         null,
         null,
         index % 2 === 1 ? -160 : 0,
-        index % 3 === 1 ? -160 : 0
+        index % 3 === 1 ? -160 : (index % 3 === 0 ? 80 : 0)
       ])
     }
     const getDelay = (index) => {
