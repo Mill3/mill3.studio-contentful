@@ -11,6 +11,7 @@ import {
   RowContainer,
   Grid,
   VERTICAL_SPACER,
+  HORIZONTAL_SPACER,
 } from './index'
 
 export const ContentImage = ({ img, backgroundColor, index }) => {
@@ -20,8 +21,8 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
     <Flex
       ref={ref}
       as={ContentImageFlexWrapper}
-      backgroundColor={backgroundColor ? backgroundColor : `transparent`}
       py={backgroundColor ? VERTICAL_SPACER : 0}
+      backgroundColor={backgroundColor ? backgroundColor : `transparent`}
       alignItems={`center`}
       justifyContent={`center`}
     >
@@ -32,21 +33,21 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
         pose={inView ? 'visible' : 'hidden'}
         mb={0}
       >
-        {img && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+        {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
           <img
             src={img.fixed ? img.fixed.src : img.file.url}
-            className="img-fluid"
+            className="xx---img-fluid"
             alt={`${img.description || img.id}`}
           />
         )}
 
-        {img && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+        {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
           <MediaItemVideo autoPlay loop playsInline muted>
             <source src={img.file.url} type={img.file.contentType} />
           </MediaItemVideo>
         )}
 
-        {img && img.description && (
+        {img.file && img.description && (
           <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
             {img.description}
           </Box>
@@ -99,6 +100,12 @@ const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
+  figure {
+    width: 100%;
+  }
+  img {
+    width: 100% !important;
+  }
 `
 
 const MediaItemVideo = styled.video`

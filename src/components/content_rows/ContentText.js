@@ -58,6 +58,17 @@ const postBody = styled.div`
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
+  /* special style for H2 */
+  h2 {
+    text-align: center;
+    line-height: 1.1;
+    margin-top: 4rem;
+    @media (min-width: ${props => props.theme.breakpoints[4]}) {
+      margin-left: -5vw;
+      margin-right: -5vw;
+    }
+  }
+
   p {
     font-size: 18px;
     margin-bottom: 2rem;
@@ -66,6 +77,14 @@ const postBody = styled.div`
 
   a {
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
+  }
+
+  /* blockquote */
+  blockquote {
+    p {
+      font-size: 1.85vw;
+      font-style: italic;
+    }
   }
 
   /* paragraph following a blockquote  */
@@ -78,7 +97,6 @@ const postBody = styled.div`
 const ContentText = ({ data }) => {
   return (
     <RowContainer backgroundColor={data.backgroundColor}>
-      {console.log(data)}
       {data.text && (
         <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
           <Box
