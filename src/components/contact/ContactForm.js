@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { Box, Flex, Text } from 'rebass'
 import { omit } from 'lodash'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { isBrowser } from 'react-device-detect'
@@ -18,37 +18,12 @@ import { colors } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
 
-const FadeIn = keyframes`
-  from {
-    opacity: 0;
-    max-height: 0px;
-  }
-  to {
-    opacity: 1;
-    max-height: 2000px;
-  }
-`
-
-const Collapse = keyframes`
-  to {
-    opacity: 0;
-    max-height: 0px;
-  }
-  from {
-    opacity: 1;
-    max-height: 2000px;
-  }
-`
 
 const FormStyle = styled.form`
   color: ${colors.black};
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
   opacity: ${props => props.disabled ? 0.25 : 1};
-  /* display: ${props => props.visible ? 'block' : 'none'}; */
-  /* animation-delay: 0.125s; */
-  /* animation-duration: 1s; */
-  /* animation-fill-mode: both; */
-  /* animation-name: ${props => (props.visible ? FadeIn : Collapse)}; */
+
   select:focus {
     outline: none;
   }
@@ -63,15 +38,16 @@ const LabelStyle = styled.label`
 `
 
 const FormFooter = styled.footer`
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
+  height: ${props => props.visible ? 'auto' : '0px'};
+  opacity: ${props => props.visible ? 1 : 0};
+  overflow: hidden;
+  transition: opacity 1s linear;
 `
 
 const ConfirmMessage = styled.footer`
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  animation-name: ${props => (props.visible ? FadeIn : Collapse)};
+  height: ${props => props.visible ? 'auto' : '0px'};
+  opacity: ${props => props.visible ? 1 : 0};
+  transition: opacity 1s linear;
 `
 
 const selectOptions = {
@@ -382,87 +358,88 @@ class ContactForm extends Component {
               </Select>
             </Flex>
 
-            <Box as={FormFooter} visible={selectedIndex > 0} pt={4} pb={5}>
-              {submitting}
-              <FieldGroup
-                ref={this.nameRef}
-                name="name"
-                type="text"
-                label={intl.formatMessage({id: 'fields.name'})}
-                active={activeField === 'name'}
-                onActive={this.onFocusChange}
-                validate={{
-                  required: true
-                }}
-              />
-
-              <FieldGroup
-                ref={this.emailRef}
-                name="email"
-                type="email"
-                label={intl.formatMessage({id: 'fields.email'})}
-                active={activeField === 'email'}
-                onActive={this.onFocusChange}
-                validate={{
-                  required: true
-                }}
-              />
-
-              <FieldGroup
-                ref={this.companyRef}
-                name="company"
-                type="text"
-                label={intl.formatMessage({id: 'fields.company'})}
-                active={activeField === 'company'}
-                onActive={this.onFocusChange}
-              />
-
-              <FieldGroup
-                ref={this.projectTypeRef}
-                name="project-type"
-                type="text"
-                label={intl.formatMessage({id: 'fields.project'})}
-                active={activeField === 'project-type'}
-                onActive={this.onFocusChange}
-                validate={{
-                  required: true
-                }}
-              />
-
-              <FieldGroup
-                ref={this.budgetRef}
-                name="budget"
-                type="text"
-                label={intl.formatMessage({id: 'fields.budget'})}
-                active={activeField === 'budget'}
-                onActive={this.onFocusChange}
-                validate={{
-                  required: true,
-                  step:"any",
-                  pattern:"[-+]?[0-9]*[.,]?[0-9]+"
-                }}
-              />
-
-              <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
-                <Checkbox
-                  ref={this.subscribeRef}
-                  id="subscribe"
-                  name="subscribe"
-                  value="1"
-                  onFocus={e => this.onFocusChange(e.target.name)}
+            <Box as={FormFooter} visible={selectedIndex > 0}>
+              <Box pt={4} pb={5}>
+                {submitting}
+                <FieldGroup
+                  ref={this.nameRef}
+                  name="name"
+                  type="text"
+                  label={intl.formatMessage({id: 'fields.name'})}
+                  active={activeField === 'name'}
+                  onActive={this.onFocusChange}
+                  validate={{
+                    required: true
+                  }}
                 />
-                <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>
-                  <FormattedMessage id="contact.Subscribe" />
-                </Text>
-              </Flex>
 
-              <Flex justifyContent={["center", null, "flex-start"]}>
-                <Button type="submit" disabled={submitting}>
-                  {intl.formatMessage({id: 'submit'}).toString()}
-                </Button>
-              </Flex>
+                <FieldGroup
+                  ref={this.emailRef}
+                  name="email"
+                  type="email"
+                  label={intl.formatMessage({id: 'fields.email'})}
+                  active={activeField === 'email'}
+                  onActive={this.onFocusChange}
+                  validate={{
+                    required: true
+                  }}
+                />
+
+                <FieldGroup
+                  ref={this.companyRef}
+                  name="company"
+                  type="text"
+                  label={intl.formatMessage({id: 'fields.company'})}
+                  active={activeField === 'company'}
+                  onActive={this.onFocusChange}
+                />
+
+                <FieldGroup
+                  ref={this.projectTypeRef}
+                  name="project-type"
+                  type="text"
+                  label={intl.formatMessage({id: 'fields.project'})}
+                  active={activeField === 'project-type'}
+                  onActive={this.onFocusChange}
+                  validate={{
+                    required: true
+                  }}
+                />
+
+                <FieldGroup
+                  ref={this.budgetRef}
+                  name="budget"
+                  type="text"
+                  label={intl.formatMessage({id: 'fields.budget'})}
+                  active={activeField === 'budget'}
+                  onActive={this.onFocusChange}
+                  validate={{
+                    required: true,
+                    step:"any",
+                    pattern:"[-+]?[0-9]*[.,]?[0-9]+"
+                  }}
+                />
+
+                <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
+                  <Checkbox
+                    ref={this.subscribeRef}
+                    id="subscribe"
+                    name="subscribe"
+                    value="1"
+                    onFocus={e => this.onFocusChange(e.target.name)}
+                  />
+                  <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>
+                    <FormattedMessage id="contact.Subscribe" />
+                  </Text>
+                </Flex>
+
+                <Flex justifyContent={["center", null, "flex-start"]}>
+                  <Button type="submit" disabled={submitting}>
+                    {intl.formatMessage({id: 'submit'}).toString()}
+                  </Button>
+                </Flex>
+              </Box>
             </Box>
-
 
           </Flex>
 
