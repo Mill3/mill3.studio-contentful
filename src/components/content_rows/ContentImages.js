@@ -58,7 +58,6 @@ export const ContentImage = ({ img, backgroundColor, index }) => {
 
 const OverlayImage = ({ img }) => {
   const [ ref, inView ] = useInView({ triggerOnce: true })
-  // offset={{ top: -500 }}
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 

@@ -15,7 +15,7 @@ const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => (
   <Box
     as={`blockquote`}
-    mx={[0, 0, '-5vw']}
+    mx={[0, 0, 0, 0, '-5vw']}
     mb={[2, 2, 2]}
     // color="blue"
     className="is-serif is-center"
@@ -77,9 +77,8 @@ const postBody = styled.div`
 
 const ContentText = ({ data }) => {
   return (
-    <RowContainer
-      backgroundColor={data.backgroundColor}
-    >
+    <RowContainer backgroundColor={data.backgroundColor}>
+      {console.log(data)}
       {data.text && (
         <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
           <Box

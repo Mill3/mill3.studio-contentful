@@ -26,7 +26,7 @@ const ProjectSingle = ({ pageContext, data }) => {
 
       <Container fluid>
         <SingleHeader
-          label="Project:"
+          label="Project :"
           title={project.name}
           subHeading={project.subHeading ? project.subHeading.subHeading : null}
           media={project.headerMedia}

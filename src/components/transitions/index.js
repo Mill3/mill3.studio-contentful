@@ -34,7 +34,8 @@ const TransitionPaneStyle = styled(Poses)`
   z-index: 100000;
   pointer-events: none;
   color: #fff;
-  background: ${props => props.backgroundColor || '#000'}
+  background-blend-mode: difference;
+  background: ${props => props.backgroundColor || '#000'};
 `
 
 const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
