@@ -11,7 +11,7 @@ const NewsSingle = ({ pageContext, data }) => {
     <React.Fragment>
       <Container fluid>
         <SingleHeader
-          label="Words words words:"
+          label="news.single.label"
           title={data.news.title}
           subHeading={data.news.subHeading ? data.news.subHeading.subHeading : null}
           media={data.news.headerMedia}

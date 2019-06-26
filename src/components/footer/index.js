@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Container from '@styles/Container'
 import { Flex, Box, Text } from 'rebass'
+import { injectIntl } from 'react-intl'
 
 const FooterContainer = styled.footer`
   font-size: 18px;
@@ -14,7 +15,7 @@ const FooterContainer = styled.footer`
   }
 `
 
-const Footer = () => {
+const Footer = ({ intl }) => {
   return (
     <Box mt={[4, 5]} pt={[4]} pb={[4]} as={FooterContainer}>
       <Container fluid>
@@ -22,14 +23,14 @@ const Footer = () => {
 
           <Box as={`aside`} width={[1, 1, 1, '444px']}>
             <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
-              Stop by.
+              {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
             </Text>
             <Text as={`h6`} m={0}>
-              1275 Avenue des Canadiens-de-Montréal
+              {intl.formatMessage({ id: 'footer.address' }).toString()}
               <br />
-              Montréal, Québec
+              {intl.formatMessage({ id: 'footer.city' }).toString()}
               <br />
-              5th Floor.
+              {intl.formatMessage({ id: 'footer.office' }).toString()}
             </Text>
           </Box>
 
@@ -39,12 +40,12 @@ const Footer = () => {
             mt={[4, 4, 4, 0]}
           >
             <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
-              Say Hi !
+              {intl.formatMessage({ id: 'footer.hi' }).toString()}
             </Text>
             <Text as={`h6`} m={0}>
-              <a href="mailto:info@mill3.studio">info@mill3.studio</a>
+              <a href="mailto:{intl.formatMessage({ id: 'footer.email' }).toString()}">{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
               <br />
-              <a href="tel:+1514984-7703">+1 (514) 984-7703</a>
+              <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a>
             </Text>
           </Box>
 
@@ -55,18 +56,18 @@ const Footer = () => {
             mt={[4, 4, 4, 0]}
           >
             <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
-              Baby, it’s cold outside.
+              {intl.formatMessage({ id: 'footer.cold' }).toString()}
             </Text>
             <Text as={`h6`} m={0}>
-              Made with love in
+              {intl.formatMessage({ id: 'footer.love' }).toString()}
               <br />
-              Montréal, Canada.
+              {intl.formatMessage({ id: 'footer.mtl' }).toString()}
             </Text>
           </Box>
 
           <Box as={'aside'} width={[1]} mt={[5]}>
             <Text as={`p`} m={0} fontSize={[1]} className={`is-gray`}>
-              Rights, Rights, Rights. Pretty sure @mill3studio
+              {intl.formatMessage({ id: 'footer.rights' }).toString()}
             </Text>
           </Box>
 
@@ -76,4 +77,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default injectIntl(Footer)

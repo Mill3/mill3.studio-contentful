@@ -84,7 +84,7 @@ SEO.propTypes = {
   translate: PropTypes.bool,
   seo: PropTypes.shape({
     pageTitle: PropTypes.string,
-    pageDescription: PropTypes.object,
+    pageDescription: PropTypes.string,
     shareImage: PropTypes.object,
   })
 }

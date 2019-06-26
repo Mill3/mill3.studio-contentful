@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
+import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
@@ -34,10 +35,10 @@ class NewsIndex extends Component {
         <Container fluid>
           <Box as={`header`} my={[3,3,6]}>
             <Text as={`h1`} fontSize={[4,5,6,7,7]} className={`fw-300`} mb={[3]} textAlign={`center`}>
-              <em>Unformal</em>, long form.
+              <FormattedHTMLMessage id="news.index.title" />
             </Text>
             <Text as={`h3`} fontSize={[3,3,4]} px={[2,4,6,`10vw`,'14vw']} textAlign={`center`}>
-              Reading is good for you. Don’t stress, we’ve added images too.
+              <FormattedMessage id="news.index.subtitle" />
             </Text>
           </Box>
 
@@ -52,7 +53,7 @@ class NewsIndex extends Component {
   }
 }
 
-export default NewsIndex
+export default injectIntl(NewsIndex)
 
 export const newsQuery = graphql`
   query allNewsQuery($locale: String!) {
