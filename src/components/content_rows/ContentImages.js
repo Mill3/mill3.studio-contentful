@@ -11,7 +11,6 @@ import {
   RowContainer,
   Grid,
   VERTICAL_SPACER,
-  HORIZONTAL_SPACER,
 } from './index'
 
 export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {

@@ -69,6 +69,11 @@ const postBody = styled.div`
     }
   }
 
+  /* special style for H4 */
+  h4 {
+    font-size: 24px;
+  }
+
   p {
     font-size: 18px;
     margin-bottom: 2rem;
@@ -82,8 +87,12 @@ const postBody = styled.div`
   /* blockquote */
   blockquote {
     p {
-      font-size: 1.85vw;
+      font-size: 6.763285024vw;
       font-style: italic;
+
+      @media (min-width: ${props => props.theme.breakpoints[1]}) {        
+        font-size: 1.85vw;
+      }
     }
   }
 

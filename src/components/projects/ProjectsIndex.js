@@ -38,7 +38,7 @@ class ProjectsIndex extends Component {
       ])
     }
     const getDelay = (index) => {
-      if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2 : 0
+      if( isMobile ) return index === 0 ? TRANSITION_DURATION : 0
       else return new ResponsiveProp([
         null,
         null,
@@ -71,7 +71,7 @@ class ProjectsIndex extends Component {
       <>
         <SEO title={`nav.Work`} translate={true} />
         <Container fluid>
-          <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={3} className="is-relative">
+          <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={[4, null, 3]} className="is-relative">
             <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
               <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
               <span className="is-serif"><FormattedMessage id="nav.Work" /> </span>

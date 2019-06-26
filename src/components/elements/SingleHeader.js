@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { Box, Text } from 'rebass'
 
 import { getContentType, CONTENT_TYPES } from '@utils'
-import FigureBox from '@utils/FigureBox'
 
 const FigureVideo = styled.video`
   width: 100%;
@@ -63,7 +62,7 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Box mb={['30px']} mt={!media ? [6] : [0]}>
+        <Box mb={['30px']} mt={!media ? ['30px', null, 6] : [0]}>
           <Text textAlign="center" as={`h6`} fontSize={[2, 3]} mb={[3, null, 0]} color="blue">
             <FormattedMessage id={label} />
           </Text>

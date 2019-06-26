@@ -24,8 +24,9 @@ import Wrapper from '@components/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import DelayedTransition from '@utils/DelayedTransition'
 import { TRANSITION_DURATION } from '@utils/constants'
+import DelayedTransition from '@utils/DelayedTransition'
+import FullViewportHeight from '@utils/FullViewportHeight'
 
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
@@ -78,7 +79,7 @@ class Layout extends React.Component {
         {({ location }) => (
           <IntlProvider locale={getLocale(location)} messages={messages[getLocale(location)]}>
             <LayoutContext.Provider value={this.state}>
-              <React.Fragment>
+              <FullViewportHeight>
 
                 <GlobalStyle />
 
@@ -123,7 +124,8 @@ class Layout extends React.Component {
                     </Scrollbar>
                   </React.Fragment>
                 </ThemeProvider>
-              </React.Fragment>
+
+              </FullViewportHeight>
             </LayoutContext.Provider>
           </IntlProvider>
         )}
