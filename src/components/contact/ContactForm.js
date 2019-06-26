@@ -14,7 +14,7 @@ import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
 import Select from '@components/form/Select'
 import Container from '@styles/Container'
-import { colors } from '@styles/Theme'
+import { colors, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
 
@@ -328,7 +328,7 @@ class ContactForm extends Component {
               flexWrap={['wrap', null, null, 'nowrap']}
               justifyContent={'center'}
               alignItems="center"
-              pb={4}
+              pb={selectedIndex > 0 ? 4 : `${space[6] - space[3] - 12}px`}
               width={'100%'}
             >
               <Text
