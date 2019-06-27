@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
-import ProjectPreview from './ProjectPreview'
 import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
+import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
@@ -82,9 +82,9 @@ class ProjectsIndex extends Component {
               <FormattedMessage id="projects.Intro" />
             </Text>
 
-            <HeaderCircle ml={['-5vw', null, -3, -4]} css={{transform: 'translateY(45%)'}} />
+            <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{transform: 'translateY(45%)'}} />
           </Flex>
-          <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`} css={{position: 'relative'}}>
+          <Flex as={`section`} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} css={{position: 'relative'}}>
             {this.list()}
           </Flex>
         </Container>

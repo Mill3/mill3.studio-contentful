@@ -79,10 +79,10 @@ class ProjectsHome extends React.Component {
     const { intl } = this.props
     return (
       <>
-        <Flex mb={['90px', null, '80px']} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`}>
+        <Flex mb={['90px', null, '80px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`}>
           {this.list()}
         </Flex>
-        <Flex mb={[5]} mx={['-5vw', null, -3, -4]} justifyContent={`center`} flexDirection={`column`}>
+        <Flex mb={[5]} mx={['-5vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
               <Button>

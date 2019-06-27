@@ -184,7 +184,7 @@ class HeaderIntro extends Component {
     const t4 = { transform: `translate3d(0, -${opposite}px, 0)` }
 
     return (
-      <Box as={Header} initialPose={`init`} pose={`enter`} mb={5}>
+      <Box as={Header} initialPose={`init`} pose={`enter`} mb={[0, null, 5]}>
         <Box as={HeaderBackground} className={`z-negative`} style={t3}></Box>
 
         <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>

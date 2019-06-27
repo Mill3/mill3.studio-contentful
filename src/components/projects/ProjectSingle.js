@@ -16,7 +16,6 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
   return (
     <React.Fragment>
 
-      {/* SEO fields */}
       <SEO
         seo={project.seo}
         title={!project.seo ? project.name : null}

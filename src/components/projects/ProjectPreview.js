@@ -245,7 +245,7 @@ class ProjectPreview extends Component {
         onChange={this.onVisibilityChange}
         as={ProjectWrapper}
         mb={['40px', null, '50px', '70px']}
-        px={[null, null, 3, 4]}
+        px={[null, null, 3, '28px']}
         {...columns}
       >
         <Box
