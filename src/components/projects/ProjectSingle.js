@@ -25,7 +25,12 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
 
       <Container fluid>
         <SingleHeader
-          label="projects.single.label"
+          label={{
+            text: "projects.single.label",
+            url: "/projects/",
+            transitionColor: "#000",
+            transitionTitle: "Work, work, work, work!",
+          }}
           title={project.name}
           subHeading={project.subHeading ? project.subHeading.subHeading : null}
           media={project.headerMedia}

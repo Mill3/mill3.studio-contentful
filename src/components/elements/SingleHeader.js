@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Box, Text } from 'rebass'
+import { Flex, Box, Text } from 'rebass'
 
 import { getContentType, CONTENT_TYPES } from '@utils'
+import TransitionLinkComponent from '@utils/TransitionLink'
 
 const FigureVideo = styled.video`
   width: 100%;
@@ -62,16 +63,20 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Box mb={['30px']} mt={!media ? ['30px', null, 6] : [0]}>
-          <Text textAlign="center" as={`h6`} fontSize={[2, 3]} mb={[3, null, 0]} color="blue">
-            <FormattedMessage id={label} />
-          </Text>
+        <Flex flexDirection="column" alignItems="center" mb={['30px']} mt={!media ? ['30px', null, 6] : [0]}>
+          {label && (
+            <TransitionLinkComponent to={label.url} title={label.transitionTitle} color={label.transitionColor}>
+              <Text as={`h6`} fontSize={[2, 3]} m={0} color="blue">
+                <FormattedMessage id={label.text} />
+              </Text>
+            </TransitionLinkComponent>
+          )}
 
           <Text
-            textAlign="center"
             as={`h1`}
             fontSize={['28px', null, 5, '3.611111111vw']}
             lineHeight={'1.2'}
+            mt={[3, null, 0]}
             mb={0}
             className={`is-serif fw-400`}
           >
@@ -80,7 +85,6 @@ class SingleHeader extends Component {
 
           {subHeading && (
             <Text
-              textAlign="center"
               as={`h4`}
               fontSize={[3, 3, `1.65vw`]}
               pt={['24px', null, 4]}
@@ -90,14 +94,19 @@ class SingleHeader extends Component {
               {subHeading}
             </Text>
           )}
-        </Box>
+        </Flex>
       </React.Fragment>
     )
   }
 }
 
 SingleHeader.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    transitionColor: PropTypes.string,
+    transitionTitle: PropTypes.string,
+  }).isRequired,
   title: PropTypes.string.isRequired,
   subHeading: PropTypes.string,
   media: PropTypes.object,
