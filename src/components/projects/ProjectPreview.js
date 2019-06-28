@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
@@ -68,6 +68,35 @@ const ProjectHoverPane = styled.picture`
   }
 `
 
+const ProjectTitleUnderlinePoses = posed.span({
+  fold: {
+    scaleX: 0.0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 40,
+    },
+  },
+  unfold: {
+    scaleX: 0.999,
+    transition: {
+      type: 'spring',
+      stifness: 100,
+      damping: 10,
+    },
+  },
+})
+const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
+  position: absolute;
+  top: 1.2em;
+  left: 0;
+  width: 100%;
+  height: 0.075em;
+  background: ${props => props.theme.colors.black};
+  transform-origin: top left;
+  transform: scaleX(0.999);
+`
+
 const ProjectPreviewItem = styled(ProjectPoses)`
   figure {
     position: relative;
@@ -79,6 +108,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     display: block;
     color: #000;
     text-decoration: none;
+
     &:hover {
       text-decoration: none;
     }
@@ -86,38 +116,19 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
   /* over pane on top */
   ${ProjectHoverPane} {
-    /* transform: translateY(101%); */
     opacity: 0;
     transition: opacity 0.25s ease-in-out;
-
-    video,
-    .gatsby-image-wrapper {
-      opacity: 0;
-      transform: scale(1.05);
-      transition-duration: 0.45s;
-      transition-timing-function: ease-in-out;
-      transition-delay: 0s;
-      filter: blur(10px);
-    }
   }
 
   /* hover state */
   &:hover {
     ${ProjectHoverPane} {
-      transform: translateY(0%);
       opacity: 1;
-
-      video,
-      .gatsby-image-wrapper {
-        transition-delay: 0.125s;
-        transform: translateY(0%);
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0px);
-      }
     }
   }
 `
+
+
 
 class ProjectPreview extends Component {
   static contextTypes = {
@@ -144,6 +155,7 @@ class ProjectPreview extends Component {
     this.state = {
       inView: false,
       percentage: 0,
+      hover: false,
     }
 
     this.mounted = false
@@ -184,11 +196,15 @@ class ProjectPreview extends Component {
     })
   }
   onHover(isHover) {
-    if (isHover && this.videoRef.current) {
-      this.videoRef.current.currentTime = 0
-      this.videoRef.current.play()
-    } else if (this.videoRef.current) {
-      this.videoRef.current.pause()
+    if( this.mounted ) {
+      this.setState({ hover: isHover }, () => {
+        if (isHover && this.videoRef.current) {
+          this.videoRef.current.currentTime = 0
+          this.videoRef.current.play()
+        } else if (this.videoRef.current) {
+          this.videoRef.current.pause()
+        }
+      })
     }
   }
   onScroll({ offset }) {
@@ -226,7 +242,7 @@ class ProjectPreview extends Component {
   render() {
     const { project, delay, columns, offset } = this.props
     const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
-    const { inView, percentage } = this.state
+    const { inView, percentage, hover } = this.state
     let transform
 
 
@@ -266,7 +282,7 @@ class ProjectPreview extends Component {
           >
             <Box as={`figure`} mb={[4]}>
               <ProjectHoverPane color={colorMain}>
-                {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
+                {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
                 {videoPreview && (
                   <video muted playsInline loop ref={this.videoRef}>
                     <source src={videoPreview.file.url} type="video/mp4" />
@@ -278,21 +294,17 @@ class ProjectPreview extends Component {
               </FigureBox>
             </Box>
 
-            <Box as={`footer`} px={['5vw', null, 0]}>
-              <Text
-                as={`h3`}
-                className={`fw-300 is-sans`}
-                fontSize={[3, 2, 2, `28px`]}
-                m={[0]}
-              >
+            <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
+              <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={[3, 2, 2, `28px`]} m={[0]}>
                 {name}
+                <Box as={ProjectTitleUnderline} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
               </Text>
               {category && (
                 <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[2, 2, 2, `19px`]} m={0}>
                   {category[0].title}
                 </Text>
               )}
-            </Box>
+            </Flex>
 
           </TransitionLinkComponent>
         </Box>

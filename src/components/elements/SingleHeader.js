@@ -63,10 +63,10 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Flex flexDirection="column" alignItems="center" mb={['30px']} mt={!media ? ['30px', null, 6] : [0]}>
+        <Flex flexDirection="column" alignItems="center" mb={['30px', null, 4]} mt={!media ? ['30px', null, 6] : [0]}>
           {label && (
             <TransitionLinkComponent to={label.url} title={label.transitionTitle} color={label.transitionColor}>
-              <Text as={`h6`} fontSize={[2, 3]} m={0} color="blue">
+              <Text as={`h6`} fontSize={[2, 3]} m={0} textAlign="center" color="blue">
                 <FormattedMessage id={label.text} />
               </Text>
             </TransitionLinkComponent>
@@ -74,6 +74,7 @@ class SingleHeader extends Component {
 
           <Text
             as={`h1`}
+            textAlign="center"
             fontSize={['28px', null, 5, '3.611111111vw']}
             lineHeight={'1.2'}
             mt={[3, null, 0]}
@@ -86,10 +87,11 @@ class SingleHeader extends Component {
           {subHeading && (
             <Text
               as={`h4`}
+              textAlign="center"
               fontSize={[3, 3, `1.65vw`]}
               pt={['24px', null, 4]}
               px={[0,0,0,0,`10vw`]}
-              mb={5}
+              mb={0}
             >
               {subHeading}
             </Text>
