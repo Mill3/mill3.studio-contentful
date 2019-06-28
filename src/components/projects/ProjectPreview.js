@@ -8,6 +8,7 @@ import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
 import { breakpoints } from '@styles/Theme'
+import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@utils/TransitionLink'
@@ -60,6 +61,8 @@ const ProjectHoverPane = styled.picture`
   height: 100%;
   z-index: 100;
   background: ${props => props.color};
+  opacity: 0;
+  transition: opacity 0.25s ease-in-ou;
 
   video {
     flex: 0 0 100%;
@@ -109,21 +112,13 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     color: #000;
     text-decoration: none;
 
+    /* hover state */
     &:hover {
       text-decoration: none;
-    }
-  }
 
-  /* over pane on top */
-  ${ProjectHoverPane} {
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-  }
-
-  /* hover state */
-  &:hover {
-    ${ProjectHoverPane} {
-      opacity: 1;
+      ${ProjectHoverPane} {
+        opacity: 1;
+      }
     }
   }
 `
@@ -197,6 +192,9 @@ class ProjectPreview extends Component {
   }
   onHover(isHover) {
     if( this.mounted ) {
+      // run this only if value has changed
+      if( this.state.hover === isHover ) return
+
       this.setState({ hover: isHover }, () => {
         if (isHover && this.videoRef.current) {
           this.videoRef.current.currentTime = 0
@@ -243,6 +241,7 @@ class ProjectPreview extends Component {
     const { project, delay, columns, offset } = this.props
     const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
     const { inView, percentage, hover } = this.state
+
     let transform
 
 
@@ -252,7 +251,6 @@ class ProjectPreview extends Component {
       transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
     }
     else transform = {}
-
 
     return (
       <InView
@@ -276,19 +274,23 @@ class ProjectPreview extends Component {
             to={`/projects/${slug}`}
             title={name}
             color={colorMain}
-            onMouseEnter={e => this.onHover(true)}
-            onMouseLeave={e => this.onHover(false)}
+            //onPointerDown={e => this.onHover(true)}
+            //onPointerUp={e => this.onHover(false)}
+            onPointerOver={e => this.onHover(true)}
+            onPointerOut={e => this.onHover(false)}
             style={transform}
           >
             <Box as={`figure`} mb={[4]}>
-              <ProjectHoverPane color={colorMain}>
-                {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
-                {videoPreview && (
-                  <video muted playsInline loop ref={this.videoRef}>
-                    <source src={videoPreview.file.url} type="video/mp4" />
-                  </video>
-                )}
-              </ProjectHoverPane>
+              { HAS_HOVER && (
+                <ProjectHoverPane color={colorMain}>
+                  {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
+                  {videoPreview && (
+                    <video muted playsInline loop ref={this.videoRef}>
+                      <source src={videoPreview.file.url} type="video/mp4" />
+                    </video>
+                  )}
+                </ProjectHoverPane>
+              )}
               <FigureBox>
                 <Img fade={false} fluid={imageMain.fluid} objectFit="cover" objectPosition="center center" style={{ height: `100%` }} />
               </FigureBox>
