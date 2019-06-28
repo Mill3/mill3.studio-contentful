@@ -295,12 +295,12 @@ class ProjectPreview extends Component {
             </Box>
 
             <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
-              <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={[3, 2, 2, `28px`]} m={[0]}>
+              <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]}>
                 {name}
                 <Box as={ProjectTitleUnderline} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
               </Text>
               {category && (
-                <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[2, 2, 2, `19px`]} m={0}>
+                <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]} m={0}>
                   {category[0].title}
                 </Text>
               )}
