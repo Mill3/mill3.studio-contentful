@@ -76,7 +76,7 @@ const FieldGroup = forwardRef((props, ref) => {
       active={active}
       {...childProps}
     >
-      <Text as={LabelStyle} fontSize={['4.347826087vw', null, 4]} fontWeight={[300, null, 500]} htmlFor={name}>
+      <Text as={LabelStyle} fontSize={['4.347826087vw', null, '3vw', '1.944444444vw']} fontWeight={[300, null, 500]} htmlFor={name}>
         {label}
       </Text>
       <Input
@@ -318,11 +318,10 @@ class ContactForm extends Component {
             as={FormStyle}
             ref={this.formRef}
             flexDirection="column"
-            alignItems={'center'}
-            width={[`100%`, null, `75%`, `50%`]}
+            alignItems="center"
+            width="100%"
             mx="auto"
             onSubmit={this.onSubmit}
-            // visible={submitted ? false : true}
             disabled={submitting || submitted ? true : false}
           >
             <Flex
@@ -330,12 +329,12 @@ class ContactForm extends Component {
               justifyContent={'center'}
               alignItems="center"
               pb={selectedIndex > 0 ? 4 : `${space[6] - space[3] - 12}px`}
-              width={'100%'}
+              width={['100%', null, null, '80%']}
             >
               <Text
                 as="label"
                 className="is-sans is-light"
-                fontSize={[4, null, 6]}
+                fontSize={['7.729468599vw', null, '5.2vw', '3.611111111vw']}
                 mb={0}
                 mr={[0, null, null, 3]}
                 htmlFor="type"
@@ -347,6 +346,7 @@ class ContactForm extends Component {
                 ref={this.typeRef}
                 id="type"
                 name="type"
+                width={['100%', null, '75%', 'auto']}
                 onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
               >
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
@@ -359,7 +359,7 @@ class ContactForm extends Component {
               </Select>
             </Flex>
 
-            <Box as={FormFooter} visible={selectedIndex > 0}>
+            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={selectedIndex > 0}>
               <Box pt={4} pb={5}>
                 {submitting}
                 <FieldGroup
@@ -429,7 +429,7 @@ class ContactForm extends Component {
                     value="1"
                     onFocus={e => this.onFocusChange(e.target.name)}
                   />
-                  <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>
+                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} color="#4A4A4A" className="fw-300" m={0}>
                     <FormattedMessage id="contact.Subscribe" />
                   </Text>
                 </Flex>

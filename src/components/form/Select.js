@@ -18,13 +18,10 @@ const SelectStyle = styled.select`
   background-image: url(${ARROW_DOWN});
   background-size: auto 20%;
   padding: 0 0.5em;
-  width: auto;
-  max-width: 100%;
   color: ${colors.black};
   font-family: ${fonts.serif};
   font-weight: 300;
   line-height: 1.48;
-  flex: 1 1 auto;
   overflow: hidden;
   position: relative;
   transform: translateY(-10%);
@@ -41,7 +38,7 @@ const SelectStyle = styled.select`
 
 
 const Select = forwardRef((props, ref) => (
-  <Box as={SelectStyle} ref={ref} {...props} fontSize={[4,4,6]}>
+  <Box as={SelectStyle} ref={ref} {...props} fontSize={['7.729468599vw', null, '5.2vw', '3.611111111vw']}>
     {props.children}
   </Box>
 ))

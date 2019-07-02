@@ -62,7 +62,7 @@ const ProjectHoverPane = styled.picture`
   z-index: 100;
   background: ${props => props.color};
   opacity: 0;
-  transition: opacity 0.25s ease-in-ou;
+  transition: opacity 0.25s ease-in-out;
 
   video {
     flex: 0 0 100%;
@@ -274,10 +274,8 @@ class ProjectPreview extends Component {
             to={`/projects/${slug}`}
             title={name}
             color={colorMain}
-            //onPointerDown={e => this.onHover(true)}
-            //onPointerUp={e => this.onHover(false)}
-            onPointerOver={e => this.onHover(true)}
-            onPointerOut={e => this.onHover(false)}
+            onMouseOver={e => this.onHover(true)}
+            onMouseOut={e => this.onHover(false)}
             style={transform}
           >
             <Box as={`figure`} mb={[4]}>
