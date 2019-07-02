@@ -184,25 +184,7 @@ class ContactForm extends Component {
     // prevent form default action
     return false
   }
-  validate() {
-    console.log('should validate:', Array.from(this.formRef.current.elements))
-
-    if( this.formRef && this.formRef.current ) {
-      Array.from(this.formRef.current.elements).forEach(el => {
-        const type = el.type
-        //const name = el.name
-        const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
-
-        console.log(value);
-
-      })
-    }
-
-    if( this.mounted ) this.setState({ submitting: false })
-    return false
-  }
   submit(values) {
-    // console.log('values:', values, axios)
     // send data
     axios
       .get(process.env.ZAPIER_HOOK, {
@@ -435,7 +417,7 @@ class ContactForm extends Component {
                   validate={{
                     required: true,
                     step:"any",
-                    pattern:"[-+]?[0-9]*[.,]?[0-9]+"
+                    pattern:"[-+., 0-9$€]*"
                   }}
                 />
 
