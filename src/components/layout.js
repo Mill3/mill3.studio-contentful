@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
 import { IntlProvider, addLocaleData } from 'react-intl'
@@ -40,14 +40,19 @@ const getLocale = (location) => {
 class Layout extends React.Component {
   constructor(props) {
     super(props)
+
     this.setOptions = this.setOptions.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
     this.onScroll = this.onScroll.bind(this)
+    this.scrollToTop = this.scrollToTop.bind(this)
+
     this.state = {
       ...defaultContextValue,
       inTransition: false,
       set: this.setOptions,
     }
+
+    this.scrollbarRef = createRef()
   }
 
   setOptions(newData) {
@@ -67,6 +72,12 @@ class Layout extends React.Component {
 
   onScroll() {
     if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
+  }
+
+  scrollToTop() {
+    if( !this.scrollbarRef || !this.scrollbarRef.current || !this.scrollbarRef.current.scrollbar ) return
+
+    this.scrollbarRef.current.scrollbar.scrollTo(0, 0)
   }
 
   render() {
@@ -92,6 +103,7 @@ class Layout extends React.Component {
                     />
 
                     <Scrollbar
+                      ref={this.scrollbarRef}
                       damping={0.08}
                       thumbMinSize={55}
                       alwaysShowTracks={false}
@@ -112,7 +124,10 @@ class Layout extends React.Component {
                             unmountOnExit={true}
                             delay={{ enter: TRANSITION_DURATION + 150 }}
                             timeout={{ exit: TRANSITION_DURATION }}
-                            onEnter={e => this.setTransitionState(false)}
+                            onEnter={e => {
+                              this.scrollToTop()
+                              this.setTransitionState(false)
+                            }}
                             onExit={e => this.setTransitionState(true)}
                           >
                             {children}
