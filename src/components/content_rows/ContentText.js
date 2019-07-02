@@ -60,9 +60,14 @@ const postBody = styled.div`
 
   /* special style for H2 */
   h2 {
+    font-size: 6.763285024vw;
     text-align: center;
     line-height: 1.1;
     margin-top: 4rem;
+
+    @media (min-width: ${props => props.theme.breakpoints[2]}) {
+      font-size: ${props => props.theme.fontSizes[6]}px;
+    }
     @media (min-width: ${props => props.theme.breakpoints[4]}) {
       margin-left: -5vw;
       margin-right: -5vw;
@@ -90,7 +95,7 @@ const postBody = styled.div`
       font-size: 6.763285024vw;
       font-style: italic;
 
-      @media (min-width: ${props => props.theme.breakpoints[1]}) {        
+      @media (min-width: ${props => props.theme.breakpoints[1]}) {
         font-size: 1.85vw;
       }
     }
