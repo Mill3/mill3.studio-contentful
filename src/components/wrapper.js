@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { debounce } from 'lodash'
+//import { debounce } from 'lodash'
 
 
 const WrapperStyle = styled.div`
   height: 100vh;
   max-width: 100vw;
-  /* overflow-x: hidden; */
-  /* overflow-y: auto; */
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
 `
 
@@ -25,11 +23,14 @@ class Wrapper extends Component {
       disabled: false,
     }
 
+    /*
     this.onScroll = this.onScroll.bind(this)
     this.onScrollComplete = this.onScrollComplete.bind(this)
     this.debounced = debounce(this.onScrollComplete, 250)
+    */
   }
 
+  /*
   componentDidMount() {
     this.context.getScrollbar(s => {
       this.scrollbar = s
@@ -51,6 +52,7 @@ class Wrapper extends Component {
   onScrollComplete() {
     this.setState({ disabled: false })
   }
+  */
 
   render() {
     const { disabled } = this.state
