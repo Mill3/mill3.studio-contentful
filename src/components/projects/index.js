@@ -7,6 +7,7 @@ export const query = graphql`
     node_locale
     name
     colorMain
+    transitionName
     category {
       id
       title
@@ -39,4 +40,3 @@ export const query = graphql`
     }
   }
 `
-

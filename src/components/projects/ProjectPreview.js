@@ -239,7 +239,7 @@ class ProjectPreview extends Component {
 
   render() {
     const { project, delay, columns, offset } = this.props
-    const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
+    const { slug, colorMain, imageMain, imageHover, videoPreview, name, category, transitionName } = project.node
     const { inView, percentage, hover } = this.state
 
     let transform
@@ -272,7 +272,7 @@ class ProjectPreview extends Component {
         >
           <TransitionLinkComponent
             to={`/projects/${slug}`}
-            title={name}
+            title={transitionName || name}
             color={colorMain}
             onMouseOver={e => this.onHover(true)}
             onMouseOut={e => this.onHover(false)}
