@@ -227,12 +227,13 @@ class ProjectPreview extends Component {
   onResize() {
     if( !this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar ) return
 
+    const offset = this.props.offset instanceof ResponsiveProp ? this.props.offset.getValue() : this.props.offset
     const rect = this.rootRef.current.node.getBoundingClientRect()
     const y = rect.y + this.scrollbar.offset.y
 
     this.rect = {
       y: y,
-      height: rect.height,
+      height: rect.height + offset,
       offset: Math.max(0, Viewport.height - y),
     }
   }

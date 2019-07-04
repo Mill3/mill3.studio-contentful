@@ -24,6 +24,18 @@ export const columns = {
     mt: [0, 0, -5, '-30vh'],
     ml: [0, 0, 0, `${((6 - 4.5) / 12)*100}%`]
   },
+  3 : {
+    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+    ml: [null, null, null, `${1.5 / 12 * 100}%`],
+  },
+  4 : {
+    width: [1, 1/2, 1/2, 5.5/12, 1/2],
+    mt: [0, 0, -5, '-30vh'],
+  },
+  5 : {
+    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+    ml: [null, null, null, `${1 / 12 * 100}%`, `${0.25 / 12 * 100}%`]
+  }
 }
 
 export const ProjectHomeCol = (index) => {
@@ -41,16 +53,12 @@ class ProjectsHome extends React.Component {
       const getOffset = (index) => {
         if( isMobile ) return 0
 
-        // calculate modulo of 3
-        const mod = index % 3
-        if( mod === 0 ) return 0
-
         return new ResponsiveProp([
           null,
           null,
-          [null, 180, 0][mod],
-          [null, 120, -60][mod],
-          [null, null, -140][mod]
+          [0, 90][index % 2],
+          [0, 120, -30, 140, -55, 160][index],
+          [0, 140, -80, 200, -120, 240][index]
         ])
       }
       const getDelay = (index) => {
@@ -79,7 +87,7 @@ class ProjectsHome extends React.Component {
     const { intl } = this.props
     return (
       <>
-        <Flex mb={['90px', null, '80px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`}>
+        <Flex mb={['90px', null, '140px', '180px', '240px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
           {this.list()}
         </Flex>
         <Flex mb={[5]} mx={['-5vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
