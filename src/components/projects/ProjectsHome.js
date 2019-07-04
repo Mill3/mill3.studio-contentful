@@ -26,7 +26,8 @@ export const columns = {
   },
   3 : {
     width: [1, 1/2, 1/2, 4.5/12, 1/3],
-    ml: [null, null, null, `${1.5 / 12 * 100}%`],
+    mt: [null, null, null, null, 40],
+    ml: [null, null, null, 'auto'],
   },
   4 : {
     width: [1, 1/2, 1/2, 5.5/12, 1/2],
@@ -34,6 +35,7 @@ export const columns = {
   },
   5 : {
     width: [1, 1/2, 1/2, 4.5/12, 1/3],
+    mt: [null, null, null, null, 70],
     ml: [null, null, null, `${1 / 12 * 100}%`, `${0.25 / 12 * 100}%`]
   }
 }
@@ -58,7 +60,7 @@ class ProjectsHome extends React.Component {
           null,
           [0, 90][index % 2],
           [0, 120, -30, 140, -55, 160][index],
-          [0, 140, -80, 200, -120, 240][index]
+          [0, 140, -60, 200, 60, 240][index]
         ])
       }
       const getDelay = (index) => {
@@ -87,7 +89,7 @@ class ProjectsHome extends React.Component {
     const { intl } = this.props
     return (
       <>
-        <Flex mb={['90px', null, '140px', '180px', '240px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
+        <Flex mb={['90px', null, '140px', '180px', '270px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
           {this.list()}
         </Flex>
         <Flex mb={[5]} mx={['-5vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
