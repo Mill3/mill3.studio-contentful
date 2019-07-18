@@ -6,7 +6,7 @@ import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
+import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER, GRID_GUTTER } from './index'
 
 import EmbeddedAsset from './EmbeddedAsset'
 
@@ -120,14 +120,14 @@ const ContentText = ({ data }) => {
             textColor={data.textColor ? data.textColor : false}
             mb={VERTICAL_SPACER}
             mx="auto"
-            px={[4, 5, 5, 5, 5, `30vw`]}
+            px={[4, 5, `15vw`, `20vw`, `30vw`]}
           >
             {data.text ? format(data.text.text) : []}
           </Box>
         </Box>
       )}
       {data.textColumns && (
-        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} px={[4, 5, 5, 5, 5, `15vw`]}>
+        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}>
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
             {data.textColumns &&
               data.textColumns.map((textColumn, index) => (
