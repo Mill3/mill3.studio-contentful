@@ -5,12 +5,12 @@
 
 [[redirects]]
   from = "/"
-  to = "/fr"
+  to = "/en-usa"
   status = 302
-  conditions = {Language = ["fr"]}
+  conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/"
   to = "/en"
   status = 302
-  conditions = {Language = ["en"]}
+  conditions = { Language = ["en"] }

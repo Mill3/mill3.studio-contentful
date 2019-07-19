@@ -53,6 +53,11 @@ const TransitionPaneStyle = styled(Poses)`
   pointer-events: none;
   color: #fff;
   background: ${props => props.backgroundColor || '#000'};
+
+  svg {
+    width: 88vw;
+  }
+
 `
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
