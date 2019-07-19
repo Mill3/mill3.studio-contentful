@@ -14,8 +14,15 @@ import {
   HORIZONTAL_SPACER,
 } from './index'
 
-export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
+// export const StickyImage = ({ src }) => {
+//   return (
+//     <Box as={StickyImageStyle} src={src} />
+//   )
+// }
+
+export const ContentImage = ({ img, noStrech, setAsSticky, backgroundColor, index }) => {
   const [ ref, inView ] = useInView({ triggerOnce: true })
+  // const { setAsSticky } =
 
   return (
     <Flex
@@ -34,12 +41,19 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
         pose={inView ? 'visible' : 'hidden'}
         mb={0}
       >
-        {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+        {img.file && !setAsSticky && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
           <img
             src={img.fixed ? img.fixed.src : img.file.url}
             className={`img-fluid`}
             alt={`${img.description || img.id}`}
           />
+        )}
+
+        {img.file && setAsSticky && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+          // <p>{img.fixed ? img.fixed.src : img.file.url}</p>
+          <StickyImage imgUrl={img.fixed ? img.fixed.src : img.file.url}>
+            <picture></picture>
+          </StickyImage>
         )}
 
         {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
@@ -58,6 +72,7 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
   )
 }
 
+
 const OverlayImage = ({ img }) => {
   const [ ref, inView ] = useInView({ triggerOnce: true })
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
@@ -69,7 +84,6 @@ const ContentImages = ({ data }) => {
       alignContent={data.alignContent}
       backgroundColor={data.backgroundColor}
     >
-      {console.log(data)}
       <Box
         as={Grid}
         py={data.backgroundColor ? VERTICAL_SPACER : 0} // add vertical padding when has a background color
@@ -83,7 +97,7 @@ const ContentImages = ({ data }) => {
           <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} />
         ))}
         {data.imageItems && data.imageItems.map((imageItem, index) => (
-          <ContentImage img={imageItem.media} noStrech={data.noStrechedImages} backgroundColor={imageItem.backgroundColor} index={index} key={index} />
+          <ContentImage img={imageItem.media} setAsSticky={imageItem.setAsSticky} noStrech={data.noStrechedImages} backgroundColor={imageItem.backgroundColor} index={index} key={index} />
         ))}
         {/* add extra image on top */}
         {data.overlayImage && <OverlayImage img={data.overlayImage} className="-img-fluid" />}
@@ -115,6 +129,25 @@ const MediaItemVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`
+
+const StickyImage = styled.figure`
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  picture {
+    background-image: url(${props => props.imgUrl});
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
 `
 
 const ContentImagePoses = posed.figure({
@@ -175,6 +208,7 @@ export const ContentImagesFragement = graphql`
     }
     imageItems {
       backgroundColor
+      setAsSticky
       media {
         id
         file {
