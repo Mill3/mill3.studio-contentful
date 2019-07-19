@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-
+import Visibility from 'visibilityjs'
 import { getContentfulEntryID } from '@utils/ContentfulClient'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
 
 class Preview extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -18,10 +17,12 @@ class Preview extends Component {
   }
 
   update() {
-    console.log(`this should fetch for new data`)
+    console.time(`fetchNewData`)
     fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}&locale=${this.props.pageContext.locale}`)
       .then(response => response.json())
       .then(node => {
+        console.warn('Fetched new data')
+        console.timeEnd(`fetchNewData`)
         this.setState({
           data: node.data,
         })
@@ -29,15 +30,22 @@ class Preview extends Component {
   }
 
   componentDidMount() {
+    // initial update
     this.update()
-    // start an interval refreshing data every 5 sec.
-    this.interval = setInterval(() => {
+
+    // start an interval refreshing data every 5 sec
+    // only when docuement is visible
+    Visibility.every(5000, () => {
       this.update()
-    }, 5000)
+    })
+
+    Visibility.change((e, state) => {
+      Visibility.hidden() ? console.warn(`Document is hidden`) : console.log(`Doc is visible`)
+    })
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    // clearInterval(this.interval)
   }
 
   component(data) {
@@ -58,11 +66,7 @@ class Preview extends Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        {this.state.data ? this.component() : ''}
-      </React.Fragment>
-    )
+    return <React.Fragment>{this.state.data ? this.component() : ''}</React.Fragment>
   }
 }
 

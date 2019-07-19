@@ -52,7 +52,8 @@
     "smooth-scrollbar": "^8.4.0",
     "styled-components": "^4.2.1",
     "styled-components-breakpoint": "^2.1.1",
-    "styled-reboot": "^3.0.2"
+    "styled-reboot": "^3.0.2",
+    "visibilityjs": "^2.0.2"
   },
   "keywords": [
     "gatsby"
