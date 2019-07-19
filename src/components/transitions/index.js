@@ -5,16 +5,33 @@ import { Flex, Text } from 'rebass'
 
 import { TRANSITION_DURATION } from '@utils/constants'
 
+export const TRANSITION_PANE_STATES = {
+  'initial': 'initial',
+  'visible': 'visible',
+  'hidden': 'hidden'
+}
+
 const Poses = posed.div({
+  // default state with no pose
   init: {
-    opacity: 0,
+    opacity: 1,
   },
+  // initial site load
+  initial: {
+    opacity: 0,
+    transition: {
+      duration: TRANSITION_DURATION / 2,
+      delay: TRANSITION_DURATION * 2
+    }
+  },
+  // when page change starts
   visible: {
     opacity: 1,
     transition: {
       duration: TRANSITION_DURATION / 2
     }
   },
+  // when page change ends
   hidden: {
     opacity: 0,
     transition: {
@@ -39,7 +56,7 @@ const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
 `
 
-const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
+const TransitionPane = ({ state = 'initial', color, title, onEntered, onExited }) => {
   return (
     <Flex as={TransitionPaneStyle} className="full-vh" p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
       <Text as={TransitionTextStyle} fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>{title}</Text>

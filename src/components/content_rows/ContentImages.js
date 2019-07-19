@@ -17,7 +17,6 @@ import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } f
 
 export const ContentImage = ({ img, noStrech, setAsSticky, backgroundColor, index }) => {
   const [ ref, inView ] = useInView({ triggerOnce: true })
-  // const { setAsSticky } =
 
   return (
     <Flex
@@ -82,14 +81,7 @@ const ContentImages = ({ data }) => {
   //else if( data.backgroundColor && data.fadeInBackgroundColor ) mt = VERTICAL_SPACER.map(x => x + 1);
 
   return (
-<<<<<<< HEAD
-    <RowContainer
-      alignContent={data.alignContent}
-      backgroundColor={data.backgroundColor}
-    >
-=======
     <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
->>>>>>> 623d160abe0c888d6be10535a29afa07507f452e
       <Box
         as={Grid}
         py={data.backgroundColor && !data.fadeInBackgroundColor ? VERTICAL_SPACER : 0}
@@ -201,12 +193,6 @@ export const ContentImagesFragement = graphql`
     noStrechedImages
     backgroundColor
     fadeInBackgroundColor
-    overlayImage {
-      file {
-        url
-        contentType
-      }
-    }
     imageItems {
       backgroundColor
       setAsSticky

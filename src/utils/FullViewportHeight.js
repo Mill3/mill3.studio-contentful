@@ -13,18 +13,17 @@ class FullViewportHeight extends Component {
     Viewport.on(this.onResize)
     this.onResize()
   }
-  componentWillUnmount() { Viewport.off(this.onResize) }
+
+  componentWillUnmount() {
+    Viewport.off(this.onResize)
+  }
 
   onResize() {
     document.documentElement.style.setProperty('--vh', `${Viewport.height * 0.01}px`)
   }
 
   render() {
-    return (
-      <Fragment>
-        { this.props.children }
-      </Fragment>
-    )
+    return <Fragment>{this.props.children}</Fragment>
   }
 }
 

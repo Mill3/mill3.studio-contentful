@@ -6,8 +6,6 @@ import { Box } from 'rebass'
 const FigureBoxContainer = styled.div`
   position: relative;
   overflow: ${props => props.overflow};
-  /* margin: 0; */
-  /* padding: 0; */
 
   /* box ratio is controlled via props */
   padding-bottom: ${props => `${props.ratio * 100}%`};

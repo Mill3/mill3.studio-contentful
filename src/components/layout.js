@@ -18,7 +18,7 @@ import fr from '@locales/fr.json'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
-import TransitionPane from '@components/transitions'
+import TransitionPane, { TRANSITION_PANE_STATES } from '@components/transitions'
 import Wrapper from '@components/wrapper'
 
 import GlobalStyle from '@styles/Global'
@@ -48,7 +48,7 @@ class Layout extends React.Component {
 
     this.state = {
       ...defaultContextValue,
-      inTransition: false,
+      inTransition: TRANSITION_PANE_STATES['initial'],
       set: this.setOptions,
     }
 
@@ -64,9 +64,9 @@ class Layout extends React.Component {
     }))
   }
 
-  setTransitionState(value) {
+  setTransitionState(state) {
     this.setState({
-      inTransition: value,
+      inTransition: (state === true) ? TRANSITION_PANE_STATES['visible'] : TRANSITION_PANE_STATES['hidden'],
     })
   }
 
@@ -97,7 +97,7 @@ class Layout extends React.Component {
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>
                     <TransitionPane
-                      state={inTransition ? 'visible' : 'hidden'}
+                      state={inTransition}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
                     />
