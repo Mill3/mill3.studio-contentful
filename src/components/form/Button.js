@@ -5,7 +5,7 @@ import { Box } from 'rebass'
 
 const ButtonStyle = styled.button`
   display: inline-block;
-  line-height: 1;
+  line-height: 1.1;
   background-color: ${props => props.theme.colors.purple};
   color: #fff;
   border: none;

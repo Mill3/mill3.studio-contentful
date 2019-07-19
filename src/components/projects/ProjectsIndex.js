@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
-import ProjectPreview from './ProjectPreview'
 import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
+import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
 import { breakpoints } from '@styles/Theme'
@@ -38,7 +38,7 @@ class ProjectsIndex extends Component {
       ])
     }
     const getDelay = (index) => {
-      if( isMobile ) return index === 0 ? TRANSITION_DURATION * 2 : 0
+      if( isMobile ) return index === 0 ? TRANSITION_DURATION : 0
       else return new ResponsiveProp([
         null,
         null,
@@ -71,7 +71,7 @@ class ProjectsIndex extends Component {
       <>
         <SEO title={`nav.Work`} translate={true} />
         <Container fluid>
-          <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={3} className="is-relative">
+          <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={[4, null, 3]} className="is-relative">
             <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
               <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
               <span className="is-serif"><FormattedMessage id="nav.Work" /> </span>
@@ -82,9 +82,9 @@ class ProjectsIndex extends Component {
               <FormattedMessage id="projects.Intro" />
             </Text>
 
-            <HeaderCircle ml={['-5vw', null, -3, -4]} css={{transform: 'translateY(45%)'}} />
+            <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{transform: 'translateY(45%)'}} />
           </Flex>
-          <Flex as={`section`} mx={['-5vw', null, -3, -4]} flexWrap={`wrap`} css={{position: 'relative'}}>
+          <Flex as={`section`} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} css={{position: 'relative'}}>
             {this.list()}
           </Flex>
         </Container>

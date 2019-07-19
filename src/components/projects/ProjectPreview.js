@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
@@ -8,6 +8,7 @@ import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
 import { breakpoints } from '@styles/Theme'
+import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@utils/TransitionLink'
@@ -60,12 +61,43 @@ const ProjectHoverPane = styled.picture`
   height: 100%;
   z-index: 100;
   background: ${props => props.color};
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
 
   video {
     flex: 0 0 100%;
     height: 100%;
     object-fit: cover;
   }
+`
+
+const ProjectTitleUnderlinePoses = posed.span({
+  fold: {
+    scaleX: 0.0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 40,
+    },
+  },
+  unfold: {
+    scaleX: 0.999,
+    transition: {
+      type: 'spring',
+      stifness: 100,
+      damping: 10,
+    },
+  },
+})
+const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
+  position: absolute;
+  top: 1.2em;
+  left: 0;
+  width: 100%;
+  height: 0.075em;
+  background: ${props => props.theme.colors.black};
+  transform-origin: top left;
+  transform: scaleX(0.999);
 `
 
 const ProjectPreviewItem = styled(ProjectPoses)`
@@ -79,45 +111,19 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     display: block;
     color: #000;
     text-decoration: none;
+
+    /* hover state */
     &:hover {
       text-decoration: none;
-    }
-  }
 
-  /* over pane on top */
-  ${ProjectHoverPane} {
-    /* transform: translateY(101%); */
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-
-    video,
-    .gatsby-image-wrapper {
-      opacity: 0;
-      transform: scale(1.05);
-      transition-duration: 0.45s;
-      transition-timing-function: ease-in-out;
-      transition-delay: 0s;
-      filter: blur(10px);
-    }
-  }
-
-  /* hover state */
-  &:hover {
-    ${ProjectHoverPane} {
-      transform: translateY(0%);
-      opacity: 1;
-
-      video,
-      .gatsby-image-wrapper {
-        transition-delay: 0.125s;
-        transform: translateY(0%);
+      ${ProjectHoverPane} {
         opacity: 1;
-        transform: scale(1);
-        filter: blur(0px);
       }
     }
   }
 `
+
+
 
 class ProjectPreview extends Component {
   static contextTypes = {
@@ -144,6 +150,7 @@ class ProjectPreview extends Component {
     this.state = {
       inView: false,
       percentage: 0,
+      hover: false,
     }
 
     this.mounted = false
@@ -184,11 +191,18 @@ class ProjectPreview extends Component {
     })
   }
   onHover(isHover) {
-    if (isHover && this.videoRef.current) {
-      this.videoRef.current.currentTime = 0
-      this.videoRef.current.play()
-    } else if (this.videoRef.current) {
-      this.videoRef.current.pause()
+    if( this.mounted ) {
+      // run this only if value has changed
+      if( this.state.hover === isHover ) return
+
+      this.setState({ hover: isHover }, () => {
+        if (isHover && this.videoRef.current) {
+          this.videoRef.current.currentTime = 0
+          this.videoRef.current.play()
+        } else if (this.videoRef.current) {
+          this.videoRef.current.pause()
+        }
+      })
     }
   }
   onScroll({ offset }) {
@@ -213,20 +227,22 @@ class ProjectPreview extends Component {
   onResize() {
     if( !this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar ) return
 
+    const offset = this.props.offset instanceof ResponsiveProp ? this.props.offset.getValue() : this.props.offset
     const rect = this.rootRef.current.node.getBoundingClientRect()
     const y = rect.y + this.scrollbar.offset.y
 
     this.rect = {
       y: y,
-      height: rect.height,
+      height: rect.height + offset,
       offset: Math.max(0, Viewport.height - y),
     }
   }
 
   render() {
     const { project, delay, columns, offset } = this.props
-    const { slug, colorMain, imageMain, imageHover, videoPreview, name, category } = project.node
-    const { inView, percentage } = this.state
+    const { slug, colorMain, imageMain, imageHover, videoPreview, name, category, transitionName } = project.node
+    const { inView, percentage, hover } = this.state
+
     let transform
 
 
@@ -237,7 +253,6 @@ class ProjectPreview extends Component {
     }
     else transform = {}
 
-
     return (
       <InView
         ref={this.rootRef}
@@ -245,7 +260,7 @@ class ProjectPreview extends Component {
         onChange={this.onVisibilityChange}
         as={ProjectWrapper}
         mb={['40px', null, '50px', '70px']}
-        px={[null, null, 3, 4]}
+        px={[null, null, 3, '28px']}
         {...columns}
       >
         <Box
@@ -258,41 +273,39 @@ class ProjectPreview extends Component {
         >
           <TransitionLinkComponent
             to={`/projects/${slug}`}
-            title={name}
+            title={transitionName || name}
             color={colorMain}
-            onMouseEnter={e => this.onHover(true)}
-            onMouseLeave={e => this.onHover(false)}
+            onMouseOver={e => this.onHover(true)}
+            onMouseOut={e => this.onHover(false)}
             style={transform}
           >
             <Box as={`figure`} mb={[4]}>
-              <ProjectHoverPane color={colorMain}>
-                {imageHover && <Img fade={false} fluid={imageHover.fluid} />}
-                {videoPreview && (
-                  <video muted playsInline loop ref={this.videoRef}>
-                    <source src={videoPreview.file.url} type="video/mp4" />
-                  </video>
-                )}
-              </ProjectHoverPane>
+              { HAS_HOVER && (
+                <ProjectHoverPane color={colorMain}>
+                  {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
+                  {videoPreview && (
+                    <video muted playsInline loop ref={this.videoRef}>
+                      <source src={videoPreview.file.url} type="video/mp4" />
+                    </video>
+                  )}
+                </ProjectHoverPane>
+              )}
               <FigureBox>
                 <Img fade={false} fluid={imageMain.fluid} objectFit="cover" objectPosition="center center" style={{ height: `100%` }} />
               </FigureBox>
             </Box>
 
-            <Box as={`footer`} px={['5vw', null, 0]}>
-              <Text
-                as={`h3`}
-                className={`fw-300 is-sans`}
-                fontSize={[3, 2, 2, `28px`]}
-                m={[0]}
-              >
+            <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
+              <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]}>
                 {name}
+                <Box as={ProjectTitleUnderline} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
               </Text>
               {category && (
-                <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={[2, 2, 2, `19px`]} m={0}>
+                <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]} m={0}>
                   {category[0].title}
                 </Text>
               )}
-            </Box>
+            </Flex>
 
           </TransitionLinkComponent>
         </Box>

@@ -42,9 +42,9 @@ export const LinkButtonStyle = styled.span`
   }
 `
 
-const LinkButton = ({children, hoverColor}) => {
+const LinkButton = ({children, hoverColor, fontSize = [6], ...props}) => {
   return (
-    <Box as={LinkButtonStyle} fontSize={[6]} hoverColor={hoverColor}>
+    <Box as={LinkButtonStyle} fontSize={fontSize} hoverColor={hoverColor} {...props}>
       {children}
     </Box>
   );

@@ -50,13 +50,10 @@ class Preview extends Component {
     switch (model) {
       case 'project':
         return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
-        break
       case 'news':
         return <NewsSingle pageContext={pageContext} data={{ news: this.state.data }} />
-        break
       default:
         return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
-        break
     }
   }
 

@@ -7,12 +7,7 @@ import { useInView } from 'react-intersection-observer'
 
 
 import { getContentType, CONTENT_TYPES } from '@utils'
-import {
-  RowContainer,
-  Grid,
-  VERTICAL_SPACER,
-  HORIZONTAL_SPACER,
-} from './index'
+import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
 
 // export const StickyImage = ({ src }) => {
 //   return (
@@ -79,15 +74,26 @@ const OverlayImage = ({ img }) => {
 }
 
 const ContentImages = ({ data }) => {
+  const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+  let mt = VERTICAL_SPACER;
+
+  if( data.gaplessGrid ) mt = 0;
+  else if( data.backgroundColor && !data.fadeInBackgroundColor ) mt = 0;
+  //else if( data.backgroundColor && data.fadeInBackgroundColor ) mt = VERTICAL_SPACER.map(x => x + 1);
+
   return (
+<<<<<<< HEAD
     <RowContainer
       alignContent={data.alignContent}
       backgroundColor={data.backgroundColor}
     >
+=======
+    <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
+>>>>>>> 623d160abe0c888d6be10535a29afa07507f452e
       <Box
         as={Grid}
-        py={data.backgroundColor ? VERTICAL_SPACER : 0} // add vertical padding when has a background color
-        mt={(data.gaplessGrid || data.backgroundColor) ? 0 : VERTICAL_SPACER}
+        py={data.backgroundColor && !data.fadeInBackgroundColor ? VERTICAL_SPACER : 0}
+        mt={mt}
         mb={data.noBottomMargin ? 0 : VERTICAL_SPACER}
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
@@ -102,7 +108,7 @@ const ContentImages = ({ data }) => {
         {/* add extra image on top */}
         {data.overlayImage && <OverlayImage img={data.overlayImage} className="-img-fluid" />}
       </Box>
-    </RowContainer>
+    </Wrapper>
   )
 }
 
@@ -116,12 +122,6 @@ const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
-  /* figure {
-    width: 100%;
-  }
-  /* img {
-    width: 100% !important; */
-  } */
 `
 
 const MediaItemVideo = styled.video`
@@ -200,6 +200,7 @@ export const ContentImagesFragement = graphql`
     noBottomMargin
     noStrechedImages
     backgroundColor
+    fadeInBackgroundColor
     overlayImage {
       file {
         url

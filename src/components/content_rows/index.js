@@ -64,7 +64,7 @@ const AnimatedBg = styled.div`
   transition: opacity 250ms linear;
 `
 
-export class AnimatedBackgroundRowContainer extends Component {
+export class AnimatedBackgroundContainer extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
   }
@@ -147,20 +147,26 @@ export class AnimatedBackgroundRowContainer extends Component {
   }
 
   render() {
-    const { backgroundColor, children, ...props } = this.props
+    const { backgroundColor, children } = this.props
     const { inView, y } = this.state
     const t = { transform: `translate3d(0, ${y}px, 0)`}
 
     return (
       <InView as={Box} onChange={this.onVisibilityChange}>
         <Box as={AnimatedBg} backgroundColor={backgroundColor} opacity={inView ? 1 : 0} style={t} />
-        <RowContainer {...props}>
-          {children}
-        </RowContainer>
+        {children}
       </InView>
     )
   }
 }
+
+export const AnimatedBackgroundRowContainer = ({ backgroundColor, children, ...props}) => (
+  <AnimatedBackgroundContainer backgroundColor={backgroundColor}>
+    <RowContainer {...props}>
+      {children}
+    </RowContainer>
+  </AnimatedBackgroundContainer>
+)
 
 
 const GridColums = itemsPerRow => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
 import { IntlProvider, addLocaleData } from 'react-intl'
@@ -24,8 +24,9 @@ import Wrapper from '@components/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import DelayedTransition from '@utils/DelayedTransition'
 import { TRANSITION_DURATION } from '@utils/constants'
+import DelayedTransition from '@utils/DelayedTransition'
+import FullViewportHeight from '@utils/FullViewportHeight'
 
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
@@ -39,14 +40,19 @@ const getLocale = (location) => {
 class Layout extends React.Component {
   constructor(props) {
     super(props)
+
     this.setOptions = this.setOptions.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
     this.onScroll = this.onScroll.bind(this)
+    this.scrollToTop = this.scrollToTop.bind(this)
+
     this.state = {
       ...defaultContextValue,
       inTransition: false,
       set: this.setOptions,
     }
+
+    this.scrollbarRef = createRef()
   }
 
   setOptions(newData) {
@@ -68,6 +74,12 @@ class Layout extends React.Component {
     if (SCROLL_EVENT) window.dispatchEvent(SCROLL_EVENT)
   }
 
+  scrollToTop() {
+    if( !this.scrollbarRef || !this.scrollbarRef.current || !this.scrollbarRef.current.scrollbar ) return
+
+    this.scrollbarRef.current.scrollbar.scrollTo(0, 0)
+  }
+
   render() {
     const { inTransition } = this.state
     const { children } = this.props
@@ -78,7 +90,7 @@ class Layout extends React.Component {
         {({ location }) => (
           <IntlProvider locale={getLocale(location)} messages={messages[getLocale(location)]}>
             <LayoutContext.Provider value={this.state}>
-              <React.Fragment>
+              <FullViewportHeight>
 
                 <GlobalStyle />
 
@@ -91,6 +103,7 @@ class Layout extends React.Component {
                     />
 
                     <Scrollbar
+                      ref={this.scrollbarRef}
                       damping={0.08}
                       thumbMinSize={55}
                       alwaysShowTracks={false}
@@ -111,7 +124,10 @@ class Layout extends React.Component {
                             unmountOnExit={true}
                             delay={{ enter: TRANSITION_DURATION + 150 }}
                             timeout={{ exit: TRANSITION_DURATION }}
-                            onEnter={e => this.setTransitionState(false)}
+                            onEnter={e => {
+                              this.scrollToTop()
+                              this.setTransitionState(false)
+                            }}
                             onExit={e => this.setTransitionState(true)}
                           >
                             {children}
@@ -123,7 +139,8 @@ class Layout extends React.Component {
                     </Scrollbar>
                   </React.Fragment>
                 </ThemeProvider>
-              </React.Fragment>
+
+              </FullViewportHeight>
             </LayoutContext.Provider>
           </IntlProvider>
         )}

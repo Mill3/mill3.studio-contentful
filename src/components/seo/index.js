@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
@@ -84,7 +84,7 @@ SEO.propTypes = {
   translate: PropTypes.bool,
   seo: PropTypes.shape({
     pageTitle: PropTypes.string,
-    pageDescription: PropTypes.object,
+    pageDescription: PropTypes.string,
     shareImage: PropTypes.object,
   })
 }

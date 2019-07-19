@@ -1,24 +1,6 @@
-import { createGlobalStyle, keyframes } from 'styled-components'
-
+import { createGlobalStyle } from 'styled-components'
 
 import Theme, { rebootCSS } from './Theme'
-
-const fadeIn = keyframes`
-  to {
-    opacity: 1;
-  }
-`
-
-const fadeOut = keyframes`
-  to {
-    opacity: 0;
-  }
-`
-
-// console.log(Theme);
-
-// import { media } from '@utils/mediaQuery'
-// import Bg from '@static/images/bg-texture.jpg'
 
 const GlobalStyle = createGlobalStyle`
 
@@ -182,28 +164,9 @@ const GlobalStyle = createGlobalStyle`
     text-align: right;
   }
 
-  /* transition wrapper */
-
-  .tl-wrapper {
-    animation-name: ${fadeIn};
-    animation-duration: 0.25s;
-    animation-fill-mode: both;
-    background: #fff;
-    min-height: 100vh;
-  }
-
-  /* animation */
-  .fade-in {
-    animation-name: ${fadeIn};
-    animation-duration: 1s;
-    animation-delay: 1s;
-    animation-fill-mode: both;
-  }
-
-  .fade-out {
-    animation-name: ${fadeOut};
-    animation-duration: 1s;
-    animation-fill-mode: both;
+  .full-vh {
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
   }
 
 `

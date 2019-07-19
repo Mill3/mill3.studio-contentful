@@ -14,7 +14,7 @@ import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
 import Select from '@components/form/Select'
 import Container from '@styles/Container'
-import { colors } from '@styles/Theme'
+import { colors, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
 
@@ -76,7 +76,7 @@ const FieldGroup = forwardRef((props, ref) => {
       active={active}
       {...childProps}
     >
-      <Text as={LabelStyle} fontSize={['4.347826087vw', null, 4]} fontWeight={[300, null, 500]} htmlFor={name}>
+      <Text as={LabelStyle} fontSize={['4.347826087vw', null, '3vw', '1.944444444vw']} fontWeight={[300, null, 500]} htmlFor={name}>
         {label}
       </Text>
       <Input
@@ -112,12 +112,13 @@ class ContactForm extends Component {
     this.state = {
       activeField: null,
       selectedIndex: 0,
-      monitorScroll: true,
+      monitorScroll: false,
       submitting: false,
       submitted: false,
       scrollY: 0,
     }
 
+    this.mounted = false
     this.formRef = createRef()
     this.typeRef = createRef()
     this.nameRef = createRef()
@@ -139,62 +140,51 @@ class ContactForm extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.onFocusChange = this.onFocusChange.bind(this)
     this.onScroll = this.onScroll.bind(this)
+    this.onSelectChange = this.onSelectChange.bind(this)
     this.debounced = debounce(() => this.setState({ monitorScroll: true }), 1000)
   }
 
   componentDidMount() {
+    this.mounted = true
+
     this.context.getScrollbar(s => {
       this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
+      if( this.mounted ) this.scrollbar.addListener(this.onScroll)
     })
   }
-
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
+
+    this.mounted = false
   }
 
   onSubmit(e) {
     // prevent multiple form submission
     e.preventDefault()
-    this.setState({ submitting: true })
+    if( this.mounted ) this.setState({ submitting: true })
 
     // collect form data
     const values = {}
-    Array.from(this.formRef.current.elements).forEach(el => {
-      const type = el.type
-      const name = el.name
-      const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
 
-      if (value === '') return
+    if( this.formRef && this.formRef.current ) {
+      Array.from(this.formRef.current.elements).forEach(el => {
+        const type = el.type
+        const name = el.name
+        const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
 
-      values[name] = value
-    })
+        if (value === '') return
+
+        values[name] = value
+      })
+    }
 
     this.submit(values)
 
     // prevent form default action
     return false
   }
-
-  validate() {
-    console.log('should validate:', Array.from(this.formRef.current.elements))
-
-    Array.from(this.formRef.current.elements).forEach(el => {
-      const type = el.type
-      //const name = el.name
-      const value = type === 'checkbox' ? (el.checked ? el.value : '') : el.value
-
-      console.log(value);
-
-    })
-
-    this.setState({ submitting: false })
-    return false
-  }
-
   submit(values) {
-    // console.log('values:', values, axios)
     // send data
     axios
       .get(process.env.ZAPIER_HOOK, {
@@ -209,14 +199,23 @@ class ContactForm extends Component {
         else console.log('ERROR SENDING DATA TO ZAPIER')
       })
       .finally(() => {
-        this.setState({ submitted: true })
+        if( this.mounted ) this.setState({ submitted: true })
       })
       .catch(error => {
         console.log('ERROR SENDING DATA TO ZAPIER', error)
       })
   }
 
+  onSelectChange(index) {
+    this.setState({
+      selectedIndex: index,
+      monitorScroll: index > 0,
+    })
+  }
   onFocusChange(field) {
+    // module has been unmounted
+    if (!this.mounted ) return
+
     // check if field has changed
     if (field === this.state.activeField) return
 
@@ -242,8 +241,10 @@ class ContactForm extends Component {
 
     this.debounced()
   }
-
   onScroll({ offset }) {
+    // module has been unmounted
+    if (!this.mounted ) return
+
     const { activeField, monitorScroll, submitted } = this.state
 
     if( this.props.snapIcon !== true ) this.setState({ scrollY: offset.y })
@@ -317,24 +318,23 @@ class ContactForm extends Component {
             as={FormStyle}
             ref={this.formRef}
             flexDirection="column"
-            alignItems={'center'}
-            width={[`100%`, null, `75%`, `50%`]}
+            alignItems="center"
+            width="100%"
             mx="auto"
             onSubmit={this.onSubmit}
-            // visible={submitted ? false : true}
             disabled={submitting || submitted ? true : false}
           >
             <Flex
               flexWrap={['wrap', null, null, 'nowrap']}
               justifyContent={'center'}
               alignItems="center"
-              pb={4}
-              width={'100%'}
+              pb={selectedIndex > 0 ? 4 : `${space[6] - space[3] - 12}px`}
+              width={['100%', null, null, '80%']}
             >
               <Text
                 as="label"
                 className="is-sans is-light"
-                fontSize={[4, null, 6]}
+                fontSize={['7.729468599vw', null, '5.2vw', '3.611111111vw']}
                 mb={0}
                 mr={[0, null, null, 3]}
                 htmlFor="type"
@@ -346,7 +346,8 @@ class ContactForm extends Component {
                 ref={this.typeRef}
                 id="type"
                 name="type"
-                onChange={e => this.setState({ selectedIndex: this.typeRef.current.selectedIndex })}
+                width={['100%', null, '75%', 'auto']}
+                onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
               >
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
                   return (
@@ -358,7 +359,7 @@ class ContactForm extends Component {
               </Select>
             </Flex>
 
-            <Box as={FormFooter} visible={selectedIndex > 0}>
+            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={selectedIndex > 0}>
               <Box pt={4} pb={5}>
                 {submitting}
                 <FieldGroup
@@ -416,7 +417,7 @@ class ContactForm extends Component {
                   validate={{
                     required: true,
                     step:"any",
-                    pattern:"[-+]?[0-9]*[.,]?[0-9]+"
+                    pattern:"[-+., 0-9$€]*"
                   }}
                 />
 
@@ -428,7 +429,7 @@ class ContactForm extends Component {
                     value="1"
                     onFocus={e => this.onFocusChange(e.target.name)}
                   />
-                  <Text as="label" htmlFor="subscribe" fontSize={[2]} color="#4A4A4A" className="fw-300" m={0}>
+                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} color="#4A4A4A" className="fw-300" m={0}>
                     <FormattedMessage id="contact.Subscribe" />
                   </Text>
                 </Flex>

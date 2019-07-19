@@ -30,18 +30,19 @@ const TransitionPaneStyle = styled(Poses)`
   right: 0;
   bottom: 0;
   width: 100vw;
-  height: 100vh;
   z-index: 100000;
   pointer-events: none;
   color: #fff;
-  background-blend-mode: difference;
   background: ${props => props.backgroundColor || '#000'};
+`
+const TransitionTextStyle = styled.p`
+  mix-blend-mode: difference;
 `
 
 const TransitionPane = ({ state = 'hidden', color, title, onEntered, onExited }) => {
   return (
-    <Flex as={TransitionPaneStyle} p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
-      <Text fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>{title}</Text>
+    <Flex as={TransitionPaneStyle} className="full-vh" p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
+      <Text as={TransitionTextStyle} fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>{title}</Text>
     </Flex>
   )
 }
