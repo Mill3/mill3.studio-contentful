@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
 
+import Logo from '@svg/Logo'
+
 import { TRANSITION_DURATION } from '@utils/constants'
 
 export const TRANSITION_PANE_STATES = {
@@ -59,7 +61,9 @@ const TransitionTextStyle = styled.p`
 const TransitionPane = ({ state = 'initial', color, title, onEntered, onExited }) => {
   return (
     <Flex as={TransitionPaneStyle} className="full-vh" p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
-      <Text as={TransitionTextStyle} fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>{title}</Text>
+      <Text as={TransitionTextStyle} fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>
+        {state === TRANSITION_PANE_STATES['initial'] ? <Logo inverted /> : <span>{title}</span> }
+      </Text>
     </Flex>
   )
 }

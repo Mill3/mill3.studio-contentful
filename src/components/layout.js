@@ -83,7 +83,6 @@ class Layout extends React.Component {
   render() {
     const { inTransition } = this.state
     const { children } = this.props
-    //const locale = `en`
 
     return (
       <Location>

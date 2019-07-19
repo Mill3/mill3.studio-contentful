@@ -270,7 +270,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/journal/`}>
+            <TransitionLinkComponent to={`/journal/`} title={`Words!`} color={`#3426F1`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Journal" />
               </Text>
