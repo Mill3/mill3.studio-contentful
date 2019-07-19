@@ -3,3 +3,14 @@
   Functions = "functions"
   Publish = "public"
 
+[[redirects]]
+  from = "/"
+  to = "/fr"
+  status = 302
+  conditions = {Language = ["fr"]}
+
+[[redirects]]
+  from = "/"
+  to = "/en"
+  status = 302
+  conditions = {Language = ["en"]}
