@@ -89,13 +89,15 @@ const ProjectTitleUnderlinePoses = posed.span({
     },
   },
 })
+
 const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
   position: absolute;
-  top: 1.2em;
+  top: 1.125em;
   left: 0;
   width: 100%;
-  height: 0.075em;
-  background: ${props => props.theme.colors.black};
+  height: 0.045em;
+  z-index: -1;
+  background: ${props => props.color ? props.color : props.theme.colors.black};
   transform-origin: top left;
   transform: scaleX(0.999);
 `
@@ -112,9 +114,22 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     color: #000;
     text-decoration: none;
 
+    h3 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: color 0.25s;
+      max-width: 100%;
+      text-shadow: 0.03em 0 #fff, -0.03em 0 #fff, 0 0.03em #fff, 0 -0.03em #fff, 0.06em 0 #fff, -0.06em 0 #fff, 0.09em 0 #fff, -0.09em 0 #fff, 0.12em 0 #fff, -0.12em 0 #fff, 0.15em 0 #fff, -0.15em 0 #fff;
+    }
+
     /* hover state */
     &:hover {
       text-decoration: none;
+
+      h3 {
+        color: ${props => props.color};
+      }
 
       ${ProjectHoverPane} {
         opacity: 1;
@@ -297,8 +312,8 @@ class ProjectPreview extends Component {
 
             <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
               <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]}>
-                {name}
-                <Box as={ProjectTitleUnderline} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
+                <span>{name}</span>
+                <Box as={ProjectTitleUnderline} color={colorMain} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
               </Text>
               {category && (
                 <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]} m={0}>

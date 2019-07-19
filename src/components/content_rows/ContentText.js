@@ -46,7 +46,6 @@ export const format = json => {
 
 const postBody = styled.div`
   /* TODO: overides all default styles for HTML elements available in Contentful richtext editor (blockquotes, b, strong, italic, p, heading, etc) */
-  /* max-width: ${props => (props.maxWidth ? props.maxWidth : 'inherit')}; */
 
   h1,
   h2,
