@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Visibility from 'visibilityjs'
+// import Visibility from 'visibilityjs'
 import { getContentfulEntryID } from '@utils/ContentfulClient'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
@@ -33,15 +33,20 @@ class Preview extends Component {
     // initial update
     this.update()
 
-    // start an interval refreshing data every 5 sec
-    // only when docuement is visible
-    Visibility.every(5000, () => {
-      this.update()
-    })
+    if (typeof window === `object`) {
+      const Visibility = require('visibilityjs')
+      // start an interval refreshing data every 5 sec
+      // only when docuement is visible
+      Visibility.every(5000, () => {
+        this.update()
+      })
 
-    Visibility.change((e, state) => {
-      Visibility.hidden() ? console.warn(`Document is hidden`) : console.log(`Doc is visible`)
-    })
+      Visibility.change((e, state) => {
+        Visibility.hidden() ? console.warn(`Document is hidden`) : console.log(`Doc is visible`)
+      })
+    }
+
+
   }
 
   componentWillUnmount() {
