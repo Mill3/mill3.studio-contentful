@@ -12,7 +12,6 @@ import SEO from '@components/seo'
 
 const ProjectSingle = ({ intl, pageContext, data }) => {
   const { project, next } = data
-  // console.log(pageContext)
 
   return (
     <React.Fragment>

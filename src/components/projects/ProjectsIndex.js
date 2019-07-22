@@ -31,10 +31,14 @@ class ProjectsIndex extends Component {
 
     const calculateOffset = (index, increment = -120, nth = 3) => {
       let col = (index % nth) + 1;
-      if (col === 2) {
-        return increment
-      } else if(col === 3) {
+      // console.log('col:', index, col)
+
+      // first column
+      if (col === 1) {
         return increment * 2
+      // second column
+      } else if(col === 2) {
+        return increment
       }
 
       // default return none

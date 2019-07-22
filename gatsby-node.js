@@ -77,11 +77,12 @@ exports.createPages = ({ graphql, actions }) => {
           },
         })
 
-        // create all project language
+        // get all project for current locale
         const localizedProjects = projects.filter(project => project.node.node_locale === locale.path)
 
         _.each(localizedProjects, (edge, index) => {
 
+          // pick next node
           const next = index === localizedProjects.length - 1 ? localizedProjects[0].node : localizedProjects[index + 1].node
 
           createPage({
