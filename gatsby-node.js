@@ -83,9 +83,6 @@ exports.createPages = ({ graphql, actions }) => {
         _.each(localizedProjects, (edge, index) => {
 
           const next = index === localizedProjects.length - 1 ? localizedProjects[0].node : localizedProjects[index + 1].node
-          console.log('next:', next)
-          // const next = `53253425324`
-          // return null
 
           createPage({
             path: `/${edge.node.node_locale}/projects/${edge.node.slug}/`,
@@ -102,32 +99,6 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
       })
-
-      // _.each(posts, (edge, index) => {
-
-      //   // console.log('next:', next, next.id)
-      //   // incremen
-
-      //   const localizedPosts = posts.filter(post => post.node.node_locale === edge.node.node_locale)
-      //   console.log(`localizedPosts for locale ${edge.node.node_locale} :`, localizedPosts)
-
-      //   const next = index === localizedPosts.length - 1 ? localizedPosts[0].node : localizedPosts[index + 1]
-      //   console.log('next:', next)
-      //   // const next = `53253425324`
-      //   // return null
-
-      //   createPage({
-      //     path: `/${edge.node.node_locale}/projects/${edge.node.slug}/`,
-      //     component: slash(ProjectSingleTemplate),
-      //     context: {
-      //       id: edge.node.id,
-      //       contentful_id:  edge.node.contentful_id,
-      //       slug:  edge.node.slug,
-      //       locale: edge.node.node_locale,
-      //       nextId: `5234523453`
-      //     },
-      //   })
-      // })
 
     })
 
