@@ -103,7 +103,7 @@ const About = ({ pageContext, intl }) => (
             as={`h2`}
             fontSize={fontSizes}
             lineHeight={[`1.4`, null, `1.2`]}
-            className={`is-serif fw-300`}
+            className={`is-serif-headings fw-900`}
             textAlign="center"
             m={0}
             mb={2}

@@ -192,7 +192,7 @@ class HeaderIntro extends Component {
             as={TextStyle}
             fontSize={fontSizes}
             textAlign="center"
-            className={`is-serif fw-200`}
+            className={`is-serif fw-900`}
             style={t1}
           >
             {/* <FormattedMessage id="intro.LineB" /> */}

@@ -25,7 +25,7 @@ const Footer = ({ intl }) => {
           <Flex flexWrap={'wrap'}>
 
             <Box as={`aside`} width={[1, 1, 1, '444px']}>
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
+              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
                 {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
               </Text>
               <Text as={`h6`} m={0}>
@@ -42,7 +42,7 @@ const Footer = ({ intl }) => {
               width={[1, 1, 1, 'auto']}
               mt={[4, 4, 4, 0]}
             >
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
+              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
                 {intl.formatMessage({ id: 'footer.hi' }).toString()}
               </Text>
               <Text as={`h6`} m={0}>
@@ -58,7 +58,7 @@ const Footer = ({ intl }) => {
               ml={[0, 0, `auto`]}
               mt={[4, 4, 4, 0]}
             >
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-300`}>
+              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
                 {intl.formatMessage({ id: 'footer.cold' }).toString()}
               </Text>
               <Text as={`h6`} m={0}>

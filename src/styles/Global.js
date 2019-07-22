@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
   /* type */
   h1, .h1 {
     font-size: ${Theme.fontSizes[8]}px;
+    font-family: ${Theme.fonts.headings};
     font-weight: 300;
   }
 
@@ -121,6 +122,10 @@ const GlobalStyle = createGlobalStyle`
 
   .is-serif {
     font-family: ${Theme.fonts.serif};
+  }
+
+  .is-serif-headings {
+    font-family: ${Theme.fonts.headings};
   }
 
   .z-negative {

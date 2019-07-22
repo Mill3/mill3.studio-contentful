@@ -79,7 +79,7 @@ class SingleHeader extends Component {
             lineHeight={'1.2'}
             mt={[3, null, 0]}
             mb={0}
-            className={`is-serif fw-400`}
+            className={`is-serif-headings fw-900`}
           >
             {title}
           </Text>
