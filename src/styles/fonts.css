@@ -1,3 +1,5 @@
+/* Larsseit */
+
 @font-face {
   font-family: 'Larsseit';
   src: url('../fonts/Larsseit-Light.woff2') format('woff2'),
@@ -38,11 +40,24 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Larsseit';
+  src: url('../fonts/Larsseit-ExtraBold.woff2') format('woff2'),
+      url('../fonts/Larsseit-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Larsseit';
+  src: url('../fonts/Larsseit-ExtraBoldItalic.woff2') format('woff2'),
+      url('../fonts/Larsseit-ExtraBoldItalic.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+}
+
 
 /*
-
-
-
 @font-face {
   font-family: 'Larsseit';
   src: url('../fonts/Larsseit-MediumItalic.woff2') format('woff2'),
@@ -58,23 +73,7 @@
   font-weight: 500;
   font-style: normal;
 }
-
-@font-face {
-  font-family: 'Larsseit';
-  src: url('../fonts/Larsseit-ExtraBold.woff2') format('woff2'),
-      url('../fonts/Larsseit-ExtraBold.woff') format('woff');
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Larsseit';
-  src: url('../fonts/Larsseit-ExtraBoldItalic.woff2') format('woff2'),
-      url('../fonts/Larsseit-ExtraBoldItalic.woff') format('woff');
-  font-weight: 800;
-  font-style: italic;
-} */
-
+*/
 
 
 

@@ -45,7 +45,7 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(
       `
       {
-        allContentfulProjects {
+        allContentfulProjects(sort: { fields: [createdAt], order: DESC }) {
           edges {
             node {
               id
