@@ -110,7 +110,7 @@ export default ProjectsIndex
 
 export const projectQuery = graphql`
   query allProjectsQuery($locale: String!) {
-    allContentfulProjects(filter: { node_locale : { eq: $locale }}) {
+    allContentfulProjects(filter: { node_locale : { eq: $locale }}, sort: { fields: [createdAt], order: DESC }) {
       edges {
         node {
           ...Project
