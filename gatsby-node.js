@@ -13,6 +13,7 @@ const locales = require('./locales/locales')
 
 exports.onCreateWebpackConfig = ({
   stage,
+  getConfig,
   rules,
   loaders,
   plugins,
