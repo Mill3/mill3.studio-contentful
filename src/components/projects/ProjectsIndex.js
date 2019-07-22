@@ -27,14 +27,27 @@ class ProjectsIndex extends Component {
       width: [1, 1, 1/2, 1/3],
     }
     const isMobile = Viewport.width < mobileBreakpoint
+    const total = this.props.data.allContentfulProjects.edges.length
+
+    const calculateOffset = (index, nth = 3) => {
+      let col = (index % nth) + 1;
+      if (col === 2) {
+        return -80
+      } else if(col === 3) {
+        return -120
+      }
+
+      // default return none
+      return 0
+    }
 
     const getOffset = (index) => {
       if( isMobile ) return 0
       else return new ResponsiveProp([
         null,
         null,
-        index % 2 === 1 ? -160 : 0,
-        index % 3 === 1 ? -160 : (index % 3 === 0 ? 80 : 0)
+        calculateOffset(index, 2),
+        calculateOffset(index, 3)
       ])
     }
     const getDelay = (index) => {
