@@ -44,7 +44,7 @@ export const format = json => {
   return documentToReactComponents(parsedJSON, options)
 }
 
-const postBody = styled.div`
+export const postBody = styled.div`
   /* TODO: overides all default styles for HTML elements available in Contentful richtext editor (blockquotes, b, strong, italic, p, heading, etc) */
 
   h1,
@@ -55,6 +55,7 @@ const postBody = styled.div`
     font-weight: 500;
     margin-bottom: 2rem;
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
+    line-height: 1.35;
   }
 
   /* special style for H2 */
@@ -70,6 +71,14 @@ const postBody = styled.div`
     @media (min-width: ${props => props.theme.breakpoints[4]}) {
       margin-left: -5vw;
       margin-right: -5vw;
+    }
+  }
+
+  h3 {
+    font-size: ${props => props.theme.fontSizes[4]}px;
+    font-weight: 300;
+    @media (min-width: ${props => props.theme.breakpoints[4]}) {
+      font-size: 2.15555556vw;
     }
   }
 

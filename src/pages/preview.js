@@ -4,6 +4,7 @@ import { getContentfulEntryID } from '@utils/ContentfulClient'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
+import PageSingle from '@components/pages/PageSingle'
 
 class Preview extends Component {
   constructor(props) {
@@ -65,6 +66,8 @@ class Preview extends Component {
         return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
       case 'news':
         return <NewsSingle pageContext={pageContext} data={{ news: this.state.data }} />
+      case 'pages':
+        return <PageSingle pageContext={pageContext} data={{ page: this.state.data }} />
       default:
         return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
     }

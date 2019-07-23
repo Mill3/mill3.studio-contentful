@@ -39,7 +39,7 @@ const contentRowFormatter = (row) => {
     const [type, value] = row
 
     // map RichText editor text value matching our GraphQL query
-    if (contentfulTypeName === 'ContentfulContentText' && type == 'text') {
+    if (contentfulTypeName === 'ContentfulContentText' && type == 'text' || contentfulTypeName === 'ContentfulContentSectionBreak' && type == 'text' ) {
       return (fields[type] = {"text": value.content})
     }
 

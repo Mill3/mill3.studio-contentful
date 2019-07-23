@@ -5,6 +5,7 @@ import SEO from '@components/seo'
 import { ChipButton } from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import Container from '@styles/Container'
+import PageSingle from '@components/pages/PageSingle'
 
 const fontSizes = [5, 4, 5, '3.611111111vw'];
 const subtitleFontSizes = [3, 3, 3, '1.805555556vw'];
@@ -18,12 +19,12 @@ const Service = (props) => {
   );
 };
 
-const About = ({ pageContext }) => (
+const About = ({ pageContext, data }) => (
   <>
 
-    <SEO title="About us" translate={true} />
+    <PageSingle data={ data } />
 
-    <Container fluid css={{position: 'relative'}}>
+    {/* <Container fluid css={{position: 'relative'}}>
       <Box as="header" className="is-center" mb={[6, 6, 5, 6]}>
         <Text as={`h1`} fontSize={fontSizes} className="is-serif fw-900" mb={[5, 5, 4, 5]}>About.</Text>
         <Text as="p" fontSize={subtitleFontSizes} width={[1, 1, '90%', '60vw']} mb={4} mx="auto">Founded in 2011, our agency is specialized in the analysis, strategy and development of brands and web platforms.</Text>
@@ -49,11 +50,22 @@ const About = ({ pageContext }) => (
         <Text as="p" fontSize={subtitleFontSizes} width={[1, 1, '85%', '64vw']} mx="auto" mb={0}>We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns.</Text>
       </Box>
 
+    </Container> */}
+
+    <Container fluid css={{position: 'relative'}}>
       <ChipButton css={{position: 'absolute', zIndex: 3, top: '100%', right: 0, marginTop: -30}}>Show list</ChipButton>
     </Container>
-
     <ClientsTicker quantity={5} />
+
   </>
 );
 
 export default About
+
+export const projectQuery = graphql`
+  query aboutPageQuery($locale: String!) {
+    page: contentfulPages(slug: { eq: "about" }, node_locale : { eq: $locale }) {
+      ...PageSingle
+    }
+  }
+`
