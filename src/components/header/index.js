@@ -33,7 +33,7 @@ class Header extends React.Component {
                 <Container fluid className={`z-10`}>
                   <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                     <Box width={'auto'} className={`is-relative z-20`}>
-                      <TransitionLinkComponent to={`/`} title={`Direction home`} color={`#000000`}>
+                      <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000000`}>
                         <Logo inverted={options.inverted} />
                       </TransitionLinkComponent>
                     </Box>

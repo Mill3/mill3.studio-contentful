@@ -103,8 +103,9 @@ class Layout extends React.Component {
 
                     <Scrollbar
                       ref={this.scrollbarRef}
-                      damping={0.08}
-                      thumbMinSize={55}
+                      damping={0.125}
+                      thumbMinSize={125}
+                      renderByPixels={true}
                       alwaysShowTracks={false}
                       continuousScrolling={true}
                       onScroll={this.onScroll}

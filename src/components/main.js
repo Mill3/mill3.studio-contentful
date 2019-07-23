@@ -1,6 +1,5 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-// import { TransitionState } from 'gatsby-plugin-transition-link'
 
 const entering = keyframes`
   to {
@@ -20,19 +19,6 @@ const MainStyle = styled.main`
   animation-duration: 1s;
   animation-fill-mode: forwards;
 `
-
-// const pickAnimation = transitionStatus => {
-//   switch (transitionStatus) {
-//     case 'entered':
-//       return entering
-//     case 'entering':
-//       return entering
-//     case 'exiting':
-//       return exiting
-//     default:
-//       return entering
-//   }
-// }
 
 const Main = ({ children }) => {
   return <MainStyle keyframeName={entering}>{children}</MainStyle>
