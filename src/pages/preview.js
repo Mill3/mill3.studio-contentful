@@ -36,9 +36,9 @@ class Preview extends Component {
 
     if (typeof window === `object`) {
       const Visibility = require('visibilityjs')
-      // start an interval refreshing data every 5 sec
+      // start an interval refreshing data every 2 sec
       // only when docuement is visible
-      Visibility.every(5000, () => {
+      Visibility.every(2000, () => {
         this.update()
       })
 
