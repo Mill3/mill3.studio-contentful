@@ -19,7 +19,6 @@ const Blockquote = ({ children }) => (
     as={`blockquote`}
     mx={[0, 0, 0, 0, '-5vw']}
     mb={[2, 2, 2]}
-    // color="blue"
     className="is-serif is-center"
   >
     {children}
@@ -156,13 +155,15 @@ const ContentText = ({ data }) => {
       {data.text && (
         <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
           <Box
-            as={postBody}
-            textColor={data.textColor ? data.textColor : false}
-            mb={VERTICAL_SPACER}
             mx="auto"
             px={[4, 5, `15vw`, `20vw`, `30vw`]}
           >
-            {data.text ? format(data.text.text) : []}
+            <TextColumn
+              text={data.text ? format(data.text.text || data.text.content) : []}
+              textColor={data.textColor ? data.textColor : false}
+              index={1}
+              mb={VERTICAL_SPACER}
+            />
           </Box>
         </Box>
       )}
