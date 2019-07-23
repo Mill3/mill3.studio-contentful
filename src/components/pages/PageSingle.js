@@ -9,10 +9,9 @@ import SEO from '@components/seo'
 
 const PageSingle = ({ intl, data }) => {
   const { page } = data
-  // console.log(page)
 
   return (
-    <React.Fragment>
+    <Box as="section" mb={['30px', null, 4]} mt={['30px', null, 6]}>
 
       {page.seo &&
         <SEO seo={page.seo} />
@@ -21,7 +20,7 @@ const PageSingle = ({ intl, data }) => {
       <ContentSectionBreak data={{ title: page.title, text: { text: page.intro.intro || page.intro.content } }} />
       <ContentRow data={page.contentRows} />
 
-    </React.Fragment>
+    </Box>
   )
 }
 

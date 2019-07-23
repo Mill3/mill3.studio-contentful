@@ -1,37 +1,55 @@
 import React from 'react'
-import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Box, Text } from 'rebass'
-import { BLOCKS, MARKS } from '@contentful/rich-text-types'
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { useInView } from 'react-intersection-observer'
 
-import { postBody, format } from './ContentText'
+import { EASES } from '@utils/constants'
+import { postBody, format, TextColumn } from './ContentText'
+import { RowContainer, VERTICAL_SPACER } from './index'
 
-import { RowContainer, Grid, VERTICAL_SPACER, GRID_GUTTER } from './index'
+const fontSizes = [5, 4, 5, '3.611111111vw']
 
-const fontSizes = [5, 4, 5, '3.611111111vw'];
-const subtitleFontSizes = [3, 3, 3, '1.805555556vw'];
+export const TitlePoses = posed.h1({
+  hidden: {
+    opacity: 0,
+    y: 85,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    delay: 250,
+    transition: EASES['default'],
+  },
+})
+
 
 const ContentSectionBreak = ({ data }) => {
-  console.log('data:', data)
+  const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
     <RowContainer>
-      <Box as="header" className="is-center" mb={[6, 6, 5, 6]} px={[4,3,0]}>
+      <Box ref={ref} as="header" className="is-center" mb={[6, 6, 5, 6]} px={[4, 3, 0]}>
         {data.title && (
-          <Text as={`h1`} fontSize={fontSizes} className="is-serif fw-900" mb={[5, 5, 4, 5]}>{data.title}</Text>
+          <Text
+            as={TitlePoses}
+            initialPose={'hidden'}
+            pose={inView ? 'visible' : 'hidden'}
+            fontSize={fontSizes}
+            className="is-serif fw-900"
+            mb={[5, 5, 4, 5]}
+          >
+            {data.title}
+          </Text>
         )}
         {data.text && (
           <Box
-            as={postBody}
             mb={VERTICAL_SPACER}
             mx="auto"
             width={[1, 1, '90%', '60vw']}
           >
-            <Text textAlign={`center`}>
-              {data.text ? format(data.text.text) : []}
-            </Text>
+            <TextColumn text={data.text ? format(data.text.text) : []} index={0} />
           </Box>
         )}
       </Box>

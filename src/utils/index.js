@@ -1,4 +1,3 @@
-
 export const CONTENT_TYPES = {
   'video': 'video',
   'image': 'image',

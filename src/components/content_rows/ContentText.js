@@ -2,12 +2,14 @@ import React from 'react'
 import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Box } from 'rebass'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { useInView } from 'react-intersection-observer'
 
+import { EASES } from '@utils/constants'
 import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER, GRID_GUTTER } from './index'
-
 import EmbeddedAsset from './EmbeddedAsset'
 
 const Bold = ({ children }) => <strong>{children}</strong>
@@ -113,8 +115,38 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
-
 `
+
+export const TextColumnPoses = posed.div({
+  hidden: {
+    opacity: 0,
+    y: 85,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    delay: ({ index }) => 250 + ((index + 1) * 150),
+    transition: EASES['default'],
+  },
+})
+
+export const TextColumn = ({ text, textColor, index }) => {
+  const [ref, inView] = useInView({ triggerOnce: true })
+
+  return (
+    <Box as={postBody} textColor={textColor ? textColor : false} mb={VERTICAL_SPACER}>
+      <Box
+        ref={ref}
+        as={TextColumnPoses}
+        index={index}
+        initialPose={'hidden'}
+        pose={inView ? 'visible' : 'hidden'}
+      >
+        {text}
+      </Box>
+    </Box>
+  )
+}
 
 const ContentText = ({ data }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
@@ -135,13 +167,20 @@ const ContentText = ({ data }) => {
         </Box>
       )}
       {data.textColumns && (
-        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}>
+        <Box
+          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
+          px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
+        >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
             {data.textColumns &&
               data.textColumns.map((textColumn, index) => (
-                <Box as={postBody} textColor={data.textColor ? data.textColor : false} mb={VERTICAL_SPACER} key={index}>
-                  {textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
-                </Box>
+                <TextColumn
+                  text={textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
+                  textColor={data.textColor ? data.textColor : false}
+                  index={index}
+                  mb={VERTICAL_SPACER}
+                  key={index}
+                />
               ))}
           </Grid>
         </Box>
