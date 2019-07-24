@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 const messages = defineMessages({
   work: {
     id: 'nav.Work',
-    defaultMessage: 'Projects'
+    defaultMessage: 'Work'
   },
   work: {
     id: 'nav.About',

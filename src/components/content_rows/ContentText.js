@@ -146,10 +146,22 @@ export const TextColumn = ({ text, textColor, index, margin }) => {
 const ContentText = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
+  const CalculatePaddingTop = () => {
+    return data.noVerticalMargin ? [0] : (isFirst ? [0] : VERTICAL_SPACER)
+  }
+
+  const CalculatePaddingBottom = () => {
+    return data.noVerticalMargin ? [0] : (isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER)
+  }
+
   return (
     <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
       {data.text && (
-        <Box pt={isFirst ? [0] : VERTICAL_SPACER} pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}>
+        <Box
+          pt={CalculatePaddingTop()}
+          pb={CalculatePaddingBottom()}
+          // pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
+        >
           <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `30vw`]}>
             <TextColumn
               text={data.text ? format(data.text.text || data.text.content) : []}
@@ -162,8 +174,10 @@ const ContentText = ({ data, isFirst, isLast }) => {
       )}
       {data.textColumns && (
         <Box
-          pt={isFirst ? [0] : VERTICAL_SPACER}
-          pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
+          pt={CalculatePaddingTop()}
+          pb={CalculatePaddingBottom()}
+          // pt={isFirst ? [0] : VERTICAL_SPACER}
+          // pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
           px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
@@ -194,6 +208,7 @@ export const ContentTextFragement = graphql`
     backgroundColor
     fadeInBackgroundColor
     itemsPerRow
+    noVerticalMargin
     text {
       text
     }

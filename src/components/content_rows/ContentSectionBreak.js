@@ -25,12 +25,13 @@ export const TitlePoses = posed.h1({
 })
 
 
-const ContentSectionBreak = ({ data }) => {
+const ContentSectionBreak = ({ data, isFirst, isLast }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
+  console.log('isFirst:', isFirst, data.title)
 
   return (
     <RowContainer>
-      <Box ref={ref} as="header" className="is-center" mb={[6, 6, 5, 6]} px={[4, 3, 0]}>
+      <Box ref={ref} as="header" className="is-center" pt={(isFirst) ? [0] : [4, 4, 4, 6]} px={[4, 3, 0]}>
         {data.title && (
           <Text
             as={TitlePoses}
@@ -38,18 +39,18 @@ const ContentSectionBreak = ({ data }) => {
             pose={inView ? 'visible' : 'hidden'}
             fontSize={fontSizes}
             className="is-serif fw-900"
-            mb={[5, 5, 4, 5]}
+            mb={[5, 5, 4, 2]}
           >
             {data.title}
           </Text>
         )}
         {data.text && (
           <Box
-            mb={VERTICAL_SPACER}
+            mb={[4,5]}
             mx="auto"
             width={[1, 1, '90%', '60vw']}
           >
-            <TextColumn text={data.text ? format(data.text.text) : []} index={0} />
+            <TextColumn text={data.text ? format(data.text.text) : []} index={0} margin={[0]} />
           </Box>
         )}
       </Box>

@@ -198,22 +198,29 @@ export const Grid = styled.div`
 class ContentRow extends Component {
 
   rows() {
+    console.log(this.props.data);
+
     return this.props.data.map((row, index) => {
+      // console.log('index:', index, index === 0)
+      let isFirst = index === 0
+      let isLast = index === (this.props.data.length - 1)
+      // console.log('isLast:', index, isLast)
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
-          return <ContentText key={index} isFirst={index === 0} isLast={index === (this.props.data.length - 1)} data={row} />
+          return <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['images']:
-          return <ContentImages key={index} isFirst={index === 0} isLast={index === (this.props.data.length - 1)} data={row} />
+          return <ContentImages key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['videos']:
-          return <ContentVideos key={index} isFirst={index === 0} isLast={index === (this.props.data.length - 1)} data={row} />
+          return <ContentVideos key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['slides']:
-          return <ContentSlides key={index} isFirst={index === 0} isLast={index === (this.props.data.length - 1)} data={row} />
+          return <ContentSlides key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['section_break']:
-          return <ContentSectionBreak key={index} isFirst={index === 0} isLast={index === (this.props.data.length - 1)} data={row} />
+          return <ContentSectionBreak key={index} isFirst={isFirst} isLast={isLast} data={row} />
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component
           //
+          console.error(`${row.__typename} is unsupported`)
           return <span key={index}>{row.__typename} unsupported</span>
       }
     })

@@ -5,10 +5,6 @@ export const query = graphql`
     id
     slug
     node_locale
-    title
-    intro {
-      intro
-    }
     seo {
       ...seoFragment
     }
