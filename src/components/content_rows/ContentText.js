@@ -155,13 +155,13 @@ const ContentText = ({ data, isFirst, isLast }) => {
   }
 
   return (
-    <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
+    <Wrapper backgroundColor={data.backgroundColor || null}>
       {data.text && (
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
         >
-          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `30vw`]}>
+          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `30vw`]}>
             <TextColumn
               text={data.text ? format(data.text.text || data.text.content) : []}
               textColor={data.textColor ? data.textColor : false}
