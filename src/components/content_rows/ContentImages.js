@@ -63,17 +63,20 @@ const ContentImages = ({ data }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   // TODO: refactor me please..
-  let mt = VERTICAL_SPACER
-  if (data.gaplessGrid) mt = 0
-  else if (data.backgroundColor && !data.fadeInBackgroundColor) mt = 0
+  // let mt = VERTICAL_SPACER
+  // if (data.gaplessGrid) mt = 0
+  // else if (data.backgroundColor && !data.fadeInBackgroundColor) mt = 0
 
   return (
     <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
       <Box
         as={Grid}
         py={data.backgroundColor && !data.fadeInBackgroundColor ? VERTICAL_SPACER : 0}
-        // mt={mt}
-        my={data.noBottomMargin || data.gaplessGrid || (data.backgroundColor && !data.fadeInBackgroundColor) ? [0] : VERTICAL_SPACER}
+        my={
+          data.noBottomMargin || data.gaplessGrid || (data.backgroundColor && !data.fadeInBackgroundColor)
+            ? [0]
+            : VERTICAL_SPACER
+        }
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}
@@ -85,7 +88,7 @@ const ContentImages = ({ data }) => {
         {data.imageItems &&
           data.imageItems.map((imageItem, index) => (
             <Flex alignItems={data.alignVertical} flexWrap={'wrap'}>
-              <Box width={imageItem.sideText ? [1,1,1,1/2] : [1]} order={imageItem.invertOrder ? 1 : 0}>
+              <Box width={imageItem.sideText ? [1, 1, 1, 1 / 2] : [1]} order={imageItem.invertOrder ? 1 : 0}>
                 <ContentImage
                   img={imageItem.media}
                   setAsSticky={imageItem.setAsSticky}
@@ -95,11 +98,15 @@ const ContentImages = ({ data }) => {
                   key={index}
                 />
               </Box>
-              {imageItem.sideText &&
-                <Box as={postBody} padding={[2,3,4]} width={[1,1,1,1/2]} order={imageItem.invertOrder ? 0 : 1}>
-                  <TextColumn text={imageItem.sideText ? format(imageItem.sideText.sideText || imageItem.sideText.content) : []} index={0} margin={[0]} />
+              {imageItem.sideText && (
+                <Box as={postBody} padding={[2, 3, 4]} width={[1, 1, 1, 1 / 2]} order={imageItem.invertOrder ? 0 : 1}>
+                  <TextColumn
+                    text={imageItem.sideText ? format(imageItem.sideText.sideText || imageItem.sideText.content) : []}
+                    index={0}
+                    margin={[0]}
+                  />
                 </Box>
-              }
+              )}
             </Flex>
           ))}
         {/* add extra image on top */}

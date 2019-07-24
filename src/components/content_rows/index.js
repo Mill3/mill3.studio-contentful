@@ -33,7 +33,7 @@ export const CONTENT_ROW_TYPES = {
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [2,3,5,6]
+export const VERTICAL_SPACER = [4,4,5,6]
 export const HORIZONTAL_SPACER = [4,5,6]
 
 // gutter between each grid elements
@@ -182,14 +182,15 @@ const GridColums = itemsPerRow => {
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   }
+
 `
 
 

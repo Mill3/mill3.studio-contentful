@@ -149,7 +149,6 @@ export const TextColumn = ({ text, textColor, index, margin }) => {
 
 const ContentText = ({ data, isFirst }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
-  console.log('isFirst:', isFirst)
 
   return (
     <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
