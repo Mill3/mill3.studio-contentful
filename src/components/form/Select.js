@@ -18,7 +18,7 @@ const SelectStyle = styled.select`
   background-image: url(${ARROW_DOWN});
   background-size: 7% auto;
   padding: 0 0.5em;
-  color: ${colors.black};
+  color: ${props => props.burried ? colors.gray : colors.black};
   font-family: ${fonts.serif};
   font-weight: 300;
   line-height: 1.48;

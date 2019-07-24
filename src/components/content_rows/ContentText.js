@@ -126,7 +126,7 @@ export const TextColumnPoses = posed.div({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 250 + (index + 1) * 150,
+    delay: ({ index }) => 125 + (index) * 125,
     transition: EASES['default'],
   },
 })

@@ -351,6 +351,7 @@ class ContactForm extends Component {
                 id="type"
                 name="type"
                 width={['100%', null, '75%', '27vw']}
+                burried={this.typeRef.current.selectedIndex === 0}
                 onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
               >
                 {Object.entries(selectOptions).map(([key, value], index, array) => {

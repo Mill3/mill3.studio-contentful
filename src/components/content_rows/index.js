@@ -198,13 +198,11 @@ export const Grid = styled.div`
 class ContentRow extends Component {
 
   rows() {
-    console.log(this.props.data);
 
     return this.props.data.map((row, index) => {
       // console.log('index:', index, index === 0)
       let isFirst = index === 0
       let isLast = index === (this.props.data.length - 1)
-      // console.log('isLast:', index, isLast)
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
           return <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
