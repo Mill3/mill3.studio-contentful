@@ -152,6 +152,7 @@ class ContactForm extends Component {
       if( this.mounted ) this.scrollbar.addListener(this.onScroll)
     })
   }
+
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
@@ -184,6 +185,7 @@ class ContactForm extends Component {
     // prevent form default action
     return false
   }
+
   submit(values) {
     // send data
     axios
@@ -212,6 +214,7 @@ class ContactForm extends Component {
       monitorScroll: index > 0,
     })
   }
+
   onFocusChange(field) {
     // module has been unmounted
     if (!this.mounted ) return
@@ -241,6 +244,7 @@ class ContactForm extends Component {
 
     this.debounced()
   }
+
   onScroll({ offset }) {
     // module has been unmounted
     if (!this.mounted ) return
@@ -346,7 +350,7 @@ class ContactForm extends Component {
                 ref={this.typeRef}
                 id="type"
                 name="type"
-                width={['100%', null, '75%', 'auto']}
+                width={['100%', null, '75%', '27vw']}
                 onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
               >
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
