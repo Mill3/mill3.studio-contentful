@@ -1,10 +1,8 @@
 import dotenv from 'dotenv'
 import { createClient } from "contentful"
-import { is, mergeDeepRight, mergeAll } from 'ramda'
+import { is } from 'ramda'
 
 dotenv.config()
-// import { last } from "lodash"
-// import queryString from 'query-string'
 
 const client = createClient({
   application: `mill3 studio`,
