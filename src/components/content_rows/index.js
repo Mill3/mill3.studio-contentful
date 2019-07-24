@@ -35,14 +35,14 @@ export const CONTENT_ROW_TYPES = {
 // this value is used in Rebass margin properties
 export const VERTICAL_SPACER = [4,4,5,6]
 export const BOTTOM_SPACER = [4,4,5,5]
-export const HORIZONTAL_SPACER = [4,5,6]
+export const HORIZONTAL_SPACER = [2,5,6]
 
 // gutter between each grid elements
 export const GRID_GUTTER = 25
 
 export const RowContainer = ({alignContent, backgroundColor, children}) => {
   const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
-  const responsiveGap = [`${GRID_GUTTER}px`, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
+  const responsiveGap = [0, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
 
   // set padding based to alignContent value
   let pl = alignContent === ALIGN_VALUES['left'] || backgroundColor ? responsiveGap : [0]
@@ -182,8 +182,8 @@ const GridColums = itemsPerRow => {
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+  grid-template-columns: 1fr;
   align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
