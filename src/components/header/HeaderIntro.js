@@ -42,6 +42,7 @@ const Header = styled(HeaderIntroPoses)`
 
   @media (min-width: ${breakpoints[2]}) {
     height: 80vh;
+    margin-top: -${header.height + 50}px;
   }
 `
 const HeaderBackground = styled.div`
@@ -53,7 +54,7 @@ const HeaderBackground = styled.div`
   transform-origin: top center;
   pointer-events: none;
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
-    top: -50px;
+    /* top: -50px; */
   }
 
 `
