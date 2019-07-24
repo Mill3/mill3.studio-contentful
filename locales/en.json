@@ -31,7 +31,7 @@
   "projects.single.label": "Project :",
   "projects.single.website": "Visit website",
   "projects.single.next": "Next project :",
-  "news.index.title": "<em>Unformal</em>, long form.",
+  "news.index.title": "<em>Unformal</em>, <span class='is-sans fw-400'>long form.<span>",
   "news.index.subtitle": "Reading is good for you. Don’t stress, we’ve added images too.",
   "news.single.label": "Words words words:",
   "submit": "Submit",
