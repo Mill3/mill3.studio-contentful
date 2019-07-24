@@ -46,13 +46,16 @@ const Header = styled(HeaderIntroPoses)`
 `
 const HeaderBackground = styled.div`
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: ${props => props.theme.colors.black};
   transform-origin: top center;
   pointer-events: none;
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
+    top: -50px;
+  }
+
 `
 const TextWrapper = styled(Flex)`
   position: relative;

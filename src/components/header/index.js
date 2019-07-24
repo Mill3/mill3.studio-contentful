@@ -29,7 +29,7 @@ class Header extends React.Component {
         {({ location }) => (
           <LayoutContext.Consumer>
             {({ options }) => (
-              <Box as={SiteHeader}>
+              <Box as={SiteHeader} pt={[0,0,0,`50px`]}>
                 <Container fluid className={`z-10`}>
                   <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                     <Box width={'auto'} className={`is-relative z-20`}>
