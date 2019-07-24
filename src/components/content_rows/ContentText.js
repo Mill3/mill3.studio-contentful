@@ -9,18 +9,20 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
 import { EASES } from '@utils/constants'
-import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER, GRID_GUTTER } from './index'
+import {
+  AnimatedBackgroundRowContainer,
+  RowContainer,
+  Grid,
+  VERTICAL_SPACER,
+  BOTTOM_SPACER,
+  GRID_GUTTER,
+} from './index'
 import EmbeddedAsset from './EmbeddedAsset'
 
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => (
-  <Box
-    as={`blockquote`}
-    mx={[0, 0, 0, 0, '-5vw']}
-    mb={[2, 2, 2]}
-    className="is-serif is-center"
-  >
+  <Box as={`blockquote`} mx={[0, 0, 0, 0, '-5vw']} mb={[2, 2, 2]} className="is-serif is-center">
     {children}
   </Box>
 )
@@ -124,7 +126,7 @@ export const TextColumnPoses = posed.div({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 250 + ((index + 1) * 150),
+    delay: ({ index }) => 250 + (index + 1) * 150,
     transition: EASES['default'],
   },
 })
@@ -134,30 +136,21 @@ export const TextColumn = ({ text, textColor, index, margin }) => {
 
   return (
     <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <Box
-        ref={ref}
-        as={TextColumnPoses}
-        index={index}
-        initialPose={'hidden'}
-        pose={inView ? 'visible' : 'hidden'}
-      >
+      <Box ref={ref} as={TextColumnPoses} index={index} initialPose={'hidden'} pose={inView ? 'visible' : 'hidden'}>
         {text}
       </Box>
     </Box>
   )
 }
 
-const ContentText = ({ data, isFirst }) => {
+const ContentText = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   return (
     <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
       {data.text && (
-        <Box pt={isFirst ? [0] : VERTICAL_SPACER} pb={VERTICAL_SPACER}>
-          <Box
-            mx="auto"
-            px={[4, 5, `15vw`, `20vw`, `22.5vw`, `25vw`]}
-          >
+        <Box pt={isFirst ? [0] : VERTICAL_SPACER} pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}>
+          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `25vw`]}>
             <TextColumn
               text={data.text ? format(data.text.text || data.text.content) : []}
               textColor={data.textColor ? data.textColor : false}
@@ -169,7 +162,8 @@ const ContentText = ({ data, isFirst }) => {
       )}
       {data.textColumns && (
         <Box
-          py={VERTICAL_SPACER}
+          pt={isFirst ? [0] : VERTICAL_SPACER}
+          pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
           px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
