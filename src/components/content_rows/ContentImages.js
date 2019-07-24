@@ -8,6 +8,7 @@ import { useInView } from 'react-intersection-observer'
 import { EASES } from '@utils/constants'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
+import { postBody, format, TextColumn } from './ContentText'
 
 export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
@@ -83,14 +84,23 @@ const ContentImages = ({ data }) => {
           ))}
         {data.imageItems &&
           data.imageItems.map((imageItem, index) => (
-            <ContentImage
-              img={imageItem.media}
-              setAsSticky={imageItem.setAsSticky}
-              noStrech={data.noStrechedImages}
-              backgroundColor={imageItem.backgroundColor}
-              index={index}
-              key={index}
-            />
+            <Flex alignItems={data.alignVertical} flexWrap={'wrap'}>
+              <Box width={imageItem.sideText ? [1,1,1,1/2] : [1]}>
+                <ContentImage
+                  img={imageItem.media}
+                  setAsSticky={imageItem.setAsSticky}
+                  noStrech={data.noStrechedImages}
+                  backgroundColor={imageItem.backgroundColor}
+                  index={index}
+                  key={index}
+                />
+              </Box>
+              {imageItem.sideText &&
+                <Box as={postBody} padding={[2,3,4]} width={[1,1,1,1/2]}>
+                  <TextColumn text={imageItem.sideText ? format(imageItem.sideText.sideText || imageItem.sideText.content) : []} index={0} margin={[0]} />
+                </Box>
+              }
+            </Flex>
           ))}
         {/* add extra image on top */}
         {data.overlayImage && <OverlayImage img={data.overlayImage} />}
@@ -163,7 +173,6 @@ export const ContentImagesFragement = graphql`
     fadeInBackgroundColor
     imageItems {
       backgroundColor
-      setAsSticky
       media {
         id
         file {
@@ -176,6 +185,9 @@ export const ContentImagesFragement = graphql`
         fluid(maxWidth: 1800, quality: 85) {
           ...GatsbyContentfulFluid_withWebp_noBase64
         }
+      }
+      sideText {
+        sideText
       }
     }
     medias {

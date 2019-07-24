@@ -129,11 +129,11 @@ export const TextColumnPoses = posed.div({
   },
 })
 
-export const TextColumn = ({ text, textColor, index }) => {
+export const TextColumn = ({ text, textColor, index, margin }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
-    <Box as={postBody} textColor={textColor ? textColor : false} mb={VERTICAL_SPACER}>
+    <Box as={postBody} textColor={textColor ? textColor : false} mb={margin || VERTICAL_SPACER}>
       <Box
         ref={ref}
         as={TextColumnPoses}
