@@ -33,7 +33,7 @@ export const CONTENT_ROW_TYPES = {
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [4,5,6]
+export const VERTICAL_SPACER = [2,3,5,6]
 export const HORIZONTAL_SPACER = [4,5,6]
 
 // gutter between each grid elements
@@ -182,6 +182,7 @@ const GridColums = itemsPerRow => {
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
@@ -198,15 +199,15 @@ class ContentRow extends Component {
     return this.props.data.map((row, index) => {
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
-          return <ContentText key={index} data={row} />
+          return <ContentText key={index} isFirst={index === 0} data={row} />
         case CONTENT_ROW_TYPES['images']:
-          return <ContentImages key={index} data={row} />
+          return <ContentImages key={index} isFirst={index === 0} data={row} />
         case CONTENT_ROW_TYPES['videos']:
-          return <ContentVideos key={index} data={row} />
+          return <ContentVideos key={index} isFirst={index === 0} data={row} />
         case CONTENT_ROW_TYPES['slides']:
-          return <ContentSlides key={index} data={row} />
+          return <ContentSlides key={index} isFirst={index === 0} data={row} />
         case CONTENT_ROW_TYPES['section_break']:
-          return <ContentSectionBreak key={index} data={row} />
+          return <ContentSectionBreak key={index} isFirst={index === 0} data={row} />
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component

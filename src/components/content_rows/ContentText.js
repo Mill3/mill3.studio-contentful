@@ -133,7 +133,7 @@ export const TextColumn = ({ text, textColor, index, margin }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
-    <Box as={postBody} textColor={textColor ? textColor : false} mb={margin || VERTICAL_SPACER}>
+    <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
       <Box
         ref={ref}
         as={TextColumnPoses}
@@ -147,29 +147,30 @@ export const TextColumn = ({ text, textColor, index, margin }) => {
   )
 }
 
-const ContentText = ({ data }) => {
+const ContentText = ({ data, isFirst }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+  console.log('isFirst:', isFirst)
 
   return (
-    <Wrapper backgroundColor={data.backgroundColor}>
+    <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
       {data.text && (
-        <Box pt={data.backgroundColor ? VERTICAL_SPACER : 0} pb={data.backgroundColor ? `1px` : 0}>
+        <Box pt={isFirst ? [0] : VERTICAL_SPACER} pb={VERTICAL_SPACER}>
           <Box
             mx="auto"
-            px={[4, 5, `15vw`, `20vw`, `30vw`]}
+            px={[4, 5, `15vw`, `20vw`, `22.5vw`, `25vw`]}
           >
             <TextColumn
               text={data.text ? format(data.text.text || data.text.content) : []}
               textColor={data.textColor ? data.textColor : false}
               index={1}
-              mb={VERTICAL_SPACER}
+              margin={[0]}
             />
           </Box>
         </Box>
       )}
       {data.textColumns && (
         <Box
-          pt={data.backgroundColor ? VERTICAL_SPACER : 0}
+          py={VERTICAL_SPACER}
           px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
@@ -178,8 +179,8 @@ const ContentText = ({ data }) => {
                 <TextColumn
                   text={textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
                   textColor={data.textColor ? data.textColor : false}
+                  margin={[0]}
                   index={index}
-                  mb={VERTICAL_SPACER}
                   key={index}
                 />
               ))}
