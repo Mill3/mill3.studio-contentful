@@ -150,7 +150,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
     <Wrapper backgroundColor={data.backgroundColor || `transparent`}>
       {data.text && (
         <Box pt={isFirst ? [0] : VERTICAL_SPACER} pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}>
-          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `25vw`]}>
+          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `30vw`]}>
             <TextColumn
               text={data.text ? format(data.text.text || data.text.content) : []}
               textColor={data.textColor ? data.textColor : false}

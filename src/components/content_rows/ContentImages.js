@@ -99,7 +99,7 @@ const ContentImages = ({ data }) => {
                 />
               </Box>
               {imageItem.sideText && (
-                <Box as={postBody} padding={[2, 3, 4]} width={[1, 1, 1, 1 / 2]} order={imageItem.invertOrder ? 0 : 1}>
+                <Box as={postBody} px={[2, 3, 4, 5, 6]} width={[1, 1, 1, 1 / 2]} order={imageItem.invertOrder ? 0 : 1}>
                   <TextColumn
                     text={imageItem.sideText ? format(imageItem.sideText.sideText || imageItem.sideText.content) : []}
                     index={0}

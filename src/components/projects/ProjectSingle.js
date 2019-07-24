@@ -6,6 +6,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
+import ServicesList from '@components/services/ServicesList'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Button, { LinkButton } from '@components/buttons'
 import SEO from '@components/seo'
@@ -38,6 +39,11 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
       </Container>
 
       <ContentRow data={project.contentRows} />
+
+      {/* services */}
+      {project.services &&
+        <ServicesList data={project.services} />
+      }
 
       <Container fluid={true}>
         <Flex flexDirection="column" my={[5,5,6]}>
@@ -100,6 +106,9 @@ export const projectQuery = graphql`
           fileName
           contentType
         }
+      }
+      services {
+        title
       }
       contentRows {
         __typename
