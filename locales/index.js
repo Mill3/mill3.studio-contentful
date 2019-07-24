@@ -5,6 +5,10 @@ const messages = defineMessages({
     id: 'nav.Work',
     defaultMessage: 'Work'
   },
+  projects: {
+    id: 'nav.Projects',
+    defaultMessage: 'Projects'
+  },
   work: {
     id: 'nav.About',
     defaultMessage: 'About'

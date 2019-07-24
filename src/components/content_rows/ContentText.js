@@ -160,7 +160,6 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          // pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
         >
           <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `22.5vw`, `30vw`]}>
             <TextColumn
@@ -176,8 +175,6 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          // pt={isFirst ? [0] : VERTICAL_SPACER}
-          // pb={isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER}
           px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>

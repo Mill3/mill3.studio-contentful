@@ -256,7 +256,7 @@ class Nav extends React.Component {
           <NavItem>
             <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>
               <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.Work" />
+                <FormattedMessage id="nav.Projects" />
               </Text>
             </TransitionLinkComponent>
           </NavItem>
