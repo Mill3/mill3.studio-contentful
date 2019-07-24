@@ -40,7 +40,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
       <ContentRow data={project.contentRows} />
 
       <Container fluid={true}>
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" my={[5,5,6]}>
           {project.url &&
           <Box mx="auto">
             <a href={project.url} target="_blank" without="true" rel="noopener noreferrer">
