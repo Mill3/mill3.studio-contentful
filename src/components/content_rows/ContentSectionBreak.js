@@ -19,7 +19,7 @@ export const TitlePoses = posed.h1({
   visible: {
     opacity: 1,
     y: 0,
-    delay: 250,
+    delay: 75,
     transition: EASES['default'],
   },
 })
@@ -27,7 +27,6 @@ export const TitlePoses = posed.h1({
 
 const ContentSectionBreak = ({ data, isFirst, isLast }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
-  console.log('isFirst:', isFirst, data.title)
 
   return (
     <RowContainer>
