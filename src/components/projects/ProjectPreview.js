@@ -18,11 +18,13 @@ import Viewport from '@utils/Viewport'
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
-    y: 150,
+    y: 500,
+    scale: 1.125
   },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     delay: ({ delay }) => delay,
     transition: {
       type: 'spring',

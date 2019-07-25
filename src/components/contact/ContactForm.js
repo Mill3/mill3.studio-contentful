@@ -17,8 +17,6 @@ import Container from '@styles/Container'
 import { colors, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
-
-
 const FormStyle = styled.form`
   color: ${colors.black};
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
