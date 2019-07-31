@@ -99,14 +99,6 @@ export const projectQuery = graphql`
       subHeading {
         subHeading
       }
-      headerMedia {
-        id
-        file {
-          url
-          fileName
-          contentType
-        }
-      }
       services {
         title
       }

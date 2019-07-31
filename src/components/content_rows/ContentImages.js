@@ -10,6 +10,52 @@ import { getContentType, CONTENT_TYPES } from '@utils'
 import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
 
+const ContentImageFlexWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+`
+
+const MediaItemVideo = styled.video`
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+const ContentImagePoses = posed.figure({
+  hidden: {
+    opacity: 0,
+    y: 150,
+    margin: 0,
+    width: ({ width }) => width,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    delay: ({ index }) => 250 + index * 125,
+    transition: EASES['default'],
+  },
+})
+
+const OverlayImagePoses = posed.img({
+  hidden: {
+    opacity: 0,
+    position: 'absolute',
+    top: `50%`,
+    left: `50%`,
+    y: `0%`,
+    x: `-50%`,
+    zIndex: 10,
+    maxWidth: `80vw`,
+  },
+  visible: {
+    opacity: 1,
+    y: `-50%`,
+    transition: EASES['default'],
+  },
+})
+
 export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
@@ -62,11 +108,6 @@ const OverlayImage = ({ img }) => {
 const ContentImages = ({ data }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
-  // TODO: refactor me please..
-  // let mt = VERTICAL_SPACER
-  // if (data.gaplessGrid) mt = 0
-  // else if (data.backgroundColor && !data.fadeInBackgroundColor) mt = 0
-
   return (
     <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
       <Box
@@ -117,56 +158,6 @@ const ContentImages = ({ data }) => {
 }
 
 export default ContentImages
-
-//
-// Place styled-components here (or any related logic function)
-//
-
-const ContentImageFlexWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  line-height: 0;
-`
-
-const MediaItemVideo = styled.video`
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
-
-const ContentImagePoses = posed.figure({
-  hidden: {
-    opacity: 0,
-    y: 150,
-    margin: 0,
-    width: ({ width }) => width,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    delay: ({ index }) => 250 + index * 125,
-    transition: EASES['default'],
-  },
-})
-
-const OverlayImagePoses = posed.img({
-  hidden: {
-    opacity: 0,
-    position: 'absolute',
-    top: `50%`,
-    left: `50%`,
-    y: `0%`,
-    x: `-50%`,
-    zIndex: 10,
-    maxWidth: `80vw`,
-  },
-  visible: {
-    opacity: 1,
-    y: `-50%`,
-    transition: EASES['default'],
-  },
-})
 
 export const ContentImagesFragement = graphql`
   fragment ContentImagesFragement on ContentfulContentImages {
