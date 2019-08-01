@@ -15,14 +15,17 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
+console.log('breakpoints:', breakpoints)
 
 const ProjectIndexHeader = styled.header`
   min-height: 50vh;
 `
 
 const ProjectIndexList = styled.div`
-  max-width: 100vw;
-  overflow: hidden;
+  @media (max-width: ${props => props.theme.breakpoints[1]}) {
+    max-width: 100vw;
+    overflow: hidden;
+  }
 `
 
 class ProjectsIndex extends Component {
