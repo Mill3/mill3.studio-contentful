@@ -20,6 +20,11 @@ const ProjectIndexHeader = styled.header`
   min-height: 50vh;
 `
 
+const ProjectIndexList = styled.div`
+  max-width: 100vw;
+  overflow: hidden;
+`
+
 class ProjectsIndex extends Component {
 
   list() {
@@ -32,7 +37,6 @@ class ProjectsIndex extends Component {
 
     const calculateOffset = (index, increment = -120, nth = 3) => {
       let col = (index % nth) + 1;
-      // console.log('col:', index, col)
 
       // first column
       if (col === 1) {
@@ -55,6 +59,7 @@ class ProjectsIndex extends Component {
         calculateOffset(index, -120, 3)
       ])
     }
+
     const getDelay = (index) => {
       if( isMobile ) return index === 0 ? TRANSITION_DURATION : 0
       else return new ResponsiveProp([
@@ -107,7 +112,7 @@ class ProjectsIndex extends Component {
 
             <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{transform: 'translateY(45%)'}} />
           </Flex>
-          <Flex as={`section`} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} css={{position: 'relative'}}>
+          <Flex as={ProjectIndexList} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} css={{position: 'relative'}}>
             {this.list()}
           </Flex>
         </Container>

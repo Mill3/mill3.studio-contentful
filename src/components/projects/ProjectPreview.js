@@ -35,7 +35,7 @@ const ProjectPoses = posed.article({
   },
   out: {
     opacity: 0,
-    y: -250,
+    y: -350,
     delay: ({ delayOut }) => delayOut,
     transition: {
       duration: TRANSITION_DURATION,
@@ -301,7 +301,7 @@ class ProjectPreview extends Component {
           initialPose={'hidden'}
           pose={layoutState.inTransition ? 'out' : inView ? 'visible' : 'hidden'}
           delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
-          delayOut={index * 25}
+          delayOut={index * 45}
           width={'100%'}
           color={colorMain}
         >

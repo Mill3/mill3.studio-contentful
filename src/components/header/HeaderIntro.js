@@ -43,7 +43,7 @@ const Header = styled(HeaderIntroPoses)`
 
   @media (min-width: ${breakpoints[2]}) {
     height: 80vh;
-    margin-top: -${header.height + 50}px;
+    margin-top: -${header.height + 24}px;
   }
 `
 const HeaderBackground = styled.div`
