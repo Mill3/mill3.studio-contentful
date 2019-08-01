@@ -1,6 +1,6 @@
 import Viewport from '@utils/Viewport'
 
-export const TRANSITION_DURATION = 500
+export const TRANSITION_DURATION = 900
 export const HAS_HOVER = Viewport.mq('(any-hover: hover)')
 
 export const EASES = {

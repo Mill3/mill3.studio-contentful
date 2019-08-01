@@ -3,6 +3,7 @@ import React from "react"
 export const defaultContextValue = {
   options: {
     inverted: false,
+    inTransition: false,
   },
   set: () => {},
 }

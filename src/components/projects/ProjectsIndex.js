@@ -72,6 +72,7 @@ class ProjectsIndex extends Component {
           return (
             <ProjectPreview
               key={index}
+              index={index}
               delay={delay}
               project={project}
               columns={columns}

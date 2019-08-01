@@ -48,7 +48,7 @@ class Layout extends React.Component {
 
     this.state = {
       ...defaultContextValue,
-      inTransition: TRANSITION_PANE_STATES['initial'],
+      transitionState: TRANSITION_PANE_STATES['initial'],
       set: this.setOptions,
     }
 
@@ -65,8 +65,18 @@ class Layout extends React.Component {
   }
 
   setTransitionState(state) {
+    console.log('state:', state)
+    // this.setOptions({
+    //   inTransition: state,
+    //   transitionState: (state === true) ? TRANSITION_PANE_STATES['visible'] : TRANSITION_PANE_STATES['hidden'],
+    // })
+    let inTransition = (state === TRANSITION_PANE_STATES['visible'])
     this.setState({
-      inTransition: (state === true) ? TRANSITION_PANE_STATES['visible'] : TRANSITION_PANE_STATES['hidden'],
+      inTransition: inTransition,
+      transitionState: state,
+    })
+    this.setOptions({
+      inTransition: inTransition
     })
   }
 
@@ -81,7 +91,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { inTransition } = this.state
+    const { transitionState } = this.state
     const { children } = this.props
 
     return (
@@ -96,7 +106,7 @@ class Layout extends React.Component {
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>
                     <TransitionPane
-                      state={inTransition}
+                      state={transitionState}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
                     />
@@ -121,13 +131,18 @@ class Layout extends React.Component {
                             appear={false}
                             mountOnEnter={true}
                             unmountOnExit={true}
-                            delay={{ enter: TRANSITION_DURATION + 150 }}
+                            delay={{ enter: TRANSITION_DURATION * 2 }}
                             timeout={{ exit: TRANSITION_DURATION }}
-                            onEnter={e => {
-                              this.scrollToTop()
-                              this.setTransitionState(false)
+                            onExit={e => {
+                              this.setTransitionState(TRANSITION_PANE_STATES['visible'])
                             }}
-                            onExit={e => this.setTransitionState(true)}
+                            onEntering={e => {
+                              this.scrollToTop()
+                              this.setTransitionState(TRANSITION_PANE_STATES['hidden'])
+                            }}
+                            onEnter={e => {
+                              this.setTransitionState(TRANSITION_PANE_STATES['ended'])
+                            }}
                           >
                             {children}
                           </DelayedTransition>

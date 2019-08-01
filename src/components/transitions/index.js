@@ -8,9 +8,10 @@ import Logo from '@svg/Logo'
 import { TRANSITION_DURATION } from '@utils/constants'
 
 export const TRANSITION_PANE_STATES = {
-  'initial': 'initial',
-  'visible': 'visible',
-  'hidden': 'hidden'
+  initial: 'initial',
+  visible: 'visible',
+  ended: 'ended',
+  hidden: 'hidden',
 }
 
 const Poses = posed.div({
@@ -21,25 +22,40 @@ const Poses = posed.div({
   // initial site load
   initial: {
     opacity: 0,
+    y: `100%`,
     transition: {
       duration: TRANSITION_DURATION / 2,
-      delay: TRANSITION_DURATION * 2
-    }
+      delay: TRANSITION_DURATION * 1.5,
+      ease: 'easeIn'
+    },
   },
   // when page change starts
   visible: {
     opacity: 1,
+    y: `0%`,
+    delay: TRANSITION_DURATION / 2,
     transition: {
-      duration: TRANSITION_DURATION / 2
-    }
+      duration: TRANSITION_DURATION / 2,
+      ease: 'easeOut'
+    },
   },
   // when page change ends
   hidden: {
     opacity: 0,
+    y: `-100%`,
     transition: {
-      duration: TRANSITION_DURATION / 2
-    }
-  }
+      duration: TRANSITION_DURATION,
+      ease: 'easeOut'
+    },
+  },
+  //
+  ended: {
+    opacity: 1,
+    y: `50%`,
+    transition: {
+      duration: 0
+    },
+  },
 })
 
 const TransitionPaneStyle = styled(Poses)`
@@ -57,17 +73,32 @@ const TransitionPaneStyle = styled(Poses)`
   svg {
     width: 88vw;
   }
-
 `
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
 `
 
-const TransitionPane = ({ state = 'initial', color, title, onEntered, onExited }) => {
+const TransitionPane = ({ state = 'initial', color, title, delay, onEntered, onExited }) => {
   return (
-    <Flex as={TransitionPaneStyle} className="full-vh" p={'4vw'} justifyContent={"center"} alignItems={"center"} backgroundColor={color} initialPose={`init`} pose={state}>
-      <Text as={TransitionTextStyle} fontSize={['18vw', null,`5vw`]} textAlign="center" lineHeight="1.1" className={`is-sans fw-300`}>
-        {state === TRANSITION_PANE_STATES['initial'] ? <Logo inverted /> : <span>{title}</span> }
+    <Flex
+      as={TransitionPaneStyle}
+      className="full-vh"
+      p={'4vw'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      backgroundColor={color}
+      initialPose={`init`}
+      pose={state}
+    >
+      {console.log(state)}
+      <Text
+        as={TransitionTextStyle}
+        fontSize={['18vw', null, `5vw`]}
+        textAlign="center"
+        lineHeight="1.1"
+        className={`is-sans fw-300`}
+      >
+        {state === TRANSITION_PANE_STATES['initial'] ? <Logo inverted /> : <span>{title}</span>}
       </Text>
     </Flex>
   )

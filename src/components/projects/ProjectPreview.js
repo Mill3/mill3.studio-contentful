@@ -7,6 +7,7 @@ import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
+import LayoutContext from '@components/contexts/LayoutContext'
 import { breakpoints } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
@@ -14,6 +15,7 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Viewport from '@utils/Viewport'
 
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -30,8 +32,18 @@ const ProjectPoses = posed.article({
       type: 'spring',
       stiffness: 30,
       mass: 0.925,
-    },
+    }
   },
+  out: {
+    opacity: 0,
+    y: -250,
+    scale: 1,
+    delay: ({ delayOut }) => delayOut,
+    transition: {
+      duration: TRANSITION_DURATION / 1.5,
+      ease: 'easeIn'
+    }
+  }
 })
 
 const ProjectWrapper = styled(Box)`
@@ -256,7 +268,7 @@ class ProjectPreview extends Component {
   }
 
   render() {
-    const { project, delay, columns, offset } = this.props
+    const { project, delay, columns, offset, index } = this.props
     const { slug, colorMain, imageMain, imageHover, videoPreview, name, category, transitionName } = project.node
     const { inView, percentage, hover } = this.state
 
@@ -280,52 +292,58 @@ class ProjectPreview extends Component {
         px={[null, null, 3, '28px']}
         {...columns}
       >
-        <Box
-          as={ProjectPreviewItem}
-          delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
-          initialPose={'hidden'}
-          pose={inView ? 'visible' : 'hidden'}
-          width={'100%'}
-          color={colorMain}
-        >
-          <TransitionLinkComponent
-            to={`/projects/${slug}`}
-            title={transitionName || name}
-            color={colorMain}
-            onMouseOver={e => this.onHover(true)}
-            onMouseOut={e => this.onHover(false)}
-            style={transform}
-          >
-            <Box as={`figure`} mb={[4]}>
-              { HAS_HOVER && (
-                <ProjectHoverPane color={colorMain}>
-                  {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
-                  {videoPreview && (
-                    <video muted playsInline loop ref={this.videoRef}>
-                      <source src={videoPreview.file.url} type="video/mp4" />
-                    </video>
+        <LayoutContext.Consumer>
+          {({ options }) => (
+            <Box
+              as={ProjectPreviewItem}
+              initialPose={'hidden'}
+              pose={options.inTransition ? 'out' : (inView ? 'visible' : 'hidden')}
+              delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
+              delayOut={index * 75}
+              width={'100%'}
+              color={colorMain}
+            >
+              {/* {console.log(options)} */}
+              <TransitionLinkComponent
+                to={`/projects/${slug}`}
+                title={transitionName || name}
+                color={colorMain}
+                onMouseOver={e => this.onHover(true)}
+                onMouseOut={e => this.onHover(false)}
+                style={transform}
+              >
+                <Box as={`figure`} mb={[4]}>
+                  { HAS_HOVER && (
+                    <ProjectHoverPane color={colorMain}>
+                      {imageHover && !videoPreview && <Img fade={false} fluid={imageHover.fluid} objectFit="cover" objectPosition="center center" style={{ width: `100%`, height: `100%` }} />}
+                      {videoPreview && (
+                        <video muted playsInline loop ref={this.videoRef}>
+                          <source src={videoPreview.file.url} type="video/mp4" />
+                        </video>
+                      )}
+                    </ProjectHoverPane>
                   )}
-                </ProjectHoverPane>
-              )}
-              <FigureBox>
-                <Img fade={false} fluid={imageMain.fluid} objectFit="cover" objectPosition="center center" style={{ height: `100%` }} />
-              </FigureBox>
+                  <FigureBox>
+                    <Img fade={false} fluid={imageMain.fluid} objectFit="cover" objectPosition="center center" style={{ height: `100%` }} />
+                  </FigureBox>
+                </Box>
+
+                <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
+                  <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]}>
+                    <span>{name}</span>
+                    <Box as={ProjectTitleUnderline} color={colorMain} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
+                  </Text>
+                  {category && (
+                    <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]} m={0}>
+                      {category[0].title}
+                    </Text>
+                  )}
+                </Flex>
+
+              </TransitionLinkComponent>
             </Box>
-
-            <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
-              <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]}>
-                <span>{name}</span>
-                <Box as={ProjectTitleUnderline} color={colorMain} initialPose="fold" pose={hover ? 'unfold' : 'fold' } aria-hidden="true"></Box>
-              </Text>
-              {category && (
-                <Text as={`h4`} className={`fw-300 is-serif is-gray`} fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]} m={0}>
-                  {category[0].title}
-                </Text>
-              )}
-            </Flex>
-
-          </TransitionLinkComponent>
-        </Box>
+        )}
+        </LayoutContext.Consumer>
       </InView>
     )
   }
