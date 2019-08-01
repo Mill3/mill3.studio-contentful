@@ -24,7 +24,7 @@ import Wrapper from '@components/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_DURATION, TRANSITION_OUT_DURATION } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 
@@ -76,13 +76,12 @@ class Layout extends React.Component {
   }
 
   setTransitionState(state) {
-    let inTransition = (state === TRANSITION_PANE_STATES['visible'])
+    // console.log('state:', state)
+    let inTransition = state === TRANSITION_PANE_STATES['visible']
+    console.log('inTransition:', inTransition)
     this.setState({
       inTransition: inTransition,
-      transitionState: state,
-    })
-    this.setOptions({
-      inTransition: inTransition
+      transitionState: state
     })
   }
 
@@ -137,17 +136,23 @@ class Layout extends React.Component {
                             appear={false}
                             mountOnEnter={true}
                             unmountOnExit={true}
-                            delay={{ enter: TRANSITION_DURATION * 2 }}
-                            timeout={{ exit: TRANSITION_DURATION }}
+                            delay={{
+                              enter: TRANSITION_DURATION
+                            }}
+                            timeout={{
+                              exit: TRANSITION_DURATION
+                            }}
                             onExit={e => {
                               this.setTransitionState(TRANSITION_PANE_STATES['visible'])
                             }}
                             onEntering={e => {
                               this.scrollToTop()
                               this.setTransitionState(TRANSITION_PANE_STATES['hidden'])
-                            }}
-                            onEnter={e => {
-                              this.setTransitionState(TRANSITION_PANE_STATES['ended'])
+
+                              // revent to original transition state
+                              setTimeout( () => {
+                                this.setTransitionState(TRANSITION_PANE_STATES['ended'])
+                              }, TRANSITION_DURATION);
                             }}
                           >
                             {children}

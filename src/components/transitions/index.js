@@ -5,10 +5,11 @@ import { Flex, Text } from 'rebass'
 
 import Logo from '@svg/Logo'
 
-import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_DURATION, TRANSITION_IN_DELAY, TRANSITION_OUT_DURATION } from '@utils/constants'
 
 export const TRANSITION_PANE_STATES = {
   initial: 'initial',
+  exiting: 'exiting',
   visible: 'visible',
   ended: 'ended',
   hidden: 'hidden',
@@ -21,37 +22,36 @@ const Poses = posed.div({
   },
   // initial site load
   initial: {
-    opacity: 0,
+    // opacity: 0,
     y: `100%`,
     transition: {
-      duration: TRANSITION_DURATION / 2,
-      delay: TRANSITION_DURATION * 1.5,
+      delay: TRANSITION_IN_DELAY,
+      duration: TRANSITION_OUT_DURATION,
       ease: 'easeIn'
     },
   },
   // when page change starts
   visible: {
-    opacity: 1,
     y: `0%`,
-    delay: TRANSITION_DURATION / 2,
     transition: {
-      duration: TRANSITION_DURATION / 2,
+      delay: TRANSITION_IN_DELAY,
+      duration: TRANSITION_DURATION - TRANSITION_IN_DELAY,
       ease: 'easeOut'
     },
   },
   // when page change ends
   hidden: {
-    opacity: 0,
+    // opacity: 0,
     y: `-100%`,
     transition: {
-      duration: TRANSITION_DURATION,
-      ease: 'easeOut'
+      duration: TRANSITION_OUT_DURATION,
+      ease: 'easeIn'
     },
   },
   //
   ended: {
-    opacity: 1,
-    y: `50%`,
+    // opacity: 0,
+    y: `100%`,
     transition: {
       duration: 0
     },
@@ -90,7 +90,6 @@ const TransitionPane = ({ state = 'initial', color, title, delay, onEntered, onE
       initialPose={`init`}
       pose={state}
     >
-      {console.log(state)}
       <Text
         as={TransitionTextStyle}
         fontSize={['18vw', null, `5vw`]}

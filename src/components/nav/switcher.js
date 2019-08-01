@@ -15,6 +15,7 @@ const Switcher = ({intl: { locale }, fontSizes }) => (
   <>
     {Object.keys(locales).map(key => (
       <TransitionLinkComponent
+        key={key}
         as={SwitcherLink}
         hidden={key === locale ? true : false}
         to={`/${locales[key].path}/`}
