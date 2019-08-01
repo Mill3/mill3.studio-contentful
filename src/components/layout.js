@@ -38,6 +38,11 @@ const getLocale = (location) => {
 }
 
 class Layout extends React.Component {
+
+  static childContextTypes = {
+    layoutState: PropTypes.object
+  };
+
   constructor(props) {
     super(props)
 
@@ -55,6 +60,12 @@ class Layout extends React.Component {
     this.scrollbarRef = createRef()
   }
 
+  getChildContext() {
+    return {
+      layoutState: this.state
+    };
+  }
+
   setOptions(newData) {
     this.setState(state => ({
       options: {
@@ -65,11 +76,6 @@ class Layout extends React.Component {
   }
 
   setTransitionState(state) {
-    console.log('state:', state)
-    // this.setOptions({
-    //   inTransition: state,
-    //   transitionState: (state === true) ? TRANSITION_PANE_STATES['visible'] : TRANSITION_PANE_STATES['hidden'],
-    // })
     let inTransition = (state === TRANSITION_PANE_STATES['visible'])
     this.setState({
       inTransition: inTransition,
