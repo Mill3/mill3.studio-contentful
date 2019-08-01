@@ -15,7 +15,6 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
-console.log('breakpoints:', breakpoints)
 
 const ProjectIndexHeader = styled.header`
   min-height: 50vh;

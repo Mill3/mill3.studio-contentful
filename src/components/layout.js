@@ -33,7 +33,7 @@ const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
 
-const getLocale = (location) => {
+export const getLocale = (location) => {
   return location.pathname.split('/')[1]
 }
 
@@ -108,12 +108,12 @@ class Layout extends React.Component {
 
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>
+
                     <TransitionPane
                       state={transitionState}
                       location={location}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
-                      // delay={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
                     />
 
                     <Scrollbar
@@ -150,6 +150,7 @@ class Layout extends React.Component {
                               this.setTransitionState(TRANSITION_PANE_STATES['hidden'])
 
                               // revent to original transition state
+                              // TODO: refactor me..
                               setTimeout( () => {
                                 this.setTransitionState(TRANSITION_PANE_STATES['ended'])
                               }, TRANSITION_DURATION);

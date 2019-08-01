@@ -21,12 +21,12 @@ class IndexPage extends React.Component {
     this.state = {}
   }
 
-  componentWillMount() {
-    this.context.set({ inverted: true, locale: this.props.locale })
+  componentDidMount() {
+    this.context.set({ inverted: true })
   }
 
   componentWillUnmount() {
-    this.context.set({ inverted: false, locale: this.props.locale })
+    this.context.set({ inverted: false })
   }
 
   render() {
