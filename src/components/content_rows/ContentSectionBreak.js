@@ -8,6 +8,7 @@ import { useInView } from 'react-intersection-observer'
 import { EASES } from '@utils/constants'
 import { postBody, format, TextColumn } from './ContentText'
 import { RowContainer, VERTICAL_SPACER } from './index'
+import { TRANSITION_IN_DELAY } from '@utils/constants'
 
 const fontSizes = [5, 4, 5, '3.611111111vw']
 
@@ -19,7 +20,7 @@ export const TitlePoses = posed.h1({
   visible: {
     opacity: 1,
     y: 0,
-    delay: 75,
+    delay: TRANSITION_IN_DELAY,
     transition: EASES['default'],
   },
 })

@@ -8,7 +8,7 @@ import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES } from '@utils/constants'
+import { EASES, TRANSITION_IN_DELAY } from '@utils/constants'
 import {
   AnimatedBackgroundRowContainer,
   RowContainer,
@@ -126,7 +126,7 @@ export const TextColumnPoses = posed.div({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 125 + (index) * 125,
+    delay: ({ index }) => TRANSITION_IN_DELAY * (index + 1),
     transition: EASES['default'],
   },
 })

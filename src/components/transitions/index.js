@@ -25,9 +25,9 @@ const Poses = posed.div({
     // opacity: 0,
     y: `100%`,
     transition: {
-      delay: TRANSITION_IN_DELAY,
-      duration: TRANSITION_OUT_DURATION,
-      ease: 'easeIn'
+      delay: TRANSITION_DURATION,
+      duration: TRANSITION_DURATION * 2,
+      ease: 'easeInOut'
     },
   },
   // when page change starts
