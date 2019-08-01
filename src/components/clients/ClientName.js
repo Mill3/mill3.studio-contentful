@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 export const ClientNameHeading = styled.h4`
   display: inline-block;

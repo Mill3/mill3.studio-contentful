@@ -8,7 +8,7 @@ import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 export const columns = {
   0 : {
@@ -75,6 +75,7 @@ class ProjectsHome extends React.Component {
         return (
           <ProjectPreview
             key={index}
+            index={index}
             delay={delay}
             project={project}
             columns={ProjectHomeCol(index)}

@@ -4,7 +4,7 @@ import { Link } from 'gatsby'
 import { injectIntl } from 'react-intl'
 import { Text } from 'rebass'
 
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import locales from '@locales/locales'
 
 const SwitcherLink = styled.a`

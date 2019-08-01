@@ -7,7 +7,7 @@ import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
 import ServicesList from '@components/services/ServicesList'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Button, { LinkButton } from '@components/buttons'
 import SEO from '@components/seo'
 

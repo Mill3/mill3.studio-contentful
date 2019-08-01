@@ -5,6 +5,7 @@ import Container from '@styles/Container'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
@@ -90,15 +91,19 @@ class ProjectsIndex extends Component {
         <SEO title={`nav.Work`} translate={true} />
         <Container fluid>
           <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={[4, null, 3]} className="is-relative">
-            <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
-              <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
-              <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
-              <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
-              <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
-            </Text>
-            <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
-              <FormattedMessage id="projects.Intro" />
-            </Text>
+            <TransitionContainer index={1}>
+              <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
+                <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
+                <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
+                <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
+                <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
+              </Text>
+            </TransitionContainer>
+            <TransitionContainer index={2}>
+              <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
+                <FormattedMessage id="projects.Intro" />
+              </Text>
+            </TransitionContainer>
 
             <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{transform: 'translateY(45%)'}} />
           </Flex>

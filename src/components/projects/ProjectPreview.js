@@ -7,15 +7,14 @@ import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
-import LayoutContext from '@components/contexts/LayoutContext'
 import { breakpoints } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Viewport from '@utils/Viewport'
 
-import { TRANSITION_DURATION, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -39,7 +38,7 @@ const ProjectPoses = posed.article({
     y: -250,
     delay: ({ delayOut }) => delayOut,
     transition: {
-      duration: TRANSITION_DURATION / 4,
+      duration: TRANSITION_DURATION,
       ease: 'easeIn',
     },
   },
@@ -155,7 +154,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 class ProjectPreview extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
-    layoutState: PropTypes.object,
+    layoutState: PropTypes.object
   }
 
   static propTypes = {

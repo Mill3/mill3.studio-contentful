@@ -9,6 +9,7 @@ import { injectIntl } from 'react-intl'
 import { breakpoints, header } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 import HeaderCircle from './HeaderCircle'
 
@@ -22,7 +23,7 @@ const HeaderIntroPoses = posed.header({
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: TRANSITION_DURATION * 3,
+        duration: TRANSITION_DURATION,
       },
     },
   },
@@ -53,10 +54,6 @@ const HeaderBackground = styled.div`
   background: ${props => props.theme.colors.black};
   transform-origin: top center;
   pointer-events: none;
-  @media (min-width: ${props => props.theme.breakpoints[2]}) {
-    /* top: -50px; */
-  }
-
 `
 const TextWrapper = styled(Flex)`
   position: relative;
@@ -72,6 +69,7 @@ const TextWrapper = styled(Flex)`
     padding-bottom: ${header.height / 2}px;
   }
 `
+
 const TextWrapperCopy = styled(Flex)`
   position: absolute;
   top: 0;
@@ -91,22 +89,33 @@ const TextWrapperCopy = styled(Flex)`
     padding-bottom: calc(70vh + ${header.height / 2}px);
   }
 `
+
 const TextStyle = styled.h2`
   transform-origin: top center;
 `
 
 const charPoses = {
-  exit: { opacity: 0, y: 20 },
+  exit: { opacity: 0, y: 35 },
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => TRANSITION_DURATION * 2 + charIndex * 30,
+    delay: ({ charIndex }) => TRANSITION_DURATION * 1.7 + charIndex * 30,
     transition: {
       y: {
         type: 'spring',
       },
     },
   },
+  out: {
+    opacity: 0,
+    y: 35,
+    delay: ({ charIndex }) => charIndex * 30,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  }
 }
 
 const fontSizes = ['7.729468599vw', null, '5.75vw']
@@ -116,6 +125,7 @@ const mobileBreakpoint = parseInt(breakpoints[2])
 class HeaderIntro extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
+    layoutState: PropTypes.object,
   }
 
   constructor(props) {
@@ -142,21 +152,21 @@ class HeaderIntro extends Component {
   componentWillUnmount() {
     this.mounted = false
 
-    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
   }
 
   onScroll({ offset }) {
-    if( !this.mounted ) return
+    if (!this.mounted) return
 
     const isMobile = Viewport.width < mobileBreakpoint
-    const x = Math.min(0.8, offset.y / Viewport.height * (isMobile ? 0.53 : 0.8))
+    const x = Math.min(0.8, (offset.y / Viewport.height) * (isMobile ? 0.53 : 0.8))
     const y = Math.min(Viewport.height, offset.y * 0.6)
     const skew = Math.min(1, offset.y / (Viewport.height * (isMobile ? 0.5 : 0.8)))
 
     // only update state if required
     // prevent useless render
-    if( this.state.x === x && this.state.y === y && this.state.skew === skew ) return
+    if (this.state.x === x && this.state.y === y && this.state.skew === skew) return
 
     this.setState({
       x,
@@ -168,6 +178,8 @@ class HeaderIntro extends Component {
   render() {
     const { intl } = this.props
     const { x, y, skew } = this.state
+    const { layoutState } = this.context
+    // console.log('layoutState:', layoutState)
 
     const isMobile = Viewport.width < mobileBreakpoint
 
@@ -176,7 +188,7 @@ class HeaderIntro extends Component {
     const top = skew * Viewport.height * (isMobile ? -0.1 : -0.2)
 
     // tangent of angle = opposite / adjacent
-    const radian = angle * Math.PI / 180
+    const radian = (angle * Math.PI) / 180
     const adjacent = Viewport.width - Viewport.width * 0.05
     const opposite = Math.tan(radian) * adjacent * 0.3
 
@@ -184,25 +196,19 @@ class HeaderIntro extends Component {
     // if you want to remove this vertical parallax effect, switch order between translate3d and skewY
     const t1 = { transform: `translate3d(${(x || 0) * -horizontal}px, ${y}px, 0)skewY(-${angle}deg)` }
     const t2 = { transform: `translate3d(${(x || 0) * horizontal}px, ${y}px, 0) skewY(-${angle}deg) ` }
-    const t3 = { transform: `translate3d(0, ${top}px, 0) skewY(${angle}deg)`}
+    const t3 = { transform: `translate3d(0, ${top}px, 0) skewY(${angle}deg)` }
     const t4 = { transform: `translate3d(0, -${opposite}px, 0)` }
 
     return (
       <Box as={Header} initialPose={`init`} pose={`enter`} mb={[0, null, 5]}>
-        <Box as={HeaderBackground} className={`z-negative`} style={t3}></Box>
+        <Box as={HeaderBackground} className={`z-negative`} style={t3} />
 
         <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>
-          <Text
-            as={TextStyle}
-            fontSize={fontSizes}
-            textAlign="center"
-            className={`is-serif fw-900`}
-            style={t1}
-          >
+          <Text as={TextStyle} fontSize={fontSizes} textAlign="center" className={`is-serif fw-900`} style={t1}>
             {/* <FormattedMessage id="intro.LineB" /> */}
             <SplitText
               initialPose={`exit`}
-              pose={`enter`}
+              pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -218,7 +224,7 @@ class HeaderIntro extends Component {
           >
             <SplitText
               initialPose={`exit`}
-              pose={`enter`}
+              pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineB' }).toString()}
@@ -226,17 +232,16 @@ class HeaderIntro extends Component {
           </Text>
         </Flex>
 
-        <Flex as={TextWrapperCopy} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3} aria-hidden="true">
-          <Text
-            as={TextStyle}
-            fontSize={fontSizes}
-            textAlign="center"
-            className={`is-serif fw-200`}
-            style={t1}
-          >
-            <SplitText>
-              {intl.formatMessage({ id: 'intro.LineA' }).toString()}
-            </SplitText>
+        <Flex
+          as={TextWrapperCopy}
+          flexDirection={`column`}
+          justifyContent={`center`}
+          width={`100%`}
+          style={t3}
+          aria-hidden="true"
+        >
+          <Text as={TextStyle} fontSize={fontSizes} textAlign="center" className={`is-serif fw-200`} style={t1}>
+            <SplitText>{intl.formatMessage({ id: 'intro.LineA' }).toString()}</SplitText>
           </Text>
 
           <Text
@@ -246,9 +251,7 @@ class HeaderIntro extends Component {
             className={`is-normal is-sans fw-300`}
             style={t2}
           >
-            <SplitText>
-              {intl.formatMessage({ id: 'intro.LineB' }).toString()}
-            </SplitText>
+            <SplitText>{intl.formatMessage({ id: 'intro.LineB' }).toString()}</SplitText>
           </Text>
         </Flex>
 

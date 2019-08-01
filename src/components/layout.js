@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
-import { Location } from '@reach/router'
 import PropTypes from 'prop-types'
+import { Location } from '@reach/router'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
 import { TransitionGroup } from 'react-transition-group'

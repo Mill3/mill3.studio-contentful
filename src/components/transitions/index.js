@@ -1,5 +1,4 @@
 import React from 'react'
-import { Location } from '@reach/router'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
@@ -12,7 +11,6 @@ export const TRANSITION_PANE_STATES = {
   initial: 'initial',
   exiting: 'exiting',
   visible: 'visible',
-  delayed: 'delayed',
   ended: 'ended',
   hidden: 'hidden',
 }
@@ -41,15 +39,6 @@ const Poses = posed.div({
       ease: 'easeOut',
     },
   },
-  // when page change starts but with delay
-  delayed: {
-    opacity: 1,
-    transition: {
-      delay: TRANSITION_IN_DELAY,
-      duration: TRANSITION_DURATION - TRANSITION_IN_DELAY,
-      ease: 'easeOut',
-    },
-  },
   // when page change ends
   hidden: {
     opacity: 0,
@@ -66,7 +55,6 @@ const Poses = posed.div({
     },
   },
 })
-
 
 const TransitionPaneStyle = styled(Poses)`
   position: fixed;
@@ -90,12 +78,6 @@ const TransitionTextStyle = styled.p`
 
 const TransitionPane = ({ state = 'initial', color, title }) => {
 
-  // const pose = () => {
-  //   // console.log(state, delayed)
-  //   // if(delayed && state !== TRANSITION_PANE_STATES['delayed']) return state
-  //   return (delayed === true) ? TRANSITION_PANE_STATES['delayed'] : state
-  // }
-
   return (
     <Flex
       as={TransitionPaneStyle}
@@ -107,7 +89,6 @@ const TransitionPane = ({ state = 'initial', color, title }) => {
       initialPose={`init`}
       pose={state}
     >
-      {/* {console.log(delayed, state)} */}
       <Text
         as={TransitionTextStyle}
         fontSize={['18vw', null, `5vw`]}

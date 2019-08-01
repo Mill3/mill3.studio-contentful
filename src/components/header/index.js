@@ -10,7 +10,7 @@ import Nav from '@components/nav/index'
 
 import Container from '@styles/Container'
 import Logo from '@svg/Logo'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 
 const SiteHeader = styled.header`

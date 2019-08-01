@@ -9,7 +9,7 @@ import { debounce } from 'lodash'
 
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Viewport from '@utils/Viewport'
 
 

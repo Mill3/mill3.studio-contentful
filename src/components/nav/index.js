@@ -5,7 +5,7 @@ import { Text } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 
 import Switcher from '@components/nav/switcher'
-import TransitionLinkComponent from '@utils/TransitionLink'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 const NavContainerPoses = posed.ul({
   hidden: {
