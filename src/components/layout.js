@@ -76,9 +76,7 @@ class Layout extends React.Component {
   }
 
   setTransitionState(state) {
-    // console.log('state:', state)
     let inTransition = state === TRANSITION_PANE_STATES['visible']
-    console.log('inTransition:', inTransition)
     this.setState({
       inTransition: inTransition,
       transitionState: state
@@ -112,8 +110,10 @@ class Layout extends React.Component {
                   <React.Fragment>
                     <TransitionPane
                       state={transitionState}
+                      location={location}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
+                      // delay={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
                     />
 
                     <Scrollbar

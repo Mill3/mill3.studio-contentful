@@ -15,7 +15,7 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@utils/TransitionLink'
 import Viewport from '@utils/Viewport'
 
-import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_DURATION, TRANSITION_IN_DELAY } from '@utils/constants'
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -37,10 +37,9 @@ const ProjectPoses = posed.article({
   out: {
     opacity: 0,
     y: -250,
-    scale: 1,
     delay: ({ delayOut }) => delayOut,
     transition: {
-      duration: TRANSITION_DURATION / 3,
+      duration: TRANSITION_DURATION / 4,
       ease: 'easeIn',
     },
   },
@@ -311,6 +310,7 @@ class ProjectPreview extends Component {
             to={`/projects/${slug}`}
             title={transitionName || name}
             color={colorMain}
+            delayedExit={true}
             onMouseOver={e => this.onHover(true)}
             onMouseOut={e => this.onHover(false)}
             style={transform}
