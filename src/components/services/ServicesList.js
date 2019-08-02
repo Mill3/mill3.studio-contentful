@@ -6,6 +6,7 @@ import { Flex, Box, Text } from 'rebass'
 
 import { VERTICAL_SPACER, GRID_GUTTER } from '@components/content_rows'
 import { TextColumnPoses } from '@components/content_rows/ContentText'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 
 import Container from '@styles/Container'
 
@@ -22,9 +23,11 @@ const ServicesGrid = styled.aside`
 const Service = ({ service, index }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
   return (
-    <Box ref={ref} as={TextColumnPoses} index={index} initialPose={'hidden'} pose={inView ? 'visible' : 'hidden'}>
-      <Text as={`h5`} mb={[2,3,4]}>{service.title || service.fields.title}</Text>
-    </Box>
+    <div ref={ref}>
+      <TransitionContainer enabled={inView} autoCalculateDelay={false} distance={25} index={index / 5}>
+        <Text as={`h5`} mb={[2,3,4]}>{service.title || service.fields.title}</Text>
+      </TransitionContainer>
+    </div>
   )
 }
 
@@ -33,7 +36,9 @@ const ServicesList = ({ data }) => {
     <Container>
       <Flex width={[1,1,1,`70vw`]} mx="auto" pt={VERTICAL_SPACER}>
         <Box as="aside" width={[1,1/5]}>
-          <Text as={`h5`} fontWeight={`500`}>Services</Text>
+          <TransitionContainer autoCalculateDelay={false} distance={25} index={0}>
+            <Text as={`h5`} fontWeight={`500`}>Services</Text>
+          </TransitionContainer>
         </Box>
         <Box as={ServicesGrid} width={[1,4/5]}>
           {data.map((service, index) => <Service service={service} key={index} index={index} />)}

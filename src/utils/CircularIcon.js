@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 import { debounce } from 'lodash'
 import { TweenLite, TweenMax, Linear } from 'gsap'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 
 const Container = styled.div`
   position: absolute;
@@ -96,11 +97,13 @@ class CircularIcon extends Component {
 
     return (
       <Box as={Container} {...this.props}>
-        <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
-          <Box as="figure" ref={this.ref} m={0}>
-            {children}
+        <TransitionContainer distance={-25}>
+          <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
+            <Box as="figure" ref={this.ref} m={0}>
+              {children}
+            </Box>
           </Box>
-        </Box>
+        </TransitionContainer>
       </Box>
     )
   }

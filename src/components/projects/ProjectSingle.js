@@ -31,7 +31,6 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
             text: "projects.single.label",
             url: "/projects/",
             transitionColor: "#000",
-            transitionTitle: "Work, work, work, work!",
           }}
           title={project.name}
           subHeading={project.subHeading ? project.subHeading.subHeading : null}

@@ -46,7 +46,7 @@ class ClientName extends React.Component {
           onMouseEnter={e => this.hover(true)}
           onMouseLeave={e => this.hover(false)}
         >
-        <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>
+        <TransitionLinkComponent to={`/projects/`} color={`#000`}>
           <span>{this.props.name}</span>
         </TransitionLinkComponent>
       </Text>

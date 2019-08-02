@@ -69,7 +69,6 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst })
       alignItems={`center`}
       justifyContent={`center`}
     >
-      <TransitionContainer direction="out">
         <Box
           as={ContentImagePoses}
           width={noStrech ? `auto` : `100%`}
@@ -79,27 +78,31 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst })
           pose={inView ? 'visible' : 'hidden'}
           mb={0}
         >
-          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-            <img
-              src={img.fixed ? img.fixed.src : img.file.url}
-              className={`img-fluid`}
-              alt={`${img.description || img.id}`}
-            />
-          )}
+          <TransitionContainer direction="out" enabled={inView} autoCalculateDelay={false} distance={50} index={index}>
 
-          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-            <MediaItemVideo autoPlay loop playsInline muted>
-              <source src={img.file.url} type={img.file.contentType} />
-            </MediaItemVideo>
-          )}
+            {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+              <img
+                src={img.fixed ? img.fixed.src : img.file.url}
+                className={`img-fluid`}
+                alt={`${img.description || img.id}`}
+              />
+            )}
 
-          {img.file && img.description && (
-            <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
-              {img.description}
-            </Box>
-          )}
+            {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+              <MediaItemVideo autoPlay loop playsInline muted>
+                <source src={img.file.url} type={img.file.contentType} />
+              </MediaItemVideo>
+            )}
+
+            {img.file && img.description && (
+              <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
+                {img.description}
+              </Box>
+            )}
+
+          </TransitionContainer>
+
         </Box>
-      </TransitionContainer>
     </Flex>
   )
 }

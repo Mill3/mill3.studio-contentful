@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl'
 
 import { AnimatedBackgroundContainer } from '@components/content_rows'
 import Container from '@styles/Container'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 
 const FooterContainer = styled.footer`
   font-size: 18px;
@@ -25,16 +26,18 @@ const Footer = ({ intl }) => {
           <Flex flexWrap={'wrap'}>
 
             <Box as={`aside`} width={[1, 1, 1, '444px']}>
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
-                {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
-              </Text>
-              <Text as={`h6`} m={0}>
-                {intl.formatMessage({ id: 'footer.address' }).toString()}
-                <br />
-                {intl.formatMessage({ id: 'footer.city' }).toString()}
-                <br />
-                {intl.formatMessage({ id: 'footer.office' }).toString()}
-              </Text>
+              <TransitionContainer distance={0} autoCalculateDelay={false} index={0}>
+                <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
+                  {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
+                </Text>
+                <Text as={`h6`} m={0}>
+                  {intl.formatMessage({ id: 'footer.address' }).toString()}
+                  <br />
+                  {intl.formatMessage({ id: 'footer.city' }).toString()}
+                  <br />
+                  {intl.formatMessage({ id: 'footer.office' }).toString()}
+                </Text>
+              </TransitionContainer>
             </Box>
 
             <Box
@@ -42,14 +45,16 @@ const Footer = ({ intl }) => {
               width={[1, 1, 1, 'auto']}
               mt={[4, 4, 4, 0]}
             >
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
-                {intl.formatMessage({ id: 'footer.hi' }).toString()}
-              </Text>
-              <Text as={`h6`} m={0}>
-                <a href="mailto:{intl.formatMessage({ id: 'footer.email' }).toString()}">{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
-                <br />
-                <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a>
-              </Text>
+              <TransitionContainer distance={0} autoCalculateDelay={false} index={0.5}>
+                <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
+                  {intl.formatMessage({ id: 'footer.hi' }).toString()}
+                </Text>
+                <Text as={`h6`} m={0}>
+                  <a href="mailto:{intl.formatMessage({ id: 'footer.email' }).toString()}">{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
+                  <br />
+                  <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a>
+                </Text>
+              </TransitionContainer>
             </Box>
 
             <Box
@@ -58,14 +63,16 @@ const Footer = ({ intl }) => {
               ml={[0, 0, `auto`]}
               mt={[4, 4, 4, 0]}
             >
-              <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
-                {intl.formatMessage({ id: 'footer.cold' }).toString()}
-              </Text>
-              <Text as={`h6`} m={0}>
-                {intl.formatMessage({ id: 'footer.love' }).toString()}
-                <br />
-                {intl.formatMessage({ id: 'footer.mtl' }).toString()}
-              </Text>
+              <TransitionContainer distance={0} autoCalculateDelay={false} index={0.75}>
+                <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
+                  {intl.formatMessage({ id: 'footer.cold' }).toString()}
+                </Text>
+                <Text as={`h6`} m={0}>
+                  {intl.formatMessage({ id: 'footer.love' }).toString()}
+                  <br />
+                  {intl.formatMessage({ id: 'footer.mtl' }).toString()}
+                </Text>
+              </TransitionContainer>
             </Box>
 
             <Box as={'aside'} width={[1]} mt={[5]}>

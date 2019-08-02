@@ -27,6 +27,16 @@ const HeaderIntroPoses = posed.header({
       },
     },
   },
+  out: {
+    y: `-100%`,
+    transition: {
+      y: {
+        type: 'tween',
+        ease: 'backInOut',
+        duration: TRANSITION_DURATION,
+      },
+    },
+  }
 })
 
 const Header = styled(HeaderIntroPoses)`
@@ -35,6 +45,7 @@ const Header = styled(HeaderIntroPoses)`
   position: relative;
   z-index: 10;
   height: 53vh;
+  transition: height 0.25s;
 
   h2 {
     margin: 0;
@@ -42,19 +53,23 @@ const Header = styled(HeaderIntroPoses)`
   }
 
   @media (min-width: ${breakpoints[2]}) {
-    height: 80vh;
+    height: ${props => props.inTransition ? `100vs` : `80vh`};
     margin-top: -${header.height + 24}px;
   }
 `
+
 const HeaderBackground = styled.div`
   position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: ${props => props.theme.colors.black};
   transform-origin: top center;
   pointer-events: none;
+
 `
+
 const TextWrapper = styled(Flex)`
   position: relative;
   padding-top: ${header.height}px;
@@ -200,7 +215,12 @@ class HeaderIntro extends Component {
     const t4 = { transform: `translate3d(0, -${opposite}px, 0)` }
 
     return (
-      <Box as={Header} initialPose={`init`} pose={`enter`} mb={[0, null, 5]}>
+      <Box
+        as={Header}
+        initialPose={`init`}
+        pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
+        mb={[0, null, 5]}
+      >
         <Box as={HeaderBackground} className={`z-negative`} style={t3} />
 
         <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>

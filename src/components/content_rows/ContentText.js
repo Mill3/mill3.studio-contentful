@@ -119,32 +119,16 @@ export const postBody = styled.div`
   }
 `
 
-export const TextColumnPoses = posed.div({
-  hidden: {
-    opacity: 0,
-    y: 85,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    delay: ({ index, isFirst }) => REVEALS_DELAY * (index + 1),
-    transition: EASES['default'],
-  },
-})
-
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
     <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <TransitionContainer direction={'out'} index={1}>
+      <TransitionContainer enabled={inView} autoCalculateDelay={isFirst || false } distance={85} index={index}>
         <Box
           ref={ref}
-          as={TextColumnPoses}
+          as={`div`}
           index={index}
-          initialPose={'hidden'}
-          isFirst={isFirst}
-          pose={inView ? 'visible' : 'hidden'}
         >
           {text}
         </Box>

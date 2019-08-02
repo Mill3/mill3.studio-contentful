@@ -6,22 +6,21 @@ import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from './index'
 
 const TransitionContainerPoses = posed.div({
-  // default state, hidden with y offset
-  hidden: {
-    opacity: 0,
-    y: ({ distance }) => distance,
-  },
   // when initial needs no animation
   visible: {
     opacity: 1,
     y: 0,
+  },
+  // default state when animating `both` directions
+  hidden: {
+    opacity: 0,
+    y: ({ distance }) => distance,
   },
   // when transition ends
   in: {
     opacity: 1,
     y: 0,
     delay: ({ delay }) => delay,
-    // delay: ({ index }) => TRANSITION_IN_DELAY * index,
     transition: EASES['default'],
   },
   // when transition starts
@@ -68,7 +67,7 @@ class TransitionContainer extends React.Component {
   }
 
   render() {
-    const { children, direction, distance } = this.props
+    const { children, enabled, direction, distance } = this.props
     const { transitionState } = this.context.layoutState
     const { ref } = this
 
@@ -76,7 +75,7 @@ class TransitionContainer extends React.Component {
     const initial = () => (direction === `both` ? `hidden` : `visible`)
 
     // pick right pose based on transition status
-    const pose = () => (transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
+    const pose = () => (!enabled ? `hidden` : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
 
     return (
       <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delay={this.delay}>
@@ -87,6 +86,7 @@ class TransitionContainer extends React.Component {
 }
 
 TransitionContainer.defaultProps = {
+  enabled: true,
   direction: `both`,
   autoCalculateDelay: true,
   distance: 80,
@@ -95,8 +95,9 @@ TransitionContainer.defaultProps = {
 
 TransitionContainer.propTypes = {
   children: PropTypes.object.isRequired,
-  autoCalculateDelay: PropTypes.bool,
+  enabled: PropTypes.bool,
   direction: PropTypes.string,
+  autoCalculateDelay: PropTypes.bool,
   distance: PropTypes.number,
   index: PropTypes.number,
 }
