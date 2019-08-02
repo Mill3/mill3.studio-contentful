@@ -36,9 +36,10 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-export const calculateDelayForElement = (el, index, autoCalculateDelay) => {
+export const calculateDelayForElement = (el, autoCalculateDelay, index) => {
+  // calculations if element is mounted and props allows it
   if (el && autoCalculateDelay === true) {
-    let positionDelay = (el.getBoundingClientRect().x / 50 * el.getBoundingClientRect().y / 50) * index
+    let positionDelay = (((el.getBoundingClientRect().x / 50) * el.getBoundingClientRect().y) / 50) * index
     return positionDelay
   }
 
@@ -47,7 +48,6 @@ export const calculateDelayForElement = (el, index, autoCalculateDelay) => {
 }
 
 class TransitionContainer extends React.Component {
-
   static contextTypes = {
     layoutState: PropTypes.object,
   }
@@ -60,7 +60,11 @@ class TransitionContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.delay = calculateDelayForElement(this.ref.current ? this.ref.current : null, this.props.index, this.props.autoCalculateDelay)
+    this.delay = calculateDelayForElement(
+      this.ref.current ? this.ref.current : null,
+      this.props.autoCalculateDelay,
+      this.props.index
+    )
   }
 
   render() {
@@ -69,22 +73,16 @@ class TransitionContainer extends React.Component {
     const { ref } = this
 
     // determine initial pose, no fade in unless direction is set to both
-    const initial = () => direction === `both` ? `hidden` : `visible`
+    const initial = () => (direction === `both` ? `hidden` : `visible`)
 
     // pick right pose based on transition status
-    const pose = () => transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`
+    const pose = () => (transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
 
     return (
-      <TransitionContainerPoses
-        ref={ref}
-        initialPose={initial()}
-        pose={pose()}
-        distance={distance}
-        delay={this.delay}
-      >
+      <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delay={this.delay}>
         {children}
       </TransitionContainerPoses>
-    );
+    )
   }
 }
 
@@ -92,7 +90,7 @@ TransitionContainer.defaultProps = {
   direction: `both`,
   autoCalculateDelay: true,
   distance: 80,
-  index: 1
+  index: 1,
 }
 
 TransitionContainer.propTypes = {
@@ -100,8 +98,7 @@ TransitionContainer.propTypes = {
   autoCalculateDelay: PropTypes.bool,
   direction: PropTypes.string,
   distance: PropTypes.number,
-  index: PropTypes.number
+  index: PropTypes.number,
 }
 
-
-export default TransitionContainer;
+export default TransitionContainer

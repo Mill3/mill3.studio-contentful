@@ -127,7 +127,7 @@ export const TextColumnPoses = posed.div({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index, isFirst }) => (isFirst ? TRANSITION_IN_DELAY + REVEALS_DELAY : REVEALS_DELAY) * (index + 1),
+    delay: ({ index, isFirst }) => REVEALS_DELAY * (index + 1),
     transition: EASES['default'],
   },
 })
@@ -137,7 +137,7 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
 
   return (
     <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <TransitionContainer direction={'out'}>
+      <TransitionContainer direction={'out'} index={1}>
         <Box
           ref={ref}
           as={TextColumnPoses}

@@ -34,7 +34,7 @@ const ContentImagePoses = posed.figure({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index, isFirst }) => (isFirst ? TRANSITION_IN_DELAY + (REVEALS_DELAY / 2) : REVEALS_DELAY * (index + 1)),
+    delay: ({ index, isFirst }) =>REVEALS_DELAY * (index + 1),
     transition: EASES['default'],
   },
 })
