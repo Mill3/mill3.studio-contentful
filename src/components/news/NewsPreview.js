@@ -10,8 +10,8 @@ import { debounce } from 'lodash'
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import Viewport from '@utils/Viewport'
-
 
 const NewsPoses = posed.article({
   hidden: {
@@ -26,7 +26,7 @@ const NewsPoses = posed.article({
       type: 'spring',
       stiffness: 30,
       mass: 0.925,
-    }
+    },
   },
 })
 
@@ -37,7 +37,6 @@ const NewsWrapper = styled(Box)`
 `
 
 const NewsPreviewItem = styled(NewsPoses)`
-
   figure {
     position: relative;
     overflow: hidden;
@@ -97,7 +96,7 @@ class NewsPreview extends Component {
 
   componentDidMount() {
     this.mounted = true
-    if( this.props.offset === 0 ) return
+    if (this.props.offset === 0) return
 
     this.context.getScrollbar(s => {
       this.scrollbar = s
@@ -122,9 +121,9 @@ class NewsPreview extends Component {
     })
   }
   onScroll({ offset }) {
-    if( !this.mounted || !this.state.inView || !this.rect ) return
-    if( this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0 ) {
-      if( this.state.percentage !== 0 ) this.setState({ percentage: 0 })
+    if (!this.mounted || !this.state.inView || !this.rect) return
+    if (this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0) {
+      if (this.state.percentage !== 0) this.setState({ percentage: 0 })
       return
     }
 
@@ -134,14 +133,14 @@ class NewsPreview extends Component {
     const dist = y / vh
     const percentage = Math.max(0, Math.min(1, 1 - dist)) // from 0 to 1
 
-    if( this.state.percentage === percentage ) return
+    if (this.state.percentage === percentage) return
 
     this.setState({
       percentage,
     })
   }
   onResize() {
-    if( !this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar ) return
+    if (!this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar) return
 
     const rect = this.rootRef.current.node.getBoundingClientRect()
     const y = rect.y + this.scrollbar.offset.y
@@ -154,19 +153,16 @@ class NewsPreview extends Component {
   }
 
   render() {
-    const { news, delay, columns, offset } = this.props
+    const { news, delay, columns, offset, index } = this.props
     const { slug, imageMain, title } = news.node
     const { inView, percentage } = this.state
     let transform
 
-
     // only calculate transformations if required
-    if( inView ) {
+    if (inView) {
       const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
       transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
-    }
-    else transform = {}
-
+    } else transform = {}
 
     return (
       <InView
@@ -182,24 +178,30 @@ class NewsPreview extends Component {
           as={NewsPreviewItem}
           delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
           initialPose={'hidden'}
-          pose={ inView ? 'visible' : 'hidden' }
+          pose={inView ? 'visible' : 'hidden'}
           width={'100%'}
         >
-          <TransitionLinkComponent to={`/journal/${slug}`} title={title} style={transform}>
-            <Box as={`figure`} mb={[4]}>
-              <FigureBox ratio={4/6}>
-                <Img fade={false} fluid={imageMain.fluid} />
-              </FigureBox>
-            </Box>
-            <Box as={`footer`} width={`70%`}>
-              <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[2]} lineHeight={[1.2]} mb={[2]}>{title}</Text>
-              <Text as={ReadMoreStyle} className={`fw-600 is-serif`} fontSize={[1]} m={0}>Read more</Text>
-            </Box>
-          </TransitionLinkComponent>
+          <TransitionContainer direction="out" distance={150} index={index}>
+            <TransitionLinkComponent to={`/journal/${slug}`} title={title} style={transform}>
+              <Box as={`figure`} mb={[4]}>
+                <FigureBox ratio={4 / 6}>
+                  <Img fade={false} fluid={imageMain.fluid} />
+                </FigureBox>
+              </Box>
+              <Box as={`footer`} width={`70%`}>
+                <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[2]} lineHeight={[1.2]} mb={[2]}>
+                  {title}
+                </Text>
+                <Text as={ReadMoreStyle} className={`fw-600 is-serif`} fontSize={[1]} m={0}>
+                  Read more
+                </Text>
+              </Box>
+            </TransitionLinkComponent>
+          </TransitionContainer>
         </Box>
       </InView>
     )
   }
 }
 
-export default NewsPreview;
+export default NewsPreview

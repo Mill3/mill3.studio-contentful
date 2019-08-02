@@ -12,6 +12,7 @@ import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import Viewport from '@utils/Viewport'
 
 import { TRANSITION_DURATION } from '@utils/constants'
@@ -32,16 +33,7 @@ const ProjectPoses = posed.article({
       stiffness: 30,
       mass: 0.925,
     },
-  },
-  out: {
-    opacity: 0,
-    y: -350,
-    delay: ({ delayOut }) => delayOut,
-    transition: {
-      duration: TRANSITION_DURATION,
-      ease: 'easeIn',
-    },
-  },
+  }
 })
 
 const ProjectWrapper = styled(Box)`
@@ -154,7 +146,7 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 class ProjectPreview extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
-    layoutState: PropTypes.object
+    layoutState: PropTypes.object,
   }
 
   static propTypes = {
@@ -274,7 +266,7 @@ class ProjectPreview extends Component {
     const { project, delay, columns, offset, index } = this.props
     const { slug, colorMain, imageMain, imageHover, videoPreview, name, category, transitionName } = project.node
     const { inView, percentage, hover } = this.state
-    const { layoutState } = this.context
+    // const { layoutState } = this.context
 
     let transform
 
@@ -299,78 +291,78 @@ class ProjectPreview extends Component {
         <Box
           as={ProjectPreviewItem}
           initialPose={'hidden'}
-          pose={layoutState.inTransition ? 'out' : inView ? 'visible' : 'hidden'}
+          pose={inView ? 'visible' : 'hidden'}
           delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
-          delayOut={index * 45}
           width={'100%'}
           color={colorMain}
         >
           <TransitionLinkComponent
             to={`/projects/${slug}`}
-            title={transitionName || name}
+            title={transitionName || null}
             color={colorMain}
-            delayedExit={true}
             onMouseOver={e => this.onHover(true)}
             onMouseOut={e => this.onHover(false)}
             style={transform}
           >
-            <Box as={`figure`} mb={[4]}>
-              {HAS_HOVER && (
-                <ProjectHoverPane color={colorMain}>
-                  {imageHover && !videoPreview && (
-                    <Img
-                      fade={false}
-                      fluid={imageHover.fluid}
-                      objectFit="cover"
-                      objectPosition="center center"
-                      style={{ width: `100%`, height: `100%` }}
-                    />
-                  )}
-                  {videoPreview && (
-                    <video muted playsInline loop ref={this.videoRef}>
-                      <source src={videoPreview.file.url} type="video/mp4" />
-                    </video>
-                  )}
-                </ProjectHoverPane>
-              )}
-              <FigureBox>
-                <Img
-                  fade={false}
-                  fluid={imageMain.fluid}
-                  objectFit="cover"
-                  objectPosition="center center"
-                  style={{ height: `100%` }}
-                />
-              </FigureBox>
-            </Box>
+            <TransitionContainer index={index} direction="out" distance={150}>
+              <Box as={`figure`} mb={[4]}>
+                {HAS_HOVER && (
+                  <ProjectHoverPane color={colorMain}>
+                    {imageHover && !videoPreview && (
+                      <Img
+                        fade={false}
+                        fluid={imageHover.fluid}
+                        objectFit="cover"
+                        objectPosition="center center"
+                        style={{ width: `100%`, height: `100%` }}
+                      />
+                    )}
+                    {videoPreview && (
+                      <video muted playsInline loop ref={this.videoRef}>
+                        <source src={videoPreview.file.url} type="video/mp4" />
+                      </video>
+                    )}
+                  </ProjectHoverPane>
+                )}
+                <FigureBox>
+                  <Img
+                    fade={false}
+                    fluid={imageMain.fluid}
+                    objectFit="cover"
+                    objectPosition="center center"
+                    style={{ height: `100%` }}
+                  />
+                </FigureBox>
+              </Box>
 
-            <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
-              <Text
-                as={'h3'}
-                className={`fw-300 is-sans is-relative`}
-                fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]}
-                m={[0]}
-              >
-                <span>{name}</span>
-                <Box
-                  as={ProjectTitleUnderline}
-                  color={colorMain}
-                  initialPose="fold"
-                  pose={hover ? 'unfold' : 'fold'}
-                  aria-hidden="true"
-                />
-              </Text>
-              {category && (
+              <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
                 <Text
-                  as={`h4`}
-                  className={`fw-300 is-serif is-gray`}
-                  fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]}
-                  m={0}
+                  as={'h3'}
+                  className={`fw-300 is-sans is-relative`}
+                  fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]}
+                  m={[0]}
                 >
-                  {category[0].title}
+                  <span>{name}</span>
+                  <Box
+                    as={ProjectTitleUnderline}
+                    color={colorMain}
+                    initialPose="fold"
+                    pose={hover ? 'unfold' : 'fold'}
+                    aria-hidden="true"
+                  />
                 </Text>
-              )}
-            </Flex>
+                {category && (
+                  <Text
+                    as={`h4`}
+                    className={`fw-300 is-serif is-gray`}
+                    fontSize={['3.623188406vw', null, `2.045454546vw`, `1.319444444vw`]}
+                    m={0}
+                  >
+                    {category[0].title}
+                  </Text>
+                )}
+              </Flex>
+            </TransitionContainer>
           </TransitionLinkComponent>
         </Box>
       </InView>

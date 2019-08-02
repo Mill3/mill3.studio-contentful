@@ -5,7 +5,8 @@ import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES } from '@utils/constants'
+import { EASES, REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
@@ -33,7 +34,7 @@ const ContentImagePoses = posed.figure({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => 250 + index * 125,
+    delay: ({ index, isFirst }) => (isFirst ? TRANSITION_IN_DELAY + (REVEALS_DELAY / 2) : REVEALS_DELAY * (index + 1)),
     transition: EASES['default'],
   },
 })
@@ -56,7 +57,7 @@ const OverlayImagePoses = posed.img({
   },
 })
 
-export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
+export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -68,34 +69,37 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index }) => {
       alignItems={`center`}
       justifyContent={`center`}
     >
-      <Box
-        as={ContentImagePoses}
-        width={noStrech ? `auto` : `100%`}
-        index={index}
-        initialPose={'hidden'}
-        pose={inView ? 'visible' : 'hidden'}
-        mb={0}
-      >
-        {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-          <img
-            src={img.fixed ? img.fixed.src : img.file.url}
-            className={`img-fluid`}
-            alt={`${img.description || img.id}`}
-          />
-        )}
+      <TransitionContainer direction="out">
+        <Box
+          as={ContentImagePoses}
+          width={noStrech ? `auto` : `100%`}
+          index={index}
+          isFirst={isFirst}
+          initialPose={'hidden'}
+          pose={inView ? 'visible' : 'hidden'}
+          mb={0}
+        >
+          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+            <img
+              src={img.fixed ? img.fixed.src : img.file.url}
+              className={`img-fluid`}
+              alt={`${img.description || img.id}`}
+            />
+          )}
 
-        {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-          <MediaItemVideo autoPlay loop playsInline muted>
-            <source src={img.file.url} type={img.file.contentType} />
-          </MediaItemVideo>
-        )}
+          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+            <MediaItemVideo autoPlay loop playsInline muted>
+              <source src={img.file.url} type={img.file.contentType} />
+            </MediaItemVideo>
+          )}
 
-        {img.file && img.description && (
-          <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
-            {img.description}
-          </Box>
-        )}
-      </Box>
+          {img.file && img.description && (
+            <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
+              {img.description}
+            </Box>
+          )}
+        </Box>
+      </TransitionContainer>
     </Flex>
   )
 }
@@ -105,7 +109,7 @@ const OverlayImage = ({ img }) => {
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 
-const ContentImages = ({ data }) => {
+const ContentImages = ({ data, isFirst }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   return (
@@ -124,7 +128,7 @@ const ContentImages = ({ data }) => {
       >
         {data.medias &&
           data.medias.map((img, index) => (
-            <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} />
+            <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} isFirst={isFirst} />
           ))}
         {data.imageItems &&
           data.imageItems.map((imageItem, index) => (
@@ -137,6 +141,7 @@ const ContentImages = ({ data }) => {
                   backgroundColor={imageItem.backgroundColor}
                   index={index}
                   key={index}
+                  isFirst={isFirst}
                 />
               </Box>
               {imageItem.sideText && (
@@ -145,6 +150,7 @@ const ContentImages = ({ data }) => {
                     text={imageItem.sideText ? format(imageItem.sideText.sideText || imageItem.sideText.content) : []}
                     index={0}
                     margin={[0]}
+                    isFirst={isFirst}
                   />
                 </Box>
               )}

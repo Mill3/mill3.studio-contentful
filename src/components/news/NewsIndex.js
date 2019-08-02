@@ -57,6 +57,7 @@ class NewsIndex extends Component {
         return (
           <NewsPreview
             key={index}
+            index={index}
             delay={delay}
             news={news}
             columns={columns}

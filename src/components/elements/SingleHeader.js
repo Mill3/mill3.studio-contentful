@@ -25,10 +25,6 @@ const FigureImage = styled.picture`
 `
 
 class SingleHeader extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
 
   figure() {
     const { media } = this.props
@@ -90,7 +86,7 @@ class SingleHeader extends Component {
           </TransitionContainer>
 
           {subHeading && (
-            <TransitionContainer index={2}>
+            <TransitionContainer index={1.15}>
               <Text
                 as={`h4`}
                 textAlign="center"

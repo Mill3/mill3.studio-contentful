@@ -106,7 +106,7 @@ class ProjectsIndex extends Component {
                 <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
               </Text>
             </TransitionContainer>
-            <TransitionContainer index={2}>
+            <TransitionContainer index={1.25}>
               <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
                 <FormattedMessage id="projects.Intro" />
               </Text>

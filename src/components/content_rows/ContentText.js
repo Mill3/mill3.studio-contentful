@@ -8,7 +8,8 @@ import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES, TRANSITION_IN_DELAY } from '@utils/constants'
+import { EASES, REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import {
   AnimatedBackgroundRowContainer,
   RowContainer,
@@ -126,19 +127,28 @@ export const TextColumnPoses = posed.div({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => TRANSITION_IN_DELAY * (index + 1),
+    delay: ({ index, isFirst }) => (isFirst ? TRANSITION_IN_DELAY + REVEALS_DELAY : REVEALS_DELAY) * (index + 1),
     transition: EASES['default'],
   },
 })
 
-export const TextColumn = ({ text, textColor, index, margin }) => {
+export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
     <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <Box ref={ref} as={TextColumnPoses} index={index} initialPose={'hidden'} pose={inView ? 'visible' : 'hidden'}>
-        {text}
-      </Box>
+      <TransitionContainer direction={'out'}>
+        <Box
+          ref={ref}
+          as={TextColumnPoses}
+          index={index}
+          initialPose={'hidden'}
+          isFirst={isFirst}
+          pose={inView ? 'visible' : 'hidden'}
+        >
+          {text}
+        </Box>
+      </TransitionContainer>
     </Box>
   )
 }
@@ -147,26 +157,24 @@ const ContentText = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   const CalculatePaddingTop = () => {
-    return data.noVerticalMargin ? [0] : (isFirst ? [0] : VERTICAL_SPACER)
+    return data.noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
   }
 
   const CalculatePaddingBottom = () => {
-    return data.noVerticalMargin ? [0] : (isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER)
+    return data.noVerticalMargin ? [0] : isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (
     <Wrapper backgroundColor={data.backgroundColor || null}>
       {data.text && (
-        <Box
-          pt={CalculatePaddingTop()}
-          pb={CalculatePaddingBottom()}
-        >
+        <Box pt={CalculatePaddingTop()} pb={CalculatePaddingBottom()}>
           <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `30vw`]}>
             <TextColumn
+              index={1}
               text={data.text ? format(data.text.text || data.text.content) : []}
               textColor={data.textColor ? data.textColor : false}
-              index={1}
               margin={[0]}
+              isFirst={isFirst}
             />
           </Box>
         </Box>
@@ -181,11 +189,11 @@ const ContentText = ({ data, isFirst, isLast }) => {
             {data.textColumns &&
               data.textColumns.map((textColumn, index) => (
                 <TextColumn
+                  key={index}
                   text={textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
                   textColor={data.textColor ? data.textColor : false}
                   margin={[0]}
                   index={index}
-                  key={index}
                 />
               ))}
           </Grid>
