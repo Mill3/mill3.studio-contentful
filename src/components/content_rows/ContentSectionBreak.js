@@ -17,7 +17,7 @@ const ContentSectionBreak = ({ data, isFirst, isLast }) => {
     <RowContainer>
       <Box as="header" className="is-center" pt={(isFirst) ? [0] : [4, 4, 4, 6]} px={[4, 3, 0]}>
         {data.title && (
-          <TransitionContainer index={0.5}>
+          <TransitionContainer distance={40}>
             <Text
               as={`h1`}
               fontSize={fontSizes}

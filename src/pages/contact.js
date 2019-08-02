@@ -9,6 +9,7 @@ import SEO from '@components/seo'
 import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
 import Container from '@styles/Container'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import { space, header } from '@styles/Theme'
 
 const Header = styled.header`
@@ -93,7 +94,6 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
 
 const About = ({ pageContext, intl }) => (
   <React.Fragment>
-
     <SEO title="Contact us" translate={true} />
 
     <Flex alignItems={`center`} as={Header} className="z-negative">
@@ -108,10 +108,11 @@ const About = ({ pageContext, intl }) => (
             m={0}
             mb={2}
           >
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses}>
-              {intl.formatMessage({ id: 'contact.ContactIntroPart1' }).toString()}
-              {/* We would love to talk. */}
-            </SplitText>
+            <TransitionContainer direction="out">
+              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses}>
+                {intl.formatMessage({ id: 'contact.ContactIntroPart1' }).toString()}
+              </SplitText>
+            </TransitionContainer>
           </Text>
 
           <Text
@@ -123,24 +124,26 @@ const About = ({ pageContext, intl }) => (
             textAlign="center"
             m={'0 auto'}
           >
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>
-              {intl.formatMessage({ id: 'contact.ContactIntroPart2' }).toString()}
-            </SplitText>
-            <span>&nbsp;</span>
-            <Text as={PhoneCall} href="tel:514-561-1550">
-              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>
-                {intl.formatMessage({ id: 'contact.ContactIntroPart3' }).toString()}
+            <TransitionContainer direction="out">
+              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>
+                {intl.formatMessage({ id: 'contact.ContactIntroPart2' }).toString()}
               </SplitText>
-              <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={2500} aria-hidden="true" />
-            </Text>
+              <span>&nbsp;</span>
+              <Text as={PhoneCall} href="tel:514-561-1550">
+                <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>
+                  {intl.formatMessage({ id: 'contact.ContactIntroPart3' }).toString()}
+                </SplitText>
+                <PhoneCallUnderline initialPose={`exit`} pose={`enter`} delay={2500} aria-hidden="true" />
+              </Text>
 
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1500}>
-              {intl.formatMessage({ id: 'contact.ContactIntroPart4' }).toString()}
-            </SplitText>
-            <span>&nbsp;</span>
-            <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1800}>
-              {intl.formatMessage({ id: 'contact.ContactIntroPart5' }).toString()}
-            </SplitText>
+              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1500}>
+                {intl.formatMessage({ id: 'contact.ContactIntroPart4' }).toString()}
+              </SplitText>
+              <span>&nbsp;</span>
+              <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1800}>
+                {intl.formatMessage({ id: 'contact.ContactIntroPart5' }).toString()}
+              </SplitText>
+            </TransitionContainer>
           </Text>
         </Box>
       </Container>
