@@ -7,6 +7,7 @@ import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
 import SingleHeader from '@components/elements/SingleHeader'
 import ServicesList from '@components/services/ServicesList'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Button, { LinkButton } from '@components/buttons'
 import SEO from '@components/seo'
@@ -46,31 +47,33 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
       }
 
       <Container fluid={true}>
-        <Flex flexDirection="column" my={[5,5,6]}>
-          {project.url &&
-          <Box mx="auto">
-            <a href={project.url} target="_blank" without="true" rel="noopener noreferrer">
-              <Button>{intl.formatMessage({id: 'projects.single.website'}).toString()}</Button>
-            </a>
-          </Box>
-          }
-          {next &&
-            <Box mx="auto" mt={4} mb={5}>
-              <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
-                <FormattedMessage id={`projects.single.next`} />
-              </Text>
-              <TransitionLinkComponent
-                to={`/projects/${next.slug}`}
-                title={next.name}
-                color={next.colorMain}
-              >
-                <LinkButton hoverColor={next.colorMain} fontSize={['28px', null, 5, '3.611111111vw']} lineHeight={'1.2'} className={`is-serif fw-400`}>
-                  {next.name}
-                </LinkButton>
-              </TransitionLinkComponent>
+        <TransitionContainer distance={-100} autoCalculateDelay={false}>
+          <Flex flexDirection="column" my={[5,5,6]}>
+            {project.url &&
+            <Box mx="auto">
+              <a href={project.url} target="_blank" without="true" rel="noopener noreferrer">
+                <Button>{intl.formatMessage({id: 'projects.single.website'}).toString()}</Button>
+              </a>
             </Box>
-          }
-        </Flex>
+            }
+            {next &&
+              <Box mx="auto" mt={4} mb={5}>
+                <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
+                  <FormattedMessage id={`projects.single.next`} />
+                </Text>
+                <TransitionLinkComponent
+                  to={`/projects/${next.slug}`}
+                  title={next.name}
+                  color={next.colorMain}
+                >
+                  <LinkButton hoverColor={next.colorMain} fontSize={['28px', null, 5, '3.611111111vw']} lineHeight={'1.2'} className={`is-serif fw-400`}>
+                    {next.name}
+                  </LinkButton>
+                </TransitionLinkComponent>
+              </Box>
+            }
+          </Flex>
+        </TransitionContainer>
       </Container>
 
     </React.Fragment>

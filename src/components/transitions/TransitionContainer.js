@@ -36,16 +36,14 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-export const calculateDelayFromPosition = (el, index) => {
-  console.log('index:', index)
-  if (el) {
-    // console.log(el.getBoundingClientRect().x, el.getBoundingClientRect().y);
+export const calculateDelayForElement = (el, index, autoCalculateDelay) => {
+  if (el && autoCalculateDelay === true) {
     let positionDelay = (el.getBoundingClientRect().x / 50 * el.getBoundingClientRect().y / 50) * index
     return positionDelay
   }
 
   // default value
-  return TRANSITION_IN_DELAY / 2
+  return (TRANSITION_IN_DELAY / 4) * index
 }
 
 class TransitionContainer extends React.Component {
@@ -62,25 +60,27 @@ class TransitionContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.delay = calculateDelayFromPosition(this.ref.current ? this.ref.current : null, this.props.index)
+    this.delay = calculateDelayForElement(this.ref.current ? this.ref.current : null, this.props.index, this.props.autoCalculateDelay)
   }
 
   render() {
-    const { children, index, direction, distance } = this.props
+    const { children, direction, distance } = this.props
     const { transitionState } = this.context.layoutState
     const { ref } = this
 
     // determine initial pose, no fade in unless direction is set to both
     const initial = () => direction === `both` ? `hidden` : `visible`
 
+    // pick right pose based on transition status
+    const pose = () => transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`
+
     return (
       <TransitionContainerPoses
         ref={ref}
-        // index={index}
         initialPose={initial()}
+        pose={pose()}
         distance={distance}
         delay={this.delay}
-        pose={transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`}
       >
         {children}
       </TransitionContainerPoses>
@@ -89,14 +89,15 @@ class TransitionContainer extends React.Component {
 }
 
 TransitionContainer.defaultProps = {
-  // determines if element should animate in & out, or just on page out
   direction: `both`,
+  autoCalculateDelay: true,
   distance: 80,
   index: 1
 }
 
 TransitionContainer.propTypes = {
   children: PropTypes.object.isRequired,
+  autoCalculateDelay: PropTypes.bool,
   direction: PropTypes.string,
   distance: PropTypes.number,
   index: PropTypes.number

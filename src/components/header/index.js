@@ -11,14 +11,12 @@ import Nav from '@components/nav/index'
 
 import Container from '@styles/Container'
 import Logo from '@svg/Logo'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 const SiteHeader = styled.header`
   position: relative;
   z-index: 1000;
-  transition: opacity 0.5s linear 0.25s;
-  opacity: ${props => props.visible ? 1 : 0};
 `
 
 const HeaderStyle = styled.div`
@@ -36,21 +34,23 @@ class Header extends React.Component {
     return (
       <Location>
         {({ location }) => (
-          <Box as={SiteHeader} visible={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? false : true} pt={[0, 0, 0, `24px`]}>
-            <Container fluid className={`z-10`}>
-              <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
-                <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000000`}>
-                    <Logo inverted={layoutState.options.inverted} />
-                  </TransitionLinkComponent>
-                </Box>
+          <TransitionContainer distance={0}>
+            <Box as={SiteHeader} pt={[0, 0, 0, `24px`]}>
+              <Container fluid className={`z-10`}>
+                <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
+                  <Box width={'auto'} className={`is-relative z-20`}>
+                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000000`}>
+                      <Logo inverted={layoutState.options.inverted} />
+                    </TransitionLinkComponent>
+                  </Box>
 
-                <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
-                  <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
-                </Box>
-              </Flex>
-            </Container>
-          </Box>
+                  <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                    <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
+                  </Box>
+                </Flex>
+              </Container>
+            </Box>
+          </TransitionContainer>
         )}
       </Location>
     )
