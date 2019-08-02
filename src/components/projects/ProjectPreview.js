@@ -304,7 +304,7 @@ class ProjectPreview extends Component {
             onMouseOut={e => this.onHover(false)}
             style={transform}
           >
-            <TransitionContainer index={index} direction="out" distance={150}>
+            <TransitionContainer direction="out" distance={150}>
               <Box as={`figure`} mb={[4]}>
                 {HAS_HOVER && (
                   <ProjectHoverPane color={colorMain}>

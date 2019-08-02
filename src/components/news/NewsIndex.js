@@ -74,12 +74,12 @@ class NewsIndex extends Component {
         <SEO title={`nav.Journal`} translate={true} />
         <Container fluid>
           <Flex as={NewsIndexIntro} flexDirection="column" justifyContent="center" pb={[4, null, 3]} className="is-relative">
-            <TransitionContainer index={1}>
+            <TransitionContainer>
               <Text as={`h1`} fontSize={['6.763285024vw', null, '6vw', '3.611111111vw']} className={`fw-900`} mb={['6vw', null, '2vw']} textAlign={`center`}>
                 <FormattedHTMLMessage id="news.index.title" />
               </Text>
             </TransitionContainer>
-            <TransitionContainer index={2}>
+            <TransitionContainer>
               <Text as={`h3`} fontSize={['4.830917874vw', null, '2.75vw', '1.805555556vw']} width={['80%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
                 <FormattedMessage id="news.index.subtitle" />
               </Text>

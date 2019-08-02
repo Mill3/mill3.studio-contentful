@@ -254,7 +254,7 @@ class Nav extends React.Component {
           inverted={inverted}
         >
           <NavItem>
-            <TransitionLinkComponent to={`/projects/`} title={`Work, work, work, work!`} color={`#000`}>
+            <TransitionLinkComponent to={`/projects/`} color={`#000`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Projects" />
               </Text>
@@ -262,7 +262,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/about/`} title={`Yes, us`} color={`#445533`}>
+            <TransitionLinkComponent to={`/about/`} color={`#445533`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.About" />
               </Text>
@@ -270,7 +270,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/journal/`} title={`Words!`} color={`#3426F1`}>
+            <TransitionLinkComponent to={`/journal/`} color={`#3426F1`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Journal" />
               </Text>
@@ -278,7 +278,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/contact/`} title={`🤙`} color={`#3426F1`}>
+            <TransitionLinkComponent to={`/contact/`} color={`#3426F1`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Contact" />
               </Text>

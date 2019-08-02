@@ -181,7 +181,7 @@ class NewsPreview extends Component {
           pose={inView ? 'visible' : 'hidden'}
           width={'100%'}
         >
-          <TransitionContainer direction="out" distance={150} index={index}>
+          <TransitionContainer direction="out" index={index}>
             <TransitionLinkComponent to={`/journal/${slug}`} title={title} style={transform}>
               <Box as={`figure`} mb={[4]}>
                 <FigureBox ratio={4 / 6}>

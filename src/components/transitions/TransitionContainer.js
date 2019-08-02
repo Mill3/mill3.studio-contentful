@@ -20,14 +20,15 @@ const TransitionContainerPoses = posed.div({
   in: {
     opacity: 1,
     y: 0,
-    delay: ({ index }) => TRANSITION_IN_DELAY * index,
+    delay: ({ delay }) => delay,
+    // delay: ({ index }) => TRANSITION_IN_DELAY * index,
     transition: EASES['default'],
   },
   // when transition starts
   out: {
     opacity: 0,
     y: ({ distance }) => distance * -1,
-    delay: ({ index }) => 75 * index,
+    delay: ({ delay }) => delay,
     transition: {
       duration: TRANSITION_IN_DELAY / 2,
       ease: 'easeIn',
@@ -35,7 +36,17 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-// export const TRANSITION_DIRECTIONS = ['both', 'in', 'out']
+export const calculateDelayFromPosition = (el, index) => {
+  console.log('index:', index)
+  if (el) {
+    // console.log(el.getBoundingClientRect().x, el.getBoundingClientRect().y);
+    let positionDelay = (el.getBoundingClientRect().x / 50 * el.getBoundingClientRect().y / 50) * index
+    return positionDelay
+  }
+
+  // default value
+  return TRANSITION_IN_DELAY / 2
+}
 
 class TransitionContainer extends React.Component {
 
@@ -43,18 +54,32 @@ class TransitionContainer extends React.Component {
     layoutState: PropTypes.object,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.ref = React.createRef()
+    this.delay = 0
+  }
+
+  componentDidMount() {
+    this.delay = calculateDelayFromPosition(this.ref.current ? this.ref.current : null, this.props.index)
+  }
+
   render() {
     const { children, index, direction, distance } = this.props
     const { transitionState } = this.context.layoutState
+    const { ref } = this
 
     // determine initial pose, no fade in unless direction is set to both
     const initial = () => direction === `both` ? `hidden` : `visible`
 
     return (
       <TransitionContainerPoses
-        index={index}
+        ref={ref}
+        // index={index}
         initialPose={initial()}
         distance={distance}
+        delay={this.delay}
         pose={transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`}
       >
         {children}
