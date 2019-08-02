@@ -20,7 +20,7 @@ const ProjectIndexHeader = styled.header`
   min-height: 50vh;
 `
 
-const ProjectIndexList = styled.div`
+export const ProjectIndexList = styled.div`
   @media (max-width: ${props => props.theme.breakpoints[1]}) {
     max-width: 100vw;
     overflow: hidden;

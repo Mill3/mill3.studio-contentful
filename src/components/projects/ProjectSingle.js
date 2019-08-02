@@ -46,7 +46,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
       }
 
       <Container fluid={true}>
-        <TransitionContainer distance={-100} autoCalculateDelay={false}>
+        <TransitionContainer distance={0} autoCalculateDelay={false} index={0}>
           <Flex flexDirection="column" my={[5,5,6]}>
             {project.url &&
             <Box mx="auto">

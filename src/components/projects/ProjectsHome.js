@@ -3,6 +3,7 @@ import { Flex, Box, Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ProjectPreview from './ProjectPreview'
+import { ProjectIndexList } from './ProjectsIndex'
 import Button from '@components/buttons'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
@@ -90,7 +91,7 @@ class ProjectsHome extends React.Component {
     const { intl } = this.props
     return (
       <>
-        <Flex mb={['90px', null, '140px', '180px', '270px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
+        <Flex as={ProjectIndexList} mb={['90px', null, '140px', '180px', '270px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
           {this.list()}
         </Flex>
         <Flex mb={[5]} mx={['-5vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
