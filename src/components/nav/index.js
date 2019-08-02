@@ -13,10 +13,10 @@ const NavContainerPoses = posed.ul({
     delay: ({ children }) => children.length * 35 + 75,
     transition: {
       type: 'tween',
-      duration: 350,
+      duration: 120,
       ease: 'circIn',
     },
-    staggerChildren: 35,
+    staggerChildren: 15,
     staggerDirection: -1,
   },
   visible: {
@@ -200,6 +200,7 @@ const NavItem = styled(NavItemPoses)`
 const fontSizes = ['10.144927536vw', null, 3, 3]
 
 class Nav extends React.Component {
+
   constructor(props) {
     super(props)
 
@@ -222,6 +223,7 @@ class Nav extends React.Component {
       visible: false
     })
   }
+
   toggle() {
     this.setState({
       visible: !this.state.visible,
