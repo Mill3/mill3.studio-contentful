@@ -43,7 +43,6 @@ class Header extends React.Component {
                       <Logo inverted={layoutState.options.inverted} />
                     </TransitionLinkComponent>
                   </Box>
-
                   <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </Box>

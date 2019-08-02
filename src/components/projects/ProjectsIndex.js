@@ -98,7 +98,7 @@ class ProjectsIndex extends Component {
         <SEO title={`nav.Work`} translate={true} />
         <Container fluid>
           <Flex as={ProjectIndexHeader} flexDirection="column" justifyContent="center" pb={[4, null, 3]} className="is-relative">
-            <TransitionContainer index={1}>
+            <TransitionContainer autoCalculateDelay={false} index={1}>
               <Text as={`h1`} fontSize={['6.763285024vw', null, '3.611111111vw']} className={`fw-300`} mb={['6vw', null, '3vw']} textAlign={`center`}>
                 <span className="is-sans"><FormattedMessage id="nav.Work" /> </span>
                 <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
@@ -106,7 +106,7 @@ class ProjectsIndex extends Component {
                 <span className="is-serif fw-900"><FormattedMessage id="nav.Work" /> </span>
               </Text>
             </TransitionContainer>
-            <TransitionContainer index={1.25}>
+            <TransitionContainer autoCalculateDelay={false} index={1.5}>
               <Text as={`h3`} fontSize={['4.830917874vw', null, '1.805555556vw']} width={['100%', null, '75vw']} mx={'auto'} mb={0} textAlign={`center`}>
                 <FormattedMessage id="projects.Intro" />
               </Text>

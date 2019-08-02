@@ -35,7 +35,7 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-export const calculateDelayForElement = (el, autoCalculateDelay, index) => {
+export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 1) => {
   // calculations if element is mounted and props allows it
   if (el && autoCalculateDelay === true) {
     let positionDelay = (((el.getBoundingClientRect().x / 50) * el.getBoundingClientRect().y) / 50) * index
