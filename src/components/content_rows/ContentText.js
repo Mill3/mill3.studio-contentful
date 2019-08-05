@@ -123,7 +123,6 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
-
 `
 
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
@@ -131,12 +130,8 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
 
   return (
     <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <TransitionContainer enabled={inView} autoCalculateDelay={isFirst || false } distance={85} index={index}>
-        <Box
-          ref={ref}
-          as={`div`}
-          index={index}
-        >
+      <TransitionContainer enabled={inView} autoCalculateDelay={isFirst || false} distance={85} index={index}>
+        <Box ref={ref} as={`div`} index={index}>
           {text}
         </Box>
       </TransitionContainer>
@@ -145,25 +140,36 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
 }
 
 const ContentText = ({ data, isFirst, isLast }) => {
-  const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+  const { text, textColor, textColumns, itemsPerRow, noVerticalMargin, fadeInBackgroundColor, backgroundColor } = data
+  const Wrapper = fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   const CalculatePaddingTop = () => {
-    return data.noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
+    return noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
   }
 
   const CalculatePaddingBottom = () => {
-    return data.noVerticalMargin ? [0] : isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER
+    return noVerticalMargin ? [0] : isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (
-    <Wrapper backgroundColor={data.backgroundColor || null}>
+    <Wrapper backgroundColor={backgroundColor || null}>
       {data.text && (
         <Box pt={CalculatePaddingTop()} pb={CalculatePaddingBottom()}>
-          <Box mx="auto" px={[3, 5, `15vw`, `20vw`, `30vw`]}>
+          <Box
+            mx="auto"
+            px={[
+              3,
+              5,
+              `calc(15vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
+              `calc(20vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
+              `calc(20vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
+              `calc(30vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
+            ]}
+          >
             <TextColumn
               index={1}
-              text={data.text ? format(data.text.text || data.text.content) : []}
-              textColor={data.textColor ? data.textColor : false}
+              text={text ? format(text.text || text.content) : []}
+              textColor={textColor ? textColor : false}
               margin={[0]}
               isFirst={isFirst}
             />
@@ -174,15 +180,20 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          px={[3, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
+          px={
+            backgroundColor
+              ? [3, 5, 5, 5, data.itemsPerRow === '3' ? 0 : `${GRID_GUTTER}px`, `4vw`]
+              : [3, 5, 5, 5, 5, `15vw`]
+          }
+          // px={[3, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER}px` : `calc(15vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`]}
         >
-          <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
-            {data.textColumns &&
-              data.textColumns.map((textColumn, index) => (
+          <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
+            {textColumns &&
+              textColumns.map((textColumn, index) => (
                 <TextColumn
                   key={index}
                   text={textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
-                  textColor={data.textColor ? data.textColor : false}
+                  textColor={textColor ? textColor : false}
                   margin={[0]}
                   index={index}
                 />

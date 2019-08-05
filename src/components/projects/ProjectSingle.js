@@ -62,7 +62,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
                 </Text>
                 <TransitionLinkComponent
                   to={`/projects/${next.slug}`}
-                  title={next.name}
+                  title={next.transitionName || null}
                   color={next.colorMain}
                 >
                   <LinkButton hoverColor={next.colorMain} fontSize={['28px', null, 5, '3.611111111vw']} lineHeight={'1.2'} className={`is-serif fw-400`}>

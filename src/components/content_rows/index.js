@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'rebass'
@@ -12,35 +12,35 @@ import ContentSlides from './ContentSlides'
 import ContentSectionBreak from './ContentSectionBreak'
 
 export const ALIGN_VALUES = {
-  'center': 'center',
-  'left': 'snap-left',
-  'right': 'snap-right'
+  center: 'center',
+  left: 'snap-left',
+  right: 'snap-right',
 }
 
 export const VERTICAL_ALIGN_VALUES = {
-  'start': 'flex-start',
-  'center': 'center',
-  'end': 'flex-end'
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end',
 }
 
 export const CONTENT_ROW_TYPES = {
-  'text': 'ContentfulContentText',
-  'images': 'ContentfulContentImages',
-  'videos': 'ContentfulContentVideos',
-  'slides': 'ContentfulContentSlides',
-  'section_break': 'ContentfulContentSectionBreak',
+  text: 'ContentfulContentText',
+  images: 'ContentfulContentImages',
+  videos: 'ContentfulContentVideos',
+  slides: 'ContentfulContentSlides',
+  section_break: 'ContentfulContentSectionBreak',
 }
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [4,4,5,6]
-export const BOTTOM_SPACER = [4,4,5,5]
-export const HORIZONTAL_SPACER = [2,5,6]
+export const VERTICAL_SPACER = [4, 4, 5, 6]
+export const BOTTOM_SPACER = [4, 4, 5, 5]
+export const HORIZONTAL_SPACER = [2, 5, 6]
 
 // gutter between each grid elements
 export const GRID_GUTTER = 25
 
-export const RowContainer = ({alignContent, backgroundColor, children}) => {
+export const RowContainer = ({ alignContent, backgroundColor, children }) => {
   const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
   const responsiveGap = [0, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
 
@@ -49,7 +49,13 @@ export const RowContainer = ({alignContent, backgroundColor, children}) => {
   let pr = alignContent === ALIGN_VALUES['right'] || backgroundColor ? responsiveGap : [0]
 
   return (
-    <Wrapper fluid={true} pl={pl} pr={pr} alignContent={`center`} backgroundColor={backgroundColor ? backgroundColor : `transparent`}>
+    <Wrapper
+      fluid={true}
+      pl={pl}
+      pr={pr}
+      alignContent={`center`}
+      backgroundColor={backgroundColor ? backgroundColor : null}
+    >
       {children}
     </Wrapper>
   )
@@ -96,20 +102,20 @@ export class AnimatedBackgroundContainer extends Component {
     this.scrollbar = null
 
     // cancel timeout
-    if( this.exitViewportTicker ) clearTimeout(this.exitViewportTicker)
+    if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
     this.exitViewportTicker = null
   }
 
   onVisibilityChange(inView) {
-    if( inView ) {
+    if (inView) {
       // if already in view, skip
-      if( this.state.inView === true ) return
+      if (this.state.inView === true) return
 
       // cancel timeout
       clearTimeout(this.exitViewportTicker)
 
       // register scroll listener
-      if( this.scrollbar && !this.exitViewportTicker ) this.scrollbar.addListener(this.onScroll)
+      if (this.scrollbar && !this.exitViewportTicker) this.scrollbar.addListener(this.onScroll)
 
       // destroy timeout
       this.exitViewportTicker = null
@@ -119,21 +125,23 @@ export class AnimatedBackgroundContainer extends Component {
         inView: true,
         y: this.scrollbar.offset.y,
       })
-    }
-    else {
+    } else {
       // if already outside of viewport, skip
-      if( this.state.inView === false ) return
+      if (this.state.inView === false) return
 
       // cancel timeout
       clearTimeout(this.exitViewportTicker)
       this.exitViewportTicker = null
 
       // update state
-      this.setState({
-        inView: false,
-      }, () => {
-        this.exitViewportTicker = setTimeout(this.onExitCompleted, 250)
-      })
+      this.setState(
+        {
+          inView: false,
+        },
+        () => {
+          this.exitViewportTicker = setTimeout(this.onExitCompleted, 250)
+        }
+      )
     }
   }
   onExitCompleted() {
@@ -141,7 +149,7 @@ export class AnimatedBackgroundContainer extends Component {
     this.exitViewportTicker = null
 
     // unregister scroll listener
-    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
+    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
   }
   onScroll({ offset }) {
     this.setState({
@@ -152,7 +160,7 @@ export class AnimatedBackgroundContainer extends Component {
   render() {
     const { backgroundColor, children } = this.props
     const { inView, y } = this.state
-    const t = { transform: `translate3d(0, ${y}px, 0)`}
+    const t = { transform: `translate3d(0, ${y}px, 0)` }
 
     return (
       <InView as={Box} onChange={this.onVisibilityChange}>
@@ -163,14 +171,11 @@ export class AnimatedBackgroundContainer extends Component {
   }
 }
 
-export const AnimatedBackgroundRowContainer = ({ backgroundColor, children, ...props}) => (
+export const AnimatedBackgroundRowContainer = ({ backgroundColor, children, ...props }) => (
   <AnimatedBackgroundContainer backgroundColor={backgroundColor}>
-    <RowContainer {...props}>
-      {children}
-    </RowContainer>
+    <RowContainer {...props}>{children}</RowContainer>
   </AnimatedBackgroundContainer>
 )
-
 
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,
@@ -184,25 +189,21 @@ export const Grid = styled.div`
   display: grid;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   grid-template-columns: 1fr;
-  align-items: ${props => props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
+  align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
   position: relative;
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
     grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   }
-
 `
 
-
 class ContentRow extends Component {
-
   rows() {
-
     return this.props.data.map((row, index) => {
       // console.log('index:', index, index === 0)
       let isFirst = index === 0
-      let isLast = index === (this.props.data.length - 1)
+      let isLast = index === this.props.data.length - 1
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
           return <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
@@ -225,18 +226,16 @@ class ContentRow extends Component {
   }
 
   render() {
-    return (
-      <React.Fragment>{this.props.data ? this.rows() : ''}</React.Fragment>
-    );
+    return <React.Fragment>{this.props.data ? this.rows() : ''}</React.Fragment>
   }
 }
 
 ContentRow.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 }
 
 ContentRow.defaultProps = {
-  data: null
+  data: null,
 }
 
-export default ContentRow;
+export default ContentRow

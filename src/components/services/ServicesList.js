@@ -34,7 +34,7 @@ const Service = ({ service, index }) => {
 const ServicesList = ({ data }) => {
   return (
     <Container>
-      <Flex width={[1,1,1,`70vw`]} mx="auto" pt={VERTICAL_SPACER}>
+      <Flex flexWrap="no-wrap" width={[1,1,1,`70vw`]} mx="auto" pt={[VERTICAL_SPACER/3,VERTICAL_SPACER]}>
         <Box as="aside" width={[1,1/5]}>
           <TransitionContainer autoCalculateDelay={false} distance={25} index={0}>
             <Text as={`h5`} fontWeight={`500`}>Services</Text>
