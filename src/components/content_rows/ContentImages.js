@@ -58,6 +58,7 @@ const OverlayImagePoses = posed.img({
 })
 
 export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst }) => {
+  // console.log('noVerticalMargin:', noVerticalMargin)
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -119,8 +120,9 @@ const ContentImages = ({ data, isFirst }) => {
     <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
       <Box
         as={Grid}
-        py={data.backgroundColor && !data.fadeInBackgroundColor ? VERTICAL_SPACER : 0}
+        py={data.backgroundColor && !data.fadeInBackgroundColor && !data.noBottomMargin ? VERTICAL_SPACER : 0}
         my={
+          // TODO: fix me, ugly condition
           data.noBottomMargin || data.gaplessGrid || (data.backgroundColor && !data.fadeInBackgroundColor)
             ? [0]
             : VERTICAL_SPACER
