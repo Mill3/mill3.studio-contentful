@@ -79,10 +79,16 @@ export const postBody = styled.div`
   }
 
   h3 {
-    font-size: ${props => props.theme.fontSizes[4]}px;
+    font-size: 5.75vw;
     font-weight: 300;
-    @media (min-width: ${props => props.theme.breakpoints[4]}) {
-      font-size: 2.15555556vw;
+    @media (min-width: ${props => props.theme.breakpoints[1]}) {
+      font-size: 3.8vw;
+    }
+    @media (min-width: ${props => props.theme.breakpoints[2]}) {
+      font-size: 2.8vw;
+    }
+    @media (min-width: ${props => props.theme.breakpoints[3]}) {
+      font-size: 1.805vw;
     }
   }
 

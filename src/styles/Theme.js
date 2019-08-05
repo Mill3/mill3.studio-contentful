@@ -32,7 +32,7 @@ export const fontSizes = [
   15,
   18,
   20,
-  32,
+  28,
   42,
   52,
   96

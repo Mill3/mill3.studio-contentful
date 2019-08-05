@@ -88,9 +88,9 @@ class SingleHeader extends Component {
           {subHeading && (
             <TransitionContainer >
               <Text
-                as={`h4`}
+                as={`h3`}
                 textAlign="center"
-                fontSize={[3, 3, `1.65vw`]}
+                fontSize={['5.75vw', '3.8vw', '2.8vw', '1.805vw']}
                 pt={['24px', null, 4]}
                 px={[0,0,0,0,`10vw`]}
                 mb={0}

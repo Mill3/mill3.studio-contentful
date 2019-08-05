@@ -4,13 +4,9 @@ import posed from 'react-pose'
 import { Box, Text } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES } from '@utils/constants'
 import TransitionContainer from '@components/transitions/TransitionContainer'
-import { postBody, format, TextColumn } from './ContentText'
+import { format, TextColumn } from './ContentText'
 import { RowContainer, VERTICAL_SPACER } from './index'
-import { TRANSITION_IN_DELAY } from '@utils/constants'
-
-const fontSizes = [5, 4, 5, '3.611111111vw']
 
 const ContentSectionBreak = ({ data, isFirst, isLast }) => {
   return (
@@ -20,9 +16,9 @@ const ContentSectionBreak = ({ data, isFirst, isLast }) => {
           <TransitionContainer distance={40}>
             <Text
               as={`h1`}
-              fontSize={fontSizes}
+              fontSize={['28px', null, 5, '3.611111111vw']}
               className="is-serif fw-900"
-              mb={[5, 5, 4, 2]}
+              mb={[2]}
             >
               {data.title}
             </Text>

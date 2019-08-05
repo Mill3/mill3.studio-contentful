@@ -12,36 +12,36 @@ import Viewport from '@utils/Viewport'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 export const columns = {
-  0 : {
-    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+  0: {
+    width: [1, 1 / 2, 1 / 2, 4.5 / 12, 1 / 3],
   },
-  1 : {
-    width: [1, 1/2],
+  1: {
+    width: [1, 1 / 2],
     ml: ['auto'],
     mt: [0, 5],
   },
-  2 : {
-    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+  2: {
+    width: [1, 1 / 2, 1 / 2, 4.5 / 12, 1 / 3],
     mt: [0, 0, -5, '-30vh'],
-    ml: [0, 0, 0, `${((6 - 4.5) / 12)*100}%`]
+    ml: [0, 0, 0, `${((6 - 4.5) / 12) * 100}%`],
   },
-  3 : {
-    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+  3: {
+    width: [1, 1 / 2, 1 / 2, 4.5 / 12, 1 / 3],
     mt: [null, null, null, null, 40],
     ml: [null, null, null, 'auto'],
   },
-  4 : {
-    width: [1, 1/2, 1/2, 5.5/12, 1/2],
+  4: {
+    width: [1, 1 / 2, 1 / 2, 5.5 / 12, 1 / 2],
     mt: [0, 0, -5, '-30vh'],
   },
-  5 : {
-    width: [1, 1/2, 1/2, 4.5/12, 1/3],
+  5: {
+    width: [1, 1 / 2, 1 / 2, 4.5 / 12, 1 / 3],
     mt: [null, null, null, null, 70],
-    ml: [null, null, null, `${1 / 12 * 100}%`, `${0.25 / 12 * 100}%`]
-  }
+    ml: [null, null, null, `${(1 / 12) * 100}%`, `${(0.25 / 12) * 100}%`],
+  },
 }
 
-export const ProjectHomeCol = (index) => {
+export const ProjectHomeCol = index => {
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
   return column
 }
@@ -49,23 +49,22 @@ export const ProjectHomeCol = (index) => {
 const mobileBreakpoint = parseInt(breakpoints[1])
 
 class ProjectsHome extends React.Component {
-
   list() {
     if (this.props.data) {
       const isMobile = Viewport.width < mobileBreakpoint
-      const getOffset = (index) => {
-        if( isMobile ) return 0
+      const getOffset = index => {
+        if (isMobile) return 0
 
         return new ResponsiveProp([
           null,
           null,
           [0, 90][index % 2],
           [0, 120, -30, 140, -55, 160][index],
-          [0, 140, -60, 200, 60, 240][index]
+          [0, 140, -60, 200, 60, 240][index],
         ])
       }
-      const getDelay = (index) => {
-        if( isMobile ) return index === 0 ? TRANSITION_DURATION * 3 : 0
+      const getDelay = index => {
+        if (isMobile) return index === 0 ? TRANSITION_DURATION * 3 : 0
         else return index < 2 ? TRANSITION_DURATION * 2 + index * 250 : 0
       }
 
@@ -91,25 +90,29 @@ class ProjectsHome extends React.Component {
     const { intl } = this.props
     return (
       <>
-        <Flex as={ProjectIndexList} mb={['90px', null, '140px', '180px', '270px']} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} alignItems={`start`}>
+        <Flex
+          as={ProjectIndexList}
+          mb={['90px', null, '140px', '180px', '270px']}
+          mx={['-5vw', null, -3, '-28px']}
+          flexWrap={`wrap`}
+          alignItems={`start`}
+        >
           {this.list()}
         </Flex>
         <Flex mb={[5]} mx={['-5vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
-              <Button>
-                {intl.formatMessage({id: 'projects.Button' })}
-              </Button>
+              <Button>{intl.formatMessage({ id: 'projects.Button' })}</Button>
             </TransitionLinkComponent>
           </Box>
-          <Box width={[10/12, 3/4]} pt={['80px', null, '110px']} pb={[0, null, 5]} m={`auto`}>
+          <Box width={[10 / 12, 3 / 4]} pt={['80px', null, '110px']} pb={[0, null, 5]} m={`auto`}>
             <Text fontSize={['5.314009662vw', null, 3, `2vw`]} textAlign={`center`} className={`fw-300`}>
               <FormattedMessage id="projects.HomeOutro" />
             </Text>
           </Box>
         </Flex>
       </>
-    );
+    )
   }
 }
 
