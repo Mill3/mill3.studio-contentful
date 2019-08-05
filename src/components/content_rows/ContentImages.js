@@ -116,17 +116,15 @@ const OverlayImage = ({ img }) => {
 const ContentImages = ({ data, isFirst }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
+  const CalculatePaddingVertical = () => {
+    return data.noBottomMargin ? [0] : VERTICAL_SPACER
+  }
+
   return (
     <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
       <Box
         as={Grid}
-        py={data.backgroundColor && !data.fadeInBackgroundColor && !data.noBottomMargin ? VERTICAL_SPACER : 0}
-        my={
-          // TODO: fix me, ugly condition
-          data.noBottomMargin || data.gaplessGrid || (data.backgroundColor && !data.fadeInBackgroundColor)
-            ? [0]
-            : VERTICAL_SPACER
-        }
+        py={CalculatePaddingVertical()}
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}
