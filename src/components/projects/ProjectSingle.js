@@ -49,7 +49,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
         <TransitionContainer distance={0} autoCalculateDelay={false} index={0}>
           <Flex flexDirection="column" my={[5,5,6]}>
             {project.url &&
-            <Box mx="auto">
+            <Box mx="auto" mb={[3,3,`100px`]}>
               <a href={project.url} target="_blank" without="true" rel="noopener noreferrer">
                 <Button>{intl.formatMessage({id: 'projects.single.website'}).toString()}</Button>
               </a>

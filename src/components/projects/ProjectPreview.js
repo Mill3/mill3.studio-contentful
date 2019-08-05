@@ -305,7 +305,7 @@ class ProjectPreview extends Component {
             style={transform}
           >
             <TransitionContainer direction="out" distance={150}>
-              <Box as={`figure`} mb={[4]}>
+              <Box as={`figure`} mb={[2,2,4]}>
                 {HAS_HOVER && (
                   <ProjectHoverPane color={colorMain}>
                     {imageHover && !videoPreview && (

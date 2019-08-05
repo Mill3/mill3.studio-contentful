@@ -123,6 +123,7 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
+
 `
 
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
@@ -158,7 +159,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
     <Wrapper backgroundColor={data.backgroundColor || null}>
       {data.text && (
         <Box pt={CalculatePaddingTop()} pb={CalculatePaddingBottom()}>
-          <Box mx="auto" px={[4, 5, `15vw`, `20vw`, `30vw`]}>
+          <Box mx="auto" px={[3, 5, `15vw`, `20vw`, `30vw`]}>
             <TextColumn
               index={1}
               text={data.text ? format(data.text.text || data.text.content) : []}
@@ -173,7 +174,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          px={[4, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
+          px={[3, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER * 3}px` : `15vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={data.itemsPerRow}>
             {data.textColumns &&
