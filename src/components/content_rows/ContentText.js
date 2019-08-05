@@ -182,10 +182,9 @@ const ContentText = ({ data, isFirst, isLast }) => {
           pb={CalculatePaddingBottom()}
           px={
             backgroundColor
-              ? [3, 5, 5, 5, data.itemsPerRow === '3' ? 0 : `${GRID_GUTTER}px`, `4vw`]
-              : [3, 5, 5, 5, 5, `15vw`]
+              ? [3, 5, 5, 5, data.itemsPerRow === '3' ? 0 : `${GRID_GUTTER}px`, `15vw`]
+              : [3, 5, 5, 5, `15vw`]
           }
-          // px={[3, 5, 5, 5, 5, data.itemsPerRow === '3' ? `${GRID_GUTTER}px` : `calc(15vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`]}
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
             {textColumns &&
