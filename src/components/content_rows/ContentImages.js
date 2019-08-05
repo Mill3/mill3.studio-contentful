@@ -8,7 +8,7 @@ import { useInView } from 'react-intersection-observer'
 import { EASES, REVEALS_DELAY } from '@utils/constants'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
-import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
+import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER, BOTTOM_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
 
 const ContentImageFlexWrapper = styled.div`
@@ -34,7 +34,7 @@ const ContentImagePoses = posed.figure({
   visible: {
     opacity: 1,
     y: 0,
-    delay: ({ index, isFirst }) =>REVEALS_DELAY * (index + 1),
+    delay: ({ index, isFirst }) => REVEALS_DELAY * (index + 1),
     transition: EASES['default'],
   },
 })
@@ -70,40 +70,37 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst })
       alignItems={`center`}
       justifyContent={`center`}
     >
-        <Box
-          as={ContentImagePoses}
-          width={noStrech ? `auto` : `100%`}
-          index={index}
-          isFirst={isFirst}
-          initialPose={'hidden'}
-          pose={inView ? 'visible' : 'hidden'}
-          mb={0}
-        >
-          <TransitionContainer direction="out" enabled={inView} autoCalculateDelay={false} distance={50} index={index}>
+      <Box
+        as={ContentImagePoses}
+        width={noStrech ? `auto` : `100%`}
+        index={index}
+        isFirst={isFirst}
+        initialPose={'hidden'}
+        pose={inView ? 'visible' : 'hidden'}
+        mb={0}
+      >
+        <TransitionContainer direction="out" enabled={inView} autoCalculateDelay={false} distance={50} index={index}>
+          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
+            <img
+              src={img.fixed ? img.fixed.src : img.file.url}
+              className={`img-fluid`}
+              alt={`${img.description || img.id}`}
+            />
+          )}
 
-            {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-              <img
-                src={img.fixed ? img.fixed.src : img.file.url}
-                className={`img-fluid`}
-                alt={`${img.description || img.id}`}
-              />
-            )}
+          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
+            <MediaItemVideo autoPlay loop playsInline muted>
+              <source src={img.file.url} type={img.file.contentType} />
+            </MediaItemVideo>
+          )}
 
-            {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-              <MediaItemVideo autoPlay loop playsInline muted>
-                <source src={img.file.url} type={img.file.contentType} />
-              </MediaItemVideo>
-            )}
-
-            {img.file && img.description && (
-              <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
-                {img.description}
-              </Box>
-            )}
-
-          </TransitionContainer>
-
-        </Box>
+          {img.file && img.description && (
+            <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
+              {img.description}
+            </Box>
+          )}
+        </TransitionContainer>
+      </Box>
     </Flex>
   )
 }
@@ -113,15 +110,15 @@ const OverlayImage = ({ img }) => {
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 
-const ContentImages = ({ data, isFirst }) => {
+const ContentImages = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   const CalculatePaddingTop = () => {
-    return data.noBottomMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
+    return data.noBottomMargin ? [0] : (isFirst ? [0] : VERTICAL_SPACER)
   }
 
   const CalculatePaddingBottom = () => {
-    return data.noBottomMargin ? [0] : VERTICAL_SPACER
+    return data.noBottomMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (

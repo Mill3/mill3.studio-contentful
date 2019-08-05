@@ -148,7 +148,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
   }
 
   const CalculatePaddingBottom = () => {
-    return noVerticalMargin ? [0] : isFirst || isLast ? BOTTOM_SPACER : VERTICAL_SPACER
+    return noVerticalMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (
