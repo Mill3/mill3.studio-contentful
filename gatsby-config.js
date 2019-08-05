@@ -101,6 +101,12 @@ module.exports = {
         component: require.resolve(`./src/components/layout.js`),
       },
     },
+    {
+      resolve: `gatsby-plugin-polyfill-io`,
+      options: {
+         features: [`IntersectionObserver`]
+      },
+   },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     'gatsby-plugin-offline',

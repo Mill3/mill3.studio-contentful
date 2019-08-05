@@ -5,7 +5,7 @@ import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES, REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { EASES, REVEALS_DELAY } from '@utils/constants'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER } from './index'
