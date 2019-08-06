@@ -44,7 +44,7 @@ class Header extends React.Component {
                     </TransitionLinkComponent>
                   </TransitionContainer>
                 </Box>
-                <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                <Box width={'auto'} ml={`auto`} mr={[0, null, 0]}>
                   <TransitionContainer distance={0}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </TransitionContainer>

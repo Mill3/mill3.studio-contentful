@@ -93,13 +93,13 @@ class ProjectsHome extends React.Component {
         <Flex
           as={ProjectIndexList}
           mb={['90px', null, '140px', '180px', '270px']}
-          mx={['-4.25vw', null, -3, '-28px']}
+          mx={['-6.25vw', null, -3, '-28px']}
           flexWrap={`wrap`}
           alignItems={`start`}
         >
           {this.list()}
         </Flex>
-        <Flex mb={[5]} mx={['-4.25vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
+        <Flex mb={[5]} mx={['-6.15vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
             <TransitionLinkComponent to={`/projects`}>
               <Button>{intl.formatMessage({ id: 'projects.Button' })}</Button>
