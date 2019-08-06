@@ -112,13 +112,14 @@ const OverlayImage = ({ img }) => {
 
 const ContentImages = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
+  const { noBottomMargin, backgroundColor } = data
 
   const CalculatePaddingTop = () => {
-    return data.noBottomMargin ? [0] : (isFirst ? [0] : VERTICAL_SPACER)
+    return noBottomMargin ? [0] : (isFirst && !backgroundColor ? [0] : VERTICAL_SPACER)
   }
 
   const CalculatePaddingBottom = () => {
-    return data.noBottomMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
+    return noBottomMargin ? [0] : ((isFirst || isLast) && !backgroundColor) ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (
@@ -131,10 +132,12 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         itemsPerRow={data.itemsPerRow}
         alignItems={data.alignVertical}
       >
+        {/* all medias */}
         {data.medias &&
           data.medias.map((img, index) => (
             <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} isFirst={isFirst} />
           ))}
+        {/* all image items */}
         {data.imageItems &&
           data.imageItems.map((imageItem, index) => (
             <Flex alignItems={data.alignVertical} flexWrap={'wrap'}>

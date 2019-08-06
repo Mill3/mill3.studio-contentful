@@ -34,18 +34,19 @@ export const CONTENT_ROW_TYPES = {
 // responsive value between each row
 // this value is used in Rebass margin properties
 export const VERTICAL_SPACER = [4, 4, 5, 6]
+export const HORIZONTAL_SPACER = [4, 4, 5, 6]
 export const BOTTOM_SPACER = [4, 4, 5, 5]
 
 // gutter between each grid elements
-export const GRID_GUTTER = 25
+export const GRID_GUTTER = 45
 
 export const RowContainer = ({ alignContent, backgroundColor, children }) => {
   const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
-  const responsiveGap = [0, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
+  // const responsiveGap = [0, `${GRID_GUTTER * 2}px`, `${GRID_GUTTER * 3}px`]
 
   // set padding based to alignContent value
-  let pl = (alignContent === ALIGN_VALUES['left'] || backgroundColor) ? responsiveGap : [0]
-  let pr = (alignContent === ALIGN_VALUES['right'] || backgroundColor) ? responsiveGap : [0]
+  let pl = (alignContent === ALIGN_VALUES['left'] || backgroundColor) ? HORIZONTAL_SPACER : [0]
+  let pr = (alignContent === ALIGN_VALUES['right'] || backgroundColor) ? HORIZONTAL_SPACER : [0]
 
   return (
     <Wrapper
