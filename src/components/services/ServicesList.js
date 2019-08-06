@@ -4,7 +4,7 @@ import posed from 'react-pose'
 import { useInView } from 'react-intersection-observer'
 import { Flex, Box, Text } from 'rebass'
 
-import { VERTICAL_SPACER, GRID_GUTTER } from '@components/content_rows'
+import { HORIZONTAL_SPACER, VERTICAL_SPACER, GRID_GUTTER } from '@components/content_rows'
 import { TextColumnPoses } from '@components/content_rows/ContentText'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 
@@ -25,7 +25,7 @@ const Service = ({ service, index }) => {
   return (
     <div ref={ref}>
       <TransitionContainer enabled={inView} autoCalculateDelay={false} distance={25} index={index / 5}>
-        <Text as={`h5`} mb={[2,3,4]}>{service.title || service.fields.title}</Text>
+        <Text as={`h5`} fontSize={[1,3]} mb={[2,3,4]}>{service.title || service.fields.title}</Text>
       </TransitionContainer>
     </div>
   )
@@ -37,7 +37,7 @@ const ServicesList = ({ data }) => {
       <Flex flexWrap="no-wrap" width={[1,1,1,1,1,`80vw`]} mx="auto" pt={VERTICAL_SPACER}>
         <Box as="aside" width={[1,1/5]}>
           <TransitionContainer autoCalculateDelay={false} distance={25} index={0}>
-            <Text as={`h5`} fontWeight={`500`}>Services</Text>
+            <Text as={`h5`} fontSize={[1,3]} fontWeight={`500`}>Services</Text>
           </TransitionContainer>
         </Box>
         <Box as={ServicesGrid} width={[1,4/5]}>

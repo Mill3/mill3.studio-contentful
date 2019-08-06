@@ -57,7 +57,8 @@ export const postBody = styled.div`
   h4,
   h5 {
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
     line-height: 1.35;
   }
@@ -99,8 +100,17 @@ export const postBody = styled.div`
 
   p {
     font-size: 18px;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
+  }
+
+  P + h2,
+  P + h3,
+  P + h4,
+  P + h5,
+  P + blockquote {
+    margin-top: 2rem;
   }
 
   a {
@@ -123,6 +133,7 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
+
 `
 
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
