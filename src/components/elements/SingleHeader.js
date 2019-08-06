@@ -61,10 +61,11 @@ class SingleHeader extends Component {
         {media ? this.figure() : ''}
 
         <Flex flexDirection="column" alignItems="center" mb={['30px', null, 4, 5]} mt={!media ? ['30px', null, 6] : [0]}>
+
           {label && (
             <TransitionContainer distance={100}>
               <TransitionLinkComponent to={label.url} title={label.transitionTitle} color={label.transitionColor}>
-                <Text as={`h6`} fontSize={[2, 3]} m={0} textAlign="center" color="blue">
+                <Text as={`h6`} fontSize={[2, 3]} mb={[0, 3]} textAlign="center" color="blue">
                   <FormattedMessage id={label.text} />
                 </Text>
               </TransitionLinkComponent>

@@ -158,12 +158,12 @@ const ContentText = ({ data, isFirst, isLast }) => {
           <Box
             mx="auto"
             px={[
-              3,
-              5,
+              0,
+              0,
               `15vw`,
-              `20vw`,
-              `20vw`,
-              `30vw`,
+              `15vw`,
+              `18vw`,
+              `21vw`,
             ]}
           >
             <TextColumn
@@ -180,7 +180,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          px={parseInt(data.itemsPerRow) <= 2 ? [3, 4, 6, 6, `10vw`, `18vw`] : [3, 4, 5, 5, `5vw`, `10vw`]}
+          px={parseInt(data.itemsPerRow) <= 2 ? [0, 0, 0, 0, `7vw`, `14vw`] : [0, 0, 0, 0, `5vw`, `12vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
             {textColumns &&

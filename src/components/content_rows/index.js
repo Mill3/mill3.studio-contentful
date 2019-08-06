@@ -12,6 +12,7 @@ import ContentSlides from './ContentSlides'
 import ContentSectionBreak from './ContentSectionBreak'
 
 export const ALIGN_VALUES = {
+  snap: 'snap-both',
   center: 'center',
   left: 'snap-left',
   right: 'snap-right',
@@ -33,30 +34,44 @@ export const CONTENT_ROW_TYPES = {
 
 // responsive value between each row
 // this value is used in Rebass margin properties
-export const VERTICAL_SPACER = [3, 4, 5, 5, 6]
-export const HORIZONTAL_SPACER = [3, 4, 5, 5, 6]
+export const VERTICAL_SPACER = [4, 4, 5, 5, 6]
+export const HORIZONTAL_SPACER = [4, 4, 5, 5, 6]
 export const BOTTOM_SPACER = [4, 4, 5, 5]
 
 // gutter between each grid elements
 export const GRID_GUTTER = 45
 
 export const RowContainer = ({ alignContent, backgroundColor, addSpacer, children }) => {
-  const Wrapper = alignContent === ALIGN_VALUES['center'] ? Container : Box
 
-  // set padding based to alignContent value
-  let pl = (alignContent === ALIGN_VALUES['left'] || addSpacer) ? HORIZONTAL_SPACER : [0]
-  let pr = (alignContent === ALIGN_VALUES['right'] || addSpacer) ? HORIZONTAL_SPACER : [0]
+  let calculatePadding = (direction = null) => {
+
+    // align is snapped on both side, remove all padding on any side and all breakpoints
+    if (alignContent === ALIGN_VALUES['snap']) {
+      return [0]
+    }
+
+    // remove padding only on left side
+    if (alignContent === ALIGN_VALUES['left'] && direction === 'left') {
+      return [0]
+    }
+
+    // remove padding only on right side
+    if (alignContent === ALIGN_VALUES['right'] && direction === 'right') {
+      return [0]
+    }
+
+    // by default, return the full spacer on both side
+    return HORIZONTAL_SPACER
+  }
 
   return (
-    <Wrapper
-      pl={pl}
-      pr={pr}
-      fluid={true}
-      alignContent={`center`}
+    <Box
+      pl={calculatePadding("left")}
+      pr={calculatePadding("right")}
       backgroundColor={backgroundColor ? backgroundColor : null}
     >
       {children}
-    </Wrapper>
+    </Box>
   )
 }
 
@@ -187,13 +202,14 @@ const GridColums = itemsPerRow => {
 export const Grid = styled.div`
   display: grid;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+  /* grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 4}px`)}; */
   grid-template-columns: 1fr;
   align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
   position: relative;
 
   @media (min-width: ${props => props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1]}) {
-    grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
     grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+    grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
 

@@ -15,7 +15,7 @@ const Container = (props) => {
     <Box
       {...props}
       as={ContainerBox}
-      px={[3, 4, 0]}
+      px={[4, 4, 0]}
       mx='auto'
     />
   )

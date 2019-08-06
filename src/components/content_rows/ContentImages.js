@@ -129,7 +129,6 @@ const ContentImages = ({ data, isFirst, isLast }) => {
     <Wrapper
       alignContent={data.alignContent}
       backgroundColor={data.backgroundColor || null}
-      addSpacer={data.backgroundColor || null}
     >
       <Box
         as={Grid}
