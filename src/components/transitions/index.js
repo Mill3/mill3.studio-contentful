@@ -22,11 +22,12 @@ const Poses = posed.div({
   },
   // initial site load
   initial: {
-    opacity: 0,
+    // opacity: 1,
+    y: `-100%`,
     transition: {
-      delay: TRANSITION_DURATION,
-      duration: TRANSITION_DURATION / 2,
-      ease: 'easeInOut',
+      delay: TRANSITION_IN_DELAY,
+      duration: TRANSITION_DURATION,
+      ease: 'easeIn',
     },
   },
   // when page change starts
@@ -49,6 +50,7 @@ const Poses = posed.div({
   //
   ended: {
     opacity: 0,
+    y: 0,
     transition: {
       duration: 0,
     },
@@ -66,7 +68,7 @@ const TransitionPaneStyle = styled(Poses)`
   z-index: 100000;
   pointer-events: none;
   color: #fff;
-  background: ${props => props.backgroundColor || '#000'};
+  background: ${props => props.backgroundColor || `#fff`};
 
   svg {
     width: 88vw;
