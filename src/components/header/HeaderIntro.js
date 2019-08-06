@@ -229,7 +229,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 2 : TRANSITION_DURATION * 1.15}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 1.65 : TRANSITION_DURATION * 0.85}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -246,7 +246,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 2 : TRANSITION_DURATION * 1.15}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 1.65 : TRANSITION_DURATION * 0.85}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineB' }).toString()}
