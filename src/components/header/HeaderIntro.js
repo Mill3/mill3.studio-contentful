@@ -114,7 +114,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex }) => TRANSITION_DURATION * 1.7 + charIndex * 30,
+    delay: ({ charIndex, startDelay }) => (startDelay) + (charIndex * 30),
     transition: {
       y: {
         type: 'spring',
@@ -229,6 +229,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 2 : TRANSITION_DURATION * 1.15}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -245,6 +246,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 2 : TRANSITION_DURATION * 1.15}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineB' }).toString()}

@@ -23,7 +23,6 @@ const Poses = posed.div({
   // initial site load
   initial: {
     opacity: 0,
-    // y: `100%`,
     transition: {
       delay: TRANSITION_DURATION,
       duration: TRANSITION_DURATION / 2,

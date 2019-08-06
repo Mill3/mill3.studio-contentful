@@ -28,28 +28,34 @@ class Header extends React.Component {
     layoutState: PropTypes.object,
   }
 
+  componentDidUpdate() {
+    console.log(this.context.layoutState.options.inverted);
+  }
+
   render() {
     const { layoutState } = this.context
 
     return (
       <Location>
         {({ location }) => (
-          <TransitionContainer distance={0}>
-            <Box as={SiteHeader} pt={[0, 0, 0, `24px`]}>
-              <Container fluid className={`z-10`}>
-                <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
-                  <Box width={'auto'} className={`is-relative z-20`}>
+          <Box as={SiteHeader} pt={[0, 0, 0, `24px`]}>
+            <Container fluid className={`z-10`}>
+              <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
+                <Box width={'auto'} className={`is-relative z-20`}>
+                  <TransitionContainer distance={0}>
                     <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000000`}>
                       <Logo inverted={layoutState.options.inverted} />
                     </TransitionLinkComponent>
-                  </Box>
-                  <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                  </TransitionContainer>
+                </Box>
+                <Box width={'auto'} ml={`auto`} mr={[3, null, 0]}>
+                  <TransitionContainer distance={0}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-          </TransitionContainer>
+                  </TransitionContainer>
+                </Box>
+              </Flex>
+            </Container>
+          </Box>
         )}
       </Location>
     )
