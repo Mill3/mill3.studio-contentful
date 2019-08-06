@@ -64,8 +64,8 @@ class ProjectsHome extends React.Component {
         ])
       }
       const getDelay = index => {
-        if (isMobile) return index === 0 ? TRANSITION_DURATION * 3 : 0
-        else return index < 2 ? TRANSITION_DURATION * 2 + index * 250 : 0
+        if (isMobile) return index === 0 ? TRANSITION_DURATION * 1.25 : 0
+        else return index < 2 ? (TRANSITION_DURATION * 1.25) + index * 150 : 0
       }
 
       return this.props.data.edges.map((project, index) => {

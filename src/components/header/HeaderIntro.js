@@ -110,7 +110,7 @@ const TextStyle = styled.h2`
 `
 
 const charPoses = {
-  exit: { opacity: 0, y: 35 },
+  exit: { opacity: 0, y: 20 },
   enter: {
     opacity: 1,
     y: 0,
@@ -123,7 +123,7 @@ const charPoses = {
   },
   out: {
     opacity: 0,
-    y: 35,
+    y: 20,
     delay: ({ charIndex }) => charIndex * 30,
     transition: {
       y: {
