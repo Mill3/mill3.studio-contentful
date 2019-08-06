@@ -128,7 +128,7 @@ class ProjectsIndex extends Component {
 
             <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{ transform: 'translateY(45%)' }} />
           </Flex>
-          <Flex as={ProjectIndexList} mx={['-5vw', null, -3, '-28px']} flexWrap={`wrap`} css={{ position: 'relative' }}>
+          <Flex as={ProjectIndexList} mx={['-4.25vw', null, -3, '-28px']} flexWrap={`wrap`} css={{ position: 'relative' }}>
             {this.list()}
           </Flex>
         </Container>
