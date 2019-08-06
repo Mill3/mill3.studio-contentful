@@ -62,6 +62,7 @@ const TransitionPaneStyle = styled(Poses)`
   right: 0;
   bottom: 0;
   width: 100vw;
+  height: 105vh;
   z-index: 100000;
   pointer-events: none;
   color: #fff;
@@ -70,9 +71,17 @@ const TransitionPaneStyle = styled(Poses)`
   svg {
     width: 88vw;
   }
+
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
+    height: 100vh;
+  }
+
 `
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
+  @media (max-width: ${props => props.theme.breakpoints[1]}) {
+    transform: translateY(-5%);
+  }
 `
 
 const TransitionPane = ({ state = 'initial', color, title }) => {
@@ -80,7 +89,7 @@ const TransitionPane = ({ state = 'initial', color, title }) => {
   return (
     <Flex
       as={TransitionPaneStyle}
-      className="full-vh"
+      // className="full-vh"
       p={'4vw'}
       justifyContent={'center'}
       alignItems={'center'}
