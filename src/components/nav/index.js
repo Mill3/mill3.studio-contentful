@@ -256,7 +256,7 @@ class Nav extends React.Component {
           inverted={inverted}
         >
           <NavItem>
-            <TransitionLinkComponent to={`/projects/`} color={`#000`}>
+            <TransitionLinkComponent to={`/projects/`} color={`#121212`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Projects" />
               </Text>

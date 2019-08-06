@@ -68,7 +68,7 @@ const TransitionPaneStyle = styled(Poses)`
   z-index: 100000;
   pointer-events: none;
   color: #fff;
-  background: ${props => props.backgroundColor || `#fff`};
+  background: ${props => props.backgroundColor};
 
   svg {
     width: 88vw;
