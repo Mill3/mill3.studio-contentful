@@ -80,7 +80,7 @@ const TransitionPaneStyle = styled(Poses)`
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
   @media (max-width: ${props => props.theme.breakpoints[1]}) {
-    transform: translateY(-5%);
+    transform: translateY(-7vh);
   }
 `
 
