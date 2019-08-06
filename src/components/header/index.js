@@ -28,10 +28,6 @@ class Header extends React.Component {
     layoutState: PropTypes.object,
   }
 
-  componentDidUpdate() {
-    console.log(this.context.layoutState.options.inverted);
-  }
-
   render() {
     const { layoutState } = this.context
 
