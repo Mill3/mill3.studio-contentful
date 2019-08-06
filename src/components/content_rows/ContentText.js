@@ -160,10 +160,10 @@ const ContentText = ({ data, isFirst, isLast }) => {
             px={[
               3,
               5,
-              `calc(15vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
-              `calc(20vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
-              `calc(20vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
-              `calc(30vw - ${backgroundColor ? GRID_GUTTER * 2 : 0}px)`,
+              `15vw`,
+              `20vw`,
+              `20vw`,
+              `30vw`,
             ]}
           >
             <TextColumn

@@ -15,6 +15,7 @@ const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
+  box-shadow: ${props => props.dropshadow === true ? `5px 15px 25px rgba(0,0,0,0.5)` : `none`};
 `
 
 const MediaItemVideo = styled.video`
@@ -29,11 +30,13 @@ const ContentImagePoses = posed.figure({
     opacity: 0,
     y: 150,
     margin: 0,
+    'box-shadow': ({ dropshadow }) => dropshadow ? `0px 0px 0px rgba(0,0,0,0)` : `none`,
     width: ({ width }) => width,
   },
   visible: {
     opacity: 1,
     y: 0,
+    'box-shadow': ({ dropshadow }) => dropshadow ? `0px 24px 40px rgba(0,0,0,0.08)` : `none`,
     delay: ({ index, isFirst }) => REVEALS_DELAY * (index + 1),
     transition: EASES['default'],
   },
@@ -57,8 +60,7 @@ const OverlayImagePoses = posed.img({
   },
 })
 
-export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst }) => {
-  // console.log('noVerticalMargin:', noVerticalMargin)
+export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index, isFirst }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -77,6 +79,7 @@ export const ContentImage = ({ img, noStrech, backgroundColor, index, isFirst })
         isFirst={isFirst}
         initialPose={'hidden'}
         pose={inView ? 'visible' : 'hidden'}
+        dropshadow={dropshadow}
         mb={0}
       >
         <TransitionContainer direction="out" enabled={inView} autoCalculateDelay={false} distance={50} index={index}>
@@ -115,15 +118,19 @@ const ContentImages = ({ data, isFirst, isLast }) => {
   const { noBottomMargin, backgroundColor } = data
 
   const CalculatePaddingTop = () => {
-    return noBottomMargin ? [0] : (isFirst && !backgroundColor ? [0] : VERTICAL_SPACER)
+    return noBottomMargin ? [0] : isFirst && !backgroundColor ? [0] : VERTICAL_SPACER
   }
 
   const CalculatePaddingBottom = () => {
-    return noBottomMargin ? [0] : ((isFirst || isLast) && !backgroundColor) ? BOTTOM_SPACER : VERTICAL_SPACER
+    return noBottomMargin ? [0] : (isFirst || isLast) && !backgroundColor ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
   return (
-    <Wrapper alignContent={data.alignContent} backgroundColor={data.backgroundColor}>
+    <Wrapper
+      alignContent={data.alignContent}
+      backgroundColor={data.backgroundColor || null}
+      addSpacer={data.backgroundColor || null}
+    >
       <Box
         as={Grid}
         py={CalculatePaddingTop()}
@@ -135,7 +142,14 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         {/* all medias */}
         {data.medias &&
           data.medias.map((img, index) => (
-            <ContentImage img={img} noStrech={data.noStrechedImages} index={index} key={index} isFirst={isFirst} />
+            <ContentImage
+              img={img}
+              noStrech={data.noStrechedImages}
+              dropshadow={data.dropShadowOnImages}
+              index={index}
+              key={index}
+              isFirst={isFirst}
+            />
           ))}
         {/* all image items */}
         {data.imageItems &&
@@ -147,6 +161,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
                   setAsSticky={imageItem.setAsSticky}
                   noStrech={data.noStrechedImages}
                   backgroundColor={imageItem.backgroundColor}
+                  dropshadow={data.dropShadowOnImages}
                   index={index}
                   key={index}
                   isFirst={isFirst}
@@ -183,6 +198,7 @@ export const ContentImagesFragement = graphql`
     noStrechedImages
     backgroundColor
     fadeInBackgroundColor
+    dropShadowOnImages
     imageItems {
       backgroundColor
       media {
