@@ -13,7 +13,7 @@ export const colors = {
 }
 
 export const breakpoints = [
-  `576px`, `768px`, `992px`, `1200px`, `1400px`
+  `576px`, `768px`, `992px`, `1200px`, `1400px`, `1600px`
 ]
 
 export const space = [

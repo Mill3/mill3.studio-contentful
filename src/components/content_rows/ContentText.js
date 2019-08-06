@@ -8,13 +8,13 @@ import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES, REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import {
   AnimatedBackgroundRowContainer,
   RowContainer,
   Grid,
   VERTICAL_SPACER,
+  HORIZONTAL_SPACER,
   BOTTOM_SPACER,
   GRID_GUTTER,
 } from './index'
@@ -180,11 +180,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
         <Box
           pt={CalculatePaddingTop()}
           pb={CalculatePaddingBottom()}
-          px={
-            backgroundColor
-              ? [3, 5, 5, 5, data.itemsPerRow === '3' ? 0 : `${GRID_GUTTER}px`, `15vw`]
-              : [3, 5, 5, 5, `15vw`]
-          }
+          px={parseInt(data.itemsPerRow) <= 2 ? [3, 4, 6, 6, `10vw`, `18vw`] : [3, 4, 5, 5, `5vw`, `10vw`]}
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
             {textColumns &&
