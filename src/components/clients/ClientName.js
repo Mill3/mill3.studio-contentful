@@ -16,7 +16,6 @@ export const ClientNameHeading = styled.h4`
       text-decoration: none;
     }
   }
-
 `
 
 class ClientName extends React.Component {

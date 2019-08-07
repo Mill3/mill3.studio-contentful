@@ -9,6 +9,7 @@ import TransitionContainer from '@components/transitions/TransitionContainer'
 import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
+import ClientsList from '@components/clients/ClientsList'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -128,9 +129,15 @@ class ProjectsIndex extends Component {
 
             <HeaderCircle ml={['-4.75vw', null, -3, '-28px']} css={{ transform: 'translateY(45%)' }} />
           </Flex>
+
+          {/* list of projects */}
           <Flex as={ProjectIndexList} mx={['-6.15vw', null, -3, '-28px']} flexWrap={`wrap`} css={{ position: 'relative' }}>
             {this.list()}
           </Flex>
+
+          {/* list of clients */}
+          <ClientsList />
+
         </Container>
       </>
     )

@@ -4,11 +4,9 @@ import { Box, Flex, Text } from 'rebass'
 import SEO from '@components/seo'
 import { ChipButton } from '@components/buttons'
 import ClientsTicker from '@components/clients/ClientsTicker'
+import ClientsList from '@components/clients/ClientsList'
 import Container from '@styles/Container'
 import PageSingle from '@components/pages/PageSingle'
-
-// const fontSizes = [5, 4, 5, '3.611111111vw'];
-// const subtitleFontSizes = [3, 3, 3, '1.805555556vw'];
 
 const About = ({ pageContext, data }) => (
   <React.Fragment>
@@ -18,6 +16,7 @@ const About = ({ pageContext, data }) => (
     <Container fluid css={{position: 'relative'}}>
       <ChipButton css={{position: 'absolute', zIndex: 3, top: '100%', right: 0, marginTop: -30}}>Show list</ChipButton>
     </Container>
+
     <ClientsTicker quantity={5} />
 
   </React.Fragment>
