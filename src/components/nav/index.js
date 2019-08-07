@@ -144,19 +144,20 @@ const NavBurgerDot = styled.span`
 const NavContainer = styled(NavContainerPoses)`
   background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
-  padding: 40vw 0 0 0;
+  padding: 30vw 0 0 0;
   list-style: none;
   position: fixed;
   z-index: 5;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
+  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100);
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     background: none !important;
@@ -197,7 +198,7 @@ const NavItem = styled(NavItemPoses)`
   }
 `
 
-const fontSizes = ['10.144927536vw', null, 3, 3]
+const fontSizes = ['6.544927536vh', null, 3, 3]
 
 class Nav extends React.Component {
 
