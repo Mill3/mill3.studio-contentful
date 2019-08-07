@@ -72,7 +72,7 @@ const NavWrapper = styled.nav`
       text-decoration: none;
     }
 
-    &[aria-current] {
+    &.--active {
       color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.black)};
     }
   }

@@ -221,7 +221,7 @@ export const GridContentImages = styled.div`
 
   /* add bottom margin to image on mobile */
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
-    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/2}px`)};
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/1.75}px`)};
   }
 
   /* grid spacing on device tablet and up */

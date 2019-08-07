@@ -148,12 +148,6 @@ class Layout extends React.Component {
                             onEntering={e => {
                               this.scrollToTop()
                               this.setTransitionState(TRANSITION_PANE_STATES['hidden'])
-
-                              // revent to original transition state
-                              // TODO: refactor me..
-                              // setTimeout( () => {
-                              //   this.setTransitionState(TRANSITION_PANE_STATES['ended'])
-                              // }, TRANSITION_DURATION);
                             }}
                           >
                             {children}

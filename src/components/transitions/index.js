@@ -23,7 +23,7 @@ const Poses = posed.div({
   },
   // intro site load
   intro: {
-    y: `-100%`,
+    y: `-110%`,
     delay: TRANSITION_IN_DELAY,
     transition: EASES['default'],
   },

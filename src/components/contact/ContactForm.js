@@ -418,9 +418,7 @@ class ContactForm extends Component {
                   active={activeField === 'budget'}
                   onActive={this.onFocusChange}
                   validate={{
-                    required: true,
-                    step:"any",
-                    pattern:"[-+., 0-9$€]*"
+                    required: true
                   }}
                 />
 

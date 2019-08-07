@@ -114,7 +114,7 @@ export const postBody = styled.div`
   }
 
   a {
-    color: ${props => (props.textColor ? props.textColor : `inherit`)};
+    color: ${props => (props.textColor ? props.textColor : props.theme.colors.blue)};
   }
 
   /* blockquote */

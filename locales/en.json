@@ -10,7 +10,7 @@
   "contact.ContactIntroPart3": "a call",
   "contact.ContactIntroPart4": ", join our social fun",
   "contact.ContactIntroPart5": "or, fill out the form below.",
-  "contact.FormIntroLine": "Hey ! Share us your",
+  "contact.FormIntroLine": "Hey, share us your",
   "contact.Subscribe": "We share stuff, amazing stuff. Great great stuff. Make sure to get everything and subscribe.",
   "contact.ThankYou": "Thank you!",
   "fields.budget": "5. Budget in mind",
@@ -30,7 +30,7 @@
   "projects.Intro": "We trully believe that good work needs dedicated team, less talking, more doing. Good research leads to effective design, better tech stacks and tailor-made outcomes.",
   "projects.single.label": "Project :",
   "projects.single.website": "Visit website",
-  "projects.single.next": "Next project :",
+  "projects.single.next": "See What's Next :",
   "news.index.title": "<em>Unformal</em>, <span class='is-sans fw-400'>long form.<span>",
   "news.index.subtitle": "Reading is good for you. Don’t stress, we’ve added images too.",
   "news.single.label": "Words words words:",
@@ -43,7 +43,7 @@
   "footer.email": "info@mill3.studio",
   "footer.phone": "+1 (514) 984-7703",
   "footer.cold": "Baby, it’s cold outside.",
-  "footer.love": "Made with love in",
+  "footer.love": "Made with ❤️ in",
   "footer.mtl": "Montreal, Canada.",
   "footer.rights": "Rights, Rights, Rights. Pretty sure @mill3studio"
 }
