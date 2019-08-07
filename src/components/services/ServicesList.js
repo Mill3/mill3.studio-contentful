@@ -15,7 +15,7 @@ const ServicesGrid = styled.aside`
   grid-template-columns: 1fr;
   color: ${props => props.theme.colors.gray};
   grid-column-gap: ${props => `${GRID_GUTTER}px`};
-  @media (min-width: ${props => props.theme.breakpoints[2]}) {
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 `

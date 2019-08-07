@@ -5,10 +5,11 @@ import { Flex, Text } from 'rebass'
 
 import Logo from '@svg/Logo'
 
-import { TRANSITION_DURATION, TRANSITION_IN_DELAY, TRANSITION_OUT_DURATION } from '@utils/constants'
+import { EASES, TRANSITION_DURATION, TRANSITION_IN_DELAY, TRANSITION_OUT_DURATION } from '@utils/constants'
 
 export const TRANSITION_PANE_STATES = {
-  initial: 'initial',
+  init: 'init',
+  intro: 'intro',
   exiting: 'exiting',
   visible: 'visible',
   ended: 'ended',
@@ -20,15 +21,11 @@ const Poses = posed.div({
   init: {
     opacity: 1,
   },
-  // initial site load
-  initial: {
-    // opacity: 1,
+  // intro site load
+  intro: {
     y: `-100%`,
-    transition: {
-      delay: TRANSITION_IN_DELAY,
-      duration: TRANSITION_DURATION,
-      ease: 'easeIn',
-    },
+    delay: TRANSITION_IN_DELAY,
+    transition: EASES['default'],
   },
   // when page change starts
   visible: {
@@ -47,7 +44,8 @@ const Poses = posed.div({
       ease: 'easeIn',
     },
   },
-  //
+  // when everything has finished
+  // (duration is set to 0 because we don't want the user to see any animation to this pose)
   ended: {
     opacity: 0,
     y: 0,
@@ -77,7 +75,6 @@ const TransitionPaneStyle = styled(Poses)`
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     height: 100vh;
   }
-
 `
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
@@ -86,30 +83,63 @@ const TransitionTextStyle = styled.p`
   }
 `
 
-const TransitionPane = ({ state = 'initial', color, title }) => {
+class TransitionPane extends React.Component {
 
-  return (
-    <Flex
-      as={TransitionPaneStyle}
-      // className="full-vh"
-      p={'4vw'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      backgroundColor={color}
-      initialPose={`init`}
-      pose={state}
-    >
-      <Text
-        as={TransitionTextStyle}
-        fontSize={['18vw', null, `5vw`]}
-        textAlign="center"
-        lineHeight="1.1"
-        className={`is-sans fw-300`}
+  constructor(props) {
+    super(props);
+    this.state = {
+      pose: TRANSITION_PANE_STATES['intro']
+    }
+    this.changePose = this.changePose.bind(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // change state only if transitionState props has changed
+    if (prevProps.transitionState !== this.props.transitionState) {
+      this.changePose(this.props.transitionState)
+    }
+  }
+
+  // method for switching active pose
+  changePose(pose) {
+    this.setState({
+      pose: pose
+    })
+  }
+
+  render() {
+    const { color, title } = this.props
+    const { pose } = this.state
+
+    return (
+      <Flex
+        // className="full-vh"
+        as={TransitionPaneStyle}
+        p={'4vw'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        backgroundColor={color}
+        initialPose={TRANSITION_PANE_STATES[`init`]}
+        pose={pose}
+        onPoseComplete={poseName => {
+          // after `intro` or `hidden` pose, revert pane style and position
+          if (poseName === TRANSITION_PANE_STATES['intro'] || TRANSITION_PANE_STATES['hidden']) {
+            this.changePose(TRANSITION_PANE_STATES['ended'])
+          }
+        }}
       >
-        {state === TRANSITION_PANE_STATES['initial'] ? <Logo inverted /> : <span>{title}</span>}
-      </Text>
-    </Flex>
-  )
+        <Text
+          as={TransitionTextStyle}
+          fontSize={['18vw', null, `5vw`]}
+          textAlign="center"
+          lineHeight="1.1"
+          className={`is-sans fw-300`}
+        >
+          {pose === TRANSITION_PANE_STATES['intro'] ? <Logo inverted /> : <span>{title}</span>}
+        </Text>
+      </Flex>
+    )
+  }
 }
 
 export default TransitionPane

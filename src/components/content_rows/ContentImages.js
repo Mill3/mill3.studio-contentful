@@ -8,7 +8,7 @@ import { useInView } from 'react-intersection-observer'
 import { EASES, REVEALS_DELAY } from '@utils/constants'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
-import { AnimatedBackgroundRowContainer, RowContainer, Grid, VERTICAL_SPACER, BOTTOM_SPACER } from './index'
+import { AnimatedBackgroundRowContainer, RowContainer, GridContentImages, VERTICAL_SPACER, BOTTOM_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
 
 const ContentImageFlexWrapper = styled.div`
@@ -131,7 +131,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
       backgroundColor={data.backgroundColor || null}
     >
       <Box
-        as={Grid}
+        as={GridContentImages}
         py={CalculatePaddingTop()}
         pb={CalculatePaddingBottom()}
         gaplessGrid={data.gaplessGrid}

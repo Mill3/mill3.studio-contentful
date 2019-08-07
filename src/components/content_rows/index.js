@@ -199,22 +199,39 @@ const GridColums = itemsPerRow => {
   return new Array(rows).map((item, index) => index).join('1fr ')
 }
 
-export const Grid = styled.div`
+export const GridContentText = styled.div`
   display: grid;
   grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   grid-template-columns: 1fr;
   align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
   position: relative;
 
-  /* @media (max-width: ${props => props.theme.breakpoints[1]}) {
-    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter / 2 : 0}px`)};
-  } */
-
   @media (min-width: ${props => props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1]}) {
     grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
+
+export const GridContentImages = styled.div`
+  display: grid;
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+  grid-template-columns: 1fr;
+  align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
+  position: relative;
+
+  /* add bottom margin to image on mobile */
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/2}px`)};
+  }
+
+  /* grid spacing on device tablet and up */
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+    grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
+  }
+`
+
+export const Grid = GridContentText
 
 class ContentRow extends Component {
   rows() {

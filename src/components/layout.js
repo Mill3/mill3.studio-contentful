@@ -53,7 +53,7 @@ class Layout extends React.Component {
 
     this.state = {
       ...defaultContextValue,
-      transitionState: TRANSITION_PANE_STATES['initial'],
+      transitionState: TRANSITION_PANE_STATES['intro'],
       set: this.setOptions,
     }
 
@@ -110,7 +110,7 @@ class Layout extends React.Component {
                   <React.Fragment>
 
                     <TransitionPane
-                      state={transitionState}
+                      transitionState={transitionState}
                       location={location}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#121212'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
@@ -151,9 +151,9 @@ class Layout extends React.Component {
 
                               // revent to original transition state
                               // TODO: refactor me..
-                              setTimeout( () => {
-                                this.setTransitionState(TRANSITION_PANE_STATES['ended'])
-                              }, TRANSITION_DURATION);
+                              // setTimeout( () => {
+                              //   this.setTransitionState(TRANSITION_PANE_STATES['ended'])
+                              // }, TRANSITION_DURATION);
                             }}
                           >
                             {children}
