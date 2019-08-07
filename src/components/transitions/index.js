@@ -123,7 +123,8 @@ class TransitionPane extends React.Component {
         pose={pose}
         onPoseComplete={poseName => {
           // after `intro` or `hidden` pose, revert pane style and position
-          if (poseName === TRANSITION_PANE_STATES['intro'] || TRANSITION_PANE_STATES['hidden']) {
+          console.log('poseName:', poseName)
+          if (poseName === (TRANSITION_PANE_STATES['intro'] || TRANSITION_PANE_STATES['hidden'])) {
             this.changePose(TRANSITION_PANE_STATES['ended'])
           }
         }}

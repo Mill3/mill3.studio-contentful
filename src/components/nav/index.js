@@ -144,7 +144,7 @@ const NavBurgerDot = styled.span`
 const NavContainer = styled(NavContainerPoses)`
   background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
-  padding: 30vw 0 0 0;
+  padding: 36vw 0 0 0;
   list-style: none;
   position: fixed;
   z-index: 5;
@@ -198,7 +198,7 @@ const NavItem = styled(NavItemPoses)`
   }
 `
 
-const fontSizes = ['6.544927536vh', null, 3, 3]
+const fontSizes = ['4.1544927536vh', null, 3, 3]
 
 class Nav extends React.Component {
 
