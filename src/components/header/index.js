@@ -40,14 +40,14 @@ class Header extends React.Component {
             <Container fluid className={`z-10`}>
               <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                 <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionContainer distance={-10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : 0}>
+                  <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION / 0.75 }>
                     <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
                       <Logo inverted={layoutState.options.inverted} />
                     </TransitionLinkComponent>
                   </TransitionContainer>
                 </Box>
                 <Box width={'auto'} ml={`auto`} mr={[0, null, 0]}>
-                  <TransitionContainer distance={-10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : 0}>
+                  <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </TransitionContainer>
                 </Box>
