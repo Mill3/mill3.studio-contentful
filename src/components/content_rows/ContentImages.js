@@ -10,19 +10,13 @@ import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import { AnimatedBackgroundRowContainer, RowContainer, GridContentImages, VERTICAL_SPACER, BOTTOM_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
+import VideoElement from '@components/player/VideoElement'
 
 const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
   box-shadow: ${props => props.dropshadow === true ? `5px 15px 25px rgba(0,0,0,0.5)` : `none`};
-`
-
-const MediaItemVideo = styled.video`
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `
 
 const ContentImagePoses = posed.figure({
@@ -92,9 +86,7 @@ export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index
           )}
 
           {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-            <MediaItemVideo autoPlay loop playsInline muted>
-              <source src={img.file.url} type={img.file.contentType} />
-            </MediaItemVideo>
+            <VideoElement asset={img} />
           )}
 
           {img.file && img.description && (
