@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { breakpoints } from '@styles/Theme'
 
-const LogoSVG = styled.svg`
+export const LogoSVG = styled.svg`
   display: block;
   width: 24.879227053vw;
   height: auto;

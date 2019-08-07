@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
 
-import Logo from '@svg/Logo'
+import LogoAnimated from '@svg/LogoAnimated'
 
 import {
   TRANSITION_INTRO_DELAY,
@@ -146,7 +146,7 @@ class TransitionPane extends React.Component {
           lineHeight="1.1"
           className={`is-sans fw-300`}
         >
-          {pose === TRANSITION_PANE_STATES['intro'] ? <Logo inverted /> : <span>{title}</span>}
+          {pose === TRANSITION_PANE_STATES['intro'] ? <LogoAnimated inverted animated /> : <span>{title}</span>}
         </Text>
       </Flex>
     )
