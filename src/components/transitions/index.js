@@ -25,7 +25,13 @@ const Poses = posed.div({
   intro: {
     y: `-110%`,
     delay: TRANSITION_IN_DELAY,
-    transition: EASES['default'],
+    transition: {
+      y: {
+        type: 'tween',
+        ease: 'backInOut',
+        duration: TRANSITION_DURATION,
+      },
+    },
   },
   // when page change starts
   visible: {
@@ -123,7 +129,7 @@ class TransitionPane extends React.Component {
         pose={pose}
         onPoseComplete={poseName => {
           // after `intro` or `hidden` pose, revert pane style and position
-          console.log('poseName:', poseName)
+          // console.log('poseName:', poseName)
           if (poseName === (TRANSITION_PANE_STATES['intro'] || TRANSITION_PANE_STATES['hidden'])) {
             this.changePose(TRANSITION_PANE_STATES['ended'])
           }

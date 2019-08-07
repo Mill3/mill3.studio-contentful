@@ -30,6 +30,7 @@ class Header extends React.Component {
 
   render() {
     const { layoutState } = this.context
+    console.log('layoutState:', layoutState)
 
     return (
       <Location>
@@ -38,14 +39,14 @@ class Header extends React.Component {
             <Container fluid className={`z-10`}>
               <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                 <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionContainer distance={0}>
-                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000000`}>
+                  <TransitionContainer distance={-10} baseDelay={0}>
+                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#121212`}>
                       <Logo inverted={layoutState.options.inverted} />
                     </TransitionLinkComponent>
                   </TransitionContainer>
                 </Box>
                 <Box width={'auto'} ml={`auto`} mr={[0, null, 0]}>
-                  <TransitionContainer distance={0}>
+                  <TransitionContainer distance={-10} baseDelay={0}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </TransitionContainer>
                 </Box>

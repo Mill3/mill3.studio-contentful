@@ -15,17 +15,17 @@ import HeaderCircle from './HeaderCircle'
 
 const HeaderIntroPoses = posed.header({
   init: {
-    y: `102vh`,
+    y: `0vh`,
   },
   enter: {
     y: 0,
-    transition: {
-      y: {
-        type: 'tween',
-        ease: 'backInOut',
-        duration: TRANSITION_DURATION,
-      },
-    },
+    // transition: {
+    //   y: {
+    //     type: 'tween',
+    //     ease: 'backInOut',
+    //     duration: TRANSITION_DURATION,
+    //   },
+    // },
   },
   out: {
     y: `-100%`,

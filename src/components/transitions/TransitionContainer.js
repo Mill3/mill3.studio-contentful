@@ -35,15 +35,17 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 1) => {
+export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 1, base = 0) => {
   // calculations if element is mounted and props allows it
+  // console.log('autoCalculateDelay:', el, autoCalculateDelay, base)
   if (el && autoCalculateDelay === true) {
     let positionDelay = (((el.getBoundingClientRect().x / 50) * el.getBoundingClientRect().y) / 50) * index
-    return positionDelay
+    console.log('positionDelay + base:', positionDelay + base)
+    return positionDelay + base
   }
 
   // default value
-  return (TRANSITION_IN_DELAY / 4) * index
+  return ((TRANSITION_IN_DELAY / 4) * index) + base
 }
 
 class TransitionContainer extends React.Component {
@@ -62,7 +64,8 @@ class TransitionContainer extends React.Component {
     this.delay = calculateDelayForElement(
       this.ref.current ? this.ref.current : null,
       this.props.autoCalculateDelay,
-      this.props.index
+      this.props.index,
+      this.props.baseDelay
     )
   }
 
@@ -90,6 +93,7 @@ TransitionContainer.defaultProps = {
   direction: `both`,
   autoCalculateDelay: true,
   distance: 80,
+  baseDelay: 0,
   index: 1,
 }
 
@@ -99,6 +103,7 @@ TransitionContainer.propTypes = {
   direction: PropTypes.string,
   autoCalculateDelay: PropTypes.bool,
   distance: PropTypes.number,
+  baseDelay: PropTypes.number,
   index: PropTypes.number,
 }
 
