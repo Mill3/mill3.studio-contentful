@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Flex, Box, Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
@@ -6,10 +7,11 @@ import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
 import Button from '@components/buttons'
 import { breakpoints } from '@styles/Theme'
-import { TRANSITION_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
+import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 export const columns = {
   0: {
@@ -49,8 +51,15 @@ export const ProjectHomeCol = index => {
 const mobileBreakpoint = parseInt(breakpoints[1])
 
 class ProjectsHome extends React.Component {
+
+  static contextTypes = {
+    layoutState: PropTypes.object,
+  }
+
   list() {
+
     if (this.props.data) {
+      const { layoutState } = this.context
       const isMobile = Viewport.width < mobileBreakpoint
       const getOffset = index => {
         if (isMobile) return 0
@@ -64,8 +73,10 @@ class ProjectsHome extends React.Component {
         ])
       }
       const getDelay = index => {
-        if (isMobile) return index === 0 ? TRANSITION_DURATION * 1.25 : 0
-        else return index < 2 ? (TRANSITION_DURATION * 1.25) + index * 150 : 0
+        const delayBase = layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+
+        if (isMobile) return index === 0 ? delayBase * 1.25 : 0
+        else return index < 2 ? (delayBase * 1.25) + index * 150 : 0
       }
 
       return this.props.data.edges.map((project, index) => {

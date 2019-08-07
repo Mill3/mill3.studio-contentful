@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl'
 
 import { breakpoints, header } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 import HeaderCircle from './HeaderCircle'
@@ -19,13 +19,6 @@ const HeaderIntroPoses = posed.header({
   },
   enter: {
     y: 0,
-    // transition: {
-    //   y: {
-    //     type: 'tween',
-    //     ease: 'backInOut',
-    //     duration: TRANSITION_DURATION,
-    //   },
-    // },
   },
   out: {
     y: `-100%`,
@@ -229,7 +222,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 1.65 : TRANSITION_DURATION * 0.85}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -246,7 +239,7 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['initial'] ? TRANSITION_DURATION * 1.65 : TRANSITION_DURATION * 0.85}
+              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85}
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineB' }).toString()}

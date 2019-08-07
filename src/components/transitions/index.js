@@ -5,7 +5,12 @@ import { Flex, Text } from 'rebass'
 
 import Logo from '@svg/Logo'
 
-import { EASES, TRANSITION_DURATION, TRANSITION_IN_DELAY, TRANSITION_OUT_DURATION } from '@utils/constants'
+import {
+  TRANSITION_INTRO_DELAY,
+  TRANSITION_DURATION,
+  TRANSITION_IN_DELAY,
+  TRANSITION_OUT_DURATION,
+} from '@utils/constants'
 
 export const TRANSITION_PANE_STATES = {
   init: 'init',
@@ -24,7 +29,7 @@ const Poses = posed.div({
   // intro site load
   intro: {
     y: `-110%`,
-    delay: TRANSITION_IN_DELAY,
+    delay: TRANSITION_INTRO_DELAY,
     transition: {
       y: {
         type: 'tween',
@@ -90,11 +95,10 @@ const TransitionTextStyle = styled.p`
 `
 
 class TransitionPane extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      pose: TRANSITION_PANE_STATES['intro']
+      pose: TRANSITION_PANE_STATES['intro'],
     }
     this.changePose = this.changePose.bind(this)
   }
@@ -109,7 +113,7 @@ class TransitionPane extends React.Component {
   // method for switching active pose
   changePose(pose) {
     this.setState({
-      pose: pose
+      pose: pose,
     })
   }
 

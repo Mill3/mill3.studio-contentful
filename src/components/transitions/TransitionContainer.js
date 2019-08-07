@@ -20,14 +20,14 @@ const TransitionContainerPoses = posed.div({
   in: {
     opacity: 1,
     y: 0,
-    delay: ({ delay }) => delay,
+    delay: ({ delayIn }) => delayIn,
     transition: EASES['default'],
   },
   // when transition starts
   out: {
     opacity: 0,
     y: ({ distance }) => distance * -1,
-    delay: ({ delay }) => delay,
+    delay: ({ delayOut }) => delayOut,
     transition: {
       duration: TRANSITION_IN_DELAY / 2,
       ease: 'easeIn',
@@ -35,17 +35,16 @@ const TransitionContainerPoses = posed.div({
   },
 })
 
-export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 1, base = 0) => {
+export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 1) => {
   // calculations if element is mounted and props allows it
   // console.log('autoCalculateDelay:', el, autoCalculateDelay, base)
   if (el && autoCalculateDelay === true) {
     let positionDelay = (((el.getBoundingClientRect().x / 50) * el.getBoundingClientRect().y) / 50) * index
-    console.log('positionDelay + base:', positionDelay + base)
-    return positionDelay + base
+    return positionDelay
   }
 
   // default value
-  return ((TRANSITION_IN_DELAY / 4) * index) + base
+  return ((TRANSITION_IN_DELAY / 4) * index)
 }
 
 class TransitionContainer extends React.Component {
@@ -57,22 +56,21 @@ class TransitionContainer extends React.Component {
     super(props)
 
     this.ref = React.createRef()
-    this.delay = 0
+    this.calculatedDelay = 0
   }
 
   componentDidMount() {
-    this.delay = calculateDelayForElement(
+    this.calculatedDelay = calculateDelayForElement(
       this.ref.current ? this.ref.current : null,
       this.props.autoCalculateDelay,
-      this.props.index,
-      this.props.baseDelay
+      this.props.index
     )
   }
 
   render() {
-    const { children, enabled, direction, distance } = this.props
+    const { children, enabled, direction, distance, delayIn, delayOut } = this.props
     const { transitionState } = this.context.layoutState
-    const { ref } = this
+    const { ref, calculatedDelay } = this
 
     // determine initial pose, no fade in unless direction is set to both
     const initial = () => (direction === `both` ? `hidden` : `visible`)
@@ -81,7 +79,7 @@ class TransitionContainer extends React.Component {
     const pose = () => (!enabled ? `hidden` : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
 
     return (
-      <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delay={this.delay}>
+      <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delayIn={delayIn || calculatedDelay} delayOut={delayOut || calculatedDelay}>
         {children}
       </TransitionContainerPoses>
     )
@@ -93,7 +91,8 @@ TransitionContainer.defaultProps = {
   direction: `both`,
   autoCalculateDelay: true,
   distance: 80,
-  baseDelay: 0,
+  delayIn: null,
+  delayOut: null,
   index: 1,
 }
 
@@ -103,7 +102,8 @@ TransitionContainer.propTypes = {
   direction: PropTypes.string,
   autoCalculateDelay: PropTypes.bool,
   distance: PropTypes.number,
-  baseDelay: PropTypes.number,
+  delayIn: PropTypes.number,
+  delayOut: PropTypes.number,
   index: PropTypes.number,
 }
 

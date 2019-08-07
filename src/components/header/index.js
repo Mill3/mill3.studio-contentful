@@ -13,6 +13,8 @@ import Container from '@styles/Container'
 import Logo from '@svg/Logo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 const SiteHeader = styled.header`
   position: relative;
@@ -30,7 +32,6 @@ class Header extends React.Component {
 
   render() {
     const { layoutState } = this.context
-    console.log('layoutState:', layoutState)
 
     return (
       <Location>
@@ -39,14 +40,14 @@ class Header extends React.Component {
             <Container fluid className={`z-10`}>
               <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                 <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionContainer distance={-10} baseDelay={0}>
-                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#121212`}>
+                  <TransitionContainer distance={-10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : 0}>
+                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
                       <Logo inverted={layoutState.options.inverted} />
                     </TransitionLinkComponent>
                   </TransitionContainer>
                 </Box>
                 <Box width={'auto'} ml={`auto`} mr={[0, null, 0]}>
-                  <TransitionContainer distance={-10} baseDelay={0}>
+                  <TransitionContainer distance={-10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : 0}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </TransitionContainer>
                 </Box>
