@@ -14,7 +14,7 @@ const poses = {
   },
   out: {
     opacity: 0,
-    y: -50,
+    y: -80,
     delay: ({ charIndex }) => (TRANSITION_INTRO_DELAY * 0.75) + (charIndex * 15),
     transition: {
       type: 'tween',
