@@ -66,7 +66,6 @@ class ClientRow extends React.Component {
 
   render() {
     const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep } = this.props
-    // console.log('index, hoverIndex:', index, hoverIndex, index === hoverIndex)
 
     const isCurrent = () => hoverIndex !== null && index === hoverIndex
     const isPrev = () => hoverIndex !== null && (index === hoverIndex - 1)
@@ -74,7 +73,6 @@ class ClientRow extends React.Component {
 
     const padding = () => {
       // when current give it more padding
-
       if (isCurrent()) return [`34px`]
 
       // prev or next, little bit more

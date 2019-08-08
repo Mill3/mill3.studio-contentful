@@ -78,11 +78,9 @@ class TransitionContainer extends React.Component {
 
     // determine initial pose, no fade in unless direction is set to both
     const initial = () => (direction === `both` ? `hidden` : `visible`)
-    // console.log('initial:', initial())
 
     // pick right pose based on transition status
     const pose = () => (!enabled ? disabledPose : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
-    // console.log('pose:', pose())
 
     return (
       <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delayIn={delayIn || calculatedDelay} delayOut={delayOut || calculatedDelay}>

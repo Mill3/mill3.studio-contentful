@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { graphql } from 'gatsby'
-// import { Box, Flex, Text } from 'rebass'
+import { Box } from 'rebass'
+// import {}
 
 import SEO from '@components/seo'
 import { ChipButton } from '@components/buttons'
@@ -9,19 +10,33 @@ import ClientsList from '@components/clients/ClientsList'
 import Container from '@styles/Container'
 import PageSingle from '@components/pages/PageSingle'
 
-const About = ({ pageContext, data }) => (
-  <React.Fragment>
+const About = ({ pageContext, data }) => {
+  const [list, setList] = useState(false);
 
-    <PageSingle data={ data } />
+  return (
 
-    <Container fluid css={{position: 'relative'}}>
-      <ChipButton css={{position: 'absolute', zIndex: 3, top: '100%', right: 0, marginTop: -30}}>Show list</ChipButton>
-    </Container>
+    <React.Fragment>
 
-    <ClientsTicker quantity={5} />
+      <PageSingle data={ data } />
 
-  </React.Fragment>
-);
+      <Container fluid css={{position: 'relative'}}>
+        <a onClick={(e) => setList(!list)}>
+          <ChipButton css={{position: 'absolute', zIndex: 3, top: '100%', right: '5vw', marginTop: -30}}>
+            {!list ? 'Show list' : 'Show ticker'}
+          </ChipButton>
+        </a>
+      </Container>
+
+      <Box pt={list ? [5] : [4]}>
+        {/* show client list */}
+        {list && <Container><ClientsList /></Container> }
+        {/* show ticker */}
+        {!list && <ClientsTicker quantity={5} /> }
+      </Box>
+
+    </React.Fragment>
+  )
+};
 
 export default About
 

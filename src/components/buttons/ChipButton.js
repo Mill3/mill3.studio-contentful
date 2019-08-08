@@ -27,9 +27,13 @@ export const ChipButtonStyle = styled.button`
     transition: transform 0.25s ease-in-out;
   }
 
+  &:focus {
+    outline: none;
+  }
+
   &:hover .chipbutton__bg {
     background-color: ${props => props.theme.colors.black};
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 `
 

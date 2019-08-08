@@ -21,23 +21,12 @@ class IndexPage extends React.Component {
     this.state = {}
   }
 
-  // componentWillMount() {
-  //   this.context.set({ inverted: true })
-  // }
-
-  // componentWillUnmount() {
-  //   this.context.set({ inverted: false })
-  // }
-
-  // compo
-
   render() {
     const { data } = this.props
     return (
       <LayoutContext.Provider>
         <SEO title={null} />
         <React.Fragment>
-          {/* <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} /> */}
           <HeaderIntro transitionStatus={'entering'} />
           <Container fluid>{data.allContentfulProjects && <ProjectsHome data={data.allContentfulProjects} />}</Container>
           <ClientsTicker />
