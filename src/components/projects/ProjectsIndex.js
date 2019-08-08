@@ -101,16 +101,16 @@ class ProjectsIndex extends Component {
                 mb={0}
               >
                 <span className="is-sans">
-                  <FormattedMessage id="nav.Work" />{' '}
+                  Work{' '}
                 </span>
                 <span className="is-serif fw-900">
-                  <FormattedMessage id="nav.Work" />{' '}
+                  Work{' '}
                 </span>
                 <span className="is-sans">
-                  <FormattedMessage id="nav.Work" />{' '}
+                  Work{' '}
                 </span>
                 <span className="is-serif fw-900">
-                  <FormattedMessage id="nav.Work" />{' '}
+                  Work{' '}
                 </span>
               </Text>
             </TransitionContainer>

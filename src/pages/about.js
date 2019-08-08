@@ -20,11 +20,11 @@ const About = ({ pageContext, data }) => {
       <PageSingle data={ data } />
 
       <Container fluid css={{position: 'relative'}}>
-        <a onClick={(e) => setList(!list)}>
-          <ChipButton css={{position: 'absolute', zIndex: 3, top: '100%', right: '5vw', marginTop: -30}}>
+
+          <ChipButton onClick={(e) => setList(!list)} css={{position: 'absolute', zIndex: 3, top: '100%', right: '5vw', marginTop: -30}}>
             {!list ? 'Show list' : 'Show ticker'}
           </ChipButton>
-        </a>
+
       </Container>
 
       <Box pt={list ? [5] : [4]}>
