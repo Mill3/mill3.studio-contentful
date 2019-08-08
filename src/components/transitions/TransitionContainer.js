@@ -6,6 +6,9 @@ import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from './index'
 
 const TransitionContainerPoses = posed.div({
+  none: {
+    display: `block`
+  },
   // when initial needs no animation
   visible: {
     opacity: 1,
@@ -68,15 +71,18 @@ class TransitionContainer extends React.Component {
   }
 
   render() {
-    const { children, enabled, direction, distance, delayIn, delayOut } = this.props
+    const { children, enabled, disabledPose, direction, distance, delayIn, delayOut } = this.props
+
     const { transitionState } = this.context.layoutState
     const { ref, calculatedDelay } = this
 
     // determine initial pose, no fade in unless direction is set to both
     const initial = () => (direction === `both` ? `hidden` : `visible`)
+    // console.log('initial:', initial())
 
     // pick right pose based on transition status
-    const pose = () => (!enabled ? `hidden` : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
+    const pose = () => (!enabled ? disabledPose : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
+    // console.log('pose:', pose())
 
     return (
       <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delayIn={delayIn || calculatedDelay} delayOut={delayOut || calculatedDelay}>
@@ -89,6 +95,7 @@ class TransitionContainer extends React.Component {
 TransitionContainer.defaultProps = {
   enabled: true,
   direction: `both`,
+  // disabledPose: `hidden`,
   autoCalculateDelay: true,
   distance: 80,
   delayIn: null,
@@ -99,6 +106,7 @@ TransitionContainer.defaultProps = {
 TransitionContainer.propTypes = {
   children: PropTypes.object.isRequired,
   enabled: PropTypes.bool,
+  disabledPose: PropTypes.string,
   direction: PropTypes.string,
   autoCalculateDelay: PropTypes.bool,
   distance: PropTypes.number,

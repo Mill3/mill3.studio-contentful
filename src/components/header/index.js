@@ -7,7 +7,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
 
 // import LayoutContext from '@components/contexts/LayoutContext'
-import Viewport from '@utils/Viewport'
+// import Viewport from '@utils/Viewport'
 import Nav from '@components/nav/index'
 
 import Container from '@styles/Container'
@@ -33,29 +33,27 @@ class Header extends React.Component {
 
   render() {
     const { layoutState } = this.context
-    // console.log(Viewport.isMobile());
-
 
     return (
       <Location>
         {({ location }) => (
           <Box as={SiteHeader} pt={[0, 0, 0, `24px`]}>
-            <Container fluid className={`z-10`}>
-              <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
-                <Box width={'auto'} className={`is-relative z-20`}>
-                  <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65 }>
-                    <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
-                      <Logo inverted={layoutState.options.inverted} />
-                    </TransitionLinkComponent>
-                  </TransitionContainer>
-                </Box>
-                <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                  <TransitionContainer distance={10} direction={Viewport.isMobile() ? 'out' : 'both'} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}>
+            <TransitionContainer distance={10} disabledPose={'none'} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65 }>
+              <Container fluid className={`z-10`}>
+                <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
+                  <Box width={'auto'} className={`is-relative z-20`}>
+                      <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
+                        <Logo inverted={layoutState.options.inverted} />
+                      </TransitionLinkComponent>
+                  </Box>
+                  <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
-                  </TransitionContainer>
-                </Box>
-              </Flex>
-            </Container>
+                    {/* <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}> */}
+                    {/* </TransitionContainer> */}
+                  </Box>
+                </Flex>
+              </Container>
+            </TransitionContainer>
           </Box>
         )}
       </Location>
