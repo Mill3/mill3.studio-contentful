@@ -40,7 +40,7 @@ const LogoAnimated = ({ inverted, animated }) => {
       <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="menu_black">
           <g id="Group-9">
-            <g id="Group-8" style={{ transform: `translateY(22px)` }}>
+            <g id="Group-8">
               <LetterPolygon
                 initialPose={`initial`}
                 pose={animated ? `out` : `initial`}
