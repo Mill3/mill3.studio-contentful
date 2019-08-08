@@ -16,6 +16,8 @@ import frData from 'react-intl/locale-data/fr'
 import en from '@locales/en.json'
 import fr from '@locales/fr.json'
 
+import { pathIsLocaleRoot } from '@utils/Locales'
+
 import Header from '@components/header'
 import Footer from '@components/footer'
 import TransitionPane, { TRANSITION_PANE_STATES } from '@components/transitions'
@@ -138,7 +140,7 @@ class Layout extends React.Component {
                             mountOnEnter={true}
                             unmountOnExit={true}
                             delay={{
-                              enter: TRANSITION_DURATION
+                              enter: pathIsLocaleRoot(location) ? 0 : TRANSITION_DURATION
                             }}
                             timeout={{
                               exit: TRANSITION_DURATION

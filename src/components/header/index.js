@@ -14,6 +14,7 @@ import Container from '@styles/Container'
 import Logo from '@svg/Logo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import { pathIsLocaleRoot } from '@utils/Locales'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 
@@ -34,13 +35,7 @@ class Header extends React.Component {
   render() {
     const { layoutState } = this.context
 
-    const inverted = (location) => {
-      // get all parts of current location, filter will discard empty array cells
-      const parts = location.pathname.split(`/`).filter(function(e){return e})
 
-      // if lenght is 1, we are on landing page
-      return parts.length === 1
-    }
 
     return (
       <Location>
@@ -51,11 +46,11 @@ class Header extends React.Component {
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
                       <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
-                        <Logo inverted={inverted(location)} />
+                        <Logo inverted={pathIsLocaleRoot(location)} />
                       </TransitionLinkComponent>
                   </Box>
                   <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                    <Nav inverted={inverted(location)} pathname={location.pathname} />
+                    <Nav inverted={pathIsLocaleRoot(location)} pathname={location.pathname} />
                     {/* <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}> */}
                     {/* </TransitionContainer> */}
                   </Box>
