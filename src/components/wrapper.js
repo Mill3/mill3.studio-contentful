@@ -13,54 +13,11 @@ const WrapperStyle = styled.div`
 
 class Wrapper extends Component {
 
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      disabled: false,
-    }
-
-    /*
-    this.onScroll = this.onScroll.bind(this)
-    this.onScrollComplete = this.onScrollComplete.bind(this)
-    this.debounced = debounce(this.onScrollComplete, 250)
-    */
-  }
-
-  /*
-  componentDidMount() {
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
-    });
-  }
-  componentWillUnmount() {
-    if( this.scrollbar ) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
-  }
-
-  onScroll() {
-    // update state only if required
-    if( this.state.disabled !== true ) this.setState({ disabled: true })
-
-    // debounce state update when scrolling is over for over 500ms
-    this.debounced()
-  }
-  onScrollComplete() {
-    this.setState({ disabled: false })
-  }
-  */
-
   render() {
-    const { disabled } = this.state
     const { children } = this.props
 
     return (
-      <WrapperStyle disabled={disabled} {...this.props}>
+      <WrapperStyle {...this.props}>
         { children }
       </WrapperStyle>
     )
