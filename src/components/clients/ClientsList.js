@@ -59,16 +59,16 @@ class ClientRow extends React.Component {
     return (
       <Box as={ClientRowStyle}>
         <Flex as={ClientRowInner} py={paddingVertical()} px={[0, 2, 4]} flexWrap={`wrap`}>
-          <Box as={`p`} margin={0} width={[`40%`]}>
+          <Box as={`p`} margin={0} width={[1,1,`40%`]}>
             {projectName}
           </Box>
-          <Box as={`p`} margin={0} width={[1 / 4]}>
+          <Box as={`p`} margin={0} width={[1,1,1 / 4]}>
             {name}
           </Box>
-          <Box as={`p`} margin={0} width={[1 / 4]}>
+          <Box as={`p`} margin={0} width={[1,1,1 / 4]}>
             {service}
           </Box>
-          <Box as={`p`} margin={0} ml={`auto`}>
+          <Box as={`p`} margin={0} width={[1,1,`auto`]} ml={[0,0,`auto`]}>
             {year}
           </Box>
         </Flex>
@@ -139,19 +139,17 @@ const ClientQuery = ({ locale }) => {
 
 const ClientsList = ({ locale }) => {
   return (
-    <Container>
-      <Box __px={[0,0,0,`10vw`]}>
-        <ClientRow
-          projectName={`Project`}
-          name={`Name`}
-          service={`Expertise`}
-          year={`Year`}
-          sep={false}
-          hover={false}
-        />
-        <ClientQuery locale={locale} />
-      </Box>
-    </Container>
+    <Box>
+      <ClientRow
+        projectName={`Project`}
+        name={`Name`}
+        service={`Expertise`}
+        year={`Year`}
+        sep={false}
+        hover={false}
+      />
+      <ClientQuery locale={locale} />
+    </Box>
   )
 }
 

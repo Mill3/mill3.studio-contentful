@@ -32,8 +32,8 @@ const LogoAnimated = ({ inverted, animated }) => {
     <LogoSVG
       inverted={inverted}
       width="154px"
-      height="88px"
-      viewBox="0 0 154 88"
+      height="44px"
+      viewBox="0 0 154 44"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
     >

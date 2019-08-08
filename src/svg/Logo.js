@@ -7,6 +7,7 @@ export const LogoSVG = styled.svg`
   display: block;
   width: 24.879227053vw;
   height: auto;
+  overflow: visible;
 
   @media (min-width: ${breakpoints[1]}) {
     width: 154px;

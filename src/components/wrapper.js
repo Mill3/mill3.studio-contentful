@@ -8,6 +8,7 @@ const WrapperStyle = styled.div`
   height: 100vh;
   max-width: 100vw;
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
+  overflow-x: hidden;
   /* border: ${props => props.disabled ? '1px solid rebeccapurple' : 'none'}; */
 `
 
