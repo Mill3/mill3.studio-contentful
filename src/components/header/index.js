@@ -34,6 +34,13 @@ class Header extends React.Component {
   render() {
     const { layoutState } = this.context
 
+    const inverted = (location) => {
+      const parts = location.pathname.split(`/`).filter(function(e){return e})
+
+      // if lenght is 1, we are on landing page
+      return parts.length === 1
+    }
+
     return (
       <Location>
         {({ location }) => (
@@ -43,11 +50,11 @@ class Header extends React.Component {
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
                       <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
-                        <Logo inverted={layoutState.options.inverted} />
+                        <Logo inverted={inverted(location)} />
                       </TransitionLinkComponent>
                   </Box>
                   <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                    <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
+                    <Nav inverted={inverted(location)} pathname={location.pathname} />
                     {/* <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}> */}
                     {/* </TransitionContainer> */}
                   </Box>

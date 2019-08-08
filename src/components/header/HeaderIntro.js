@@ -151,6 +151,7 @@ class HeaderIntro extends Component {
 
   componentDidMount() {
     this.mounted = true
+    this.context.layoutState.set({ inverted: true })
 
     this.context.getScrollbar(scrollbar => {
       this.scrollbar = scrollbar
@@ -159,6 +160,9 @@ class HeaderIntro extends Component {
   }
   componentWillUnmount() {
     this.mounted = false
+    this.context.layoutState.set({ inverted: false })
+    console.log(`unmounting header intro`);
+
 
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null

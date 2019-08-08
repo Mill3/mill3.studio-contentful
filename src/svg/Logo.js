@@ -14,6 +14,10 @@ export const LogoSVG = styled.svg`
   }
 
   polygon, path {
+    transition: fill 1s ease-in 2s;
+  }
+
+  polygon, path {
     fill: ${props => props.inverted ? '#fff' : '#000' };
   }
 `

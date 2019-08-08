@@ -21,13 +21,15 @@ class IndexPage extends React.Component {
     this.state = {}
   }
 
-  componentDidMount() {
-    this.context.set({ inverted: true })
-  }
+  // componentWillMount() {
+  //   this.context.set({ inverted: true })
+  // }
 
-  componentWillUnmount() {
-    this.context.set({ inverted: false })
-  }
+  // componentWillUnmount() {
+  //   this.context.set({ inverted: false })
+  // }
+
+  // compo
 
   render() {
     const { data } = this.props
