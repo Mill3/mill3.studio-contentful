@@ -7,6 +7,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
 
 // import LayoutContext from '@components/contexts/LayoutContext'
+import Viewport from '@utils/Viewport'
 import Nav from '@components/nav/index'
 
 import Container from '@styles/Container'
@@ -32,6 +33,8 @@ class Header extends React.Component {
 
   render() {
     const { layoutState } = this.context
+    // console.log(Viewport.isMobile());
+
 
     return (
       <Location>
@@ -46,8 +49,8 @@ class Header extends React.Component {
                     </TransitionLinkComponent>
                   </TransitionContainer>
                 </Box>
-                <Box width={'auto'} ml={`auto`} mr={[0, null, 0]}>
-                  <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}>
+                <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
+                  <TransitionContainer distance={10} direction={Viewport.isMobile() ? 'out' : 'both'} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}>
                     <Nav inverted={layoutState.options.inverted} pathname={location.pathname} />
                   </TransitionContainer>
                 </Box>

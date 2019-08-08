@@ -125,6 +125,7 @@ class Layout extends React.Component {
                       onScroll={this.onScroll}
                     >
                       <Wrapper>
+
                         {/* main header */}
                         <Header />
 

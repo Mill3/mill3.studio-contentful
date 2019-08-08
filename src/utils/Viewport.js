@@ -1,3 +1,5 @@
+import { breakpoints } from '@styles/Theme'
+
 const Viewport = (() => {
   const hasWindow = typeof window === 'object'
 
@@ -15,6 +17,10 @@ const Viewport = (() => {
     return hasWindow ? window.matchMedia(query).matches : false
   }
 
+  const isMobile = () => {
+    return hasWindow ? (width <= parseInt(breakpoints[0]) ? true : false) : false
+  }
+
   let width = 0
   let height = 0
 
@@ -29,6 +35,7 @@ const Viewport = (() => {
     on,
     off,
     mq,
+    isMobile
   }
 })()
 

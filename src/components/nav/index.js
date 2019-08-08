@@ -151,13 +151,12 @@ const NavContainer = styled(NavContainerPoses)`
   top: 0;
   left: 0;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
-  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-  height: calc(var(--vh, 1vh) * 100);
 
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
     background: none !important;
