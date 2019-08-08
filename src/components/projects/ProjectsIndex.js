@@ -136,7 +136,7 @@ class ProjectsIndex extends Component {
           </Flex>
 
           {/* list of clients */}
-          <ClientsList />
+          <ClientsList locale={this.props.pageContext.locale} />
 
         </Container>
       </>

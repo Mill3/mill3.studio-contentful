@@ -28,7 +28,6 @@ const LetterPolygon = posed.polygon(poses)
 const LetterPath = posed.path(poses)
 
 const LogoAnimated = ({ inverted, animated }) => {
-  console.log('animated:', animated)
   return (
     <LogoSVG
       inverted={inverted}

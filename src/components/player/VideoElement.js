@@ -13,7 +13,6 @@ class VideoElement extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {  }
     this.videoRef = React.createRef()
     this.togglePlayback = this.togglePlayback.bind(this)
   }

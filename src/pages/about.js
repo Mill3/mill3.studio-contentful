@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Flex, Text } from 'rebass'
+import { graphql } from 'gatsby'
+// import { Box, Flex, Text } from 'rebass'
 
 import SEO from '@components/seo'
 import { ChipButton } from '@components/buttons'
