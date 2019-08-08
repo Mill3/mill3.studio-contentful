@@ -35,6 +35,7 @@ class Header extends React.Component {
     const { layoutState } = this.context
 
     const inverted = (location) => {
+      // get all parts of current location, filter will discard empty array cells
       const parts = location.pathname.split(`/`).filter(function(e){return e})
 
       // if lenght is 1, we are on landing page

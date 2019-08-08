@@ -113,7 +113,7 @@ class Layout extends React.Component {
                       transitionState={transitionState}
                       location={location}
                       color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#121212'}
-                      title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : 'Mill3'}
+                      title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : null}
                     />
 
                     <Scrollbar
