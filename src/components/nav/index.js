@@ -65,12 +65,11 @@ const NavWrapper = styled.nav`
   a {
     color: ${props => (props.inverted ? props.theme.colors.white : props.theme.colors.gray)};
     display: inline-block;
-    transition: color 1s ease-in 1s;
+    transition: color 0.75s;
 
     &:hover {
       color: ${props => (props.inverted ? props.theme.colors.gray : props.theme.colors.black)};
       text-decoration: none;
-      transition: color 0.75s;
     }
 
     &.--active {
