@@ -140,7 +140,7 @@ class Layout extends React.Component {
                             mountOnEnter={true}
                             unmountOnExit={true}
                             delay={{
-                              enter: pathIsLocaleRoot(location) ? 0 : TRANSITION_DURATION
+                              enter: TRANSITION_DURATION
                             }}
                             timeout={{
                               exit: TRANSITION_DURATION
