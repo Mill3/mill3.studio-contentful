@@ -13,6 +13,7 @@ export const ChipButtonStyle = styled.button`
   height: 90px;
   color: #B47C6D;
   cursor: pointer;
+  z-index: 100;
 
   .chipbutton__bg {
     position: absolute;

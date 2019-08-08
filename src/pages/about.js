@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
+import styled from 'styled-components'
 import { graphql } from 'gatsby'
-import { Box } from 'rebass'
-// import {}
+import { Flex, Box } from 'rebass'
 
 import SEO from '@components/seo'
-import { ChipButton } from '@components/buttons'
+import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ClientsList from '@components/clients/ClientsList'
 import Container from '@styles/Container'
@@ -19,15 +19,15 @@ const About = ({ pageContext, data }) => {
 
       <PageSingle data={ data } />
 
-      <Container fluid css={{position: 'relative'}}>
+      <Flex justifyContent={`flex-end`} px={[2,3,6]} mb={list ? [0] : ['-55px']}>
 
-          <ChipButton onClick={(e) => setList(!list)} css={{position: 'absolute', zIndex: 3, top: '100%', right: '5vw', marginTop: -30}}>
-            {!list ? 'Show list' : 'Show ticker'}
+          <ChipButton onClick={(e) => setList(!list)}>
+            {!list ? 'Show list' : 'Ticker please!'}
           </ChipButton>
 
-      </Container>
+      </Flex>
 
-      <Box pt={list ? [5] : [4]}>
+      <Box pt={list ? [3] : [0]}>
         {/* show client list */}
         {list && <Container><ClientsList /></Container> }
         {/* show ticker */}
