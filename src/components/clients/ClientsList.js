@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box } from 'rebass'
+import { Flex, Box, Text } from 'rebass'
+import { display } from 'styled-system'
 import { useStaticQuery, graphql } from 'gatsby'
 
 import { colors } from '@styles/Theme'
@@ -9,6 +10,10 @@ import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 import ExternalLink from '@svg/ExternalLink'
+
+const ClientRowElement = styled.p`
+  ${display};
+`
 
 const ClientRowStyle = styled.div`
 
@@ -60,7 +65,7 @@ export const filterByLocale = (data, locale = `en`) => {
 class ClientRow extends React.Component {
 
   render() {
-    const { index, hoverIndex, projectName, name, project, url, service, year, sep } = this.props
+    const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep } = this.props
     // console.log('index, hoverIndex:', index, hoverIndex, index === hoverIndex)
 
     const isCurrent = () => hoverIndex !== null && index === hoverIndex
@@ -80,6 +85,9 @@ class ClientRow extends React.Component {
     }
 
     const color = () => {
+      // when forcing a specific color
+      if (textColor) return textColor
+
       // when current give it more padding
       if (isCurrent()) return colors.blue
 
@@ -117,20 +125,20 @@ class ClientRow extends React.Component {
       <Box as={ClientRowStyle} color={color()}>
         <TransitionContainer direction="out" distance={-25}>
           <LinkElement {...LinkProps()}>
-            <Flex as={ClientRowInner} py={padding()} px={[0, 2, 4]} flexWrap={`wrap`}>
-              <Box as={`p`} margin={0} width={[1, 1, `40%`]}>
+            <Flex as={ClientRowInner} py={padding()} px={[0, 0, 4]} flexWrap={`wrap`}>
+              <Text as={ClientRowElement} fontSize={[0,1,2]} pr={[2,0]} margin={0} width={[`50%`,`50%`,`40%`]}>
                 {projectName}
                 {(url && !project) && <ExternalLink color={colors.blue} />}
-              </Box>
-              <Box as={`p`} margin={0} width={[1, 1, 1 / 4]}>
+              </Text>
+              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[1/3,1/3,1/4]}>
                 {name}
-              </Box>
-              <Box as={`p`} margin={0} width={[1, 1, 1 / 4]}>
+              </Text>
+              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[1/4]} display={['none', 'none', 'block']}>
                 {service}
-              </Box>
-              <Box as={`p`} margin={0} width={[1, 1, `auto`]} ml={[0, 0, `auto`]}>
+              </Text>
+              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[`auto`]} ml={[`auto`]}>
                 {year}
-              </Box>
+              </Text>
             </Flex>
             {sep && <Box as={`hr`} margin={[0]} width={`100%`} />}
           </LinkElement>
@@ -182,7 +190,7 @@ class CliensRows extends React.Component {
 const ClientsList = ({ locale }) => {
   const data = useStaticQuery(graphql`
     query ClientsList {
-      allContentfulClients(sort: { fields: [year], order: DESC }) {
+      allContentfulClients(sort: { fields: [year, name], order: DESC }) {
         edges {
           node {
             ...Client
@@ -192,8 +200,8 @@ const ClientsList = ({ locale }) => {
     }
   `)
   return (
-    <Box>
-      <ClientRow projectName={`Project`} name={`Name`} service={`Expertise`} year={`Year`} sep={false} hoverIndex={false} />
+    <Box pt={[5,5,0]}>
+      <ClientRow projectName={`Project`} name={`Name`} service={`Expertise`} year={`Year`} sep={false} textColor={colors.text} hoverIndex={false} />
       <CliensRows data={filterByLocale(data.allContentfulClients.edges, locale)} />
     </Box>
   )
