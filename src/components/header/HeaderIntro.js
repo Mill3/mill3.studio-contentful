@@ -29,7 +29,7 @@ const HeaderIntroPoses = posed.header({
         duration: TRANSITION_DURATION,
       },
     },
-  }
+  },
 })
 
 const Header = styled(HeaderIntroPoses)`
@@ -46,7 +46,7 @@ const Header = styled(HeaderIntroPoses)`
   }
 
   @media (min-width: ${breakpoints[2]}) {
-    height: ${props => props.inTransition ? `100vs` : `80vh`};
+    height: ${props => (props.inTransition ? `100vs` : `80vh`)};
     margin-top: -${header.height + 24}px;
   }
 `
@@ -60,7 +60,6 @@ const HeaderBackground = styled.div`
   background: ${props => props.theme.colors.black};
   transform-origin: top center;
   pointer-events: none;
-
 `
 
 const TextWrapper = styled(Flex)`
@@ -107,7 +106,7 @@ const charPoses = {
   enter: {
     opacity: 1,
     y: 0,
-    delay: ({ charIndex, startDelay }) => (startDelay) + (charIndex * 30),
+    delay: ({ charIndex, startDelay }) => startDelay + charIndex * 30,
     transition: {
       y: {
         type: 'spring',
@@ -123,10 +122,13 @@ const charPoses = {
         type: 'spring',
       },
     },
-  }
+  },
 }
 
-const fontSizes = ['7.729468599vw', null, '5.75vw']
+const fontSizes = {
+  'en': ['7.729468599vw', null, '5.75vw'],
+  'fr': ['7.729468599vw', null, '5.15vw']
+}
 
 const mobileBreakpoint = parseInt(breakpoints[2])
 
@@ -161,8 +163,6 @@ class HeaderIntro extends Component {
   componentWillUnmount() {
     this.mounted = false
     this.context.layoutState.set({ inverted: false })
-    console.log(`unmounting header intro`);
-
 
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
@@ -220,13 +220,24 @@ class HeaderIntro extends Component {
       >
         <Box as={HeaderBackground} className={`z-negative`} style={t3} />
 
-        <Flex as={TextWrapper} flexDirection={`column`} justifyContent={`center`} width={`100%`} style={t3}>
-          <Text as={TextStyle} fontSize={fontSizes} textAlign="center" className={`is-serif fw-900`} style={t1}>
+        <Flex
+          as={TextWrapper}
+          flexDirection={`column`}
+          justifyContent={`center`}
+          width={`100%`}
+          style={t3}
+          px={intl.locale === `fr` ? [0, 0, 0, `10vw`] : [0]}
+        >
+          <Text as={TextStyle} fontSize={fontSizes[intl.locale]} textAlign="center" className={`is-serif fw-900`} style={t1}>
             {/* <FormattedMessage id="intro.LineB" /> */}
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85}
+              startDelay={
+                layoutState.transitionState === TRANSITION_PANE_STATES['intro']
+                  ? TRANSITION_INTRO_DELAY * 1.25
+                  : TRANSITION_DURATION * 0.85
+              }
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -235,7 +246,7 @@ class HeaderIntro extends Component {
 
           <Text
             as={TextStyle}
-            fontSize={fontSizes}
+            fontSize={fontSizes[intl.locale]}
             textAlign="center"
             className={`is-normal is-sans fw-300`}
             style={t2}
@@ -243,7 +254,11 @@ class HeaderIntro extends Component {
             <SplitText
               initialPose={`exit`}
               pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
-              startDelay={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85}
+              startDelay={
+                layoutState.transitionState === TRANSITION_PANE_STATES['intro']
+                  ? TRANSITION_INTRO_DELAY * 1.25
+                  : TRANSITION_DURATION * 0.85
+              }
               charPoses={charPoses}
             >
               {intl.formatMessage({ id: 'intro.LineB' }).toString()}
@@ -259,13 +274,13 @@ class HeaderIntro extends Component {
           style={t3}
           aria-hidden="true"
         >
-          <Text as={TextStyle} fontSize={fontSizes} textAlign="center" className={`is-serif fw-200`} style={t1}>
+          <Text as={TextStyle} fontSize={fontSizes[intl.locale]} textAlign="center" className={`is-serif fw-200`} style={t1}>
             <SplitText>{intl.formatMessage({ id: 'intro.LineA' }).toString()}</SplitText>
           </Text>
 
           <Text
             as={TextStyle}
-            fontSize={fontSizes}
+            fontSize={fontSizes[intl.locale]}
             textAlign="center"
             className={`is-normal is-sans fw-300`}
             style={t2}

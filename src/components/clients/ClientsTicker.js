@@ -27,7 +27,7 @@ const ClientsTickerContainer = styled.footer`
 `
 
 const TickerLine = styled.div`
-  width: 60000px;
+  width: 80000px;
 `
 
 const TickerLineClients = styled.div`
