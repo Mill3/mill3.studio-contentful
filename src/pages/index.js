@@ -27,7 +27,7 @@ class IndexPage extends React.Component {
     const { data, intl } = this.props
     return (
       <LayoutContext.Provider>
-        <SEO title={intl.formatMessage({id: 'meta.title'})} description={intl.formatMessage({id: 'meta.description'})} />
+        <SEO title={'meta.title'} description={'meta.description'} translate={true} />
         <React.Fragment>
           <HeaderIntro transitionStatus={'entering'} />
           <Container fluid>{data.allContentfulProjects && <ProjectsHome data={data.allContentfulProjects} />}</Container>
