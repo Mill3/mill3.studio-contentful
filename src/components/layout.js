@@ -16,7 +16,7 @@ import frData from 'react-intl/locale-data/fr'
 import en from '@locales/en.json'
 import fr from '@locales/fr.json'
 
-import { pathIsLocaleRoot } from '@utils/Locales'
+import { getLocale, pathIsLocaleRoot } from '@utils/Locales'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -34,10 +34,6 @@ const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 addLocaleData([...enData, ...frData])
-
-export const getLocale = (location) => {
-  return location.pathname.split('/')[1]
-}
 
 class Layout extends React.Component {
 

@@ -9,7 +9,8 @@ import TransitionContainer from '@components/transitions/TransitionContainer'
 import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
 import HeaderCircle from '@components/header/HeaderCircle'
-import ClientsList from '@components/clients/ClientsList'
+import ClientsFooter from '@components/clients/ClientsFooter'
+// import ClientsList from '@components/clients/ClientsList'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -118,7 +119,7 @@ class ProjectsIndex extends Component {
               <Text
                 as={`h3`}
                 textAlign="center"
-                fontSize={['5.75vw', '3.8vw', '2.8vw', '1.805vw']}
+                fontSize={['4.75vw', '3.8vw', '2.8vw', '1.805vw']}
                 pt={['24px', null, 4]}
                 px={[0,0,0,0,`10vw`]}
                 mb={0}
@@ -135,10 +136,11 @@ class ProjectsIndex extends Component {
             {this.list()}
           </Flex>
 
-          {/* list of clients */}
-          <ClientsList/>
-
         </Container>
+
+        {/* list of clients */}
+        <ClientsFooter />
+
       </>
     )
   }

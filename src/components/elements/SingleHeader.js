@@ -25,12 +25,11 @@ const FigureImage = styled.picture`
 `
 
 class SingleHeader extends Component {
-
   figure() {
     const { media } = this.props
 
     return (
-      <Box px={[0,0,0,0,`10vw`]} my={[3,6]}>
+      <Box px={[0, 0, 0, 0, `10vw`]} my={[3, 6]}>
         {/* video */}
         {getContentType(media.file.contentType) === CONTENT_TYPES['video'] && (
           <Box as={FigureVideo} autoPlay loop playsInline muted>
@@ -41,11 +40,7 @@ class SingleHeader extends Component {
         {/* image type */}
         {getContentType(media.file.contentType) === CONTENT_TYPES['image'] && (
           <Box as={FigureImage}>
-            <img
-              src={media.file.url}
-              alt={`heading figure`}
-              className="img-fluid"
-            />
+            <img src={media.file.url} alt={`heading figure`} className="img-fluid" />
           </Box>
         )}
       </Box>
@@ -60,8 +55,12 @@ class SingleHeader extends Component {
         {/* TODO: refactor me */}
         {media ? this.figure() : ''}
 
-        <Flex flexDirection="column" alignItems="center" mb={['30px', null, 4, 5]} mt={!media ? ['30px', null, 6] : [0]}>
-
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          mb={['30px', null, 4, 5]}
+          mt={!media ? ['30px', null, 6] : [0]}
+        >
           {label && (
             <TransitionContainer distance={100}>
               <TransitionLinkComponent to={label.url} title={label.transitionTitle} color={label.transitionColor}>
@@ -87,13 +86,13 @@ class SingleHeader extends Component {
           </TransitionContainer>
 
           {subHeading && (
-            <TransitionContainer >
+            <TransitionContainer>
               <Text
                 as={`h3`}
                 textAlign="center"
-                fontSize={['5.75vw', '3.8vw', '2.8vw', '1.805vw']}
+                fontSize={['4.75vw', '3.8vw', '2.8vw', '1.805vw']}
                 pt={['24px', null, 4]}
-                px={[0,0,0,0,`10vw`]}
+                px={[0, 0, 0, 0, `10vw`]}
                 mb={0}
               >
                 {subHeading}

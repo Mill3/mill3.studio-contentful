@@ -273,6 +273,7 @@ class HeaderIntro extends Component {
           width={`100%`}
           style={t3}
           aria-hidden="true"
+          px={intl.locale === `fr` ? [0, 0, 0, `10vw`] : [0]}
         >
           <Text as={TextStyle} fontSize={fontSizes[intl.locale]} textAlign="center" className={`is-serif fw-200`} style={t1}>
             <SplitText>{intl.formatMessage({ id: 'intro.LineA' }).toString()}</SplitText>

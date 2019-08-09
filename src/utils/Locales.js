@@ -1,8 +1,11 @@
-//import locales from '@locales'
+import locales from '@locales/locales'
+
+export const getLocale = (location) => {
+  const parts = location.pathname.split(`/`).filter(function(e){return e})
+  return parts.length > 0 ? parts[0] : locales['en'].path
+}
 
 export const pathIsLocaleRoot = (location) => {
-  console.log('location:', location)
-
   // get all parts of current location, filter will discard empty array cells
   const parts = location.pathname.split(`/`).filter(function(e){return e})
 

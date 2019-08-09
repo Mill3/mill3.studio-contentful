@@ -4,10 +4,7 @@ import { Flex, Box } from 'rebass'
 
 import { injectIntl } from 'react-intl'
 
-import ChipButton from '@components/buttons/ChipButton'
-import ClientsTicker from '@components/clients/ClientsTicker'
-import ClientsList from '@components/clients/ClientsList'
-import Container from '@styles/Container'
+import ClientsFooter from '@components/clients/ClientsFooter'
 import PageSingle from '@components/pages/PageSingle'
 
 const About = ({ data, intl }) => {
@@ -19,20 +16,7 @@ const About = ({ data, intl }) => {
 
       <PageSingle data={ data } />
 
-      <Flex justifyContent={`flex-end`} px={[2,3,6]} mb={list ? [0] : ['-55px']}>
-
-          <ChipButton onClick={(e) => setList(!list)}>
-            {intl.formatMessage({ id: !list ? 'Show list' : 'Ticker please!' }).toString()}
-          </ChipButton>
-
-      </Flex>
-
-      <Box pt={list ? [2] : [0]}>
-        {/* show client list */}
-        {list && <Container><ClientsList /></Container> }
-        {/* show ticker */}
-        {!list && <ClientsTicker quantity={5} /> }
-      </Box>
+      <ClientsFooter/>
 
     </React.Fragment>
   )

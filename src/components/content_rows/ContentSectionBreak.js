@@ -11,7 +11,7 @@ import { RowContainer, VERTICAL_SPACER } from './index'
 const ContentSectionBreak = ({ data, isFirst, isLast }) => {
   return (
     <RowContainer>
-      <Box as="header" className="is-center" pt={(isFirst) ? [0] : [4, 4, 4, 6]} px={[4, 3, 0]}>
+      <Box as="header" className="is-center" pt={(isFirst) ? [0] : [4, 4, 4, 6]} _px={[0, 3, 0]}>
         {data.title && (
           <TransitionContainer distance={40}>
             <Text

@@ -19,7 +19,6 @@ const Switcher = ({intl: { locale }, fontSizes }) => (
         as={SwitcherLink}
         hidden={key === locale ? true : false}
         to={`/${locales[key].path}/`}
-        title={`Click click..`}
         color={`#fff`}
         localePrefix={false}
       >
