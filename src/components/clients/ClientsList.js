@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 import { display } from 'styled-system'
+import { injectIntl } from 'react-intl'
 import { useStaticQuery, graphql } from 'gatsby'
 
 import { colors } from '@styles/Theme'
@@ -185,7 +186,7 @@ class CliensRows extends React.Component {
   }
 }
 
-const ClientsList = ({ locale }) => {
+const ClientsList = ({ intl }) => {
   const data = useStaticQuery(graphql`
     query ClientsList {
       allContentfulClients(sort: { fields: [year, name], order: DESC }) {
@@ -199,13 +200,14 @@ const ClientsList = ({ locale }) => {
   `)
   return (
     <Box pt={[5,5,0]}>
-      <ClientRow projectName={`Project`} name={`Name`} service={`Expertise`} year={`Year`} sep={false} textColor={colors.text} hoverIndex={false} />
-      <CliensRows data={filterByLocale(data.allContentfulClients.edges, locale)} />
+      {/* {console.log(intl)} */}
+      <ClientRow projectName={intl.formatMessage({id: 'clients.project'})} name={intl.formatMessage({id: 'clients.name'})} service={intl.formatMessage({id: 'clients.expertise'})} year={intl.formatMessage({id: 'clients.year'})} sep={false} textColor={colors.text} hoverIndex={false} />
+      <CliensRows data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
     </Box>
   )
 }
 
-export default ClientsList
+export default injectIntl(ClientsList)
 
 export const query = graphql`
   fragment Client on ContentfulClients {
