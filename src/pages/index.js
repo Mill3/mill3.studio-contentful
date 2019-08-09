@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
+import { injectIntl } from 'react-intl'
 
 import SEO from '@components/seo'
 
@@ -8,6 +9,7 @@ import HeaderIntro from '@components/header/HeaderIntro'
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ContactForm from '@components/contact/ContactForm'
+
 
 import Container from '@styles/Container'
 
@@ -22,10 +24,10 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, intl } = this.props
     return (
       <LayoutContext.Provider>
-        <SEO title={null} />
+        <SEO title={intl.formatMessage({id: 'meta.title'})} description={intl.formatMessage({id: 'meta.description'})} />
         <React.Fragment>
           <HeaderIntro transitionStatus={'entering'} />
           <Container fluid>{data.allContentfulProjects && <ProjectsHome data={data.allContentfulProjects} />}</Container>
@@ -43,7 +45,7 @@ IndexPage.propTypes = {
   }).isRequired,
 }
 
-export default IndexPage
+export default injectIntl(IndexPage)
 
 export const projectQuery = graphql`
   query projectsHomeQuery($locale: String!) {

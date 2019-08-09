@@ -94,6 +94,7 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
 
 const About = ({ pageContext, intl }) => (
   <React.Fragment>
+
     <SEO title="Contact us" translate={true} />
 
     <Flex alignItems={`center`} as={Header} className="z-negative">
