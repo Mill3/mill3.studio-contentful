@@ -69,8 +69,8 @@ module.exports = {
         name: `Mill3 Studio`,
         short_name: `mill3`,
         start_url: `/`,
-        background_color: `#000000`,
-        theme_color: `#000000`,
+        background_color: `#121212`,
+        theme_color: `#121212`,
         display: `minimal-ui`,
         icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
       },
