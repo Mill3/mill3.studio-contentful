@@ -89,11 +89,11 @@ export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index
             <VideoElement asset={img} />
           )}
 
-          {img.file && img.description && (
+          {/* {img.file && img.description && (
             <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
               {img.description}
             </Box>
-          )}
+          )} */}
         </TransitionContainer>
       </Box>
     </Flex>
