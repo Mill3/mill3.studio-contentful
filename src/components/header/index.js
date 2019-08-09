@@ -35,8 +35,6 @@ class Header extends React.Component {
   render() {
     const { layoutState } = this.context
 
-
-
     return (
       <Location>
         {({ location }) => (
