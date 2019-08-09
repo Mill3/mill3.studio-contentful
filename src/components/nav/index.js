@@ -4,6 +4,7 @@ import posed from 'react-pose'
 import { Text } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 
+import { colors } from '@styles/Theme'
 import Switcher from '@components/nav/switcher'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
@@ -256,7 +257,7 @@ class Nav extends React.Component {
           inverted={inverted}
         >
           <NavItem>
-            <TransitionLinkComponent to={`/projects/`} color={`#121212`}>
+            <TransitionLinkComponent to={`/projects/`} color={colors.blue}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Projects" />
               </Text>
@@ -264,23 +265,23 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/about/`} color={`#445533`}>
+            <TransitionLinkComponent to={`/about/`} color={colors.black}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.About" />
               </Text>
             </TransitionLinkComponent>
           </NavItem>
 
-          <NavItem>
-            <TransitionLinkComponent to={`/journal/`} color={`#3426F1`}>
+          {/* <NavItem>
+            <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Journal" />
               </Text>
             </TransitionLinkComponent>
-          </NavItem>
+          </NavItem> */}
 
           <NavItem>
-            <TransitionLinkComponent to={`/contact/`} color={`#3426F1`}>
+            <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Contact" />
               </Text>

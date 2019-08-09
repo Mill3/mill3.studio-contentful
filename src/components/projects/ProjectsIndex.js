@@ -96,7 +96,7 @@ class ProjectsIndex extends Component {
               <Text
                 as={`h1`}
                 textAlign="center"
-                fontSize={['28px', null, 5, '3.611111111vw']}
+                fontSize={['30px', null, 5, '3.611111111vw']}
                 lineHeight={'1.2'}
                 mt={[3, null, 0]}
                 mb={0}

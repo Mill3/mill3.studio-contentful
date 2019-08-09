@@ -75,7 +75,7 @@ class SingleHeader extends Component {
             <Text
               as={`h1`}
               textAlign="center"
-              fontSize={['28px', null, 5, '3.611111111vw']}
+              fontSize={['30px', null, 5, '3.611111111vw']}
               lineHeight={'1.2'}
               mt={[3, null, 0]}
               mb={0}
@@ -90,7 +90,7 @@ class SingleHeader extends Component {
               <Text
                 as={`h3`}
                 textAlign="center"
-                fontSize={['4.75vw', '3.8vw', '2.8vw', '1.805vw']}
+                fontSize={['5.35vw', '3.8vw', '2.8vw', '1.805vw']}
                 pt={['24px', null, 4]}
                 px={[0, 0, 0, 0, `10vw`]}
                 mb={0}

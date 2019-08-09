@@ -28,7 +28,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
       <Container fluid>
         <SingleHeader
           label={{
-            text: "projects.single.label",
+            text: "projects.label",
             url: "/projects/",
             transitionColor: "#000",
           }}
@@ -67,7 +67,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
                 >
                   <LinkButton
                     hoverColor={next.colorMain}
-                    fontSize={['28px', null, 5, '3.611111111vw']}
+                    fontSize={['30px', null, 5, '3.611111111vw']}
                     fontWeight={900}
                     lineHeight={'1.2'}
                     className={`is-serif`}

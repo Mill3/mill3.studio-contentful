@@ -17,6 +17,7 @@ const ContentSectionBreak = ({ data, isFirst, isLast }) => {
             <Text
               as={`h1`}
               fontSize={['28px', null, 5, '3.611111111vw']}
+              lineHeight={'1.2'}
               className="is-serif fw-900"
               mb={[2]}
             >
