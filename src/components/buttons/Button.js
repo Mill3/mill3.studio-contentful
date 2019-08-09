@@ -12,6 +12,7 @@ export const ButtonStyle = styled.span`
   height: 60px;
   transition: all 0.25s ease-in-out;
   font-weight: 300;
+  perspective: 1000px;
   span {
     display: block;
     padding: 20px 45px;
@@ -19,7 +20,7 @@ export const ButtonStyle = styled.span`
   }
   &:hover {
     background-color: ${props => props.theme.colors.black};
-    transform: rotate3d(1,1,1,-2.74deg);
+    transform: rotate(-2.74deg);
     span {
       transform: translateY(-100%);
     }

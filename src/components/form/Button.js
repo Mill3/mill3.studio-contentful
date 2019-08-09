@@ -26,7 +26,7 @@ const ButtonStyle = styled.button`
   &:hover,
   &:focus {
     background-color: ${props => props.theme.colors.black};
-    transform: rotate3d(1,1,1,-2.74deg);
+    transform: rotate(-2.74deg);
 
     span {
       transform: translateY(-100%);
