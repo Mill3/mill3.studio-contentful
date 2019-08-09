@@ -8,7 +8,9 @@ import axios from 'axios'
 import { debounce } from 'lodash'
 import { isBrowser } from 'react-device-detect'
 
+import HeaderCircle from '@components/header/HeaderCircle'
 import ContactIcon from '@components/contact/ContactIcon'
+
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
@@ -311,8 +313,9 @@ class ContactForm extends Component {
 
     return (
       <Container fluid {...this.props} css={{position: 'relative'}}>
+
         <div style={{transform: `translate3d(0, ${scrollY * 0.1}px, 0)`}}>
-          <ContactIcon />
+          <HeaderCircle locale={intl.locale} type={`contact`} />
         </div>
 
         <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={3}>

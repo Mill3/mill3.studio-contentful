@@ -11,7 +11,7 @@ const Container = styled.div`
   z-index: 100;
   pointer-events: none;
 
-  svg {
+  svg, img {
     width: 100%;
     height: auto;
   }

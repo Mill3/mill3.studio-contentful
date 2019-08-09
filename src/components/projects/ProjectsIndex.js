@@ -127,7 +127,7 @@ class ProjectsIndex extends Component {
               </Text>
             </TransitionContainer>
 
-            <HeaderCircle ml={['-4.75vw', null, -3, '-28px']} css={{ transform: 'translateY(45%)' }} />
+            <HeaderCircle ml={['-4.75vw', null, -3, '-28px']} locale={this.props.pageContext.locale} type={`work`} css={{ transform: 'translateY(45%)' }} />
           </Flex>
 
           {/* list of projects */}

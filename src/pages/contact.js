@@ -128,7 +128,7 @@ const About = ({ pageContext, intl }) => (
               <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1200}>
                 {intl.formatMessage({ id: 'contact.ContactIntroPart2' }).toString()}
               </SplitText>
-              <span>&nbsp;</span>
+              {/* <span>&nbsp;</span> */}
               <Text as={PhoneCall} href="tel:514-561-1550">
                 <SplitText initialPose={`exit`} pose={`enter`} wordPoses={wordPoses} delay={1350}>
                   {intl.formatMessage({ id: 'contact.ContactIntroPart3' }).toString()}

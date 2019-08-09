@@ -111,7 +111,7 @@ class ClientsTicker extends React.Component {
 
   clients() {
     if (this.shuffleData) {
-      return this.shuffleData.map((client, index) => <ClientName name={client.node.name} color={client.node.colorMain} key={index} />)
+      return this.shuffleData.map((client, index) => <ClientName name={client.node.name} key={index} />)
     }
   }
 
@@ -134,7 +134,6 @@ export default props => (
             node {
               name
               slug
-              colorMain
             }
           }
         }

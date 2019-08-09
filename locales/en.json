@@ -1,13 +1,15 @@
 {
   "About us": "About us",
   "Contact us": "Contact us",
+  "Show list": "Show list",
+  "Ticker please!": "Ticker please!",
   "choices....": "...",
   "choices.ideas": "ideas",
   "choices.partnership": "partnership",
   "choices.project": "project",
   "contact.ContactIntroPart1": "We would love to talk.",
-  "contact.ContactIntroPart2": "Give us",
-  "contact.ContactIntroPart3": "a call",
+  "contact.ContactIntroPart2": "Give us a ",
+  "contact.ContactIntroPart3": "call",
   "contact.ContactIntroPart4": ", join our social fun",
   "contact.ContactIntroPart5": "or, fill out the form below.",
   "contact.FormIntroLine": "Hey, share us your",
@@ -43,7 +45,8 @@
   "footer.email": "info@mill3.studio",
   "footer.phone": "+1 (514) 984-7703",
   "footer.cold": "Baby, it’s cold outside.",
+  "footer.hot": "Baby, it’s hot outside.",
   "footer.love": "Made with ❤️ in",
-  "footer.mtl": "Montreal, Canada.",
+  "footer.mtl": "Montréal, Canada.",
   "footer.rights": "Rights, Rights, Rights. Pretty sure @mill3studio"
 }

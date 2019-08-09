@@ -86,7 +86,7 @@ class NewsIndex extends Component {
               </Text>
             </TransitionContainer>
 
-            <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{ transform: 'translateY(45%)' }} />
+            {/* <HeaderCircle ml={['-5vw', null, -3, '-28px']} css={{ transform: 'translateY(45%)' }} /> */}
           </Flex>
 
           <Flex as={ListGridStyle} flexWrap={`wrap`} mx={[-2, null, -3, '-28px']}>

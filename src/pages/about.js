@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 import { graphql } from 'gatsby'
 import { Flex, Box } from 'rebass'
 
-import SEO from '@components/seo'
+import { injectIntl } from 'react-intl'
+
 import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ClientsList from '@components/clients/ClientsList'
 import Container from '@styles/Container'
 import PageSingle from '@components/pages/PageSingle'
 
-const About = ({ pageContext, data }) => {
+const About = ({ data, intl }) => {
   const [list, setList] = useState(false);
 
   return (
@@ -22,12 +22,12 @@ const About = ({ pageContext, data }) => {
       <Flex justifyContent={`flex-end`} px={[2,3,6]} mb={list ? [0] : ['-55px']}>
 
           <ChipButton onClick={(e) => setList(!list)}>
-            {!list ? 'Show list' : 'Ticker please!'}
+            {intl.formatMessage({ id: !list ? 'Show list' : 'Ticker please!' }).toString()}
           </ChipButton>
 
       </Flex>
 
-      <Box pt={list ? [3] : [0]}>
+      <Box pt={list ? [2] : [0]}>
         {/* show client list */}
         {list && <Container><ClientsList /></Container> }
         {/* show ticker */}
@@ -38,7 +38,7 @@ const About = ({ pageContext, data }) => {
   )
 };
 
-export default About
+export default injectIntl(About)
 
 export const projectQuery = graphql`
   query aboutPageQuery($locale: String!) {

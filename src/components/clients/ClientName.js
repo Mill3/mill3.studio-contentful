@@ -38,7 +38,6 @@ class ClientName extends React.Component {
     return (
       <Text
           as={ClientNameHeading}
-          hoverColor={this.props.color}
           fontSize={['12.5vw',4,'8vw']}
           ml={[2,4]}
           mr={[2,4]}

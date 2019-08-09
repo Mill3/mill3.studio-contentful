@@ -19,6 +19,14 @@ const FooterContainer = styled.footer`
 `
 
 const Footer = ({ intl }) => {
+
+  const season = () => {
+    let d = new Date()
+    let m = d.getMonth()
+
+    return (m >= 0 && m <=4) || (m > 10) ? `winter` : `summer`
+  }
+
   return (
     <Box mt={[4, 5]} pt={[4]} pb={[4]} as={FooterContainer}>
       <AnimatedBackgroundContainer backgroundColor="#ffffff">
@@ -65,7 +73,7 @@ const Footer = ({ intl }) => {
             >
               <TransitionContainer distance={0} autoCalculateDelay={false} index={0.75}>
                 <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
-                  {intl.formatMessage({ id: 'footer.cold' }).toString()}
+                  {intl.formatMessage({ id: season() === 'winter' ? 'footer.cold' : 'footer.hot' }).toString()}
                 </Text>
                 <Text as={`h6`} m={0}>
                   {intl.formatMessage({ id: 'footer.love' }).toString()}

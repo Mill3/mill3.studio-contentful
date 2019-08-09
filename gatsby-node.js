@@ -28,6 +28,7 @@ exports.onCreateWebpackConfig = ({
         '@utils': path.resolve(__dirname, 'src/utils/'),
         '@styles': path.resolve(__dirname, 'src/styles/'),
         '@svg': path.resolve(__dirname, 'src/svg/'),
+        '@images': path.resolve(__dirname, 'src/images/'),
       },
       modules: [path.resolve(__dirname, "src"), "node_modules"],
     },
