@@ -38,7 +38,7 @@ const SEO = props => {
         return props.description
       }
     } else if (props.description) {
-      return props.description
+      return props.translate ? lozalized(props.description) : props.description
     }
   }
 
