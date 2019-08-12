@@ -1,4 +1,10 @@
 import locales from '@locales/locales'
+import locale2 from 'locale2'
+
+export const detectLocale = () => {
+  // console.log(locale2);
+  return locale2.split(`-`)[0]
+}
 
 export const getLocale = (location) => {
   const parts = location.pathname.split(`/`).filter(function(e){return e})

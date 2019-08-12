@@ -5,7 +5,7 @@ import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
 const SEO = props => {
-  const siteName = `Mill3 Studio`
+  const siteName = `MILL3 Studio`
   const siteDescription = `click, code & craft.`
   const sep = `|`
   const { intl } = props

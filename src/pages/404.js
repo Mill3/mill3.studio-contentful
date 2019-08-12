@@ -6,6 +6,8 @@ import { Box, Text } from 'rebass'
 import Logo from '@svg/Logo'
 import Container from '@styles/Container'
 
+import { detectLocale } from '@utils/Locales'
+
 import john from '@images/john.gif'
 
 const NotFoundContainer = styled.div`
@@ -19,9 +21,8 @@ const NotFoundContainer = styled.div`
 const NotFoundPage = () => (
   <Container>
     <Box as={NotFoundContainer} py={[`10vh`]} pr={[0,0,0,'40vw']}>
-      {/* <Logo /> */}
       <Text as={`h1`} fontSize={['4vw', '8vw']}>404</Text>
-      <Link to={`/fr`}>
+      <Link to={`/${detectLocale()}/`}>
         <img src={john} alt="Stay confused John.." className="img-fluid" />
       </Link>
     </Box>
