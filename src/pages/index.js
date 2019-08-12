@@ -25,12 +25,15 @@ class IndexPage extends React.Component {
 
   render() {
     const { data, intl } = this.props
+    const { context } = this
     return (
       <LayoutContext.Provider>
         <SEO title={'meta.title'} description={'meta.description'} translate={true} />
         <React.Fragment>
-          <HeaderIntro transitionStatus={'entering'} />
-          <Container fluid>{data.allContentfulProjects && <ProjectsHome data={data.allContentfulProjects} />}</Container>
+          <HeaderIntro />
+          <Container fluid>
+            {(data.allContentfulProjects && !context.transitionState['intro']) && <ProjectsHome data={data.allContentfulProjects} />}
+          </Container>
           <ClientsTicker />
           <ContactForm my={[2, 3, 5]} />
         </React.Fragment>

@@ -165,8 +165,6 @@ exports.onCreatePage = ({ page, actions }) => {
 
   return new Promise((resolve, reject) => {
 
-    // console.log(page.internalComponentName);
-
     // delete page, except the Dev 404 page
     if (page.internalComponentName !== 'Component404Html') {
       console.log(`.....`);
