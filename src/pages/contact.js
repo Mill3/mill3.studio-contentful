@@ -152,7 +152,9 @@ const About = ({ data, pageContext, intl }) => (
     </Flex>
 
     <ContactForm snapIcon={false} />
+
     <ContactTicker />
+
   </React.Fragment>
 )
 

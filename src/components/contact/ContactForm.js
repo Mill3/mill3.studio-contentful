@@ -58,7 +58,7 @@ const selectOptions = {
 }
 
 const FieldGroup = forwardRef((props, ref) => {
-  const { name, label, type, active, error, onActive, validate } = props
+  const { name, label, placeholder, type, active, error, onActive, validate } = props
   const childProps = omit(props, ['name', 'label', 'type', 'children', 'active', 'error', 'onActive'])
   const onFocus = () => {
     onActive(name)
@@ -84,7 +84,7 @@ const FieldGroup = forwardRef((props, ref) => {
         id={name}
         name={name}
         type={type}
-        placeholder="Type your answer here"
+        placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
         onSubmit={e => console.log(e)}
@@ -318,7 +318,7 @@ class ContactForm extends Component {
           <HeaderCircle locale={intl.locale} type={`contact`} />
         </div>
 
-        <Box bg={colors.lightGray} px={`5vw`} pt={6} pb={3}>
+        <Box bg={colors.lightGray} px={`5vw`} pt={5} pb={3}>
           <Flex
             as={FormStyle}
             ref={this.formRef}
@@ -329,6 +329,11 @@ class ContactForm extends Component {
             onSubmit={this.onSubmit}
             disabled={submitting || submitted ? true : false}
           >
+            <Box width={'100%'} pb={[2,3,4]}>
+              <Text as={`h4`} textAlign={`center`}>
+                <FormattedMessage id="contact.HeadingTitle" />
+              </Text>
+            </Box>
             <Flex
               flexWrap={['wrap', null, null, 'nowrap']}
               justifyContent={'center'}
@@ -352,7 +357,6 @@ class ContactForm extends Component {
                 id="type"
                 name="type"
                 width={['100%', null, '75%', '27vw']}
-                // burried={this.typeRef && this.typeRef.current.selectedIndex === 0}
                 onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
               >
                 {Object.entries(selectOptions).map(([key, value], index, array) => {
@@ -367,12 +371,12 @@ class ContactForm extends Component {
 
             <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={selectedIndex > 0}>
               <Box pt={4} pb={5}>
-                {submitting}
                 <FieldGroup
                   ref={this.nameRef}
                   name="name"
                   type="text"
                   label={intl.formatMessage({id: 'fields.name'})}
+                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
                   active={activeField === 'name'}
                   onActive={this.onFocusChange}
                   validate={{
@@ -385,6 +389,7 @@ class ContactForm extends Component {
                   name="email"
                   type="email"
                   label={intl.formatMessage({id: 'fields.email'})}
+                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
                   active={activeField === 'email'}
                   onActive={this.onFocusChange}
                   validate={{
@@ -397,6 +402,7 @@ class ContactForm extends Component {
                   name="company"
                   type="text"
                   label={intl.formatMessage({id: 'fields.company'})}
+                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
                   active={activeField === 'company'}
                   onActive={this.onFocusChange}
                 />
@@ -406,6 +412,7 @@ class ContactForm extends Component {
                   name="project-type"
                   type="text"
                   label={intl.formatMessage({id: 'fields.project'})}
+                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
                   active={activeField === 'project-type'}
                   onActive={this.onFocusChange}
                   validate={{
@@ -418,6 +425,7 @@ class ContactForm extends Component {
                   name="budget"
                   type="text"
                   label={intl.formatMessage({id: 'fields.budget'})}
+                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
                   active={activeField === 'budget'}
                   onActive={this.onFocusChange}
                   validate={{
