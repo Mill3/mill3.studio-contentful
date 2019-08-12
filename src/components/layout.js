@@ -94,7 +94,6 @@ class Layout extends React.Component {
   render() {
     const { transitionState } = this.state
     const { children, pageContext } = this.props
-    console.log(pageContext);
 
     if (pageContext.layout === 'basic') {
       return(
