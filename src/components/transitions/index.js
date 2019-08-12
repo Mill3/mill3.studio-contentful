@@ -81,11 +81,16 @@ const TransitionPaneStyle = styled(Poses)`
 
   svg {
     width: 88vw;
+    @media (max-width: ${props => props.theme.breakpoints[1]}) {
+      transform: translateY(-7vh);
+    }
   }
+
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     height: 100vh;
   }
+
 `
 const TransitionTextStyle = styled.p`
   mix-blend-mode: difference;
@@ -138,15 +143,22 @@ class TransitionPane extends React.Component {
           }
         }}
       >
-        <Text
-          as={TransitionTextStyle}
-          fontSize={['18vw', null, `5vw`]}
-          textAlign="center"
-          lineHeight="1.1"
-          className={`is-sans fw-300`}
-        >
-          {pose === TRANSITION_PANE_STATES['intro'] ? <LogoAnimated inverted={true} animated={true} /> : <span>{title}</span>}
-        </Text>
+        {/* when in intro state */}
+        {pose === TRANSITION_PANE_STATES['intro'] &&
+          <LogoAnimated inverted={true} animated={true} />
+        }
+        {/* outside intro */}
+        {pose !== TRANSITION_PANE_STATES['intro'] &&
+          <Text
+            as={TransitionTextStyle}
+            fontSize={['18vw', null, `5vw`]}
+            textAlign="center"
+            lineHeight="1.1"
+            className={`is-sans fw-300`}
+          >
+            <span>{title}</span>
+          </Text>
+        }
       </Flex>
     )
   }
