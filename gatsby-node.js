@@ -173,6 +173,11 @@ exports.onCreatePage = ({ page, actions }) => {
       deletePage(page)
     }
 
+    if (page.internalComponentName === 'Component404Html') {
+      page.context.layout = "basic"
+      createPage(page)
+    }
+
     Object.keys(locales).map(lang => {
 
       const localizedPath = page.internalComponentName === 'ComponentRoot' ? `/` : locales[lang].path + page.path

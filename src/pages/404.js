@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Box, Text, Img } from 'rebass'
+import { Link } from 'gatsby'
+import { Box, Text } from 'rebass'
 
+import Logo from '@svg/Logo'
 import Container from '@styles/Container'
 
 import john from '@images/john.gif'
@@ -17,9 +19,11 @@ const NotFoundContainer = styled.div`
 const NotFoundPage = () => (
   <Container>
     <Box as={NotFoundContainer} py={[`10vh`]} pr={[0,0,0,'40vw']}>
+      {/* <Logo /> */}
       <Text as={`h1`} fontSize={['4vw', '8vw']}>404</Text>
-      <img src={john} alt="Stay confused John.." className="img-fluid" />
-      {/* <p>You just hit a route that doesn&#39;t exist... the sadness.</p> */}
+      <Link to={`/fr`}>
+        <img src={john} alt="Stay confused John.." className="img-fluid" />
+      </Link>
     </Box>
   </Container>
 )
