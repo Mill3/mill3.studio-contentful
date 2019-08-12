@@ -16,7 +16,7 @@ import frData from 'react-intl/locale-data/fr'
 import en from '@locales/en.json'
 import fr from '@locales/fr.json'
 
-import { getLocale, pathIsLocaleRoot } from '@utils/Locales'
+import { getLocale } from '@utils/Locales'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
