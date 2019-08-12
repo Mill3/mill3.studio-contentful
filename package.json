@@ -11,6 +11,7 @@
     "not dead"
   ],
   "dependencies": {
+    "@babel/core": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@contentful/rich-text-react-renderer": "^13.2.0",
     "@contentful/rich-text-types": "^13.1.0",
