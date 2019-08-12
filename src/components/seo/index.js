@@ -14,9 +14,9 @@ const SEO = props => {
 
   const { intl } = props
 
-  const siteName = () => !props.seo.removeDefaultTitle ? lozalized(DEFAULT_SITENAME) : ``
+  const siteName = () => (props.seo && !props.seo.removeDefaultTitle) ? lozalized(DEFAULT_SITENAME) : ``
 
-  const sepLine = () => !props.seo.removeDefaultTitle ? SEP_CHAR : ``
+  const sepLine = () => (props.seo && !props.seo.removeDefaultTitle) ? SEP_CHAR : ``
 
   const defaultTitle = () => `${siteName()} ${sepLine()} ${DEFAULT_DESCRIPTION}`
 
