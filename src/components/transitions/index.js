@@ -145,7 +145,7 @@ class TransitionPane extends React.Component {
           lineHeight="1.1"
           className={`is-sans fw-300`}
         >
-          {pose === TRANSITION_PANE_STATES['intro'] ? <LogoAnimated inverted animated /> : <span>{title}</span>}
+          {pose === TRANSITION_PANE_STATES['intro'] ? <LogoAnimated inverted={true} animated={true} /> : <span>{title}</span>}
         </Text>
       </Flex>
     )

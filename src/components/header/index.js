@@ -43,14 +43,12 @@ class Header extends React.Component {
               <Container fluid className={`z-10`}>
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
-                      <TransitionLinkComponent to={`/`} title={`✌️`} color={`#000`}>
+                      <TransitionLinkComponent to={`/`} title={`✌️`} color={`#121212`}>
                         <Logo inverted={pathIsLocaleRoot(location)} />
                       </TransitionLinkComponent>
                   </Box>
                   <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
                     <Nav inverted={pathIsLocaleRoot(location)} pathname={location.pathname} />
-                    {/* <TransitionContainer distance={10} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.6 : TRANSITION_DURATION * 0.75}> */}
-                    {/* </TransitionContainer> */}
                   </Box>
                 </Flex>
               </Container>

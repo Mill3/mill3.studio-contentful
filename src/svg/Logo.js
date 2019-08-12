@@ -8,9 +8,17 @@ export const LogoSVG = styled.svg`
   width: 24.879227053vw;
   height: auto;
   overflow: visible;
+  background-clip: content-box, padding-box;
+  overflow: visible;
+  background: transparent;
+  clip: rect(-100vh,-100px,-100vh,-100px);
 
   @media (min-width: ${breakpoints[1]}) {
     width: 154px;
+  }
+
+  * {
+    overflow: visible;
   }
 
   polygon, path {
