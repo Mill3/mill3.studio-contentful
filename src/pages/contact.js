@@ -102,7 +102,7 @@ const About = ({ data, pageContext, intl }) => (
       <Container fluid>
         <Box width={`100%`}>
           <Text
-            as={`h2`}
+            as={`h1`}
             fontSize={fontSizes}
             lineHeight={[`1.4`, null, `1.2`]}
             className={`is-serif-headings fw-900`}
@@ -118,7 +118,7 @@ const About = ({ data, pageContext, intl }) => (
           </Text>
 
           <Text
-            as={`h2`}
+            as={`h1`}
             fontSize={fontSizes}
             width={[`85%`, null, `90%`, `65%`]}
             lineHeight={[`1.1`, null, `1.2`]}
