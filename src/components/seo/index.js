@@ -6,29 +6,33 @@ import Helmet from 'react-helmet'
 
 import locales from '@locales/locales'
 
+const DEFAULT_SITENAME = `meta.title`
+const DEFAULT_DESCRIPTION = `click, code & craft.`
+const SEP_CHAR = `—`
+
 const SEO = props => {
-  const siteName = `MILL3 Studio`
-  const siteDescription = `click, code & craft.`
-  const sep = `|`
+
   const { intl } = props
 
-  const defaultTitle = () => `${siteName} ${sep} ${siteDescription}`
+  const siteName = () => !props.seo.removeDefaultTitle ? lozalized(DEFAULT_SITENAME) : ``
 
-  const lozalized = (id) => {
-    return intl.formatMessage({ 'id': id }).toString()
-  }
+  const sepLine = () => !props.seo.removeDefaultTitle ? SEP_CHAR : ``
+
+  const defaultTitle = () => `${siteName()} ${sepLine()} ${DEFAULT_DESCRIPTION}`
+
+  const lozalized = (id) =>  intl.formatMessage({ 'id': id }).toString()
 
   const title = () => {
     if (props.seo) {
       if (props.seo.pageTitle) {
-        return `${props.seo.pageTitle} ${sep} ${siteName}`
+        return `${props.seo.pageTitle} ${sepLine()} ${siteName()}`
       } else if (props.title) {
-        return `${props.translate ? lozalized(props.title) : props.title} ${sep} ${siteName}`
+        return `${props.translate ? lozalized(props.title) : props.title} ${sepLine()} ${siteName()}`
       } else {
         return defaultTitle()
       }
     } else {
-      return props.title ? `${props.translate ? lozalized(props.title) : props.title} ${sep} ${siteName}` : defaultTitle()
+      return props.title ? `${props.translate ? lozalized(props.title) : props.title} ${sepLine()} ${siteName()}` : defaultTitle()
     }
   }
 
@@ -94,6 +98,7 @@ SEO.propTypes = {
     pageTitle: PropTypes.string,
     pageDescription: PropTypes.string,
     shareImage: PropTypes.object,
+    removeDefaultTitle: PropTypes.bool,
   })
 }
 
@@ -105,6 +110,7 @@ export const seoFieldsFragment = graphql`
     slug
     pageTitle
     pageDescription
+    removeDefaultTitle
     shareImage {
       fixed(width: 1000, quality: 70) {
         ...GatsbyContentfulFixed_withWebp_noBase64
