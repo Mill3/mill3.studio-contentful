@@ -40,7 +40,7 @@ const Header = styled(HeaderIntroPoses)`
   height: 53vh;
   transition: height 0.25s;
 
-  h2 {
+  h1 {
     margin: 0;
     line-height: 1.2;
   }
@@ -97,7 +97,7 @@ const TextWrapperCopy = styled(Flex)`
   }
 `
 
-const TextStyle = styled.h2`
+const TextStyle = styled.h1`
   transform-origin: top center;
 `
 

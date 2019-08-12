@@ -26,11 +26,8 @@ const SEO = props => {
     if (props.seo) {
       if (props.seo.pageTitle) {
         return `${props.seo.pageTitle} ${sepLine()} ${siteName()}`
-      } else if (props.title) {
-        return `${props.translate ? lozalized(props.title) : props.title} ${sepLine()} ${siteName()}`
-      } else {
-        return defaultTitle()
       }
+      return defaultTitle()
     } else {
       return props.title ? `${props.translate ? lozalized(props.title) : props.title} ${sepLine()} ${siteName()}` : defaultTitle()
     }
@@ -40,9 +37,8 @@ const SEO = props => {
     if (props.seo) {
       if (props.seo.pageDescription) {
         return props.seo.pageDescription
-      } else if (props.description) {
-        return props.description
       }
+      return props.description
     } else if (props.description) {
       return props.translate ? lozalized(props.description) : props.description
     }
@@ -51,9 +47,8 @@ const SEO = props => {
   const image = () => {
     if (props.seo && props.seo.shareImage) {
       return props.seo.shareImage.fixed.src
-    } else if (props.image) {
-      return props.image
     }
+    return props.image
   }
 
 
