@@ -35,7 +35,7 @@ class ProjectsIndex extends Component {
       width: [1, 1, 1 / 2, 1 / 3],
     }
     const isMobile = Viewport.width < mobileBreakpoint
-    const total = this.props.data.allContentfulProjects.edges.length
+    const total = this.props.data.projects.edges.length
 
     const calculateOffset = (index, increment = -120, nth = 3) => {
       let col = (index % nth) + 1
@@ -69,7 +69,7 @@ class ProjectsIndex extends Component {
     }
 
     if (this.props.data) {
-      return this.props.data.allContentfulProjects.edges.map((project, index) => {
+      return this.props.data.projects.edges.map((project, index) => {
         const offset = getOffset(index)
         const delay = getDelay(index)
 
@@ -83,7 +83,7 @@ class ProjectsIndex extends Component {
   render() {
     return (
       <>
-        <SEO title={`nav.Work`} translate={true} locale={this.props.pageContext.locale} />
+        <SEO seo={this.props.data.seoFields} />
         <Container fluid>
           <Flex
             as={ProjectIndexHeader}
@@ -101,18 +101,10 @@ class ProjectsIndex extends Component {
                 mt={[3, null, 0]}
                 mb={0}
               >
-                <span className="is-sans">
-                  Work{' '}
-                </span>
-                <span className="is-serif fw-900">
-                  Work{' '}
-                </span>
-                <span className="is-sans">
-                  Work{' '}
-                </span>
-                <span className="is-serif fw-900">
-                  Work{' '}
-                </span>
+                <span className="is-sans">Work </span>
+                <span className="is-serif fw-900">Work </span>
+                <span className="is-sans">Work </span>
+                <span className="is-serif fw-900">Work </span>
               </Text>
             </TransitionContainer>
             <TransitionContainer autoCalculateDelay={false} index={1.5}>
@@ -121,26 +113,34 @@ class ProjectsIndex extends Component {
                 textAlign="center"
                 fontSize={['4.75vw', '3.8vw', '2.8vw', '1.805vw']}
                 pt={['24px', null, 4]}
-                px={[0,0,0,0,`10vw`]}
+                px={[0, 0, 0, 0, `10vw`]}
                 mb={0}
               >
                 <FormattedMessage id="projects.Intro" />
               </Text>
             </TransitionContainer>
 
-            <HeaderCircle ml={['-4.75vw', null, -3, '-28px']} locale={this.props.pageContext.locale} type={`work`} css={{ transform: 'translateY(45%)' }} />
+            <HeaderCircle
+              ml={['-4.75vw', null, -3, '-28px']}
+              locale={this.props.pageContext.locale}
+              type={`work`}
+              css={{ transform: 'translateY(45%)' }}
+            />
           </Flex>
 
           {/* list of projects */}
-          <Flex as={ProjectIndexList} mx={['-6.15vw', null, -3, '-28px']} flexWrap={`wrap`} css={{ position: 'relative' }}>
+          <Flex
+            as={ProjectIndexList}
+            mx={['-6.15vw', null, -3, '-28px']}
+            flexWrap={`wrap`}
+            css={{ position: 'relative' }}
+          >
             {this.list()}
           </Flex>
-
         </Container>
 
         {/* list of clients */}
         <ClientsFooter />
-
       </>
     )
   }
@@ -150,7 +150,13 @@ export default ProjectsIndex
 
 export const projectQuery = graphql`
   query allProjectsQuery($locale: String!) {
-    allContentfulProjects(filter: { node_locale: { eq: $locale } }, sort: { fields: [publishDate, createdAt], order: DESC }) {
+    seoFields : contentfulSeo(slug: { eq: "projects-index" }, node_locale : { eq: $locale }) {
+      ...seoFragment
+    }
+    projects : allContentfulProjects(
+      filter: { node_locale: { eq: $locale } }
+      sort: { fields: [publishDate, createdAt], order: DESC }
+    ) {
       edges {
         node {
           ...Project

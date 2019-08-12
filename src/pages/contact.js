@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import { injectIntl } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 import posed from 'react-pose'
@@ -92,10 +93,10 @@ const PhoneCallUnderline = styled(PhoneCallUnderlinePoses)`
   transform: scaleX(0.999);
 `
 
-const About = ({ pageContext, intl }) => (
+const About = ({ data, pageContext, intl }) => (
   <React.Fragment>
 
-    <SEO title="Contact us" translate={true} />
+    <SEO seo={data.seoFields} />
 
     <Flex alignItems={`center`} as={Header} className="z-negative">
       <Container fluid>
@@ -156,3 +157,11 @@ const About = ({ pageContext, intl }) => (
 )
 
 export default injectIntl(About)
+
+export const contactQuery = graphql`
+  query contactQuery($locale: String!) {
+    seoFields : contentfulSeo(slug: { eq: "contact" }, node_locale : { eq: $locale }) {
+      ...seoFragment
+    }
+  }
+`

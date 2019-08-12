@@ -5,7 +5,6 @@ import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
 import locales from '@locales/locales'
-console.log('Locales:', locales)
 
 const SEO = props => {
   const siteName = `MILL3 Studio`
@@ -52,6 +51,7 @@ const SEO = props => {
       return props.image
     }
   }
+
 
   return (
     <Helmet
@@ -102,6 +102,7 @@ export default injectIntl(SEO)
 export const seoFieldsFragment = graphql`
   fragment seoFragment on ContentfulSeo {
     id
+    slug
     pageTitle
     pageDescription
     shareImage {

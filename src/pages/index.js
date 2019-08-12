@@ -26,11 +26,11 @@ class IndexPage extends React.Component {
     const { data } = this.props
     return (
       <LayoutContext.Provider>
-        <SEO title={'meta.title'} description={'meta.description'} translate={true} />
+        <SEO seo={data.seoFields} />
         <React.Fragment>
           <HeaderIntro />
           <Container fluid>
-            {(data.allContentfulProjects) && <ProjectsHome data={data.allContentfulProjects} />}
+            {(data.projects) && <ProjectsHome data={data.projects} />}
           </Container>
           <ClientsTicker />
           <ContactForm my={[2, 3, 5]} />
@@ -50,7 +50,10 @@ export default injectIntl(IndexPage)
 
 export const projectQuery = graphql`
   query projectsHomeQuery($locale: String!) {
-    allContentfulProjects(limit: 6, filter: { node_locale: { eq: $locale }, displayOnHomepage: { eq: true } }, sort: { fields: [publishDate, createdAt], order: DESC }) {
+    seoFields : contentfulSeo(slug: { eq: "homepage" }, node_locale : { eq: $locale }) {
+      ...seoFragment
+    }
+    projects : allContentfulProjects(limit: 6, filter: { node_locale: { eq: $locale }, displayOnHomepage: { eq: true } }, sort: { fields: [publishDate, createdAt], order: DESC }) {
       edges {
         node {
           ...Project
