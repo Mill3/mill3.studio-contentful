@@ -55,6 +55,9 @@ const SEO = props => {
       defaultTitle={`${siteName}`}
       title={title()}
       mateDescription={description()}
+      htmlAttributes={{
+        lang: intl.locale
+      }}
     >
       <meta name="description" content={description()} />
       <meta property="og:title" content={title()} />
@@ -64,10 +67,6 @@ const SEO = props => {
       <meta name="twitter:title" content={title()} />
       <meta name="twitter:description" content={description()} />
       <meta name="twitter:image" content={image()} />
-      <meta
-        name="ahrefs-site-verification"
-        content="60731af8a710220fa57373aeca408f14e0fb65e8dc1322d66fb4e2c5621f9da1"
-      />
     </Helmet>
   )
 }
@@ -75,6 +74,7 @@ const SEO = props => {
 SEO.defaultProps = {
   title: null,
   seoFields: null,
+  locale: `en`
 }
 
 SEO.propTypes = {
@@ -82,6 +82,7 @@ SEO.propTypes = {
   description: PropTypes.string,
   image: PropTypes.string,
   translate: PropTypes.bool,
+  locale: PropTypes.string,
   seo: PropTypes.shape({
     pageTitle: PropTypes.string,
     pageDescription: PropTypes.string,

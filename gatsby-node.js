@@ -149,9 +149,7 @@ exports.onCreatePage = ({ page, actions }) => {
   const { createPage, deletePage } = actions
 
   return new Promise((resolve, reject) => {
-    // delete page, except the 404 pages and Root page
-    console.log(`==== page ${page.internalComponentName}`)
-
+    // delete all pages, except the 404 pages and Root page, SW Offline support
     if (
       page.internalComponentName.search(`Offline`) < 0 &&
       page.internalComponentName.search(`404`) < 0 &&
@@ -162,6 +160,7 @@ exports.onCreatePage = ({ page, actions }) => {
       console.log(`.....`)
       deletePage(page)
     } else {
+      // push basic layout to 404 or root page
       page.context.layout = 'basic'
       createPage(page)
     }
