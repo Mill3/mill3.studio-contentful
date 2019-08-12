@@ -4,6 +4,9 @@ import { injectIntl } from 'react-intl'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
+import locales from '@locales/locales'
+console.log('Locales:', locales)
+
 const SEO = props => {
   const siteName = `MILL3 Studio`
   const siteDescription = `click, code & craft.`
@@ -59,6 +62,10 @@ const SEO = props => {
         lang: props.locale || intl.locale
       }}
     >
+      {Object.keys(locales).map(locale =>
+          <link rel="alternate" href={`https://mill3.studio/${locale}`} hrefLang={locale} key={locale}/>
+      )}
+      <link rel="alternate" href="https://mill3.studio/fr/" hreflang="x-default" />
       <meta name="description" content={description()} />
       <meta property="og:title" content={title()} />
       <meta property="og:description" content={description()} />
