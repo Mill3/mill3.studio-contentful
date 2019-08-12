@@ -11,14 +11,7 @@ const path = require(`path`)
 const slash = require(`slash`)
 const locales = require('./locales/locales')
 
-exports.onCreateWebpackConfig = ({
-  stage,
-  getConfig,
-  rules,
-  loaders,
-  plugins,
-  actions,
-}) => {
+exports.onCreateWebpackConfig = ({ stage, getConfig, rules, loaders, plugins, actions }) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {
@@ -30,33 +23,30 @@ exports.onCreateWebpackConfig = ({
         '@svg': path.resolve(__dirname, 'src/svg/'),
         '@images': path.resolve(__dirname, 'src/images/'),
       },
-      modules: [path.resolve(__dirname, "src"), "node_modules"],
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     },
   })
 }
 
-
 exports.createPages = ({ graphql, actions }) => {
-
   const { createPage } = actions
   return new Promise((resolve, reject) => {
-
     // Project index page
 
     graphql(
       `
-      {
-        allContentfulProjects(sort: { fields: [createdAt], order: DESC }) {
-          edges {
-            node {
-              id
-              contentful_id
-              slug
-              node_locale
+        {
+          allContentfulProjects(sort: { fields: [createdAt], order: DESC }) {
+            edges {
+              node {
+                id
+                contentful_id
+                slug
+                node_locale
+              }
             }
           }
         }
-      }
       `
     ).then(result => {
       if (result.errors) {
@@ -74,7 +64,7 @@ exports.createPages = ({ graphql, actions }) => {
           path: `/${locale.path}/projects/`,
           component: slash(ProjectIndexTemplate),
           context: {
-            locale: locale.path
+            locale: locale.path,
           },
         })
 
@@ -82,45 +72,40 @@ exports.createPages = ({ graphql, actions }) => {
         const localizedProjects = projects.filter(project => project.node.node_locale === locale.path)
 
         _.each(localizedProjects, (edge, index) => {
-
           // pick next node
-          const next = index === localizedProjects.length - 1 ? localizedProjects[0].node : localizedProjects[index + 1].node
+          const next =
+            index === localizedProjects.length - 1 ? localizedProjects[0].node : localizedProjects[index + 1].node
 
           createPage({
             path: `/${edge.node.node_locale}/projects/${edge.node.slug}/`,
             component: slash(ProjectSingleTemplate),
             context: {
               id: edge.node.id,
-              contentful_id:  edge.node.contentful_id,
-              slug:  edge.node.slug,
+              contentful_id: edge.node.contentful_id,
+              slug: edge.node.slug,
               locale: edge.node.node_locale,
-              nextId: next ? next.id : null
+              nextId: next ? next.id : null,
             },
           })
-
         })
-
       })
-
     })
-
-
 
     // News index page
     graphql(
       `
-      {
-        allContentfulNews {
-          edges {
-            node {
-              id
-              contentful_id
-              slug
-              node_locale
+        {
+          allContentfulNews {
+            edges {
+              node {
+                id
+                contentful_id
+                slug
+                node_locale
+              }
             }
           }
         }
-      }
       `
     ).then(result => {
       if (result.errors) {
@@ -137,7 +122,7 @@ exports.createPages = ({ graphql, actions }) => {
           path: `/${locale.path}/journal/`,
           component: slash(NewsIndexTemplate),
           context: {
-            locale: locale.path
+            locale: locale.path,
           },
         })
       })
@@ -148,9 +133,9 @@ exports.createPages = ({ graphql, actions }) => {
           component: slash(NewsSingleTemplate),
           context: {
             id: edge.node.id,
-            contentful_id:  edge.node.contentful_id,
-            slug:  edge.node.slug,
-            locale: edge.node.node_locale
+            contentful_id: edge.node.contentful_id,
+            slug: edge.node.slug,
+            locale: edge.node.node_locale,
           },
         })
       })
@@ -164,14 +149,17 @@ exports.onCreatePage = ({ page, actions }) => {
   const { createPage, deletePage } = actions
 
   return new Promise((resolve, reject) => {
-
     // delete page, except the 404 pages and Root page
-    // console.log(`==== page ${page.internalComponentName}`, page.internalComponentName.search(`404`), page.internalComponentName.search(`Root`));
+    console.log(`==== page ${page.internalComponentName}`)
 
-    if ( (page.internalComponentName.search(`404`) < 0) && (page.internalComponentName.search(`Root`) < 0) ) {
-      console.log(`.....`);
-      console.log(`deleting page ${page.internalComponentName}`);
-      console.log(`.....`);
+    if (
+      page.internalComponentName.search(`Offline`) < 0 &&
+      page.internalComponentName.search(`404`) < 0 &&
+      page.internalComponentName.search(`Root`) < 0
+    ) {
+      console.log(`.....`)
+      console.log(`deleting page ${page.internalComponentName}`)
+      console.log(`.....`)
       deletePage(page)
     } else {
       page.context.layout = 'basic'
@@ -179,7 +167,6 @@ exports.onCreatePage = ({ page, actions }) => {
     }
 
     Object.keys(locales).map(lang => {
-
       const localizedPath = page.internalComponentName === 'ComponentRoot' ? `/` : locales[lang].path + page.path
 
       createPage({
@@ -187,12 +174,11 @@ exports.onCreatePage = ({ page, actions }) => {
         path: localizedPath,
         context: {
           locale: lang,
-          layout: page.context.layout
-        }
+          layout: page.context.layout,
+        },
       })
     })
 
     resolve()
-
   })
 }
