@@ -17,85 +17,85 @@
 
 [[redirects]]
   from = "/projects/creopack/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/creopack/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/urbania/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/urbania/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/normal/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/normal/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/greysparrow/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/greysparrow/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/illustration-quebec/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/illustration-quebec/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/attraction-media/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/attraction-media/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
 [[redirects]]
   from = "/projects/ici-artv/"
-  to = "/fr/projets/"
+  to = "/fr/projects/"
   status = 301
   conditions = { Language = ["fr"] }
 
 [[redirects]]
   from = "/projects/ici-artv/"
-  to = "/en/projets/"
+  to = "/en/projects/"
   status = 301
   conditions = { Language = ["en"] }
 
