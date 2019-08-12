@@ -1,6 +1,7 @@
 import React from "react"
 
 export const defaultContextValue = {
+  inTransition: true,
   options: {
     inverted: false
   },

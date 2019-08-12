@@ -10,7 +10,6 @@ import ProjectsHome from '@components/projects/ProjectsHome'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ContactForm from '@components/contact/ContactForm'
 
-
 import Container from '@styles/Container'
 
 import LayoutContext from '@components/contexts/LayoutContext'
@@ -24,15 +23,16 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const { data, intl } = this.props
-    const { context } = this
+    const { data } = this.props
+    // const { context } = this
+    // console.log('context:', context)
     return (
       <LayoutContext.Provider>
         <SEO title={'meta.title'} description={'meta.description'} translate={true} />
         <React.Fragment>
           <HeaderIntro />
           <Container fluid>
-            {(data.allContentfulProjects && !context.transitionState['intro']) && <ProjectsHome data={data.allContentfulProjects} />}
+            {(data.allContentfulProjects) && <ProjectsHome data={data.allContentfulProjects} />}
           </Container>
           <ClientsTicker />
           <ContactForm my={[2, 3, 5]} />
@@ -52,7 +52,7 @@ export default injectIntl(IndexPage)
 
 export const projectQuery = graphql`
   query projectsHomeQuery($locale: String!) {
-    allContentfulProjects(limit: 6, filter: { node_locale: { eq: $locale }, displayOnHomepage: { eq: true } }, sort: { fields: [createdAt], order: DESC }) {
+    allContentfulProjects(limit: 6, filter: { node_locale: { eq: $locale }, displayOnHomepage: { eq: true } }, sort: { fields: [publishDate, createdAt], order: DESC }) {
       edges {
         node {
           ...Project
