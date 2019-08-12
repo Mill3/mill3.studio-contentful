@@ -95,7 +95,6 @@ class Layout extends React.Component {
     const { transitionState } = this.state
     const { children, pageContext } = this.props
 
-    // basic layout with no header and all, just theme provider with basic style
     if (pageContext.layout === 'basic') {
       return(
         <React.Fragment>

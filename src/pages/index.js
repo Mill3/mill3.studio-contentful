@@ -24,8 +24,6 @@ class IndexPage extends React.Component {
 
   render() {
     const { data } = this.props
-    // const { context } = this
-    // console.log('context:', context)
     return (
       <LayoutContext.Provider>
         <SEO title={'meta.title'} description={'meta.description'} translate={true} />

@@ -165,16 +165,16 @@ exports.onCreatePage = ({ page, actions }) => {
 
   return new Promise((resolve, reject) => {
 
-    // delete page, except the Dev 404 page
-    if (page.internalComponentName !== 'Component404Html') {
+    // delete page, except the 404 pages and Root page
+    // console.log(`==== page ${page.internalComponentName}`, page.internalComponentName.search(`404`), page.internalComponentName.search(`Root`));
+
+    if ( (page.internalComponentName.search(`404`) < 0) && (page.internalComponentName.search(`Root`) < 0) ) {
       console.log(`.....`);
       console.log(`deleting page ${page.internalComponentName}`);
       console.log(`.....`);
       deletePage(page)
-    }
-
-    if (page.internalComponentName === 'Component404Html') {
-      page.context.layout = "basic"
+    } else {
+      page.context.layout = 'basic'
       createPage(page)
     }
 
@@ -186,7 +186,8 @@ exports.onCreatePage = ({ page, actions }) => {
         ...page,
         path: localizedPath,
         context: {
-          locale: lang
+          locale: lang,
+          layout: page.context.layout
         }
       })
     })

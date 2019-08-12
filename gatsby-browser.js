@@ -14,19 +14,19 @@ import './src/styles/fonts.css'
 //   return false;
 // };
 
-export const onInitialClientRender = () => {
+// export const onInitialClientRender = () => {
 
-  let root = '/'
+//   let root = '/'
 
-  // TODO: let detectedLocale = detectLocale()
-  let detectedLocale = 'en'
+//   // TODO: let detectedLocale = detectLocale()
+//   let detectedLocale = 'en'
 
-  // on root only, redirect
-  if (window.location.pathname === root) {
-    navigate(`${detectedLocale}/`)
-  }
+//   // on root only, redirect
+//   if (window.location.pathname === root) {
+//     navigate(`${detectedLocale}/`)
+//   }
 
-}
+// }
 
 // export const onPreRouteUpdate = ({ location, prevLocation }) => {
 //   console.log("Gatsby started to change location to", location.pathname)
