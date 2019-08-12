@@ -83,7 +83,7 @@ class ProjectsIndex extends Component {
   render() {
     return (
       <>
-        <SEO title={`nav.Work`} translate={true} />
+        <SEO title={`nav.Work`} translate={true} locale={this.props.pageContext.locale} />
         <Container fluid>
           <Flex
             as={ProjectIndexHeader}

@@ -56,7 +56,7 @@ const SEO = props => {
       title={title()}
       mateDescription={description()}
       htmlAttributes={{
-        lang: intl.locale
+        lang: props.locale || intl.locale
       }}
     >
       <meta name="description" content={description()} />
@@ -74,7 +74,7 @@ const SEO = props => {
 SEO.defaultProps = {
   title: null,
   seoFields: null,
-  locale: `en`
+  locale: null
 }
 
 SEO.propTypes = {

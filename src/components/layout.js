@@ -94,6 +94,7 @@ class Layout extends React.Component {
   render() {
     const { transitionState } = this.state
     const { children, pageContext } = this.props
+    console.log(pageContext);
 
     if (pageContext.layout === 'basic') {
       return(
@@ -109,7 +110,7 @@ class Layout extends React.Component {
     return (
       <Location>
         {({ location }) => (
-          <IntlProvider locale={getLocale(location)} messages={messages[getLocale(location)]}>
+          <IntlProvider locale={pageContext.locale || getLocale(location)} messages={messages[pageContext.locale || getLocale(location)]}>
             <LayoutContext.Provider value={this.state}>
               <FullViewportHeight>
 
