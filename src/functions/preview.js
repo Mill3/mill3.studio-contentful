@@ -5,7 +5,7 @@ import { is } from 'ramda'
 dotenv.config()
 
 const client = createClient({
-  application: `mill3 studio`,
+  application: `mill3studio`,
   host: process.env.CONTENTFUL_HOST,
   space: process.env.CONTENTFUL_SPACE_ID,
   environment: process.env.CONTENTFUL_ENVIRONMENT,
@@ -19,6 +19,22 @@ const toTitleCase = (str) => {
           return txt.charAt(0).toUpperCase() + txt.substr(1);
       }
   );
+}
+
+const servricesFormatter = (data) => {
+  // console.log('data:', data)
+  // get all fields
+  // let { fields } = data
+  let items = []
+  // console.log('fields:', fields)
+
+  Object.entries(data).map(row => {
+    const [type, value] = row
+    console.log('type, value:', type, value)
+    items.push(value.fields)
+  })
+
+  return items
 }
 
 const contentRowFormatter = (row) => {
@@ -132,6 +148,7 @@ export async function handler(event, context) {
     locale: locale
   })
 
+
   let entry, model
   let fields = {}
 
@@ -166,6 +183,18 @@ export async function handler(event, context) {
       return (fields[type] = {'subHeading': value })
     }
 
+    if (isObject && type === 'services') {
+      return (fields[type] = servricesFormatter(value))
+    }
+
+    if (isObject && type === 'seo') {
+      return (fields[type] = null)
+    }
+
+    if (isObject && type === 'client') {
+      return (fields[type] = null)
+    }
+
     if (isObject && type === 'contentRows') {
       // start fresh for contentRows
       let data = []
@@ -185,6 +214,9 @@ export async function handler(event, context) {
     // return unchanged field by default
     return (fields[type] = value)
   })
+
+  // console.log(entryId,fields);
+
 
   // your server-side functionality
   return {

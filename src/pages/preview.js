@@ -22,6 +22,7 @@ class Preview extends Component {
     fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}&locale=${this.props.pageContext.locale}`)
       .then(response => response.json())
       .then(node => {
+        console.log('node:', node)
         console.warn('Fetched new data')
         console.timeEnd(`fetchNewData`)
         this.setState({
