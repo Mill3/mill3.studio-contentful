@@ -12,7 +12,7 @@ const PageSingle = ({ intl, data }) => {
     <Box as="section" mb={['30px', null, 4]} mt={['30px', null, 6]}>
 
       {page.seo &&
-        <SEO seo={page.seo} />
+        <SEO seo={page.seo} url={`${page.slug}/`} />
       }
 
       <ContentRow data={page.contentRows} />

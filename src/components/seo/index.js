@@ -61,8 +61,11 @@ const SEO = props => {
         lang: props.locale || intl.locale
       }}
     >
+      {props.url &&
+        <link rel="canonical" href={`https://mill3.studio/${props.locale || intl.locale}/${props.url}/`} />
+      }
       {Object.keys(locales).map(locale =>
-          <link rel="alternate" href={`https://mill3.studio/${locale}`} hrefLang={locale} key={locale}/>
+        <link rel="alternate" href={`https://mill3.studio/${locale}/${props.url}`} hrefLang={locale} key={locale} />
       )}
       <link rel="alternate" href="https://mill3.studio/fr/" hreflang="x-default" />
       <meta name="description" content={description()} />
@@ -80,7 +83,8 @@ const SEO = props => {
 SEO.defaultProps = {
   title: null,
   seoFields: null,
-  locale: null
+  locale: null,
+  url: false
 }
 
 SEO.propTypes = {
@@ -89,6 +93,7 @@ SEO.propTypes = {
   image: PropTypes.string,
   translate: PropTypes.bool,
   locale: PropTypes.string,
+  url: PropTypes.string,
   seo: PropTypes.shape({
     pageTitle: PropTypes.string,
     pageDescription: PropTypes.string,

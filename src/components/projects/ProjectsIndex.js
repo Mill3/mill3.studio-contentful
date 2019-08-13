@@ -83,7 +83,7 @@ class ProjectsIndex extends Component {
   render() {
     return (
       <>
-        <SEO seo={this.props.data.seoFields} />
+        <SEO seo={this.props.data.seoFields} url={`projects/`} />
         <Container fluid>
           <Flex
             as={ProjectIndexHeader}

@@ -20,6 +20,8 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
 
       <SEO
         seo={project.seo}
+        locale={pageContext.locale}
+        url={`projects/${project.slug}/`}
         title={!project.seo ? project.name : null}
         description={!project.seo ? (project.subHeading ? project.subHeading.subHeading : null) : null}
         image={!project.seo ? (project.headerMedia && project.headerMedia.file ? project.headerMedia.file.url : null) : null}
