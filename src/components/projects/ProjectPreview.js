@@ -297,7 +297,7 @@ class ProjectPreview extends Component {
           color={colorMain}
         >
           <TransitionLinkComponent
-            to={`/projects/${slug}`}
+            to={`/projects/${slug}/`}
             title={transitionName || null}
             color={colorMain}
             onMouseOver={e => this.onHover(true)}

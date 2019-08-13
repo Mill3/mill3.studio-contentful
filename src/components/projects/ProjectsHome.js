@@ -112,7 +112,7 @@ class ProjectsHome extends React.Component {
         </Flex>
         <Flex mb={[5]} mx={['-5.95vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
           <Box width={[`auto`]} m={`auto`}>
-            <TransitionLinkComponent to={`/projects`}>
+            <TransitionLinkComponent to={`/projects/`}>
               <Button>{intl.formatMessage({ id: 'projects.Button' })}</Button>
             </TransitionLinkComponent>
           </Box>

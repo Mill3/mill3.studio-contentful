@@ -63,7 +63,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
                   <FormattedMessage id={`projects.single.next`} />
                 </Text>
                 <TransitionLinkComponent
-                  to={`/projects/${next.slug}`}
+                  to={`/projects/${next.slug}/`}
                   title={next.transitionName || null}
                   color={next.colorMain}
                 >
