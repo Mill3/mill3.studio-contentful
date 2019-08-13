@@ -52,7 +52,7 @@ class NewsIndex extends Component {
   render() {
     return (
       <React.Fragment>
-        <SEO title={`nav.Journal`} translate={true} />
+        <SEO title={`nav.Journal`} translate={true} url={`journal/`} />
         <Container fluid>
           <Flex
             as={NewsIndexIntro}

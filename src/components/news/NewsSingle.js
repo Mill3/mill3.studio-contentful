@@ -14,6 +14,7 @@ const NewsSingle = ({ pageContext, data }) => {
 
       <SEO
         locale={pageContext.locale}
+        url={`journal/${news.slug}/`}
         seo={news.seo}
         title={!news.seo ? news.name : null}
         description={!news.seo ? (news.subHeading ? news.subHeading.subHeading : null) : null}
