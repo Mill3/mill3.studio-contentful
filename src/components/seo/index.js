@@ -65,9 +65,9 @@ const SEO = props => {
         <link rel="canonical" href={`https://mill3.studio/${props.locale || intl.locale}/${props.url}/`} />
       }
       {Object.keys(locales).map(locale =>
-        <link rel="alternate" href={`https://mill3.studio/${locale}/${props.url}`} hrefLang={locale} key={locale} />
+        <link rel="alternate" href={`https://mill3.studio/${locale}/${props.url || null}`} hrefLang={locale} key={locale} />
       )}
-      <link rel="alternate" href="https://mill3.studio/fr/" hreflang="x-default" />
+      <link rel="alternate" href={`https://mill3.studio/en/${props.url || null}`} hreflang="x-default" />
       <meta name="description" content={description()} />
       <meta property="og:title" content={title()} />
       <meta property="og:description" content={description()} />
