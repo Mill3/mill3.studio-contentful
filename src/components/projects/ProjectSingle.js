@@ -22,7 +22,7 @@ const ProjectFooter = ({ next }) => {
 
   return (
     <Box mx="auto" mt={4} mb={5}>
-        <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[2, 3]} color="blue">
+        <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[1, 3]} color="blue">
           <FormattedMessage id={`projects.single.next`} />
         </Text>
         <TransitionLinkComponent
@@ -30,10 +30,10 @@ const ProjectFooter = ({ next }) => {
           title={next.transitionName || null}
           color={next.colorMain}
         >
-          <Box ref={ref}>
+          <Box ref={ref} className={`is-center`}>
             <LinkButton
               hoverColor={next.colorMain}
-              fontSize={['30px', null, 5, '10vw']}
+              fontSize={['8vw', null, 5, '10vw']}
               fontWeight={500}
               lineHeight={'1.2'}
               className={`is-serif`}
@@ -94,9 +94,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
               </a>
             </Box>
             }
-            {next &&
-              <ProjectFooter next={next} />
-            }
+            {next && <ProjectFooter next={next} /> }
           </Flex>
         </TransitionContainer>
       </Container>
