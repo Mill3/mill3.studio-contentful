@@ -131,7 +131,7 @@ class ProjectsIndex extends Component {
           {/* list of projects */}
           <Flex
             as={ProjectIndexList}
-            mx={['-6.15vw', null, -3, '-28px']}
+            mx={['-6.35vw', null, -3, '-28px']}
             flexWrap={`wrap`}
             css={{ position: 'relative' }}
           >
