@@ -291,7 +291,7 @@ class HeaderIntro extends Component {
         </Flex>
 
         <div style={t4}>
-          <HeaderCircle />
+          <HeaderCircle  locale={intl.locale} type={`work`} />
         </div>
       </Box>
     )

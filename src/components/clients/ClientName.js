@@ -5,7 +5,7 @@ import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 export const ClientNameHeading = styled.h4`
   display: inline-block;
-  font-weight: 900;
+  font-weight: 500;
   line-height: 1;
   text-transform: uppercase;
 

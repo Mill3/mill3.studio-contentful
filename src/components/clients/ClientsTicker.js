@@ -63,7 +63,7 @@ class ClientsTicker extends React.Component {
         TweenLite.to(elements, duration, {
           x: '-100%',
           ease: Linear.easeNone,
-          repeat: 5000,
+          repeat: Infinity,
         })
       )
     } else {
@@ -77,7 +77,7 @@ class ClientsTicker extends React.Component {
           {
             x: '0%',
             ease: Linear.easeNone,
-            repeat: 5000,
+            repeat: Infinity,
           }
         )
       )

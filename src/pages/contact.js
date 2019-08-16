@@ -18,6 +18,7 @@ const Header = styled.header`
   margin-top: -${header.height}px;
   padding-top: ${header.height - space[5]}px;
   height: 74vh;
+  z-index: 100;
   color: ${props => props.theme.colors.black};
 `
 
@@ -63,6 +64,7 @@ const PhoneCall = styled.a`
   color: ${props => props.theme.colors.black} !important;
   transform-origin: center center;
   transform: scale(1) translate3d(0, 0, 0);
+  z-index: 100;
 
   &:hover {
     animation: ${PhoneAnimation} 3000ms infinite;
@@ -101,6 +103,7 @@ const About = ({ data, pageContext, intl }) => (
     <Flex alignItems={`center`} as={Header} className="z-negative">
       <Container fluid>
         <Box width={`100%`}>
+
           <Text
             as={`h1`}
             fontSize={fontSizes}
@@ -116,6 +119,8 @@ const About = ({ data, pageContext, intl }) => (
               </SplitText>
             </TransitionContainer>
           </Text>
+
+
 
           <Text
             as={`h1`}

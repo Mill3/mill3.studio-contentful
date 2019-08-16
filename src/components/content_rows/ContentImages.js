@@ -128,6 +128,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         pb={CalculatePaddingBottom()}
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={data.itemsPerRow}
+        itemsPerRowMobile={data.itemsPerRowMobile}
         alignItems={data.alignVertical}
       >
         {/* all medias */}
@@ -182,6 +183,7 @@ export default ContentImages
 export const ContentImagesFragement = graphql`
   fragment ContentImagesFragement on ContentfulContentImages {
     itemsPerRow
+    itemsPerRowMobile
     alignContent
     alignVertical
     gaplessGrid

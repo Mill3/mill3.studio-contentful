@@ -23,7 +23,7 @@ import EmbeddedAsset from './EmbeddedAsset'
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => (
-  <Box as={`blockquote`} mx={[0, 0, 0, 0, '-5vw']} mb={[2, 2, 2]} className="is-serif is-center">
+  <Box as={`blockquote`} mx={[0, 0, '-5vw', '-5vw', '-5vw']} mb={[2, 2, 2]} className="is-serif is-center">
     {children}
   </Box>
 )
@@ -122,6 +122,7 @@ export const postBody = styled.div`
     p {
       font-size: 6.763285024vw;
       font-style: italic;
+      text-align: center;
 
       @media (min-width: ${props => props.theme.breakpoints[1]}) {
         font-size: 1.85vw;

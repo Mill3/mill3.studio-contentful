@@ -214,8 +214,9 @@ export const GridContentText = styled.div`
 
 export const GridContentImages = styled.div`
   display: grid;
-  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
-  grid-template-columns: 1fr;
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/2}px`)};
+  /* grid-template-columns: 1fr; */
+  grid-template-columns: ${props => GridColums(props.itemsPerRowMobile || 1)};
   align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
   position: relative;
 
