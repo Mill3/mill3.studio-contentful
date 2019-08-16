@@ -101,7 +101,7 @@ const TextStyle = styled.h1`
   transform-origin: top center;
 `
 
-const charPoses = {
+export const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
     opacity: 1,
