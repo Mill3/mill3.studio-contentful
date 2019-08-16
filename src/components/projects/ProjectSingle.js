@@ -3,7 +3,9 @@ import { graphql } from 'gatsby'
 import { Flex, Box, Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { useInView } from 'react-intersection-observer'
+import posed from 'react-pose'
 
+import { EASES, REVEALS_DELAY } from '@utils/constants'
 
 import LayoutContext from '@components/contexts/LayoutContext'
 
@@ -17,11 +19,25 @@ import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Button, { LinkButton } from '@components/buttons'
 import SEO from '@components/seo'
 
+const NextProjectPoses = posed.div({
+  hidden: {
+    opacity: 0,
+    y: 150,
+    margin: 0
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    delay: REVEALS_DELAY,
+    transition: EASES['default'],
+  },
+})
+
 const ProjectFooter = ({ next }) => {
   const [ref, inView] = useInView({ triggerOnce: false })
 
   return (
-    <Box mx="auto" mt={4} mb={5}>
+    <Box mx="auto" mt={4} mb={5} as={NextProjectPoses} pose={inView ? `visible` : `hidden`}>
         <Text textAlign="center" as={`h6`} mb={[3]} fontSize={[1, 3]} color="blue">
           <FormattedMessage id={`projects.single.next`} />
         </Text>
@@ -30,7 +46,7 @@ const ProjectFooter = ({ next }) => {
           title={next.transitionName || null}
           color={next.colorMain}
         >
-          <Box ref={ref} className={`is-center`}>
+          <Box  ref={ref} className={`is-center`}>
             <LinkButton
               hoverColor={next.colorMain}
               fontSize={['8vw', null, 5, '10vw']}
