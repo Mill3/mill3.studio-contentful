@@ -84,6 +84,7 @@ exports.createPages = ({ graphql, actions }) => {
               contentful_id: edge.node.contentful_id,
               slug: edge.node.slug,
               locale: edge.node.node_locale,
+              colorMain: edge.node.colorMain | `#000`,
               nextId: next ? next.id : null,
             },
           })

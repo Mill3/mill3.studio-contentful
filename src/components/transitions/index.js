@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
@@ -100,6 +101,11 @@ const TransitionTextStyle = styled.p`
 `
 
 class TransitionPane extends React.Component {
+
+  static childContextTypes = {
+    layoutState: PropTypes.object
+  };
+
   constructor(props) {
     super(props)
     this.state = {
