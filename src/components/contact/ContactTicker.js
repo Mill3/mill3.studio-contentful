@@ -9,20 +9,24 @@ const TIME_SCALE_PERCENT = 0.45
 const NETWORKS = [{
   name: 'Facebook',
   color: '#4267b2',
-  url: 'https://www.facebook.com/Mill3studio/',
+  url: 'https://facebook.com/Mill3studio/',
 }, {
   name: 'LinkedIn',
   color: '#0073b1',
-  url: 'https://www.linkedin.com/company/le-moulin/',
+  url: 'https://linkedin.com/company/le-moulin/',
 }, {
   name: 'Instagram',
   color: '#b900b4',
   url: 'https://www.instagram.com/mill3.studio/',
   className: 'instagram',
 }, {
+  name: 'Github',
+  color: '#4078c0',
+  url: 'https://github.com/MILL3',
+}, {
   name: 'Behance',
   color: '#0057ff',
-  url: 'https://www.behance.net/MILL3',
+  url: 'https://behance.net/MILL3',
 }, {
   name: 'Twitter',
   color: '#1DA1F2',
