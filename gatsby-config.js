@@ -107,6 +107,15 @@ module.exports = {
          features: [`IntersectionObserver`]
       },
    },
+   {
+      resolve: "gatsby-plugin-sentry",
+      options: {
+        dsn: "https://a084f074750e406c989ccf95fc536b2f@sentry.io/1536062",
+        // Optional settings, see https://docs.sentry.io/clients/node/config/#optional-settings
+        environment: process.env.NODE_ENV,
+        enabled: (() => ["production", "stage"].indexOf(process.env.NODE_ENV) !== -1)()
+      }
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     'gatsby-plugin-remove-serviceworker',
