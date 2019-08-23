@@ -19,9 +19,6 @@ export const query = graphql`
       ... on ContentfulContentImages {
         ...ContentImagesFragement
       }
-      ... on ContentfulContentSlides {
-        ...ContentSlidesFragement
-      }
     }
   }
 `

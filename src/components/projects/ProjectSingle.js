@@ -149,9 +149,6 @@ export const projectQuery = graphql`
         ... on ContentfulContentImages {
           ...ContentImagesFragement
         }
-        ... on ContentfulContentSlides {
-          ...ContentSlidesFragement
-        }
       }
     }
   }
