@@ -308,7 +308,7 @@ class ProjectPreview extends Component {
               <Box as={`figure`} mb={[2,2,4]}>
                 {HAS_HOVER && (
                   <ProjectHoverPane color={colorMain}>
-                    {imageHover && !videoPreview && (
+                    {/* {imageHover && !videoPreview && (
                       <Img
                         fade={false}
                         fluid={imageHover.fluid}
@@ -316,7 +316,7 @@ class ProjectPreview extends Component {
                         objectPosition="center center"
                         style={{ width: `100%`, height: `100%` }}
                       />
-                    )}
+                    )} */}
                     {videoPreview && (
                       <video muted playsInline loop ref={this.videoRef}>
                         <source src={videoPreview.file.url} type="video/mp4" />
