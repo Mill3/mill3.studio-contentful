@@ -120,15 +120,6 @@ module.exports = {
     // To learn more, visit: https://gatsby.app/offline
     {
       resolve: `gatsby-plugin-offline`,
-      // options: {
-      //   name: `Mill3 Studio`,
-      //   short_name: `mill3`,
-      //   start_url: `/`,
-      //   background_color: `#121212`,
-      //   theme_color: `#121212`,
-      //   display: `minimal-ui`,
-      //   icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
-      // },
     },
   ],
 }
