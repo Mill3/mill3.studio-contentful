@@ -64,18 +64,6 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `Mill3 Studio`,
-        short_name: `mill3`,
-        start_url: `/`,
-        background_color: `#121212`,
-        theme_color: `#121212`,
-        display: `minimal-ui`,
-        icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
-      },
-    },
-    {
       resolve: `gatsby-plugin-sitemap`,
       options: {
         query: `
@@ -116,8 +104,31 @@ module.exports = {
         enabled: (() => ["production", "stage"].indexOf(process.env.NODE_ENV) !== -1)()
       }
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Mill3 Studio`,
+        short_name: `mill3`,
+        start_url: `/en/`,
+        background_color: `#121212`,
+        theme_color: `#121212`,
+        display: `minimal-ui`,
+        icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
-    'gatsby-plugin-remove-serviceworker',
+    {
+      resolve: `gatsby-plugin-offline`,
+      // options: {
+      //   name: `Mill3 Studio`,
+      //   short_name: `mill3`,
+      //   start_url: `/`,
+      //   background_color: `#121212`,
+      //   theme_color: `#121212`,
+      //   display: `minimal-ui`,
+      //   icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
+      // },
+    },
   ],
 }
