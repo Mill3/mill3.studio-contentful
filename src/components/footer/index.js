@@ -24,7 +24,7 @@ const Footer = ({ intl }) => {
     let d = new Date()
     let m = d.getMonth()
 
-    return (m >= 0 && m <=4) || (m > 10) ? `winter` : `summer`
+    return (m >= 0 && m <=4) || (m > 9) ? `winter` : `summer`
   }
 
   return (
