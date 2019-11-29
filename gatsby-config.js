@@ -113,7 +113,7 @@ module.exports = {
         background_color: `#121212`,
         theme_color: `#121212`,
         display: `fullscreen`,
-        icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/mill3-icon-transparent-inverted.png`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
