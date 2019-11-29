@@ -102,7 +102,7 @@ export default injectIntl(NewsIndex)
 
 export const newsQuery = graphql`
   query allNewsQuery($locale: String!) {
-    allContentfulNews(filter: { node_locale: { eq: $locale } }) {
+    allContentfulNews(filter: { node_locale: { eq: $locale }, visibleOnlyOnLocale: { eq: $locale } }) {
       edges {
         node {
           ...News
