@@ -108,7 +108,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Mill3 Studio`,
-        short_name: `mill3`,
+        short_name: `Mill3 Studio`,
         start_url: `/en/`,
         background_color: `#121212`,
         theme_color: `#121212`,
