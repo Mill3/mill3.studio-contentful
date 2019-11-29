@@ -112,7 +112,7 @@ module.exports = {
         start_url: `/en/`,
         background_color: `#121212`,
         theme_color: `#121212`,
-        display: `minimal-ui`,
+        display: `fullscreen`,
         icon: `src/images/mill3-icon.png`, // This path is relative to the root of the site.
       },
     },
