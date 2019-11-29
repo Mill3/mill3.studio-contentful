@@ -120,6 +120,9 @@ module.exports = {
     // To learn more, visit: https://gatsby.app/offline
     {
       resolve: `gatsby-plugin-offline`,
+      options: {
+        precachePages: [`/fr/`, `/en/`, `/fr/about/`, `/en/about/`, `/fr/projects/*`, `/en/projects/*`],
+      },
     },
   ],
 }
