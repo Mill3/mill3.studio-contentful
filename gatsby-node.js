@@ -103,6 +103,7 @@ exports.createPages = ({ graphql, actions }) => {
                 contentful_id
                 slug
                 node_locale
+                visibleOnlyOnLocale
               }
             }
           }
@@ -116,28 +117,36 @@ exports.createPages = ({ graphql, actions }) => {
       // get templates
       const NewsIndexTemplate = path.resolve(`./src/components/news/NewsIndex.js`)
       const NewsSingleTemplate = path.resolve(`./src/components/news/NewsSingle.js`)
+      const news = result.data.allContentfulNews.edges
 
       // News Index page
       _.each(locales, locale => {
+        const { path } = locale
+
         createPage({
-          path: `/${locale.path}/journal/`,
+          path: `/${path}/journal/`,
           component: slash(NewsIndexTemplate),
           context: {
-            locale: locale.path,
+            locale: path,
           },
         })
-      })
 
-      _.each(result.data.allContentfulNews.edges, edge => {
-        createPage({
-          path: `/${edge.node.node_locale}/journal/${edge.node.slug}/`,
-          component: slash(NewsSingleTemplate),
-          context: {
-            id: edge.node.id,
-            contentful_id: edge.node.contentful_id,
-            slug: edge.node.slug,
-            locale: edge.node.node_locale,
-          },
+        // get all News items visible for current locale only
+        const localizedNews = news.filter(newsItem => newsItem.node.visibleOnlyOnLocale === path)
+
+        // create each new only for current locale path
+        _.each(localizedNews, (newsItem, index) => {
+          const { node_locale, slug, id, contentful_id } = newsItem.node
+          createPage({
+            path: `/${path}/journal/${slug}/`,
+            component: slash(NewsSingleTemplate),
+            context: {
+              id: id,
+              contentful_id: contentful_id,
+              slug: slug,
+              locale: path,
+            },
+          })
         })
       })
     })
