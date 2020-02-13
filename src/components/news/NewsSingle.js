@@ -8,15 +8,14 @@ import SEO from '@components/seo'
 
 const NewsSingle = ({ pageContext, data }) => {
   const { news } = data
-  // console.log('news:', news)
 
   return (
     <React.Fragment>
 
       <SEO
+        seo={news.seo}
         locale={pageContext.locale}
         url={`journal/${news.slug}/`}
-        seo={news.seo}
         title={!news.seo ? news.name : null}
         description={!news.seo ? (news.subHeading ? news.subHeading.subHeading : null) : null}
         image={!news.seo ? (news.headerMedia && news.headerMedia.file ? news.headerMedia.file.url : null) : null}
