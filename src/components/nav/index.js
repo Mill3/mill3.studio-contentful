@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import { colors } from '@styles/Theme'
 import Switcher from '@components/nav/switcher'
@@ -233,6 +233,7 @@ class Nav extends React.Component {
 
   render() {
     let { inverted } = this.props
+    let { locale } = this.props.intl
     let { visible } = this.state
 
     return (
@@ -272,13 +273,16 @@ class Nav extends React.Component {
             </TransitionLinkComponent>
           </NavItem>
 
-          {/* <NavItem>
-            <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
-              <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.Journal" />
-              </Text>
-            </TransitionLinkComponent>
-          </NavItem> */}
+          {/* add journal link in `fr` only */}
+          {locale === `fr` &&
+            <NavItem class>
+              <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
+                <Text fontSize={fontSizes}>
+                  <FormattedMessage id="nav.Journal" />
+                </Text>
+              </TransitionLinkComponent>
+            </NavItem>
+          }
 
           <NavItem>
             <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
@@ -301,4 +305,4 @@ Nav.defaultProps = {
   pathname: null
 }
 
-export default Nav
+export default injectIntl(Nav)

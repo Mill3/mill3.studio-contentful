@@ -8,6 +8,7 @@ import SEO from '@components/seo'
 
 const NewsSingle = ({ pageContext, data }) => {
   const { news } = data
+  // console.log('news:', news)
 
   return (
     <React.Fragment>
@@ -46,6 +47,9 @@ export const newsQuery = graphql`
       slug
       node_locale
       title
+      seo {
+        ...seoFragment
+      }
       subHeading {
         subHeading
       }
