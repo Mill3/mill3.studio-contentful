@@ -1,10 +1,11 @@
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
-
 [build]
   Command = "yarn build"
   Functions = "functions"
   Publish = "public"
+
+[[plugins]]
+  package = "netlify-plugin-gatsby-cache"
+
 
 [[redirects]]
   from = "/"
