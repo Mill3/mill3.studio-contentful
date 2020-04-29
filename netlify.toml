@@ -1,10 +1,10 @@
-[build]
-  command = "yarn build"
-  functions = "functions"
-  publish = "public"
-
 [[plugins]]
   package = "netlify-plugin-gatsby-cache"
+
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "public"
 
 # [[redirects]]
 #   from = "/"
