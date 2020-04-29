@@ -1,15 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "mill3-studio-contentful",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Our site",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "browserslist": [
-    "last 2 version",
-    "last 4 Safari versions",
-    ">0.25%",
-    "not dead"
-  ],
+  "author": "Mill3 Studio <info@mill3.studio>",
   "dependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
