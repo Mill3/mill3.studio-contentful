@@ -1,105 +1,104 @@
 [build]
-  Command = "yarn build"
-  Functions = "functions"
-  Publish = "public"
+  command = "yarn build"
+  functions = "functions"
+  publish = "public"
 
 [[plugins]]
   package = "netlify-plugin-gatsby-cache"
 
+# [[redirects]]
+#   from = "/"
+#   to = "/en"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/"
-  to = "/en"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/"
+#   to = "/fr"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/"
-  to = "/fr"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/creopack/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/creopack/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/creopack/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/creopack/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/urbania/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/urbania/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/urbania/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/urbania/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/normal/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/normal/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/normal/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/normal/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/greysparrow/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/greysparrow/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/greysparrow/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/greysparrow/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/illustration-quebec/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/illustration-quebec/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/illustration-quebec/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/illustration-quebec/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/attraction-media/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/attraction-media/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
+# [[redirects]]
+#   from = "/projects/attraction-media/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
-[[redirects]]
-  from = "/projects/attraction-media/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/ici-artv/"
+#   to = "/fr/projects/"
+#   status = 301
+#   conditions = { Language = ["fr"] }
 
-[[redirects]]
-  from = "/projects/ici-artv/"
-  to = "/fr/projects/"
-  status = 301
-  conditions = { Language = ["fr"] }
-
-[[redirects]]
-  from = "/projects/ici-artv/"
-  to = "/en/projects/"
-  status = 301
-  conditions = { Language = ["en"] }
+# [[redirects]]
+#   from = "/projects/ici-artv/"
+#   to = "/en/projects/"
+#   status = 301
+#   conditions = { Language = ["en"] }
 
