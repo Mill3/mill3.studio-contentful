@@ -31,8 +31,8 @@ exports.onCreateWebpackConfig = ({ stage, getConfig, rules, loaders, plugins, ac
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   return new Promise((resolve, reject) => {
-    // Project index page
 
+    // Project index page
     graphql(
       `
         {

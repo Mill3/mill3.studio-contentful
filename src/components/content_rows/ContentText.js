@@ -151,32 +151,34 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
   )
 }
 
+export const CalculatePaddingTop = (noVerticalMargin, isFirst) => {
+  return noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
+}
+
+export const CalculatePaddingBottom = (noVerticalMargin, isFirst, isLast) => {
+  return noVerticalMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
+}
+
+export const TEXT_COLUMN_PADDING = [
+  0,
+  0,
+  `15vw`,
+  `15vw`,
+  `18vw`,
+  `21vw`,
+]
+
 const ContentText = ({ data, isFirst, isLast }) => {
   const { text, textColor, textColumns, itemsPerRow, noVerticalMargin, fadeInBackgroundColor, backgroundColor } = data
   const Wrapper = fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
-  const CalculatePaddingTop = () => {
-    return noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
-  }
-
-  const CalculatePaddingBottom = () => {
-    return noVerticalMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
-  }
-
   return (
     <Wrapper backgroundColor={backgroundColor || null}>
       {data.text && (
-        <Box pt={CalculatePaddingTop()} pb={CalculatePaddingBottom()}>
+        <Box pt={CalculatePaddingTop(noVerticalMargin, isFirst)} pb={CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)}>
           <Box
             mx="auto"
-            px={[
-              0,
-              0,
-              `15vw`,
-              `15vw`,
-              `18vw`,
-              `21vw`,
-            ]}
+            px={TEXT_COLUMN_PADDING}
           >
             <TextColumn
               index={1}

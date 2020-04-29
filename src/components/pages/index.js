@@ -19,6 +19,12 @@ export const query = graphql`
       ... on ContentfulContentImages {
         ...ContentImagesFragement
       }
+      ... on ContentfulContentForm {
+        ...ContentFormFragement
+      }
+      ... on ContentfulContentSpacer {
+        ...ContentSpacerFragement
+      }
     }
   }
 `

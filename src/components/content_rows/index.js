@@ -10,6 +10,8 @@ import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
 import ContentSlides from './ContentSlides'
 import ContentSectionBreak from './ContentSectionBreak'
+import ContentForm from './ContentForm'
+import ContentSpacer from './ContentSpacer'
 
 export const ALIGN_VALUES = {
   snap: 'snap-both',
@@ -30,6 +32,8 @@ export const CONTENT_ROW_TYPES = {
   videos: 'ContentfulContentVideos',
   slides: 'ContentfulContentSlides',
   section_break: 'ContentfulContentSectionBreak',
+  form: 'ContentfulContentForm',
+  spacer: 'ContentfulContentSpacer',
 }
 
 // responsive value between each row
@@ -249,8 +253,12 @@ class ContentRow extends Component {
           return <ContentVideos key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['slides']:
           return <ContentSlides key={index} isFirst={isFirst} isLast={isLast} data={row} />
+        case CONTENT_ROW_TYPES['form']:
+          return <ContentForm key={index} isFirst={isFirst} isLast={isLast} data={row} />
+        case CONTENT_ROW_TYPES['spacer']:
+          return <ContentSpacer key={index} isFirst={isFirst} isLast={isLast} data={row} />
         case CONTENT_ROW_TYPES['section_break']:
-          return <ContentSectionBreak key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            return <ContentSectionBreak key={index} isFirst={isFirst} isLast={isLast} data={row} />
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component
