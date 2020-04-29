@@ -30,7 +30,7 @@ const servricesFormatter = (data) => {
 
   Object.entries(data).map(row => {
     const [type, value] = row
-    console.log('type, value:', type, value)
+    // console.log('type, value:', type, value)
     items.push(value.fields)
   })
 
@@ -39,6 +39,7 @@ const servricesFormatter = (data) => {
 
 const contentRowFormatter = (row) => {
   let type = row.sys.contentType.sys.id
+  // console.log('type:', type)
 
     // get all fields
   let { fields } = row
@@ -51,10 +52,22 @@ const contentRowFormatter = (row) => {
   // loop each field
   Object.entries(fields).map(row => {
     const [type, value] = row
+    // console.log('type, contentfulTypeName & row', type, contentfulTypeName, value)
+    // console.log('type, value:', type, value, contentfulTypeName)
 
     // map RichText editor text value matching our GraphQL query
     if (contentfulTypeName === 'ContentfulContentText' && type == 'text' || contentfulTypeName === 'ContentfulContentSectionBreak' && type == 'text' ) {
       return (fields[type] = {"text": value.content})
+    }
+
+    if (contentfulTypeName === 'ContentfulContentForm' && type == 'fields') {
+      let items = []
+      Object.entries(value).map((field) => {
+        let fields = field[1].fields
+        items.push(fields)
+      })
+      // push new reformatted entry
+      return (fields['contentfulfields'] = items)
     }
 
     if (contentfulTypeName === 'ContentfulContentText' && type == 'textColumns') {
@@ -200,6 +213,7 @@ export async function handler(event, context) {
       let data = []
 
       value.forEach((row, index) => {
+        // console.log('row:', row)
         try {
           // reformat data using our
           data.push(contentRowFormatter(row))
@@ -214,8 +228,6 @@ export async function handler(event, context) {
     // return unchanged field by default
     return (fields[type] = value)
   })
-
-  // console.log(entryId,fields);
 
 
   // your server-side functionality
