@@ -67,7 +67,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build --log-pages",
+    "build": "gatsby build",
     "develop": "gatsby develop",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
