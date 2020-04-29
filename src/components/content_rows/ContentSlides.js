@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 
 import '@styles/flickity.css'
+import Flickity from 'react-flickity-component';
 
 //import { MediaItemVideo } from './ContentImages'
 import Container from '@styles/Container'
@@ -11,7 +12,7 @@ import { getContentType, CONTENT_TYPES } from '@utils'
 import FigureBox from '@utils/FigureBox'
 import { VERTICAL_SPACER, GRID_GUTTER } from './index'
 
-const Flickity = typeof window === `object` ? require('react-flickity-component') : null
+// const Flickity = typeof window === `object` ? require('react-flickity-component') : null
 
 const flickityOptions = {
   prevNextButtons: false,
