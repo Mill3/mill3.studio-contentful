@@ -3,8 +3,8 @@
   functions = "functions"
   publish = "public"
 
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
+# [[plugins]]
+#   package = "netlify-plugin-gatsby-cache"
 
 # [[redirects]]
 #   from = "/"
