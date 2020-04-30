@@ -46,9 +46,7 @@ export const BOTTOM_SPACER = [4, 4, 5, 5]
 export const GRID_GUTTER = 45
 
 export const RowContainer = ({ alignContent, backgroundColor, addSpacer, children }) => {
-
   let calculatePadding = (direction = null) => {
-
     // align is snapped on both side, remove all padding on any side and all breakpoints
     if (alignContent === ALIGN_VALUES['snap']) {
       return [0]
@@ -70,8 +68,8 @@ export const RowContainer = ({ alignContent, backgroundColor, addSpacer, childre
 
   return (
     <Box
-      pl={calculatePadding("left")}
-      pr={calculatePadding("right")}
+      pl={calculatePadding('left')}
+      pr={calculatePadding('right')}
       backgroundColor={backgroundColor ? backgroundColor : null}
     >
       {children}
@@ -133,7 +131,8 @@ export class AnimatedBackgroundContainer extends Component {
       clearTimeout(this.exitViewportTicker)
 
       // register scroll listener
-      if (this.scrollbar && !this.exitViewportTicker) this.scrollbar.addListener(this.onScroll)
+      if (this.scrollbar && !this.exitViewportTicker)
+        this.scrollbar.addListener(this.onScroll)
 
       // destroy timeout
       this.exitViewportTicker = null
@@ -182,14 +181,23 @@ export class AnimatedBackgroundContainer extends Component {
 
     return (
       <InView as={Box} onChange={this.onVisibilityChange}>
-        <Box as={AnimatedBg} backgroundColor={backgroundColor} opacity={inView ? 1 : 0} style={t} />
+        <Box
+          as={AnimatedBg}
+          backgroundColor={backgroundColor}
+          opacity={inView ? 1 : 0}
+          style={t}
+        />
         {children}
       </InView>
     )
   }
 }
 
-export const AnimatedBackgroundRowContainer = ({ backgroundColor, children, ...props }) => (
+export const AnimatedBackgroundRowContainer = ({
+  backgroundColor,
+  children,
+  ...props
+}) => (
   <AnimatedBackgroundContainer backgroundColor={backgroundColor}>
     <RowContainer {...props}>{children}</RowContainer>
   </AnimatedBackgroundContainer>
@@ -205,33 +213,48 @@ const GridColums = itemsPerRow => {
 
 export const GridContentText = styled.div`
   display: grid;
-  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+  grid-column-gap: ${props =>
+    props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
   grid-template-columns: 1fr;
-  align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
+  align-items: ${props =>
+    props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
-  @media (min-width: ${props => props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1]}) {
-    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+  @media (min-width: ${props =>
+      props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1]}) {
+    grid-row-gap: ${props =>
+      props.gaplessGrid
+        ? `0px`
+        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
 
 export const GridContentImages = styled.div`
   display: grid;
-  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/2}px`)};
-  /* grid-template-columns: 1fr; */
+  grid-column-gap: ${props =>
+    props.gaplessGrid
+      ? `0px`
+      : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 2}px`};
   grid-template-columns: ${props => GridColums(props.itemsPerRowMobile || 1)};
-  align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
+  align-items: ${props =>
+    props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
   /* add bottom margin to image on mobile */
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
-    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER/1.75}px`)};
+    grid-row-gap: ${props =>
+      props.gaplessGrid
+        ? `0px`
+        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 1.75}px`};
   }
 
   /* grid spacing on device tablet and up */
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
-    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
+    grid-row-gap: ${props =>
+      props.gaplessGrid
+        ? `0px`
+        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
@@ -244,21 +267,55 @@ class ContentRow extends Component {
       // console.log('index:', index, index === 0)
       let isFirst = index === 0
       let isLast = index === this.props.data.length - 1
+      const id = `content-row-id-${index}`
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
-          return <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['images']:
-          return <ContentImages key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentImages key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['videos']:
-          return <ContentVideos key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentVideos key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['slides']:
-          return <ContentSlides key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentSlides key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['form']:
-          return <ContentForm key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentForm key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['spacer']:
-          return <ContentSpacer key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentSpacer key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            </div>
+          )
         case CONTENT_ROW_TYPES['section_break']:
-            return <ContentSectionBreak key={index} isFirst={isFirst} isLast={isLast} data={row} />
+          return (
+            <div id={id}>
+              <ContentSectionBreak
+                key={index}
+                isFirst={isFirst}
+                isLast={isLast}
+                data={row}
+              />
+            </div>
+          )
         default:
           //
           // push an empty row if the `__typename` is unsupported by this component

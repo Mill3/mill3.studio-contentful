@@ -1,8 +1,5 @@
 let dotenv = require('dotenv')
-
-if (process.env.NODE_ENV == `development`) {
-  const { createProxyMiddleware } = require("http-proxy-middleware")
-}
+const { createProxyMiddleware } = require("http-proxy-middleware")
 
 // import .env const
 dotenv.config()

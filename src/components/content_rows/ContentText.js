@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Box } from 'rebass'
-import { BLOCKS, MARKS } from '@contentful/rich-text-types'
+import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
@@ -23,16 +24,65 @@ import EmbeddedAsset from './EmbeddedAsset'
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p>{children}</p>
 const Blockquote = ({ children }) => (
-  <Box as={`blockquote`} mx={[0, 0, '-5vw', '-5vw', '-5vw']} mb={[2, 2, 2]} className="is-serif is-center">
+  <Box
+    as={`blockquote`}
+    mx={[0, 0, '-5vw', '-5vw', '-5vw']}
+    mb={[2, 2, 2]}
+    className="is-serif is-center"
+  >
     {children}
   </Box>
 )
+
+class HyperLink extends Component {
+
+  static contextTypes = {
+    getScrollbar: PropTypes.func,
+  }
+
+  constructor(props) {
+    super(props);
+    this.scrollTo = this.scrollTo.bind(this);
+    this.scrollbar = null;
+    this.mounted = false;
+  }
+
+  componentDidMount() {
+    this.mounted = true
+    this.context.getScrollbar(s => {
+      this.scrollbar = s
+    })
+  }
+
+  scrollTo(e, element) {
+    e.preventDefault()
+    if (this.scrollbar && element) this.scrollbar.scrollIntoView(element, { alignToTop: true })
+  }
+
+  render() {
+    const { node, children } = this.props
+    const hasHash = node.data.uri.search('#') >= 0
+    const element = hasHash ? document.querySelector(node.data.uri) : null
+    let props = {}
+
+    if (element) {
+      props.href = "#"
+      props.onClick = (e) => this.scrollTo(e, element)
+    } else {
+      props.href = node.data.uri
+      props.target = "_blank"
+    }
+
+    return (<a {...props}>{ children }</a>);
+  }
+}
 
 const options = {
   renderMark: {
     [MARKS.BOLD]: text => <Bold>{text}</Bold>,
   },
   renderNode: {
+    [INLINES.HYPERLINK]: (node, children) => <HyperLink node={node} children={children} />,
     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
     [BLOCKS.QUOTE]: (node, children) => <Blockquote>{children}</Blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
@@ -105,11 +155,11 @@ export const postBody = styled.div`
     color: ${props => (props.textColor ? props.textColor : `inherit`)};
   }
 
-  P + h2,
-  P + h3,
-  P + h4,
-  P + h5,
-  P + blockquote {
+  p + h2,
+  p + h3,
+  p + h4,
+  p + h5,
+  p + blockquote {
     margin-top: 2rem;
   }
 
@@ -134,15 +184,23 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
-
 `
 
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
-    <Box as={postBody} textColor={textColor ? textColor : false} my={margin || VERTICAL_SPACER}>
-      <TransitionContainer enabled={inView} autoCalculateDelay={isFirst || false} distance={85} index={index}>
+    <Box
+      as={postBody}
+      textColor={textColor ? textColor : false}
+      my={margin || VERTICAL_SPACER}
+    >
+      <TransitionContainer
+        enabled={inView}
+        autoCalculateDelay={isFirst || false}
+        distance={85}
+        index={index}
+      >
         <Box ref={ref} as={`div`} index={index}>
           {text}
         </Box>
@@ -151,35 +209,55 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
   )
 }
 
-export const CalculatePaddingTop = (noVerticalMargin, isFirst) => {
-  return noVerticalMargin ? [0] : isFirst ? [0] : VERTICAL_SPACER
+export const CalculatePaddingTop = (noVerticalMargin, isFirst, backgroundColor) => {
+  return backgroundColor
+    ? VERTICAL_SPACER
+    : noVerticalMargin
+    ? [0]
+    : isFirst
+    ? [0]
+    : VERTICAL_SPACER
 }
 
-export const CalculatePaddingBottom = (noVerticalMargin, isFirst, isLast) => {
-  return noVerticalMargin ? [0] : (isFirst || isLast) ? BOTTOM_SPACER : VERTICAL_SPACER
+export const CalculatePaddingBottom = (
+  noVerticalMargin,
+  isFirst,
+  isLast,
+  backgroundColor
+) => {
+  return backgroundColor
+    ? VERTICAL_SPACER
+    : noVerticalMargin
+    ? [0]
+    : isFirst || isLast
+    ? BOTTOM_SPACER
+    : VERTICAL_SPACER
 }
 
-export const TEXT_COLUMN_PADDING = [
-  0,
-  0,
-  `15vw`,
-  `15vw`,
-  `18vw`,
-  `21vw`,
-]
+export const TEXT_COLUMN_PADDING = [0, 0, `15vw`, `15vw`, `18vw`, `21vw`]
 
 const ContentText = ({ data, isFirst, isLast }) => {
-  const { text, textColor, textColumns, itemsPerRow, noVerticalMargin, fadeInBackgroundColor, backgroundColor } = data
+  const {
+    text,
+    textColor,
+    textColumns,
+    itemsPerRow,
+    noVerticalMargin,
+    fadeInBackgroundColor,
+    backgroundColor,
+  } = data
   const Wrapper = fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
   return (
     <Wrapper backgroundColor={backgroundColor || null}>
-      {data.text && (
-        <Box pt={CalculatePaddingTop(noVerticalMargin, isFirst)} pb={CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)}>
-          <Box
-            mx="auto"
-            px={TEXT_COLUMN_PADDING}
-          >
+      {text && (
+        <Box
+          pt={CalculatePaddingTop(noVerticalMargin, isFirst)}
+          pb={
+            textColumns ? [0] : CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)
+          }
+        >
+          <Box mx="auto" px={TEXT_COLUMN_PADDING}>
             <TextColumn
               index={1}
               text={text ? format(text.text || text.content) : []}
@@ -190,18 +268,26 @@ const ContentText = ({ data, isFirst, isLast }) => {
           </Box>
         </Box>
       )}
-      {data.textColumns && (
+      {textColumns && (
         <Box
-          pt={CalculatePaddingTop()}
-          pb={CalculatePaddingBottom()}
-          px={parseInt(data.itemsPerRow) <= 2 ? [0, 0, 0, 0, `7vw`, `14vw`] : [0, 0, 0, 0, `5vw`, `12vw`]}
+          pt={CalculatePaddingTop(noVerticalMargin, isFirst)}
+          pb={CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)}
+          px={
+            parseInt(data.itemsPerRow) <= 2
+              ? [0, 0, 0, 0, `7vw`, `14vw`]
+              : [0, 0, 0, 0, `5vw`, `12vw`]
+          }
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
             {textColumns &&
               textColumns.map((textColumn, index) => (
                 <TextColumn
                   key={index}
-                  text={textColumn.text ? format(textColumn.text.text || textColumn.text.content) : []}
+                  text={
+                    textColumn.text
+                      ? format(textColumn.text.text || textColumn.text.content)
+                      : []
+                  }
                   textColor={textColor ? textColor : false}
                   margin={[0]}
                   index={index}

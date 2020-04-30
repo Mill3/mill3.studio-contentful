@@ -1,12 +1,190 @@
 import React, { Component, useState, useRef } from 'react'
 import { graphql } from 'gatsby'
-import { Flex, Box, Button, Heading } from 'rebass'
+import { Flex, Box, Heading } from 'rebass'
 import styled from 'styled-components'
 
-import { RowContainer, VERTICAL_SPACER, HORIZONTAL_SPACER, BOTTOM_SPACER, GRID_GUTTER } from './index'
+import { RowContainer } from './index'
+import {
+  CalculatePaddingTop,
+  CalculatePaddingBottom,
+  TextColumn,
+  format,
+} from './ContentText'
+import Button from '@components/form/Button'
+import Checkbox from '@components/form/Checkbox'
 
-import { CalculatePaddingTop, CalculatePaddingBottom, TextColumn, format, TEXT_COLUMN_PADDING } from './ContentText'
+const FormField = ({ data }) => {
+  const [focused, setFocus] = useState(false)
+  const [error, setError] = useState(false)
+  const inputRef = useRef()
 
+  const onFocus = () => {
+    setFocus(true)
+    setError(false)
+  }
+
+  const onBlur = () => {
+    const value = inputRef.current.value.trim()
+    setFocus(value ? true : false)
+  }
+
+  const onError = () => {
+    setError(true)
+  }
+
+  const { label, type, slug, values, required } = data
+  const id = `field-id-${slug}`
+  const isCheckbox = type === 'radio' || type === 'checkbox'
+  const width = isCheckbox ? [1] : [1, 1, 1 / 2]
+  const props = {
+    ref: inputRef,
+    slug: slug,
+    name: slug,
+    required: required,
+    type: type,
+    id: id,
+    values: values,
+    onFocus: onFocus,
+    onBlur: onBlur,
+    onInvalid: onError,
+  }
+
+  return (
+    <Flex
+      as={isCheckbox ? 'div' : formInputContainer}
+      focused={focused}
+      flexDirection={isCheckbox ? 'row' : 'column'}
+      mb={[3, 4]}
+      width={width}
+      px={[2]}
+    >
+
+      {/* label */}
+      <Box order={isCheckbox ? 1 : 0} as="label" htmlFor={id} pb={isCheckbox ? 0 : 2}>
+        {label}
+      </Box>
+
+      {/* input container */}
+      <Box order={isCheckbox ? 0 : 1} mr={isCheckbox ? 1 : 0}>
+        {type === 'select' ? (
+          <Select {...props}>
+            <option></option>
+            {/* list all values as options */}
+            {values &&
+              values.map((value, index) => (
+                <option value={value} key={index}>
+                  {value}
+                </option>
+              ))}
+          </Select>
+        ) : (
+          [type == 'checkbox' ? <Checkbox {...props} /> : [<Input {...props} />]]
+        )}
+
+      </Box>
+    </Flex>
+  )
+}
+
+const ContentForm = props => {
+  const { data, isFirst, isLast } = props
+  const {
+    backgroundColor,
+    textColor,
+    title,
+    submitLabel,
+    text,
+    sucessMessage,
+    contentfulfields,
+    webhookUrl,
+  } = data
+
+  const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
+
+  const postData = async (url = '', formData) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: formData,
+    })
+    return await response.json()
+  }
+
+  const onSubmit = event => {
+    event.preventDefault()
+    const { currentTarget } = event
+    const url = currentTarget.action
+    const formData = new FormData(currentTarget)
+    const submit = postData(url, formData)
+    submit.then(data => {
+      const { status } = data
+      if (status === 'success') {
+        setSubmitted(true)
+      } else {
+        setSubmitError(true)
+      }
+    })
+  }
+
+  return (
+    <RowContainer backgroundColor={backgroundColor || null}>
+      <Flex
+        flexWrap={'wrap'}
+        pt={CalculatePaddingTop(false, isFirst, backgroundColor)}
+        pb={CalculatePaddingBottom(false, isFirst, isLast, backgroundColor)}
+      >
+        {/* text */}
+        <Box px={[2, 3, 3, 3, 4, 6]} width={[1, 1, 1, 1 / 2]}>
+          {title && (
+            <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
+              {title}
+            </Heading>
+          )}
+          {text && (
+            <TextColumn
+              index={1}
+              text={text.content ? format(text.content) : []}
+              textColor={textColor}
+              margin={[0]}
+            />
+          )}
+        </Box>
+        {/* form */}
+        <Box
+          as="aside"
+          px={[2, 3, 3, 3, 4, 6]}
+          width={[1, 1, 1, 1 / 2]}
+          color={textColor}
+        >
+          {!submitted && (
+            <form action={webhookUrl} onSubmit={e => onSubmit(e)} method="post">
+              {/* all form fields */}
+              <Flex flexWrap={'wrap'}>
+                {contentfulfields &&
+                  contentfulfields.map((field, index) => (
+                    <FormField index={index} data={field} />
+                  ))}
+              </Flex>
+              {/* submit button */}
+              <Box>
+                <Button>{submitLabel}</Button>
+              </Box>
+            </form>
+          )}
+          {submitted && sucessMessage && (
+            <React.Fragment>{format(sucessMessage.content)}</React.Fragment>
+          )}
+        </Box>
+      </Flex>
+    </RowContainer>
+  )
+}
+
+export default ContentForm
 
 const Input = styled.input`
   width: 100%;
@@ -21,8 +199,6 @@ const Input = styled.input`
     border-color: ${props => props.theme.colors.white};
   }
 `
-
-const Checkbox = styled.input``
 
 const Select = styled.select`
   -webkit-appearance: none;
@@ -47,164 +223,13 @@ const formInputContainer = styled.div`
     position: absolute;
     top: 50%;
     transition: transform 0.125s ease-in;
-    font-size: ${props => props.focused ? `11px` : `16px`};
-    transform: ${props => props.focused ? `translateY(-140%)` : `translateY(-50%)`};
+    font-size: ${props => (props.focused ? `11px` : `16px`)};
+    transform: ${props => (props.focused ? `translateY(-140%)` : `translateY(-50%)`)};
     left: ${props => props.theme.space[2]}px;
     z-index: 1;
     pointer-events: none;
   }
 `
-
-const FormField = ({ data }) => {
-  const [focused, setFocus] = useState(false)
-  const [error, setError] = useState(false)
-  const inputRef = useRef()
-
-  const onFocus = () => {
-    setFocus(true)
-    setError(false)
-  }
-  const onBlur = () => {
-    const value = inputRef.current.value.trim()
-    console.log('value:', value)
-    setFocus(value ? true : false)
-  }
-  const onError = () => {
-    setError(true)
-  }
-
-  const { label, type, slug, values, required } = data
-  const id = `field-id-${slug}`
-  const isCheckbox = type === 'radio' || type === 'checkbox'
-  const width = isCheckbox ? [1] : [1, 1, 1/2]
-
-  const props = {
-    ref: inputRef,
-    slug: slug,
-    required: required,
-    type: type,
-    id: id,
-    values: values,
-    onFocus: onFocus,
-    onBlur: onBlur,
-    onInvalid: onError,
-  }
-
-  return (
-    <Flex as={isCheckbox ? 'div' : formInputContainer} focused={focused} flexDirection={isCheckbox ? 'row' : 'column'} mb={[3, 4]} width={width} px={[2]}>
-
-      {/* label */}
-      <Box order={isCheckbox ? 1 : 0} as="label" htmlFor={id} pb={isCheckbox ? 0 : 2}>
-        {label}
-      </Box>
-
-      {/* input container */}
-      <Box order={isCheckbox ? 0 : 1} mr={isCheckbox ? 2 : 0}>
-        { type === "select" ? (
-          <Select {...props}>
-            <option></option>
-            {/* list all values as options */}
-            {values &&
-              values.map((value, index) => (
-                <option value={value} key={index}>
-                  {value}
-                </option>
-              ))}
-          </Select>
-        ) : [
-          type == 'checkbox' ? (
-            <Checkbox {...props} />
-          ) : [
-            <Input {...props} />
-          ]
-        ]}
-      </Box>
-    </Flex>
-  )
-}
-
-const ContentForm = (props) => {
-  const { data, isFirst, isLast } = props
-  const { backgroundColor, textColor, title, submitLabel, text, contentfulfields, webhookUrl } = data
-
-  const [submitted, setSubmitted] = useState(false)
-  const [submitError, setSubmitError] = useState(false)
-
-  const postData = async (url = "", formData) => {
-    const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: formData,
-    })
-    return await response.json()
-  }
-
-  const onSubmit = event => {
-    event.preventDefault()
-    const { currentTarget } = event
-    const url = currentTarget.action
-    const formData = new FormData(currentTarget)
-    const submit = postData(url, formData)
-    submit.then(data => {
-      const { status } = data
-      if (status === "success") {
-        setSubmitted(true)
-      } else {
-        setSubmitError(true)
-      }
-    })
-  }
-
-  return (
-    <RowContainer backgroundColor={backgroundColor || null}>
-      <Flex
-        flexWrap={'wrap'}
-        pt={CalculatePaddingTop(false, isFirst)}
-        pb={CalculatePaddingBottom(false, isFirst, isLast)}
-      >
-        {/* text */}
-        <Box px={[2, 3, 3, 3, 4, 6]} width={[1, 1, 1, 1 / 2]}>
-          {title && (
-            <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
-              {title}
-            </Heading>
-          )}
-          {text && (
-            <TextColumn
-              index={1}
-              text={text ? format(text.text || text.content) : []}
-              textColor={textColor}
-              margin={[0]}
-            />
-          )}
-        </Box>
-        {/* form */}
-        <Box as="aside" px={[2, 3, 3, 3, 4, 6]} width={[1, 1, 1, 1 / 2]} color={textColor}>
-
-          <form action={webhookUrl} onSubmit={e => onSubmit(e)} method="post">
-
-            {/* all form fields */}
-            <Flex flexWrap={'wrap'}>
-              {contentfulfields && contentfulfields.map((field, index) => <FormField index={index} data={field} />)}
-            </Flex>
-
-            <Box>
-              <Button px={[2,4]} py={[1,2]}>{submitLabel}</Button>
-            </Box>
-
-          </form>
-
-        </Box>
-      </Flex>
-    </RowContainer>
-  )
-}
-
-export default ContentForm;
-
 
 export const ContentContentFormFragement = graphql`
   fragment ContentFormFragement on ContentfulContentForm {
@@ -214,6 +239,9 @@ export const ContentContentFormFragement = graphql`
     submitLabel
     text {
       text
+    }
+    sucessMessage {
+      sucessMessage
     }
     textColor
     backgroundColor

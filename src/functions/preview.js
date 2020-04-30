@@ -52,8 +52,6 @@ const contentRowFormatter = (row) => {
   // loop each field
   Object.entries(fields).map(row => {
     const [type, value] = row
-    // console.log('type, contentfulTypeName & row', type, contentfulTypeName, value)
-    // console.log('type, value:', type, value, contentfulTypeName)
 
     // map RichText editor text value matching our GraphQL query
     if (contentfulTypeName === 'ContentfulContentText' && type == 'text' || contentfulTypeName === 'ContentfulContentSectionBreak' && type == 'text' ) {
