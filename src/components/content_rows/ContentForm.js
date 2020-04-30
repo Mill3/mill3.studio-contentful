@@ -196,7 +196,7 @@ const Input = styled.input`
   border: none;
   padding: 0.25rem 0;
   border-bottom: 1px solid ${props => props.theme.colors.blue};
-  color: ${props => props.theme.colors.white};
+  /* color: ${props => props.theme.colors.white}; */
   border-radius: 0;
   &:focus {
     outline: none;
@@ -214,7 +214,7 @@ const Select = styled.select`
   background: transparent;
   border-radius: 0;
   border-radius: 0px;
-  color: ${props => props.theme.colors.white};
+  /* color: ${props => props.theme.colors.white}; */
   border-bottom: 1px solid ${props => props.theme.colors.blue};
   &:focus {
     outline: none;
