@@ -57,7 +57,7 @@ const FormField = ({ data }) => {
       mb={[3, 4]}
       width={columnWidth}
       py={[3,3,0]}
-      px={[0,0,2]}
+      px={[0,0,0, 2]}
     >
 
       {/* label */}
@@ -169,6 +169,7 @@ const ContentForm = props => {
         <Box
           as="aside"
           px={[2, 3, 3, 3, 4, 6]}
+          pt={[4, 4, 4, 0]}
           width={columnsWidth}
           color={textColor}
         >
