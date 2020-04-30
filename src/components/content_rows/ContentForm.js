@@ -56,7 +56,8 @@ const FormField = ({ data }) => {
       flexDirection={isCheckbox ? 'row' : 'column'}
       mb={[3, 4]}
       width={width}
-      px={[2]}
+      py={[3,3,0]}
+      px={[0,0,2]}
     >
 
       {/* label */}
@@ -196,7 +197,7 @@ const Input = styled.input`
   color: ${props => props.theme.colors.white};
   &:focus {
     outline: none;
-    border-color: ${props => props.theme.colors.white};
+    /* border-color: ${props => props.theme.colors.white}; */
   }
 `
 

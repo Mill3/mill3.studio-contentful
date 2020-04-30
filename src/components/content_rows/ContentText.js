@@ -184,6 +184,14 @@ export const postBody = styled.div`
   blockquote + p {
     text-align: center;
   }
+
+  ul {
+    @media (max-width: ${props => props.theme.breakpoints[1]}) {
+        font-size: 18px;
+        padding-left: 22px;
+      }
+  }
+
 `
 
 export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
