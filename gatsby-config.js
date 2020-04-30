@@ -1,22 +1,25 @@
 let dotenv = require('dotenv')
-// let proxy = require('http-proxy-middleware')
-// const { createProxyMiddleware } = require("http-proxy-middleware")
+const { createProxyMiddleware } = require("http-proxy-middleware")
 
 // import .env const
 dotenv.config()
 
+
 module.exports = {
-  // developMiddleware: app => {
-  //   app.use(
-  //     "/.netlify/functions/",
-  //     createProxyMiddleware({
-  //       target: "http://localhost:9000",
-  //       pathRewrite: {
-  //         "/.netlify/functions/": "",
-  //       },
-  //     })
-  //   )
-  // },
+  developMiddleware: app => {
+    console.log('app:', app)
+    if (process.env.NODE_ENV == `development`) {
+      app.use(
+        "/.netlify/functions/",
+        createProxyMiddleware({
+          target: "http://localhost:9000",
+          pathRewrite: {
+            "/.netlify/functions/": "",
+          },
+        })
+      )
+    }
+  },
   siteMetadata: {
     title: `MILL3 Studio`,
     description: `Mill3 is a digital studio established in Montréal and specialized in strategy, design & web development.`,
