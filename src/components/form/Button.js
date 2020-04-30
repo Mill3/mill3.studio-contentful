@@ -16,6 +16,8 @@ const ButtonStyle = styled.button`
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   outline: none !important;
+  opacity: ${props => props.disabled ? 0.65 : 1};
+  pointer-events: ${props => props.disabled ? 'none' : 'all'};
 
   span {
     display: block;

@@ -57,7 +57,7 @@ const FormField = ({ data }) => {
       mb={[3, 4]}
       width={columnWidth}
       py={[3,3,0]}
-      px={[0,0,0, 2]}
+      px={[0,0,0,2]}
     >
 
       {/* label */}
@@ -101,6 +101,7 @@ const ContentForm = props => {
   } = data
 
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState(false)
 
   const postData = async (url = '', formData) => {
@@ -117,12 +118,14 @@ const ContentForm = props => {
 
   const onSubmit = event => {
     event.preventDefault()
+    setSubmitting(true)
     const { currentTarget } = event
     const url = currentTarget.action
     const formData = new FormData(currentTarget)
     const submit = postData(url, formData)
     submit.then(data => {
       const { status } = data
+      // setSubmitting(false)
       if (status === 'success') {
         setSubmitted(true)
       } else {
@@ -184,7 +187,7 @@ const ContentForm = props => {
               </Flex>
               {/* submit button */}
               <Box>
-                <Button>{submitLabel}</Button>
+                <Button disabled={submitting}>{submitLabel}</Button>
               </Box>
             </form>
           )}
