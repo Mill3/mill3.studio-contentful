@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import posed from 'react-pose'
 import { Box } from 'rebass'
 import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
@@ -281,9 +280,9 @@ const ContentText = ({ data, isFirst, isLast }) => {
           pt={CalculatePaddingTop(noVerticalMargin, isFirst)}
           pb={CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)}
           px={
-            parseInt(data.itemsPerRow) <= 2
-              ? [0, 0, 0, 0, `7vw`, `14vw`]
-              : [0, 0, 0, 0, `5vw`, `12vw`]
+            parseInt(data.itemsPerRow) <= 3
+              ? [0, 0, 0, 0, `7vw`, `10vw`]
+              : [0, 0, 0, 0, `7vw`]
           }
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>

@@ -140,19 +140,21 @@ const ContentForm = props => {
       >
         {/* text */}
         <Box px={[2, 3, 3, 3, 4, 6]} width={[1, 1, 1, 1 / 2]}>
-          {title && (
-            <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
-              {title}
-            </Heading>
-          )}
-          {text && (
-            <TextColumn
-              index={1}
-              text={text.content ? format(text.content) : []}
-              textColor={textColor}
-              margin={[0]}
-            />
-          )}
+          <Box pr={[0,0,`50px`]}>
+            {title && (
+              <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
+                {title}
+              </Heading>
+            )}
+            {text && (
+              <TextColumn
+                index={1}
+                text={text.content ? format(text.content) : []}
+                textColor={textColor}
+                margin={[0]}
+              />
+            )}
+          </Box>
         </Box>
         {/* form */}
         <Box
@@ -195,6 +197,7 @@ const Input = styled.input`
   padding: 0.25rem 0;
   border-bottom: 1px solid ${props => props.theme.colors.blue};
   color: ${props => props.theme.colors.white};
+  border-radius: 0;
   &:focus {
     outline: none;
     /* border-color: ${props => props.theme.colors.white}; */
@@ -209,6 +212,7 @@ const Select = styled.select`
   border: none;
   padding: ${props => props.theme.space[2]}px 0;
   background: transparent;
+  border-radius: 0;
   border-radius: 0px;
   color: ${props => props.theme.colors.white};
   border-bottom: 1px solid ${props => props.theme.colors.blue};
