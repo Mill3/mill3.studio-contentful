@@ -288,9 +288,9 @@ const ContentText = ({ data, isFirst, isLast }) => {
           pt={CalculatePaddingTop(noVerticalMargin, isFirst)}
           pb={CalculatePaddingBottom(noVerticalMargin, isFirst, isLast)}
           px={
-            parseInt(data.itemsPerRow) <= 3
-              ? [0, 0, 0, 0, `7vw`, `10vw`]
-              : [0, 0, 0, 0, `7vw`]
+            parseInt(data.itemsPerRow) <= 2
+              ? [0, 0, 0, 0, `5.45vw`, `6.4vw`]
+              : [0, 0, 0, 0, `5vw`, `12vw`]
           }
         >
           <Grid gridGutter={100} itemsPerRow={itemsPerRow}>
