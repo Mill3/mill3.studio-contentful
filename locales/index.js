@@ -13,9 +13,13 @@ const messages = defineMessages({
     id: 'nav.About',
     defaultMessage: 'About'
   },
-  work: {
+  journal: {
     id: 'nav.Journal',
     defaultMessage: 'Journal'
+  },
+  formation: {
+    id: 'nav.Formation',
+    defaultMessage: 'Formation'
   },
   work: {
     id: 'nav.Contact',

@@ -284,6 +284,14 @@ class Nav extends React.Component {
             </NavItem>
           }
 
+          <NavItem class>
+            <TransitionLinkComponent to={`/formation/`} color={colors.lightGray}>
+              <Text fontSize={fontSizes}>
+                <FormattedMessage id="nav.Formation" />
+              </Text>
+            </TransitionLinkComponent>
+          </NavItem>
+
           <NavItem>
             <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
               <Text fontSize={fontSizes}>
