@@ -1,13 +1,14 @@
 let dotenv = require('dotenv')
-const { createProxyMiddleware } = require("http-proxy-middleware")
+
+if (process.env.NODE_ENV == `development`) {
+  const { createProxyMiddleware } = require("http-proxy-middleware")
+}
 
 // import .env const
 dotenv.config()
 
-
 module.exports = {
   developMiddleware: app => {
-    console.log('app:', app)
     if (process.env.NODE_ENV == `development`) {
       app.use(
         "/.netlify/functions/",

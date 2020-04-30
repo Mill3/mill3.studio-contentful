@@ -46,16 +46,14 @@ const formInputContainer = styled.div`
   label {
     position: absolute;
     top: 50%;
-    transition: transform 0.125s ease-in-out;
+    transition: transform 0.125s ease-in;
     font-size: ${props => props.focused ? `11px` : `16px`};
     transform: ${props => props.focused ? `translateY(-140%)` : `translateY(-50%)`};
     left: ${props => props.theme.space[2]}px;
     z-index: 1;
     pointer-events: none;
   }
-
 `
-
 
 const FormField = ({ data }) => {
   const [focused, setFocus] = useState(false)
