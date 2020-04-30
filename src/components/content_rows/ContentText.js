@@ -217,13 +217,21 @@ export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
 }
 
 export const CalculatePaddingTop = (noVerticalMargin, isFirst, backgroundColor) => {
-  return backgroundColor
-    ? VERTICAL_SPACER
-    : noVerticalMargin
-    ? [0]
-    : isFirst
-    ? [0]
-    : VERTICAL_SPACER
+
+  if (isFirst && !backgroundColor) {
+    return [0]
+  }
+
+  if (noVerticalMargin) {
+    return [0]
+  }
+
+  if (backgroundColor) {
+    return VERTICAL_SPACER
+  }
+
+  return VERTICAL_SPACER
+
 }
 
 export const CalculatePaddingBottom = (

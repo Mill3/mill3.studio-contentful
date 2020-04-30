@@ -32,10 +32,10 @@ const FormField = ({ data }) => {
     setError(true)
   }
 
-  const { label, type, slug, values, required } = data
+  const { label, type, slug, values, required, width } = data
   const id = `field-id-${slug}`
   const isCheckbox = type === 'radio' || type === 'checkbox'
-  const width = isCheckbox ? [1] : [1, 1, 1 / 2]
+  const columnWidth = isCheckbox ? [1] : width ? [1,1, width] : [1, 1, 1/2]
   const props = {
     ref: inputRef,
     slug: slug,
@@ -55,7 +55,7 @@ const FormField = ({ data }) => {
       focused={focused}
       flexDirection={isCheckbox ? 'row' : 'column'}
       mb={[3, 4]}
-      width={width}
+      width={columnWidth}
       py={[3,3,0]}
       px={[0,0,2]}
     >
@@ -131,36 +131,45 @@ const ContentForm = props => {
     })
   }
 
+  const hasContent = title || text;
+  const columnsWidth = [1, 1, 1, 1 / 2];
+
+  // console.log(backgroundColor);
+
+
   return (
     <RowContainer backgroundColor={backgroundColor || null}>
       <Flex
         flexWrap={'wrap'}
+        justifyContent={'center'}
         pt={CalculatePaddingTop(false, isFirst, backgroundColor)}
         pb={CalculatePaddingBottom(false, isFirst, isLast, backgroundColor)}
       >
         {/* text */}
-        <Box px={[2, 3, 3, 3, 4, 6]} width={[1, 1, 1, 1 / 2]}>
-          <Box pr={[0,0,`50px`]}>
-            {title && (
-              <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
-                {title}
-              </Heading>
-            )}
-            {text && (
-              <TextColumn
-                index={1}
-                text={text.content ? format(text.content) : []}
-                textColor={textColor}
-                margin={[0]}
-              />
-            )}
+        {hasContent &&
+          <Box px={[2, 3, 3, 3, 4, 6]} width={columnsWidth}>
+            <Box pr={[0,0,`50px`]}>
+              {title && (
+                <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
+                  {title}
+                </Heading>
+              )}
+              {text && (
+                <TextColumn
+                  index={1}
+                  text={text.content ? format(text.content) : []}
+                  textColor={textColor}
+                  margin={[0]}
+                />
+              )}
+            </Box>
           </Box>
-        </Box>
+        }
         {/* form */}
         <Box
           as="aside"
           px={[2, 3, 3, 3, 4, 6]}
-          width={[1, 1, 1, 1 / 2]}
+          width={columnsWidth}
           color={textColor}
         >
           {!submitted && (
@@ -256,6 +265,7 @@ export const ContentContentFormFragement = graphql`
       required
       type
       values
+      width
     }
   }
 `
