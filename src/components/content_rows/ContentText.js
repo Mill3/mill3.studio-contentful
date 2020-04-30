@@ -62,7 +62,7 @@ class HyperLink extends Component {
   render() {
     const { node, children } = this.props
     const hasHash = node.data.uri.search('#') >= 0
-    const element = hasHash ? document.querySelector(node.data.uri) : null
+    const element = (hasHash && typeof window !== `undefined`) ? document.querySelector(node.data.uri) : null
     let props = {}
 
     if (element) {
