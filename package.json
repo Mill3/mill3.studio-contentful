@@ -61,7 +61,8 @@
     "styled-components": "^4.2.1",
     "styled-components-breakpoint": "^2.1.1",
     "styled-reboot": "^3.0.2",
-    "visibilityjs": "^2.0.2"
+    "visibilityjs": "^2.0.2",
+    "snyk": "^1.316.0"
   },
   "keywords": [
     "gatsby"
@@ -73,7 +74,9 @@
     "netlify-proxy": "netlify-lambda serve src/functions/",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
     "babel-plugin-react-intl-auto": "^1.7.0",
@@ -88,5 +91,6 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
-  }
+  },
+  "snyk": true
 }
