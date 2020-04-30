@@ -23,9 +23,7 @@ const Footer = ({ intl }) => {
   const season = () => {
     let d = new Date()
     let m = d.getMonth()
-    console.log('m:', m)
-
-    return (m >= 0 && m <= 3) || (m > 10) ? `winter` : `summer`
+    return (m >= 0 && m <= 2) || (m > 9) ? `winter` : `summer`
   }
 
   return (
