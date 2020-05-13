@@ -113,7 +113,7 @@ export const postBody = styled.div`
   /* special style for H2 */
   h2 {
     font-size: 6.763285024vw;
-    text-align: center;
+    /*text-align: center;*/
     line-height: 1.1;
     margin-top: 4rem;
 

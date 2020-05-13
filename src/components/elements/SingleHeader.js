@@ -24,6 +24,11 @@ const FigureImage = styled.picture`
   }
 `
 
+const SingleHeaderWrap = styled.div`
+  max-width: 1100px;
+`
+
+
 class SingleHeader extends Component {
   figure() {
     const { media } = this.props
@@ -56,8 +61,10 @@ class SingleHeader extends Component {
         {media ? this.figure() : ''}
 
         <Flex
+          as={SingleHeaderWrap}
           flexDirection="column"
           alignItems="center"
+          mx="auto"
           mb={['30px', null, 4, 5]}
           mt={!media ? ['30px', null, 6] : [0]}
         >

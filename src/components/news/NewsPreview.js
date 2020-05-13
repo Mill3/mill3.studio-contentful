@@ -37,6 +37,11 @@ const NewsWrapper = styled(Box)`
   }
 `
 
+const ReadMoreStyle = styled.p`
+  display: inline-block;
+  border-bottom: 1px solid ${props => props.theme.colors.gray};
+`
+
 const NewsPreviewItem = styled(NewsPoses)`
   figure {
     position: relative;
@@ -50,14 +55,16 @@ const NewsPreviewItem = styled(NewsPoses)`
 
     &:hover {
       text-decoration: none;
+
+      ${ReadMoreStyle} {
+        color: ${props => props.theme.colors.blue};
+        border-bottom-color: ${props => props.theme.colors.blue};
+      }
     }
   }
 `
 
-const ReadMoreStyle = styled.p`
-  display: inline-block;
-  border-bottom: 1px solid ${props => props.theme.colors.gray};
-`
+
 
 class NewsPreview extends Component {
   static contextTypes = {
