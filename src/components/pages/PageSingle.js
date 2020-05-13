@@ -1,6 +1,6 @@
 import React from 'react'
-import { Flex, Box, Text } from 'rebass'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { Box } from 'rebass'
+import { injectIntl } from 'react-intl'
 
 import ContentRow from '@components/content_rows'
 import SEO from '@components/seo'

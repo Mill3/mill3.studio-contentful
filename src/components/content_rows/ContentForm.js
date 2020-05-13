@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { graphql } from 'gatsby'
 import { Flex, Box, Heading } from 'rebass'
 import styled from 'styled-components'
@@ -15,12 +15,12 @@ import Checkbox from '@components/form/Checkbox'
 
 const FormField = ({ data }) => {
   const [focused, setFocus] = useState(false)
-  const [error, setError] = useState(false)
+  //const [error, setError] = useState(false)
   const inputRef = useRef()
 
   const onFocus = () => {
     setFocus(true)
-    setError(false)
+    //setError(false)
   }
 
   const onBlur = () => {
@@ -29,7 +29,7 @@ const FormField = ({ data }) => {
   }
 
   const onError = () => {
-    setError(true)
+    //setError(true)
   }
 
   const { label, type, slug, values, required, width } = data
@@ -79,7 +79,7 @@ const FormField = ({ data }) => {
               ))}
           </Select>
         ) : (
-          [type == 'checkbox' ? <Checkbox {...props} /> : [<Input {...props} />]]
+          [type === 'checkbox' ? <Checkbox {...props} /> : [<Input {...props} />]]
         )}
 
       </Box>
@@ -102,7 +102,7 @@ const ContentForm = props => {
 
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState(false)
+  //const [submitError, setSubmitError] = useState(false)
 
   const postData = async (url = '', formData) => {
     const response = await fetch(url, {
@@ -128,9 +128,9 @@ const ContentForm = props => {
       // setSubmitting(false)
       if (status === 'success') {
         setSubmitted(true)
-      } else {
-        setSubmitError(true)
-      }
+      } //else {
+        //setSubmitError(true)
+      //}
     })
   }
 

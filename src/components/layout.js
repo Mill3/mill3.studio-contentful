@@ -26,7 +26,7 @@ import Wrapper from '@components/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import { TRANSITION_DURATION, TRANSITION_OUT_DURATION } from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 

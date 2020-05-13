@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
-import { Flex, Box } from 'rebass'
-
 import { injectIntl } from 'react-intl'
 
 import ClientsFooter from '@components/clients/ClientsFooter'
 import PageSingle from '@components/pages/PageSingle'
 
 const About = ({ data, intl }) => {
-  const [list, setList] = useState(false);
-
   return (
 
     <React.Fragment>

@@ -35,7 +35,7 @@ class ProjectsIndex extends Component {
       width: [1, 1, 1 / 2, 1 / 3],
     }
     const isMobile = Viewport.width < mobileBreakpoint
-    const total = this.props.data.projects.edges.length
+    //const total = this.props.data.projects.edges.length
 
     const calculateOffset = (index, increment = -120, nth = 3) => {
       let col = (index % nth) + 1

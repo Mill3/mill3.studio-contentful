@@ -167,7 +167,15 @@ class CliensRows extends React.Component {
     return (
       <React.Fragment>
         {data.map((client, index) => (
-          <div key={index} onMouseEnter={e => this.setHoverIndex(index)} onMouseLeave={e => this.setHoverIndex(null)}>
+          <div
+            key={index}
+            role="button"
+            tabIndex="0"
+            onMouseEnter={e => this.setHoverIndex(index)}
+            onMouseLeave={e => this.setHoverIndex(null)}
+            onFocus={e => this.setHoverIndex(index)}
+            onBlur={e => this.setHoverIndex(null)}
+          >
             <ClientRow
               index={index}
               hoverIndex={this.state.hoverIndex}

@@ -114,6 +114,12 @@ class TransitionPane extends React.Component {
     this.changePose = this.changePose.bind(this)
   }
 
+  getChildContext() {
+    return {
+      layoutState: this.state
+    };
+  }
+
   componentDidUpdate(prevProps, prevState) {
     // change state only if transitionState props has changed
     if (prevProps.transitionState !== this.props.transitionState) {

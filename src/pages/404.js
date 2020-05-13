@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Link } from 'gatsby'
 import { Box, Text } from 'rebass'
 
-import Logo from '@svg/Logo'
 import Container from '@styles/Container'
 
 import { detectLocale } from '@utils/Locales'

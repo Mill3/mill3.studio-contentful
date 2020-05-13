@@ -1,10 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import posed from 'react-pose'
 
-import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION, TRANSITION_IN_DELAY, EASES } from '@utils/constants'
-import { breakpoints } from '@styles/Theme'
-
+import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { LogoSVG } from '@svg/Logo'
 
 const poses = {

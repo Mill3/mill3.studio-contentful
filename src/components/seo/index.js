@@ -94,7 +94,10 @@ SEO.propTypes = {
   image: PropTypes.string,
   translate: PropTypes.bool,
   locale: PropTypes.string,
-  url: PropTypes.string,
+  url: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]),
   seo: PropTypes.shape({
     pageTitle: PropTypes.string,
     pageDescription: PropTypes.string,

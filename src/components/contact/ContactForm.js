@@ -9,7 +9,6 @@ import { debounce } from 'lodash'
 import { isBrowser } from 'react-device-detect'
 
 import HeaderCircle from '@components/header/HeaderCircle'
-import ContactIcon from '@components/contact/ContactIcon'
 
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'

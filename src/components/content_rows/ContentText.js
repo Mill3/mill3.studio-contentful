@@ -14,9 +14,7 @@ import {
   RowContainer,
   Grid,
   VERTICAL_SPACER,
-  HORIZONTAL_SPACER,
   BOTTOM_SPACER,
-  GRID_GUTTER,
 } from './index'
 import EmbeddedAsset from './EmbeddedAsset'
 

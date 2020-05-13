@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
+import { injectIntl } from 'react-intl'
 
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -153,7 +154,7 @@ class NewsPreview extends Component {
   }
 
   render() {
-    const { news, delay, columns, offset, index } = this.props
+    const { news, delay, columns, offset, index, intl } = this.props
     const { slug, imageMain, title } = news.node
     const { inView, percentage } = this.state
     let transform
@@ -188,12 +189,12 @@ class NewsPreview extends Component {
                   <Img fade={false} fluid={imageMain.fluid} />
                 </FigureBox>
               </Box>
-              <Box as={`footer`} width={`70%`}>
+              <Box as={`footer`} width={[`100%`, `70%`]}>
                 <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[2]} lineHeight={[1.2]} mb={[2]}>
                   {title}
                 </Text>
                 <Text as={ReadMoreStyle} className={`fw-600 is-serif`} fontSize={[1]} m={0}>
-                  Read more
+                  {intl.formatMessage({ id: 'news.preview.readmore' })}
                 </Text>
               </Box>
             </TransitionLinkComponent>
@@ -204,4 +205,4 @@ class NewsPreview extends Component {
   }
 }
 
-export default NewsPreview
+export default injectIntl(NewsPreview)

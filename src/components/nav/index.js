@@ -275,7 +275,7 @@ class Nav extends React.Component {
 
           {/* add journal link in `fr` only */}
           {locale === `fr` &&
-            <NavItem class>
+            <NavItem>
               <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
                 <Text fontSize={fontSizes}>
                   <FormattedMessage id="nav.Journal" />
@@ -284,7 +284,7 @@ class Nav extends React.Component {
             </NavItem>
           }
 
-          <NavItem class>
+          <NavItem>
             <TransitionLinkComponent to={`/formation/`} color={colors.lightGray}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Formation" />

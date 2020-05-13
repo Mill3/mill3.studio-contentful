@@ -6,7 +6,6 @@ import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import SEO from '@components/seo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
-import HeaderCircle from '@components/header/HeaderCircle'
 import NewsPreview from '@components/news/NewsPreview'
 import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'

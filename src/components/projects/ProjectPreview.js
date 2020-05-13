@@ -15,8 +15,6 @@ import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import Viewport from '@utils/Viewport'
 
-import { TRANSITION_DURATION } from '@utils/constants'
-
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
@@ -263,8 +261,8 @@ class ProjectPreview extends Component {
   }
 
   render() {
-    const { project, delay, columns, offset, index } = this.props
-    const { slug, colorMain, imageMain, imageHover, videoPreview, name, category, transitionName } = project.node
+    const { project, delay, columns, offset } = this.props
+    const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
     const { inView, percentage, hover } = this.state
     // const { layoutState } = this.context
 
@@ -302,6 +300,8 @@ class ProjectPreview extends Component {
             color={colorMain}
             onMouseOver={e => this.onHover(true)}
             onMouseOut={e => this.onHover(false)}
+            onFocus={e => this.onHover(true)}
+            onBlur={e => this.onHover(false)}
             style={transform}
           >
             <TransitionContainer direction="out" distance={150}>

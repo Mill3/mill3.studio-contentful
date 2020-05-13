@@ -38,12 +38,19 @@ const Footer = ({ intl }) => {
                   {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
                 </Text>
                 <Text as={`h6`} m={0}>
+                  {intl.formatMessage({ id: 'footer.home' }).toString()}
+                  <br />
+                  {intl.formatMessage({ id: 'footer.areas' }).toString()}
+                </Text>
+                {/*
+                <Text as={`h6`} m={0}>
                   {intl.formatMessage({ id: 'footer.address' }).toString()}
                   <br />
                   {intl.formatMessage({ id: 'footer.city' }).toString()}
                   <br />
                   {intl.formatMessage({ id: 'footer.office' }).toString()}
                 </Text>
+                */}
               </TransitionContainer>
             </Box>
 
@@ -57,7 +64,7 @@ const Footer = ({ intl }) => {
                   {intl.formatMessage({ id: 'footer.hi' }).toString()}
                 </Text>
                 <Text as={`h6`} m={0}>
-                  <a href="mailto:{intl.formatMessage({ id: 'footer.email' }).toString()}">{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
+                  <a href={`mailto:${intl.formatMessage({ id: 'footer.email' }).toString()}`}>{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
                   <br />
                   <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a>
                 </Text>

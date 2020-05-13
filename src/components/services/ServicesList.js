@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import posed from 'react-pose'
 import { useInView } from 'react-intersection-observer'
 import { Flex, Box, Text } from 'rebass'
 
-import { HORIZONTAL_SPACER, VERTICAL_SPACER, GRID_GUTTER } from '@components/content_rows'
-import { TextColumnPoses } from '@components/content_rows/ContentText'
+import { VERTICAL_SPACER, GRID_GUTTER } from '@components/content_rows'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 
 import Container from '@styles/Container'

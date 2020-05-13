@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 import { InView } from 'react-intersection-observer'
 
-import Container from '@styles/Container'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
@@ -271,45 +270,44 @@ class ContentRow extends Component {
       switch (row.__typename) {
         case CONTENT_ROW_TYPES['text']:
           return (
-            <div id={id}>
-              <ContentText key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentText isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['images']:
           return (
-            <div id={id}>
-              <ContentImages key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentImages isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['videos']:
           return (
-            <div id={id}>
-              <ContentVideos key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentVideos isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['slides']:
           return (
-            <div id={id}>
-              <ContentSlides key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentSlides isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['form']:
           return (
-            <div id={id}>
-              <ContentForm key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentForm isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['spacer']:
           return (
-            <div id={id}>
-              <ContentSpacer key={index} isFirst={isFirst} isLast={isLast} data={row} />
+            <div id={id} key={index}>
+              <ContentSpacer isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         case CONTENT_ROW_TYPES['section_break']:
           return (
-            <div id={id}>
+            <div id={id} key={index}>
               <ContentSectionBreak
-                key={index}
                 isFirst={isFirst}
                 isLast={isLast}
                 data={row}

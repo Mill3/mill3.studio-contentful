@@ -9,7 +9,7 @@ import Button from '@components/buttons'
 import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 

@@ -1,12 +1,10 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import posed from 'react-pose'
 import { Box, Text } from 'rebass'
-import { useInView } from 'react-intersection-observer'
 
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { format, TextColumn } from './ContentText'
-import { RowContainer, VERTICAL_SPACER } from './index'
+import { RowContainer } from './index'
 
 const ContentSectionBreak = ({ data, isFirst, isLast }) => {
   return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import posed from 'react-pose'
 import { Location } from '@reach/router'
 import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
