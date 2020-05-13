@@ -155,14 +155,15 @@ export const postBody = styled.div`
   p + h2,
   p + h3,
   p + h4,
-  p + h5,
-  p + blockquote {
+  p + h5 {
     margin-top: 2rem;
   }
 
   a {
     color: ${props => (props.textColor ? props.textColor : props.theme.colors.blue)};
   }
+
+
 
   /* blockquote */
   blockquote {
@@ -177,9 +178,15 @@ export const postBody = styled.div`
     }
   }
 
+  /* blockquote following a paragraph */
+  p + blockquote {
+    margin-top: 5rem;
+  }
+
   /* paragraph following a blockquote  */
   blockquote + p {
     text-align: center;
+    margin-bottom: 5rem;
   }
 
   ul {
