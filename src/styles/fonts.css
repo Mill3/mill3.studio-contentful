@@ -127,3 +127,38 @@
   font-style: italic;
 }
 
+
+
+/* GT Super Text */
+
+@font-face {
+  font-family: 'GT Super Text';
+  src: url('../fonts/GTSuperText-Book.woff2') format('woff2'),
+      url('../fonts/GTSuperText-Book.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Super Text';
+  src: url('../fonts/GTSuperText-BookItalic.woff2') format('woff2'),
+      url('../fonts/GTSuperText-BookItalic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'GT Super Text';
+  src: url('../fonts/GTSuperText-Bold.woff2') format('woff2'),
+      url('../fonts/GTSuperText-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Super Text';
+  src: url('../fonts/GTSuperText-BoldItalic.woff2') format('woff2'),
+      url('../fonts/GTSuperText-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}

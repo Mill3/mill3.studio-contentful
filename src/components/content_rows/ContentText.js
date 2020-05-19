@@ -113,7 +113,6 @@ export const postBody = styled.div`
   /* special style for H2 */
   h2 {
     font-size: 6.763285024vw;
-    /*text-align: center;*/
     line-height: 1.1;
     margin-top: 4rem;
 
@@ -198,12 +197,28 @@ export const postBody = styled.div`
 
 `
 
-export const TextColumn = ({ text, textColor, index, margin, isFirst }) => {
-  const [ref, inView] = useInView({ triggerOnce: true })
+const postBodySerif = styled(postBody)`
+
+  p {
+    font-family: ${props => props.theme.fonts.serifText};
+    font-size: 19px;
+    font-weight: normal;
+    line-height: 31px;
+  }
+
+  strong, b {
+    font-weight: bold;
+  }
+
+`
+
+export const TextColumn = ({ text, textColor, textStyle, index, margin, isFirst }) => {
+  const [ref, inView] = useInView({ triggerOnce: true });
+  const boxStyling = textStyle === 'Serif' ? postBodySerif : postBody;
 
   return (
     <Box
-      as={postBody}
+      as={boxStyling}
       textColor={textColor ? textColor : false}
       my={margin || VERTICAL_SPACER}
     >
@@ -265,6 +280,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
     noVerticalMargin,
     fadeInBackgroundColor,
     backgroundColor,
+    textStyle,
   } = data
   const Wrapper = fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
 
@@ -282,6 +298,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
               index={1}
               text={text ? format(text.text || text.content) : []}
               textColor={textColor ? textColor : false}
+              textStyle={textStyle ? textStyle : false}
               margin={[0]}
               isFirst={isFirst}
             />
@@ -309,6 +326,7 @@ const ContentText = ({ data, isFirst, isLast }) => {
                       : []
                   }
                   textColor={textColor ? textColor : false}
+                  textStyle={textStyle ? textStyle : false}
                   margin={[0]}
                   index={index}
                 />
@@ -331,6 +349,7 @@ export const ContentTextFragement = graphql`
     fadeInBackgroundColor
     itemsPerRow
     noVerticalMargin
+    textStyle
     text {
       text
     }
