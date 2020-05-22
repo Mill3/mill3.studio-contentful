@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box, Text } from 'rebass'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { Flex, Box } from 'rebass'
+import { injectIntl } from 'react-intl'
 
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
-import Button from '@components/buttons'
+import { ArrowButton } from '@components/buttons'
+import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
@@ -100,7 +101,7 @@ class ProjectsHome extends React.Component {
   render() {
     const { intl } = this.props
     return (
-      <>
+      <Container fluid display="flex" flexDirection="column">
         <Flex
           as={ProjectIndexList}
           mb={['90px', null, '140px', '180px', '270px']}
@@ -110,19 +111,13 @@ class ProjectsHome extends React.Component {
         >
           {this.list()}
         </Flex>
-        <Flex mb={[5]} mx={['-6.35vw', null, -3, '-28px']} justifyContent={`center`} flexDirection={`column`}>
-          <Box width={[`auto`]} m={`auto`}>
-            <TransitionLinkComponent to={`/projects/`}>
-              <Button>{intl.formatMessage({ id: 'projects.Button' })}</Button>
-            </TransitionLinkComponent>
-          </Box>
-          <Box width={[10 / 12, 3 / 4]} pt={['80px', null, '110px']} pb={[0, null, 5]} m={`auto`}>
-            <Text fontSize={['5.314009662vw', null, 3, `2vw`]} textAlign={`center`} className={`fw-300`}>
-              <FormattedMessage id="projects.HomeOutro" />
-            </Text>
-          </Box>
-        </Flex>
-      </>
+
+        <Box width={[`auto`]} alignSelf="flex-end">
+          <TransitionLinkComponent to={`/projects/`}>
+            <ArrowButton>{intl.formatMessage({ id: 'projects.Button' })}</ArrowButton>
+          </TransitionLinkComponent>
+        </Box>
+      </Container>
     )
   }
 }

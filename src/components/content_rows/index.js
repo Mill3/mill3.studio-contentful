@@ -139,8 +139,11 @@ export class AnimatedBackgroundContainer extends Component {
       // update state
       this.setState({
         inView: true,
-        y: this.scrollbar.offset.y,
+        y: this.scrollbar ? this.scrollbar.offset.y : 0,
       })
+
+      const { onChange } = this.props
+      if( onChange ) onChange(true);
     } else {
       // if already outside of viewport, skip
       if (this.state.inView === false) return
@@ -150,14 +153,10 @@ export class AnimatedBackgroundContainer extends Component {
       this.exitViewportTicker = null
 
       // update state
-      this.setState(
-        {
-          inView: false,
-        },
-        () => {
-          this.exitViewportTicker = setTimeout(this.onExitCompleted, 250)
-        }
-      )
+      this.setState({ inView: false }, () => this.exitViewportTicker = setTimeout(this.onExitCompleted, 250))
+
+      const { onChange } = this.props
+      if( onChange ) onChange(false);
     }
   }
   onExitCompleted() {
@@ -174,12 +173,12 @@ export class AnimatedBackgroundContainer extends Component {
   }
 
   render() {
-    const { backgroundColor, children } = this.props
+    const { backgroundColor, children, threshold } = this.props
     const { inView, y } = this.state
     const t = { transform: `translate3d(0, ${y}px, 0)` }
 
     return (
-      <InView as={Box} onChange={this.onVisibilityChange}>
+      <InView as={Box} onChange={this.onVisibilityChange} threshold={threshold || 0}>
         <Box
           as={AnimatedBg}
           backgroundColor={backgroundColor}
@@ -195,9 +194,11 @@ export class AnimatedBackgroundContainer extends Component {
 export const AnimatedBackgroundRowContainer = ({
   backgroundColor,
   children,
+  threshold,
+  onChange,
   ...props
 }) => (
-  <AnimatedBackgroundContainer backgroundColor={backgroundColor}>
+  <AnimatedBackgroundContainer backgroundColor={backgroundColor} threshold={threshold} onChange={onChange}>
     <RowContainer {...props}>{children}</RowContainer>
   </AnimatedBackgroundContainer>
 )

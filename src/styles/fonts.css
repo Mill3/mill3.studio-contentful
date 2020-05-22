@@ -81,6 +81,14 @@
 
 @font-face {
   font-family: 'GT Super Display';
+  src: url('../fonts/GTSuperDisplay-Light.woff2') format('woff2'),
+      url('../fonts/GTSuperDisplay-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Super Display';
   src: url('../fonts/GTSuperDisplay-Regular.woff2') format('woff2'),
       url('../fonts/GTSuperDisplay-Regular.woff') format('woff');
   font-weight: normal;

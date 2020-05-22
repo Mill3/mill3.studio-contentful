@@ -17,6 +17,46 @@ const FooterContainer = styled.footer`
     }
   }
 `
+const Networks = styled.nav`
+  a {
+    position: relative;
+    margin: 0 10px;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -11px;
+      display: block;
+      width: 3px;
+      height: 3px;
+      border-radius: 100%;
+      background: #000;
+      margin-top: -1px;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`
+
+const NETWORKS = [{
+  name: 'Facebook',
+  url: 'https://facebook.com/Mill3studio/',
+}, {
+  name: 'LinkedIn',
+  url: 'https://linkedin.com/company/le-moulin/',
+}, {
+  name: 'Instagram',
+  url: 'https://www.instagram.com/mill3.studio/',
+}, {
+  name: 'Behance',
+  url: 'https://behance.net/MILL3',
+}]
 
 const Footer = ({ intl }) => {
 
@@ -89,11 +129,23 @@ const Footer = ({ intl }) => {
               </TransitionContainer>
             </Box>
 
-            <Box as={'aside'} width={[1]} mt={[5]}>
-              <Text as={`p`} m={0} fontSize={[1]} className={`is-gray`}>
+            <Flex as={`aside`} alignItems="baseline" justifyContent="space-between" width={[`100%`]} mt={[4]}>
+              <Flex as={Networks} width="auto" m={0} p={0} className="is-sans fw-400">
+                {NETWORKS.map(({name, url}, index) =>
+                  <Text
+                    as={'a'}
+                    key={index}
+                    href={url || "#"}
+                    target="_blank"
+                    color="#000"
+                  >{name}</Text>
+                )}
+              </Flex>
+
+              <Text as={`p`} width="auto" m={0} p={0} fontSize={[1]} className={`is-gray`}>
                 {intl.formatMessage({ id: 'footer.rights' }).toString()}
               </Text>
-            </Box>
+            </Flex>
 
           </Flex>
         </Container>

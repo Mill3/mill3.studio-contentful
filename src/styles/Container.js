@@ -8,16 +8,17 @@ const ContainerBox = styled.div`
   }
 `
 
-const Container = (props) => {
+const Container = React.forwardRef((props, ref) => {
   return (
     <Box
       {...props}
+      ref={ref}
       as={ContainerBox}
       px={[`24px`, 4, 0]}
       mx='auto'
     />
   )
-}
+})
 
 Container.defaultProps = {
   fluid: true

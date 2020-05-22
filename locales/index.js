@@ -33,6 +33,30 @@ const messages = defineMessages({
     id: 'intro.LineB',
     defaultMessage: 'We are a digital agency.'
   },
+  introAbout: {
+    id: 'intro.AboutUs',
+    defaultMessage: 'Our approach is characterized by an agile method combining strategy, design and technology. Oh, and great people too.'
+  },
+  introButton: {
+    id: 'intro.Button',
+    defaultMessage: 'About us'
+  },
+  introLatest: {
+    id: 'intro.Latest',
+    defaultMessage: 'Latest'
+  },
+  introWork: {
+    id: 'intro.Work',
+    defaultMessage: 'Work'
+  },
+  introLets: {
+    id: 'intro.Lets',
+    defaultMessage: 'Let\'s'
+  },
+  introLatestWorkIntro: {
+    id: 'intro.LatestWorkIntro',
+    defaultMessage: 'Our expertise in digital experiences was awarded numerous times in various fields: corporate, education & entertainment. Here’s a few.'
+  },
   thankYou: {
     id: 'contact.ThankYou',
     defaultMessage: 'Thank you!'
@@ -59,7 +83,7 @@ const messages = defineMessages({
   },
   contactFormIntro: {
     id: 'contact.FormIntroLine',
-    defaultMessage: 'Hey ! Share us your'
+    defaultMessage: 'This form is open 24/7. Litteraly. Reach us here.'
   },
   contactChoice1: {
     id: 'choices....',

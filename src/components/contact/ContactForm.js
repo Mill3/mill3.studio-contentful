@@ -8,23 +8,32 @@ import axios from 'axios'
 import { debounce } from 'lodash'
 import { isBrowser } from 'react-device-detect'
 
-import HeaderCircle from '@components/header/HeaderCircle'
 
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
-import Select from '@components/form/Select'
 import Container from '@styles/Container'
-import { colors, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
 const FormStyle = styled.form`
-  color: ${colors.black};
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
   opacity: ${props => props.disabled ? 0.25 : 1};
 
   select:focus {
     outline: none;
+  }
+`
+const IntroStyle = styled.h4`
+  pointer-events: ${props => props.disabled ? 'none' : 'auto' };
+  cursor: pointer;
+
+  &::after {
+    content: '→';
+    display: inline-block;
+    margin-left: 0.25em;
+    font-size: 80%;
+    transform-origin: center center;
+    transform: rotate(90deg);
   }
 `
 const FieldGroupStyle = styled.div`
@@ -42,19 +51,11 @@ const FormFooter = styled.footer`
   overflow: hidden;
   transition: opacity 1s linear;
 `
-
 const ConfirmMessage = styled.footer`
   height: ${props => props.visible ? 'auto' : '0px'};
   opacity: ${props => props.visible ? 1 : 0};
   transition: opacity 1s linear;
 `
-
-const selectOptions = {
-  select: '...',
-  project: 'project',
-  idea: 'ideas',
-  partnership: 'partnership',
-}
 
 const FieldGroup = forwardRef((props, ref) => {
   const { name, label, placeholder, type, active, error, onActive, validate } = props
@@ -98,19 +99,13 @@ class ContactForm extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
   }
-  static propTypes = {
-    snapIcon: PropTypes.bool,
-  }
-  static defaultProps = {
-    snapIcon: true,
-  }
 
   constructor(props) {
     super(props)
 
     this.state = {
       activeField: null,
-      selectedIndex: 0,
+      expanded: false,
       monitorScroll: false,
       submitting: false,
       submitted: false,
@@ -139,7 +134,6 @@ class ContactForm extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.onFocusChange = this.onFocusChange.bind(this)
     this.onScroll = this.onScroll.bind(this)
-    this.onSelectChange = this.onSelectChange.bind(this)
     this.debounced = debounce(() => this.setState({ monitorScroll: true }), 1000)
   }
 
@@ -150,6 +144,8 @@ class ContactForm extends Component {
       this.scrollbar = s
       if( this.mounted ) this.scrollbar.addListener(this.onScroll)
     })
+
+    if( this.props.opened === true ) this.setState({expanded: true, monitorScroll: true})
   }
 
   componentWillUnmount() {
@@ -205,13 +201,6 @@ class ContactForm extends Component {
       .catch(error => {
         console.log('ERROR SENDING DATA TO ZAPIER', error)
       })
-  }
-
-  onSelectChange(index) {
-    this.setState({
-      selectedIndex: index,
-      monitorScroll: index > 0,
-    })
   }
 
   onFocusChange(field) {
@@ -307,17 +296,13 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { activeField, submitting, submitted, selectedIndex, scrollY } = this.state
+    const { activeField, expanded, submitting, submitted } = this.state
     const { intl } = this.props
 
     return (
-      <Container fluid {...this.props} css={{position: 'relative'}}>
+      <Box {...this.props} bg={'#000'} color={`white`} px={`5vw`} py={4} mx={[0, null, 4]}>
+        <Container fluid>
 
-        <div style={{transform: `translate3d(0, ${scrollY * 0.1}px, 0)`}}>
-          <HeaderCircle locale={intl.locale} type={`contact`} />
-        </div>
-
-        <Box bg={colors.lightGray} px={`5vw`} pt={5} pb={3}>
           <Flex
             as={FormStyle}
             ref={this.formRef}
@@ -328,47 +313,18 @@ class ContactForm extends Component {
             onSubmit={this.onSubmit}
             disabled={submitting || submitted ? true : false}
           >
-            <Box width={'100%'} pb={[2,3,4]}>
-              <Text as={`h4`} textAlign={`center`}>
-                <FormattedMessage id="contact.HeadingTitle" />
-              </Text>
-            </Box>
-            <Flex
-              flexWrap={['wrap', null, null, 'nowrap']}
-              justifyContent={'center'}
-              alignItems="center"
-              pb={selectedIndex > 0 ? 4 : `${space[6] - space[3] - 12}px`}
-              width={['100%', null, null, '80%']}
+            <Text
+              as={IntroStyle}
+              className="is-sans is-light"
+              fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
+              m={0}
+              disabled={expanded}
+              onClick={() => this.setState({expanded: true, monitorScroll: true})}
             >
-              <Text
-                as="label"
-                className="is-sans is-light"
-                fontSize={['7.729468599vw', null, '5.2vw', '3.611111111vw']}
-                mb={0}
-                mr={[0, null, null, 3]}
-                htmlFor="type"
-                css={{ flex: '0 0 auto' }}
-              >
-                <FormattedMessage id="contact.FormIntroLine" />
-              </Text>
-              <Select
-                ref={this.typeRef}
-                id="type"
-                name="type"
-                width={['100%', null, '75%', '27vw']}
-                onChange={e => this.onSelectChange(this.typeRef.current.selectedIndex)}
-              >
-                {Object.entries(selectOptions).map(([key, value], index, array) => {
-                  return (
-                    <option value={key} key={index}>
-                      {intl.formatMessage({ id: `choices.${value}` }).toString()}
-                    </option>
-                  )
-                })}
-              </Select>
-            </Flex>
+              {intl.formatMessage({id: 'contact.FormIntroLine'})}
+            </Text>
 
-            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={selectedIndex > 0}>
+            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={expanded}>
               <Box pt={4} pb={5}>
                 <FieldGroup
                   ref={this.nameRef}
@@ -440,7 +396,7 @@ class ContactForm extends Component {
                     value="1"
                     onFocus={e => this.onFocusChange(e.target.name)}
                   />
-                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} color="#4A4A4A" className="fw-300" m={0}>
+                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} className="fw-300" m={0}>
                     <FormattedMessage id="contact.Subscribe" />
                   </Text>
                 </Flex>
@@ -464,8 +420,8 @@ class ContactForm extends Component {
             </Text>
           </Box>
 
-        </Box>
-      </Container>
+        </Container>
+      </Box>
     )
   }
 }

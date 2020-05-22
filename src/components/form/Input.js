@@ -24,7 +24,7 @@ const InputStyle = styled.input`
 
 const Input = forwardRef((props, ref) => {
   return (
-    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, '3vw', '1.944444444vw']} textAlign="center" fontWeight={300} color={['blue', null, 'black']} {...props} />
+    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, '3vw', '1.944444444vw']} textAlign="center" fontWeight={300} color={['blue', null, 'white']} {...props} />
   )
 })
 

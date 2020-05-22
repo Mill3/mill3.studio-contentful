@@ -8,7 +8,7 @@ import SplitText from 'react-pose-text'
 
 import SEO from '@components/seo'
 import ContactForm from '@components/contact/ContactForm'
-import ContactTicker from '@components/contact/ContactTicker'
+//import ContactTicker from '@components/contact/ContactTicker'
 import Container from '@styles/Container'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { space, header } from '@styles/Theme'
@@ -156,9 +156,11 @@ const About = ({ data, pageContext, intl }) => (
       </Container>
     </Flex>
 
-    <ContactForm snapIcon={false} />
+    <ContactForm opened={true} />
 
+    {/*
     <ContactTicker />
+    */}
 
   </React.Fragment>
 )
