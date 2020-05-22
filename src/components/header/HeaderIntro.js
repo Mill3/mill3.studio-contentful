@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Text } from 'rebass'
@@ -10,6 +10,7 @@ import { InView } from 'react-intersection-observer'
 import Container from '@styles/Container'
 import { breakpoints, header } from '@styles/Theme'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+//import { useAnimationFrame } from '@utils/hooks'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from "@components/content_rows";
 import { TRANSITION_PANE_STATES } from '@components/transitions'
@@ -67,6 +68,25 @@ const ParagraphPoses = posed.div({
     },
   },
 })
+const VideoPlaybackStyle = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 94px;
+  height: 94px;
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 100%;
+  color: currentColor;
+  text-transform: uppercase;
+  position: absolute;
+  top: -47px;
+  right: -47px;
+  outline: none !important;
+  cursor: pointer;
+  transform-origin: center center;
+  transform: translate3d(0px, 0px, 0);
+`
 
 export const charPoses = {
   exit: { opacity: 0, y: 20 },
@@ -94,6 +114,117 @@ export const charPoses = {
 const fontSizes = {
   'en': ['7.729468599vw', null, '4.861111111vw'],
   'fr': ['7.729468599vw', null, '4.861111111vw']
+}
+
+const PLAY_BUTTON_DEFAULT = {
+  x: -72,
+  y: 0,
+}
+const PLAY_BUTTON_LERP = 0.2
+const PLAY_BUTTON_SPRING = 0.05
+const PLAY_BUTTON_FRICTION = 0.8
+
+/**
+ * lerp(start, end, multiplier);
+ * lerp(0, 100, 0.12);
+ */
+export const lerp = (s, e, m) => s * (1 - m) + e * m;
+
+
+class BoxVideo extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = { ...PLAY_BUTTON_DEFAULT }
+    this.target = { ...PLAY_BUTTON_DEFAULT }
+    this.current = { ...PLAY_BUTTON_DEFAULT }
+    this.velocity = { x: 0, y: 0 }
+    this.isOver = false
+    this.raf = null
+    this.event = null
+    this.width = 0
+    this.ref = createRef()
+
+    this.onMouseEnter = this.onMouseEnter.bind(this)
+    this.onMouseLeave = this.onMouseLeave.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.onRender = this.onRender.bind(this)
+    this.onResize = this.onResize.bind(this)
+  }
+
+  componentDidMount() {
+    this.raf = requestAnimationFrame(this.onRender)
+    window.addEventListener('resize', this.onResize)
+
+    this.onResize()
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
+    if( this.raf ) cancelAnimationFrame(this.raf)
+    this.raf = null;
+  }
+
+  onMouseEnter() { this.isOver = true }
+  onMouseLeave() { this.isOver = false }
+  onMouseMove(e) { this.event = e.nativeEvent }
+  onRender() {
+    if( this.isOver ) {
+      this.target.x = this.event.offsetX - this.width
+      this.target.y = this.event.offsetY
+
+      this.current.x = lerp(this.current.x, this.target.x, PLAY_BUTTON_LERP)
+      this.current.y = lerp(this.current.y, this.target.y, PLAY_BUTTON_LERP)
+    }
+    else {
+      this.target.x = PLAY_BUTTON_DEFAULT.x
+      this.target.y = PLAY_BUTTON_DEFAULT.y
+
+      const ax = ( this.target.x - this.current.x ) * PLAY_BUTTON_SPRING
+      const ay = ( this.target.y - this.current.y ) * PLAY_BUTTON_SPRING
+
+      this.velocity.x += ax
+      this.velocity.y += ay
+
+      this.velocity.x *= PLAY_BUTTON_FRICTION
+      this.velocity.y *= PLAY_BUTTON_FRICTION
+
+      this.current.x += this.velocity.x
+      this.current.y += this.velocity.y
+    }
+
+    this.setState({
+      x: this.current.x,
+      y: this.current.y
+    }, () => {
+      this.raf = requestAnimationFrame(this.onRender)
+    })
+  }
+  onResize() {
+    this.width = this.ref.current ? this.ref.current.getBoundingClientRect().width : 0
+  }
+
+  render() {
+    const { x, y } = this.state
+
+    return (
+      <Box width={['100%', null, '50%']} css={{position: 'relative'}} {...this.props}>
+        <Box width={['100%']} height={0} pb={['100%']} bg="#464925">
+        </Box>
+
+        <Box as={VideoPlaybackStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}}>Play</Box>
+
+        <Box
+          ref={this.ref}
+          width={['100%']}
+          height={'100%'}
+          css={{position: 'absolute', top: 0, left: 0, cursor: 'pointer'}}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+          onMouseMove={this.onMouseMove}
+         />
+      </Box>
+    )
+  }
 }
 
 
@@ -169,10 +300,7 @@ class HeaderIntro extends Component {
               )}
             </InView>
 
-            <Box width={['100%', null, '50%']}>
-              <Box width={['100%']} height={0} pb={['100%']} bg="#464925">
-              </Box>
-            </Box>
+            <BoxVideo onClick={() => console.log('play video')} />
           </Container>
         </AnimatedBackgroundContainer>
       </Box>

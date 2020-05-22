@@ -58,7 +58,7 @@ class IndexPage extends React.Component {
             <StickyOutro />
           </InView>
 
-          <InView as={Box} onChange={(inView) => this.setState({ contactInView: inView })} py={[2, 3, 5]}>
+          <InView as={Box} onChange={(inView) => this.setState({ contactInView: inView })}>
             <ContactForm />
           </InView>
         </React.Fragment>
