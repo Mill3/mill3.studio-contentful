@@ -7,12 +7,12 @@ import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
 import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'
-import { breakpoints } from '@styles/Theme'
-import ResponsiveProp from '@utils/ResponsiveProp'
-import Viewport from '@utils/Viewport'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+//import { breakpoints } from '@styles/Theme'
+//import ResponsiveProp from '@utils/ResponsiveProp'
+//import Viewport from '@utils/Viewport'
+//import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
+//import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 export const columns = {
   0: {
@@ -49,7 +49,7 @@ export const ProjectHomeCol = index => {
   return column
 }
 
-const mobileBreakpoint = parseInt(breakpoints[1])
+//const mobileBreakpoint = parseInt(breakpoints[1])
 
 class ProjectsHome extends React.Component {
 
@@ -60,9 +60,9 @@ class ProjectsHome extends React.Component {
   list() {
 
     if (this.props.data) {
-      const { layoutState } = this.context
-      const isMobile = Viewport.width < mobileBreakpoint
-      const getOffset = index => {
+      //const { layoutState } = this.context
+      //const isMobile = Viewport.width < mobileBreakpoint
+      /*const getOffset = index => {
         if (isMobile) return 0
 
         return new ResponsiveProp([
@@ -72,26 +72,26 @@ class ProjectsHome extends React.Component {
           [0, 120, -30, 140, -55, 160][index],
           [0, 140, -60, 200, 60, 240][index],
         ])
-      }
-      const getDelay = index => {
+      }*/
+      /*const getDelay = index => {
         const delayBase = layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
         if (isMobile) return index === 0 ? delayBase * 1.25 : 0
         else return index < 2 ? (delayBase * 1.25) + index * 150 : 0
-      }
+      }*/
 
       return this.props.data.edges.map((project, index) => {
-        const offset = getOffset(index)
-        const delay = getDelay(index)
+        //const offset = getOffset(index)
+        //const delay = getDelay(index)
 
         return (
           <ProjectPreview
             key={index}
             index={index}
-            delay={delay}
+            delay={0}
             project={project}
             columns={ProjectHomeCol(index)}
-            offset={offset}
+            offset={0}
           />
         )
       })
@@ -104,7 +104,7 @@ class ProjectsHome extends React.Component {
       <Container fluid display="flex" flexDirection="column">
         <Flex
           as={ProjectIndexList}
-          mb={['90px', null, '140px', '180px', '270px']}
+          mb={['90px']}
           mx={['-6.35vw', null, -3, '-28px']}
           flexWrap={`wrap`}
           alignItems={`start`}
