@@ -5,6 +5,8 @@ import { Box, Text } from 'rebass'
 import styled from 'styled-components'
 
 import { ParagraphPoses } from './'
+import { ArrowButton } from '@components/buttons'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Container from '@styles/Container'
 
 const TitleStyle = styled.h2`
@@ -26,7 +28,7 @@ const StickyOutro = ({ intl }) => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      className="full-vh"
+      py={6}
     >
       <Box
         as={TitleStyle}
@@ -48,6 +50,12 @@ const StickyOutro = ({ intl }) => {
       >
         <Text as="p" fontSize={['24px']} lineHeight={["1.333333333"]} m={0} p={0}>
           {intl.formatMessage({ id: 'projects.HomeOutro' })}
+        </Text>
+
+        <Text as="p" m={0} p={0} mt={3}>
+          <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
+            <ArrowButton>{intl.formatMessage({ id: 'projects.HomeOutroButton' })}</ArrowButton>
+          </TransitionLinkComponent>
         </Text>
       </Box>
     </Container>

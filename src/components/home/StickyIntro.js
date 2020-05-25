@@ -33,10 +33,8 @@ const Ellipse = posed.ellipse({
   enter: {
     strokeDashoffset: 2920,
     delay: ({delay}) => delay,
-    transition: {
-      duration: 850,
-      easing: 'circOut',
-    },
+    duration: ({duration}) => duration,
+    easing: 'circOut',
   },
 })
 const LatestSpan = styled.span`
@@ -115,8 +113,13 @@ class StickyIntro extends Component {
     if( this.ref.current && this.scrollbar ) {
       const rect = this.ref.current.getBoundingClientRect()
       this._top = rect.top - this.state.y + this.scrollbar.offset.y
+
+      if( this.props.sticky ) this.scrollbar.addListener(this.onScroll)
+      else {
+        this.scrollbar.removeListener(this.onScroll)
+        this.setState({ y: 0 })
+      }
     }
-    if( this.scrollbar ) this.scrollbar[this.props.sticky ? 'addListener' : 'removeListener'](this.onScroll)
   }
 
   onScroll({ offset }) {
@@ -137,9 +140,8 @@ class StickyIntro extends Component {
       <InView
         as={Box}
         onChange={(inView) => this.setState({ inView })}
-        threshold={0.4}
+        threshold={0.3}
         triggerOnce={true}
-        pb={['25vh']}
       >
         <Container
           fluid
@@ -147,9 +149,8 @@ class StickyIntro extends Component {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          justifyContent="center"
           color={inverted ? "white" : "black"}
-          className="full-vh"
+          py={6}
           style={{transform: `translate3d(0, ${y}px, 0)`}}
         >
           <Text
@@ -177,13 +178,14 @@ class StickyIntro extends Component {
                   fill="none"
                   initialPose={`exit`}
                   pose={inView ? `enter` : `exit`}
+                  duration={(latest + work).length * 30 + 1250}
                 ></Box>
               </Box>
 
               <SplitText
                 initialPose={`exit`}
                 pose={inView && !switchTitle ? `enter` : `out`}
-                startDelay={inView && !switchTitle ? 550 : 0} 
+                startDelay={inView && !switchTitle ? 250 : 0}
                 charPoses={charPoses}>
                 {latest}
               </SplitText>
@@ -200,13 +202,13 @@ class StickyIntro extends Component {
               </Box>
             </Box>
 
-            <Box as={ArrowSpan} initialPose={'exit'} pose={inView ? `enter` : null} delay={latest.length * 30 + 650} mx={[4]} aria-hidden="true">→</Box>
+            <Box as={ArrowSpan} initialPose={'exit'} pose={inView ? `enter` : null} delay={latest.length * 30 + 350} mx={[4]} aria-hidden="true">→</Box>
 
             <Box as={WorkSpan} aria-hidden="true">
               <SplitText
                 initialPose={`exit`}
                 pose={inView ? `enter` : `out`}
-                startDelay={latest.length * 30 + 950}
+                startDelay={latest.length * 30 + 450}
                 charPoses={charPoses}
               >
                 {work}
@@ -220,7 +222,7 @@ class StickyIntro extends Component {
             alignSelf="flex-end"
             initialPose={`init`}
             pose={inView ? `appear` : null}
-            delay={1550}
+            delay={(latest + work).length * 30 + 550}
           >
             <Text
               as={StickyParagraphPoses}

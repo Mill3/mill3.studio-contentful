@@ -137,9 +137,13 @@ const messages = defineMessages({
     id: 'projects.Button',
     defaultMessage: 'Hey, there’s more work here !'
   },
+  projectsHomeOutroButton: {
+    id: 'projects.HomeOutroButton',
+    defaultMessage: 'We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.'
+  },
   projectsHomeOutro: {
     id: 'projects.HomeOutro',
-    defaultMessage: 'We work for the growth and the influence of brands from here and elsewhere in developing tools and customized campaigns. Here’s to name a few.'
+    defaultMessage: 'Let’s Chat'
   },
   contactUs: {
     id: 'Contact us',

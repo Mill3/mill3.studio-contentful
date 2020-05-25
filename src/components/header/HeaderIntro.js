@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl'
 import { InView } from 'react-intersection-observer'
 
 import Container from '@styles/Container'
-import { breakpoints, header } from '@styles/Theme'
+import { breakpoints, colors, header } from '@styles/Theme'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 //import { useAnimationFrame } from '@utils/hooks'
 import { ArrowButton } from '@components/buttons'
@@ -120,7 +120,7 @@ const PLAY_BUTTON_DEFAULT = {
   x: -72,
   y: 0,
 }
-const PLAY_BUTTON_LERP = 0.2
+const PLAY_BUTTON_LERP = 0.08
 const PLAY_BUTTON_SPRING = 0.05
 const PLAY_BUTTON_FRICTION = 0.8
 
@@ -140,9 +140,10 @@ class BoxVideo extends Component {
     this.current = { ...PLAY_BUTTON_DEFAULT }
     this.velocity = { x: 0, y: 0 }
     this.isOver = false
+    this.isStarted = false
     this.raf = null
     this.event = null
-    this.width = 0
+    this.rect = { width: 0, height: 0 }
     this.ref = createRef()
 
     this.onMouseEnter = this.onMouseEnter.bind(this)
@@ -153,10 +154,8 @@ class BoxVideo extends Component {
   }
 
   componentDidMount() {
-    this.raf = requestAnimationFrame(this.onRender)
-    window.addEventListener('resize', this.onResize)
-
     this.onResize()
+    window.addEventListener('resize', this.onResize)
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize)
@@ -164,20 +163,28 @@ class BoxVideo extends Component {
     this.raf = null;
   }
 
-  onMouseEnter() { this.isOver = true }
+  onMouseEnter(e) {
+    this.isOver = true
+
+    if( this.isStarted === false ) {
+      this.isStarted = true
+      this.event = e.nativeEvent
+      this.raf = requestAnimationFrame(this.onRender)
+    }
+  }
   onMouseLeave() { this.isOver = false }
   onMouseMove(e) { this.event = e.nativeEvent }
   onRender() {
     if( this.isOver ) {
-      this.target.x = this.event.offsetX - this.width
+      this.target.x = this.event.offsetX - this.rect.width
       this.target.y = this.event.offsetY
 
       this.current.x = lerp(this.current.x, this.target.x, PLAY_BUTTON_LERP)
       this.current.y = lerp(this.current.y, this.target.y, PLAY_BUTTON_LERP)
     }
     else {
-      this.target.x = PLAY_BUTTON_DEFAULT.x
-      this.target.y = PLAY_BUTTON_DEFAULT.y
+      this.target.x = this.rect.width * -0.5
+      this.target.y = this.rect.height * 0.5
 
       const ax = ( this.target.x - this.current.x ) * PLAY_BUTTON_SPRING
       const ay = ( this.target.y - this.current.y ) * PLAY_BUTTON_SPRING
@@ -200,7 +207,7 @@ class BoxVideo extends Component {
     })
   }
   onResize() {
-    this.width = this.ref.current ? this.ref.current.getBoundingClientRect().width : 0
+    if( this.ref.current ) this.rect = this.ref.current.getBoundingClientRect()
   }
 
   render() {
@@ -292,7 +299,7 @@ class HeaderIntro extends Component {
                   </Text>
 
                   <Text as="p" m={0} p={0} mt={3}>
-                    <TransitionLinkComponent to={`/about/`}>
+                    <TransitionLinkComponent to={`/about/`} color={colors.black}>
                       <ArrowButton color={"white"}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
                     </TransitionLinkComponent>
                   </Text>

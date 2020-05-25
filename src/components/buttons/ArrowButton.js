@@ -2,17 +2,29 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Box } from 'rebass'
 
-const pointerOver = keyframes`
+const underlineOver = keyframes`
   to {
-    transform: translateX(5px) scaleX(0);
+    transform: translateX(1px) scaleX(0);
   }
 `
-const pointerOut = keyframes`
+const arrowAppear = keyframes`
   from {
-    transform: translateX(0px) scaleX(1);
+    opacity: 0;
+    transform: translate(-75%, -50%);
   }
   to {
-    transform: translateX(-4px) scaleX(1);
+    opacity: 1;
+    transform: translate(0%, -50%);
+  }
+`
+const arrowDisappear = keyframes`
+  from {
+    opacity: 1;
+    transform: translate(0%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(75%, -50%);
   }
 `
 
@@ -38,11 +50,6 @@ const UnderlineStyle = styled.span`
 
   &:before {
     transform-origin: top right;
-    transform: translateX(-4px) scaleX(1);
-    animation-name: ${pointerOut};
-    animation-duration: 250ms;
-    animation-fill-mode: backwards;
-    animation-timing-function: ease-out;
   }
   &:after {
     transform-origin: top left;
@@ -55,27 +62,57 @@ export const ArrowButtonStyle = styled.span`
   line-height: 1.2;
   font-family: ${props => props.theme.fonts.sans};
   font-weight: 400;
-  padding: 0 4px 7px 0;
+  padding: 0 1em 7px 0;
 
+  &:before,
   &:after {
     content: '→';
-    display: inline-block;
-    padding-left: 0.25em;
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    display: block;
     font-size: 80%;
-    transform: translateX(0px);
-    transition: transform 250ms ease-out;
+    margin-top: -2px;
+    transform: translate(0%, -50%);
+    will-change: transform, opacity;
+  }
+
+  &:before {
+    animation-name: ${arrowAppear};
+    animation-duration: 250ms;
+    animation-delay: 200ms;
+    animation-fill-mode: both;
+    animation-timing-function: ease-out;
+  }
+  &:after {
+    animation-name: ${arrowDisappear};
+    animation-duration: 250ms;
+    animation-delay: 0ms;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
   }
 
   &:hover,
   &:focus,
   &:active {
+    &:before {
+      animation-name: ${arrowDisappear};
+      animation-duration: 250ms;
+      animation-delay: 0ms;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
     &:after {
-      transform: translateX(4px);
+      animation-name: ${arrowAppear};
+      animation-duration: 250ms;
+      animation-delay: 200ms;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
     }
 
     ${UnderlineStyle} {
       &:before {
-        animation-name: ${pointerOver};
+        animation-name: ${underlineOver};
         animation-duration: 850ms;
         animation-fill-mode: forwards;
         animation-timing-function: cubic-bezier(0.190, 1.000, 0.220, 1.000); /* easeOutExpo */

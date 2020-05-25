@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import { injectIntl } from 'react-intl'
+import { InView } from 'react-intersection-observer'
+import posed from 'react-pose'
 
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
@@ -48,6 +50,26 @@ export const ProjectHomeCol = index => {
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
   return column
 }
+
+const ButtonPoses = posed.div({
+  init: {
+    opacity: 0,
+    y: 100,
+  },
+  appear: {
+    opacity: 1,
+    y: 0,
+    delay: ({delay}) => delay,
+    transition: {
+      opacity: { duration: 400, easing: 'linear' },
+      y: {
+        type: 'spring',
+        stiffness: 60,
+        damping: 8,
+      },
+    },
+  },
+})
 
 //const mobileBreakpoint = parseInt(breakpoints[1])
 
@@ -112,11 +134,23 @@ class ProjectsHome extends React.Component {
           {this.list()}
         </Flex>
 
-        <Box width={[`auto`]} alignSelf="flex-end">
-          <TransitionLinkComponent to={`/projects/`}>
-            <ArrowButton>{intl.formatMessage({ id: 'projects.Button' })}</ArrowButton>
-          </TransitionLinkComponent>
-        </Box>
+        <InView threshold={1} triggerOnce={true}>
+          {({ inView, ref }) => (
+            <Box
+              as={ButtonPoses}
+              ref={ref}
+              width={[`auto`]}
+              alignSelf="flex-end"
+              initialPose="init"
+              pose={inView ? "appear" : "init"}
+              delay={0}
+            >
+              <TransitionLinkComponent to={`/projects/`}>
+                <ArrowButton>{intl.formatMessage({ id: 'projects.Button' })}</ArrowButton>
+              </TransitionLinkComponent>
+            </Box>
+          )}
+        </InView>
       </Container>
     )
   }

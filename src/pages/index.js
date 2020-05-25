@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'react-intl'
 import { InView } from 'react-intersection-observer'
-import { Box } from 'rebass'
 
 import SEO from '@components/seo'
 
@@ -24,13 +23,12 @@ class IndexPage extends React.Component {
       headerInView: true,
       projectsInView: false,
       outroInView: false,
-      contactInView: false,
     }
   }
 
   render() {
     const { data } = this.props
-    const { headerInView, projectsInView, outroInView, contactInView } = this.state
+    const { headerInView, projectsInView, outroInView } = this.state
 
     return (
       <LayoutContext.Provider>
@@ -42,14 +40,14 @@ class IndexPage extends React.Component {
 
           <StickyIntro
             inverted={headerInView}
-            sticky={!headerInView && !contactInView}
-            fadeTitle={projectsInView}
-            hideText={projectsInView || outroInView}
+            sticky={!headerInView && projectsInView}
+            fadeTitle={!headerInView && projectsInView}
+            hideText={!headerInView}
             switchTitle={!projectsInView && outroInView}
            />
 
           {data.projects && (
-            <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.1}>
+            <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.05}>
               <ProjectsHome data={data.projects} />
             </InView>
           )}
@@ -58,9 +56,7 @@ class IndexPage extends React.Component {
             <StickyOutro />
           </InView>
 
-          <InView as={Box} onChange={(inView) => this.setState({ contactInView: inView })}>
-            <ContactForm />
-          </InView>
+          <ContactForm />
         </React.Fragment>
       </LayoutContext.Provider>
     )

@@ -32,7 +32,7 @@ export const TitlePoses = posed.h2({
     opacity: 1,
   },
   sticky: {
-    opacity: 0.1,
+    opacity: 0.075,
   }
 })
 

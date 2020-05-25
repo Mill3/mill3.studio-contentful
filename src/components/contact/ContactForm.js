@@ -2,6 +2,7 @@ import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { Box, Flex, Text } from 'rebass'
+import posed from 'react-pose'
 import { omit } from 'lodash'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -13,7 +14,22 @@ import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
 import Container from '@styles/Container'
+import { space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
+
+const IntroPoses = posed.h4({
+  default: {
+    y: 0,
+  },
+  disabled: {
+    y: space[5],
+    transition: {
+      type: 'tween',
+      duration: 450,
+      easing: 'easeOut'
+    }
+  },
+})
 
 const FormStyle = styled.form`
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
@@ -23,8 +39,7 @@ const FormStyle = styled.form`
     outline: none;
   }
 `
-const IntroStyle = styled.h4`
-  pointer-events: ${props => props.disabled ? 'none' : 'auto' };
+const IntroStyle = styled(IntroPoses)`
   cursor: pointer;
 
   &::after {
@@ -319,13 +334,15 @@ class ContactForm extends Component {
               fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
               m={0}
               disabled={expanded}
-              onClick={() => this.setState({expanded: true, monitorScroll: true})}
+              initialPose="default"
+              pose={expanded ? "disabled" : "default"}
+              onClick={() => this.setState({expanded: !expanded, monitorScroll: !expanded})}
             >
               {intl.formatMessage({id: 'contact.FormIntroLine'})}
             </Text>
 
-            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" visible={expanded}>
-              <Box pt={4} pb={5}>
+            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" pt={expanded ? 4 : 0} visible={expanded}>
+              <Box py={5}>
                 <FieldGroup
                   ref={this.nameRef}
                   name="name"
