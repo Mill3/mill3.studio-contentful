@@ -19,6 +19,8 @@ class StickyElement extends Component {
       top: 0,
       bottom: 0
     }
+    this.scrollY = 0
+    this.scrollLimit = 0
     this.atEnd = false
 
     this.ref = createRef()
@@ -31,6 +33,9 @@ class StickyElement extends Component {
     this.context.getScrollbar(s => {
       this.scrollbar = s
       this.scrollbar.addListener(this.onScroll)
+
+      this.scrollY = this.scrollbar.offset.y
+      this.scrollLimit = this.scrollbar.limit.y
     })
 
     window.addEventListener('resize', this.onResize)
@@ -42,17 +47,26 @@ class StickyElement extends Component {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
   }
-  getSnapshotBeforeUpdate(prevProps) {
+  getSnapshotBeforeUpdate(prevProps, prevState) {
     // if target has changed, recalculate boundaries
     if( prevProps.target !== this.props.target ) this.onResize()
+    // if scroll limit has changed, recalculate boundaries
+    else if( this.scrollbar && this.scrollLimit !== this.scrollbar.limit.y ) {
+      this.scrollLimit = this.scrollbar.limit.y
+      this.onResize()
+    }
+
     return true
   }
 
   onScroll({ offset }) {
+    this.scrollY = offset.y
+
     const { top, bottom }  = this.rect
-    const y = Math.min(bottom, Math.min(top - offset.y, 0) * -1)
+    const y = Math.min(bottom, Math.min(top - this.scrollY, 0) * -1)
 
     if( this.state.y !== y ) this.setState({ y: y })
+
     if( y === bottom ) {
       if( !this.atEnd ) {
         this.atEnd = true
@@ -78,7 +92,7 @@ class StickyElement extends Component {
     const translate = getTranslate( this.ref.current )
     const offset = el.top - target.top - translate.y
 
-    this.rect.top = el.top + translate.y - offset
+    this.rect.top = this.scrollY + el.top - translate.y - offset
     this.rect.bottom = target.height - el.height - offset
   }
 

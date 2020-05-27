@@ -73,6 +73,7 @@ const ProjectHoverPane = styled.picture`
   }
 `
 
+/*
 const ProjectTitleUnderlinePoses = posed.span({
   fold: {
     scaleX: 0.0,
@@ -91,7 +92,9 @@ const ProjectTitleUnderlinePoses = posed.span({
     },
   },
 })
+*/
 
+/*
 const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
   position: absolute;
   top: 1.125em;
@@ -103,6 +106,7 @@ const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
   transform-origin: top left;
   transform: scaleX(0.999);
 `
+*/
 
 const ProjectPreviewItem = styled(ProjectPoses)`
   figure {
@@ -117,12 +121,12 @@ const ProjectPreviewItem = styled(ProjectPoses)`
     text-decoration: none;
 
     h3 {
+      transition: color 0.25s;
+      /*
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      transition: color 0.25s;
       max-width: 100%;
-      /*
       text-shadow: 0.03em 0 #fff, -0.03em 0 #fff, 0 0.03em #fff, 0 -0.03em #fff, 0.06em 0 #fff, -0.06em 0 #fff,
         0.09em 0 #fff, -0.09em 0 #fff, 0.12em 0 #fff, -0.12em 0 #fff, 0.15em 0 #fff, -0.15em 0 #fff;
       */
@@ -265,7 +269,7 @@ class ProjectPreview extends Component {
   render() {
     const { project, delay, columns, offset } = this.props
     const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
-    const { inView, percentage, hover } = this.state
+    const { inView, percentage/*, hover*/ } = this.state
     // const { layoutState } = this.context
 
     let transform
@@ -344,6 +348,8 @@ class ProjectPreview extends Component {
                   fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]}
                   m={[0]}
                 >
+                  {name}
+                  {/*
                   <span>{name}</span>
                   <Box
                     as={ProjectTitleUnderline}
@@ -352,6 +358,7 @@ class ProjectPreview extends Component {
                     pose={hover ? 'unfold' : 'fold'}
                     aria-hidden="true"
                   />
+                  */}
                 </Text>
                 {category && (
                   <Text

@@ -47,12 +47,12 @@ class IndexPage extends React.Component {
           </InView>
 
           <Box ref={this.stickyContainerRef}>
-            <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.3} triggerOnce={true}>
+            <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
               <StickyElement target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
                 <StickyTitle
                   inverted={headerInView}
                   appear={introInView}
-                  faded={projectsInView || (outroInView && !introAtEnd)} 
+                  faded={projectsInView || (outroInView && !introAtEnd)}
                   switchTitle={introAtEnd} />
               </StickyElement>
 
@@ -62,13 +62,13 @@ class IndexPage extends React.Component {
             </InView>
 
             {data.projects && (
-              <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.18}>
+              <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.12}>
                 <ProjectsHome data={data.projects} />
               </InView>
             )}
 
             <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-              <Container fluid mt={6} style={{visibility: 'hidden'}} aria-hidden={true}>
+              <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
                 <HomeTitle>
                   <FormattedMessage id="intro.Lets" />
                   <FormattedMessage id="intro.Work" />

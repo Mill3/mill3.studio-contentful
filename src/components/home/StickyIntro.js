@@ -35,9 +35,9 @@ const StickyIntro = ({ intl, appear, inverted, hidden, ...props }) => {
         lineHeight={"1.333333333"}
         maxWidth={467}
         alignSelf="flex-end"
-        style={{position: 'relative'}}
+        style={{position: 'relative', pointerEvents: hidden ? 'none' : 'auto'}}
       >
-        <Text as="p" fontSize={'inherit'} lineHeight={'inherit'} m={0} p={0} style={{visibility: 'hidden'}}>
+        <Text as="p" fontSize={'inherit'} lineHeight={'inherit'} m={0} p={0} style={{visibility: 'hidden', pointerEvents: 'none'}}>
           {intl.formatMessage({ id: 'intro.LatestWorkIntro' }).toString()}
         </Text>
 

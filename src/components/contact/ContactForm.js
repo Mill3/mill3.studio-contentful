@@ -421,7 +421,7 @@ class ContactForm extends Component {
                 <Flex justifyContent={"center"}>
                   {/* hiddens fields */}
                   <input type="hidden" name="language" value={intl.locale} />
-                  <Button type="submit" disabled={submitting}>
+                  <Button type="submit" color="white" disabled={submitting}>
                     {intl.formatMessage({id: 'submit'}).toString()}
                   </Button>
                 </Flex>

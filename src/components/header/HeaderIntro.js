@@ -250,7 +250,7 @@ class HeaderIntro extends Component {
         pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'black'}>
-          <Container fluid display="flex" flexDirection="column" py={[6]}>
+          <Container fluid display="flex" flexDirection="column" pt={[6, null, null, null, "170px"]} pb={[6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
                 initialPose={`exit`}
