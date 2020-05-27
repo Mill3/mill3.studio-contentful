@@ -13,7 +13,6 @@ import { isBrowser } from 'react-device-detect'
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
-import Container from '@styles/Container'
 import { space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
@@ -41,14 +40,38 @@ const FormStyle = styled.form`
 `
 const IntroStyle = styled(IntroPoses)`
   cursor: pointer;
+  position: relative;
+  display: ${props => props.visible ? 'block' : 'none'};
 
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    transform-origin: center center;
+    transform: scaleY(${props => props.pose === "disabled" ? 1.1 : 1});
+    transition: transform 450ms ease-out;
+  }
   &::after {
     content: '→';
     display: inline-block;
     margin-left: 0.25em;
     font-size: 80%;
     transform-origin: center center;
-    transform: rotate(90deg);
+    transform: rotate(${props => props.pose === "disabled" ? -90 : 90}deg);
+  }
+
+  span {
+    position: relative;
+  }
+
+  &:hover {
+    &::before {
+      transform: scaleY(1.1)
+    }
   }
 `
 const FieldGroupStyle = styled.div`
@@ -128,6 +151,7 @@ class ContactForm extends Component {
     }
 
     this.mounted = false
+    this.sectionRef = createRef()
     this.formRef = createRef()
     this.typeRef = createRef()
     this.nameRef = createRef()
@@ -211,7 +235,20 @@ class ContactForm extends Component {
         else console.log('ERROR SENDING DATA TO ZAPIER')
       })
       .finally(() => {
-        if( this.mounted ) this.setState({ submitted: true })
+        if( this.mounted ) {
+          if( this.formRef.current ) this.formRef.current.reset()
+
+          this.setState({
+            submitting: false,
+            submitted: true,
+            expanded: false,
+            monitorScroll: false
+          }, () => {
+            if( this.scrollbar ) this.scrollbar.scrollIntoView(this.sectionRef.current, {
+              alignToTop: false
+            });
+          })
+        }
       })
       .catch(error => {
         console.log('ERROR SENDING DATA TO ZAPIER', error)
@@ -315,129 +352,136 @@ class ContactForm extends Component {
     const { intl } = this.props
 
     return (
-      <Box {...this.props} bg={'#000'} color={`white`} px={`5vw`} py={4} mx={[0, null, 4]}>
-        <Container fluid>
+      <Box {...this.props} ref={this.sectionRef} display="flex" flexDirection="column" alignItems="center" bg={"#000"} color="white" mx={[0, null, 4]}>
 
-          <Flex
-            as={FormStyle}
-            ref={this.formRef}
-            flexDirection="column"
-            alignItems="center"
-            width="100%"
-            mx="auto"
-            onSubmit={this.onSubmit}
-            disabled={submitting || submitted ? true : false}
-          >
-            <Text
-              as={IntroStyle}
-              className="is-sans is-light"
-              fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
-              m={0}
-              disabled={expanded}
-              initialPose="default"
-              pose={expanded ? "disabled" : "default"}
-              onClick={() => this.setState({expanded: !expanded, monitorScroll: !expanded})}
-            >
-              {intl.formatMessage({id: 'contact.FormIntroLine'})}
-            </Text>
+        <Text
+          as={IntroStyle}
+          className="is-sans is-light"
+          fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
+          textAlign="center"
+          m={0}
+          py={4}
+          width={expanded ? "auto" : "100%"}
+          visible={!submitted}
+          initialPose="default"
+          pose={expanded ? "disabled" : "default"}
+          onClick={() => this.setState({expanded: !expanded, monitorScroll: !expanded})}
+        >
+          <FormattedMessage id="contact.FormIntroLine" />
+        </Text>
 
-            <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" pt={expanded ? 4 : 0} visible={expanded}>
-              <Box py={5}>
-                <FieldGroup
-                  ref={this.nameRef}
-                  name="name"
-                  type="text"
-                  label={intl.formatMessage({id: 'fields.name'})}
-                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
-                  active={activeField === 'name'}
-                  onActive={this.onFocusChange}
-                  validate={{
-                    required: true
-                  }}
+        <Flex
+          as={FormStyle}
+          ref={this.formRef}
+          flexDirection="column"
+          alignItems="center"
+          width="100%"
+          mx="auto"
+          onSubmit={this.onSubmit}
+          disabled={submitting || submitted ? true : false}
+        >
+          <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" py={expanded ? 4 : 0} visible={expanded}>
+            <Box py={5}>
+              <FieldGroup
+                ref={this.nameRef}
+                name="name"
+                type="text"
+                label={intl.formatMessage({id: 'fields.name'})}
+                placeholder={intl.formatMessage({id: 'fields.placeholder'})}
+                active={activeField === 'name'}
+                onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
+              />
+
+              <FieldGroup
+                ref={this.emailRef}
+                name="email"
+                type="email"
+                label={intl.formatMessage({id: 'fields.email'})}
+                placeholder={intl.formatMessage({id: 'fields.placeholder'})}
+                active={activeField === 'email'}
+                onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
+              />
+
+              <FieldGroup
+                ref={this.companyRef}
+                name="company"
+                type="text"
+                label={intl.formatMessage({id: 'fields.company'})}
+                placeholder={intl.formatMessage({id: 'fields.placeholder'})}
+                active={activeField === 'company'}
+                onActive={this.onFocusChange}
+              />
+
+              <FieldGroup
+                ref={this.projectTypeRef}
+                name="project-type"
+                type="text"
+                label={intl.formatMessage({id: 'fields.project'})}
+                placeholder={intl.formatMessage({id: 'fields.placeholder'})}
+                active={activeField === 'project-type'}
+                onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
+              />
+
+              <FieldGroup
+                ref={this.budgetRef}
+                name="budget"
+                type="text"
+                label={intl.formatMessage({id: 'fields.budget'})}
+                placeholder={intl.formatMessage({id: 'fields.placeholder'})}
+                active={activeField === 'budget'}
+                onActive={this.onFocusChange}
+                validate={{
+                  required: true
+                }}
+              />
+
+              <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
+                <Checkbox
+                  ref={this.subscribeRef}
+                  id="subscribe"
+                  name="subscribe"
+                  value="1"
+                  onFocus={e => this.onFocusChange(e.target.name)}
                 />
+                <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} className="fw-300" m={0}>
+                  <FormattedMessage id="contact.Subscribe" />
+                </Text>
+              </Flex>
 
-                <FieldGroup
-                  ref={this.emailRef}
-                  name="email"
-                  type="email"
-                  label={intl.formatMessage({id: 'fields.email'})}
-                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
-                  active={activeField === 'email'}
-                  onActive={this.onFocusChange}
-                  validate={{
-                    required: true
-                  }}
-                />
-
-                <FieldGroup
-                  ref={this.companyRef}
-                  name="company"
-                  type="text"
-                  label={intl.formatMessage({id: 'fields.company'})}
-                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
-                  active={activeField === 'company'}
-                  onActive={this.onFocusChange}
-                />
-
-                <FieldGroup
-                  ref={this.projectTypeRef}
-                  name="project-type"
-                  type="text"
-                  label={intl.formatMessage({id: 'fields.project'})}
-                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
-                  active={activeField === 'project-type'}
-                  onActive={this.onFocusChange}
-                  validate={{
-                    required: true
-                  }}
-                />
-
-                <FieldGroup
-                  ref={this.budgetRef}
-                  name="budget"
-                  type="text"
-                  label={intl.formatMessage({id: 'fields.budget'})}
-                  placeholder={intl.formatMessage({id: 'fields.placeholder'})}
-                  active={activeField === 'budget'}
-                  onActive={this.onFocusChange}
-                  validate={{
-                    required: true
-                  }}
-                />
-
-                <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
-                  <Checkbox
-                    ref={this.subscribeRef}
-                    id="subscribe"
-                    name="subscribe"
-                    value="1"
-                    onFocus={e => this.onFocusChange(e.target.name)}
-                  />
-                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} className="fw-300" m={0}>
-                    <FormattedMessage id="contact.Subscribe" />
-                  </Text>
-                </Flex>
-
-                <Flex justifyContent={"center"}>
-                  {/* hiddens fields */}
-                  <input type="hidden" name="language" value={intl.locale} />
-                  <Button type="submit" color="white" disabled={submitting}>
-                    {intl.formatMessage({id: 'submit'}).toString()}
-                  </Button>
-                </Flex>
-              </Box>
+              <Flex justifyContent={"center"}>
+                {/* hiddens fields */}
+                <input type="hidden" name="language" value={intl.locale} />
+                <Button type="submit" color="white" disabled={submitting}>
+                  {intl.formatMessage({id: 'submit'}).toString()}
+                </Button>
+              </Flex>
             </Box>
-
-          </Flex>
-
-          {/* confirm message at the end */}
-          <Box as={ConfirmMessage} visible={submitted}>
-            <Text as="h3" className="is-sans is-light" textAlign="center" fontSize={[4, null, 6]} py={[2,3,5]}>
-              <FormattedMessage id="contact.ThankYou" />
-            </Text>
           </Box>
+        </Flex>
 
-        </Container>
+        {/* confirm message at the end */}
+        <Box as={ConfirmMessage} visible={submitted}>
+          <Text
+            as="h4"
+            className="is-sans is-light"
+            textAlign="center"
+            fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
+            m={0}
+            py={4}
+          >
+            <FormattedMessage id="contact.ThankYou" />
+          </Text>
+        </Box>
+
       </Box>
     )
   }

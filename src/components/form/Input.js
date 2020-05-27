@@ -9,7 +9,7 @@ const InputStyle = styled.input`
   background: none;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid #D1D1D1;
+  border-bottom: 1px solid ${colors.blue};
   padding: 0.3em 0.9em;
   width: 100%;
   outline: none;
@@ -17,9 +17,11 @@ const InputStyle = styled.input`
   &::placeholder {
     color: #D1D1D1;
   }
+  /*
   &:invalid {
     border-bottom-color: ${colors.blue};
   }
+  */
 `
 
 const Input = forwardRef((props, ref) => {
