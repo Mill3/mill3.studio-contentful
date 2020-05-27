@@ -10,7 +10,6 @@ import { InView } from 'react-intersection-observer'
 import Container from '@styles/Container'
 import { breakpoints, colors, header } from '@styles/Theme'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
-//import { useAnimationFrame } from '@utils/hooks'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from "@components/content_rows";
 import { TRANSITION_PANE_STATES } from '@components/transitions'
@@ -251,7 +250,7 @@ class HeaderIntro extends Component {
         pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'black'}>
-          <Container fluid display="flex" flexDirection="column" justifyContent="center" minHeight="53vh">
+          <Container fluid display="flex" flexDirection="column" py={[6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
                 initialPose={`exit`}

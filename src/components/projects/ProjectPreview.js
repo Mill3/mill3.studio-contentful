@@ -122,8 +122,10 @@ const ProjectPreviewItem = styled(ProjectPoses)`
       overflow: hidden;
       transition: color 0.25s;
       max-width: 100%;
+      /*
       text-shadow: 0.03em 0 #fff, -0.03em 0 #fff, 0 0.03em #fff, 0 -0.03em #fff, 0.06em 0 #fff, -0.06em 0 #fff,
         0.09em 0 #fff, -0.09em 0 #fff, 0.12em 0 #fff, -0.12em 0 #fff, 0.15em 0 #fff, -0.15em 0 #fff;
+      */
     }
 
     /* hover state */

@@ -1,34 +1,42 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { InView } from 'react-intersection-observer'
+import { Box } from 'rebass'
 
 import SEO from '@components/seo'
 
 import HeaderIntro from '@components/header/HeaderIntro'
+import HomeTitle from '@components/home/HomeTitle'
+import StickyTitle from '@components/home/StickyTitle'
 import StickyIntro from '@components/home/StickyIntro'
 import StickyOutro from '@components/home/StickyOutro'
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ContactForm from '@components/contact/ContactForm'
 import LayoutContext from '@components/contexts/LayoutContext'
+import Container from '@styles/Container'
+import StickyElement from '@utils/StickyElement'
 
 class IndexPage extends React.Component {
-  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
 
     this.state = {
       headerInView: true,
+      introInView: false,
+      introAtEnd: false,
       projectsInView: false,
       outroInView: false,
     }
+
+    this.stickyContainerRef = createRef()
   }
 
   render() {
     const { data } = this.props
-    const { headerInView, projectsInView, outroInView } = this.state
+    const { headerInView, introInView, introAtEnd, projectsInView, outroInView } = this.state
 
     return (
       <LayoutContext.Provider>
@@ -38,25 +46,41 @@ class IndexPage extends React.Component {
             <HeaderIntro />
           </InView>
 
-          <StickyIntro
-            inverted={headerInView}
-            sticky={!headerInView && projectsInView}
-            fadeTitle={!headerInView && projectsInView}
-            hideText={!headerInView}
-            switchTitle={!projectsInView && outroInView}
-           />
+          <Box ref={this.stickyContainerRef}>
+            <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.3} triggerOnce={true}>
+              <StickyElement target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
+                <StickyTitle
+                  inverted={headerInView}
+                  appear={introInView}
+                  faded={projectsInView || (outroInView && !introAtEnd)} 
+                  switchTitle={introAtEnd} />
+              </StickyElement>
 
-          {data.projects && (
-            <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.05}>
-              <ProjectsHome data={data.projects} />
+              <StickyElement target={this.stickyContainerRef.current} mb="50vh">
+                <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
+              </StickyElement>
             </InView>
-          )}
+
+            {data.projects && (
+              <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.18}>
+                <ProjectsHome data={data.projects} />
+              </InView>
+            )}
+
+            <InView onChange={(inView) => this.setState({ outroInView: inView })}>
+              <Container fluid mt={6} style={{visibility: 'hidden'}} aria-hidden={true}>
+                <HomeTitle>
+                  <FormattedMessage id="intro.Lets" />
+                  <FormattedMessage id="intro.Work" />
+                </HomeTitle>
+              </Container>
+            </InView>
+          </Box>
 
           <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-            <StickyOutro />
+            <StickyOutro appear={introAtEnd} pb={6} />
+            <ContactForm />
           </InView>
-
-          <ContactForm />
         </React.Fragment>
       </LayoutContext.Provider>
     )
