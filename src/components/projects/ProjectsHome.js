@@ -5,11 +5,11 @@ import { Flex } from 'rebass'
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
 import Container from '@styles/Container'
-//import { breakpoints } from '@styles/Theme'
-//import ResponsiveProp from '@utils/ResponsiveProp'
-//import Viewport from '@utils/Viewport'
-//import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
-//import { TRANSITION_PANE_STATES } from '@components/transitions'
+import { breakpoints } from '@styles/Theme'
+import ResponsiveProp from '@utils/ResponsiveProp'
+import Viewport from '@utils/Viewport'
+import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 export const columns = {
   0: {
@@ -46,7 +46,7 @@ export const ProjectHomeCol = index => {
   return column
 }
 
-//const mobileBreakpoint = parseInt(breakpoints[1])
+const mobileBreakpoint = parseInt(breakpoints[1])
 
 class ProjectsHome extends React.Component {
 
@@ -57,9 +57,9 @@ class ProjectsHome extends React.Component {
   list() {
 
     if (this.props.data) {
-      //const { layoutState } = this.context
-      //const isMobile = Viewport.width < mobileBreakpoint
-      /*const getOffset = index => {
+      const { layoutState } = this.context
+      const isMobile = Viewport.width < mobileBreakpoint
+      const getOffset = index => {
         if (isMobile) return 0
 
         return new ResponsiveProp([
@@ -69,26 +69,26 @@ class ProjectsHome extends React.Component {
           [0, 120, -30, 140, -55, 160][index],
           [0, 140, -60, 200, 60, 240][index],
         ])
-      }*/
-      /*const getDelay = index => {
+      }
+      const getDelay = index => {
         const delayBase = layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
         if (isMobile) return index === 0 ? delayBase * 1.25 : 0
         else return index < 2 ? (delayBase * 1.25) + index * 150 : 0
-      }*/
+      }
 
       return this.props.data.edges.map((project, index) => {
-        //const offset = getOffset(index)
-        //const delay = getDelay(index)
+        const offset = getOffset(index)
+        const delay = getDelay(index)
 
         return (
           <ProjectPreview
             key={index}
             index={index}
-            delay={0}
+            delay={delay}
             project={project}
             columns={ProjectHomeCol(index)}
-            offset={0}
+            offset={offset}
           />
         )
       })
@@ -97,7 +97,7 @@ class ProjectsHome extends React.Component {
 
   render() {
     return (
-      <Container fluid>
+      <Container fluid pb={[0, null, null, 6]}>
         <Flex
           as={ProjectIndexList}
           mb={['90px']}

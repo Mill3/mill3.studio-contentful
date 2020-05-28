@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
@@ -14,6 +14,12 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import Viewport from '@utils/Viewport'
+
+const DEFAULT_COLUMN = {
+  width: 1 / 2,
+  ml: [0],
+  mr: [0],
+}
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -147,24 +153,18 @@ const ProjectPreviewItem = styled(ProjectPoses)`
   }
 `
 
-class ProjectPreview extends Component {
+
+class ParallaxBox extends Component {
   static contextTypes = {
     getScrollbar: PropTypes.func,
-    layoutState: PropTypes.object,
   }
 
   static propTypes = {
-    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
-    columns: PropTypes.object,
+    active: PropTypes.bool,
     offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
   }
   static defaultProps = {
-    delay: 0,
-    columns: {
-      width: 1 / 2,
-      ml: [0],
-      mr: [0],
-    },
+    active: false,
     offset: 0,
   }
 
@@ -172,24 +172,18 @@ class ProjectPreview extends Component {
     super(props)
 
     this.state = {
-      inView: false,
       percentage: 0,
-      hover: false,
     }
 
-    this.mounted = false
-    this.rootRef = React.createRef()
-    this.videoRef = React.createRef()
+    this.rect = null
+    this.ref = createRef()
 
-    this.onVisibilityChange = this.onVisibilityChange.bind(this)
-    this.onHover = this.onHover.bind(this)
     this.onScroll = this.onScroll.bind(this)
     this.onResize = this.onResize.bind(this)
     this.debouncedOnResize = debounce(this.onResize, 750)
   }
 
   componentDidMount() {
-    this.mounted = true
     if (this.props.offset === 0) return
 
     this.context.getScrollbar(s => {
@@ -200,41 +194,17 @@ class ProjectPreview extends Component {
       this.onResize()
     })
   }
-
   componentWillUnmount() {
-    this.mounted = false
-
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
 
     Viewport.off(this.debouncedOnResize)
   }
 
-  onVisibilityChange(inView) {
-    this.setState({
-      inView,
-    })
-  }
-
-  onHover(isHover) {
-    if (this.mounted) {
-      // run this only if value has changed
-      if (this.state.hover === isHover) return
-
-      this.setState({ hover: isHover }, () => {
-        if (isHover && this.videoRef.current) {
-          this.videoRef.current.currentTime = 0
-          this.videoRef.current.play()
-        } else if (this.videoRef.current) {
-          this.videoRef.current.pause()
-        }
-      })
-    }
-  }
-
   onScroll({ offset }) {
-    if (!this.mounted || !this.state.inView || !this.rect) return
-    if (this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0) {
+    if( !this.props.active || !this.rect ) return
+
+    if( this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0 ) {
       if (this.state.percentage !== 0) this.setState({ percentage: 0 })
       return
     }
@@ -247,16 +217,13 @@ class ProjectPreview extends Component {
 
     if (this.state.percentage === percentage) return
 
-    this.setState({
-      percentage,
-    })
+    this.setState({ percentage })
   }
-
   onResize() {
-    if (!this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar) return
+    if (!this.ref.current || !this.scrollbar) return
 
     const offset = this.props.offset instanceof ResponsiveProp ? this.props.offset.getValue() : this.props.offset
-    const rect = this.rootRef.current.node.getBoundingClientRect()
+    const rect = this.ref.current.getBoundingClientRect()
     const y = rect.y + this.scrollbar.offset.y
 
     this.rect = {
@@ -267,15 +234,13 @@ class ProjectPreview extends Component {
   }
 
   render() {
-    const { project, delay, columns, offset } = this.props
-    const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
-    const { inView, percentage/*, hover*/ } = this.state
-    // const { layoutState } = this.context
+    const { active, offset, children, ...props } = this.props
+    const { percentage } = this.state
 
     let transform
 
     // only calculate transformations if required
-    if (inView) {
+    if (active) {
       const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
       transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
     } else {
@@ -283,15 +248,70 @@ class ProjectPreview extends Component {
     }
 
     return (
-      <InView
-        ref={this.rootRef}
-        triggerOnce={true}
-        onChange={this.onVisibilityChange}
-        as={ProjectWrapper}
-        mb={['40px', null, '50px', '70px']}
-        px={[null, null, 3, '28px']}
-        {...columns}
+      <Box
+        as="div"
+        ref={this.ref}
+        style={transform}
+        {...props}
       >
+        {children}
+      </Box>
+    )
+  }
+}
+
+
+const ProjectFigure = ({ active = false, color = '#000', video = null, image = null, ...props }) => {
+  const setVideoRef = (ref) => {
+    if( !ref ) return
+
+    if( active && ref.paused ) {
+      ref.currentTime = 0
+      ref.play()
+    }
+    else if( !active && !ref.paused ) ref.pause()
+  }
+
+  return (
+    <Box as={`figure`} {...props}>
+      {HAS_HOVER && (
+        <ProjectHoverPane color={color}>
+          {video && (
+            <video ref={setVideoRef} muted playsInline loop>
+              <source src={video.file.url} type="video/mp4" />
+            </video>
+          )}
+        </ProjectHoverPane>
+      )}
+      <FigureBox>
+        <Img
+          fade={false}
+          fluid={image.fluid}
+          objectFit="cover"
+          objectPosition="center center"
+          style={{ height: `100%` }}
+        />
+      </FigureBox>
+    </Box>
+  )
+}
+
+
+const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset = 0 }) => {
+  const [inView, setInView] = useState(false)
+  const [hover, setHover] = useState(false)
+  const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
+
+  return (
+    <InView
+      triggerOnce={true}
+      onChange={v => setInView(v)}
+      as={ProjectWrapper}
+      mb={['40px', null, '50px', '70px']}
+      px={[null, null, 3, '28px']}
+      {...columns}
+    >
+      <ParallaxBox active={inView} offset={offset}>
         <Box
           as={ProjectPreviewItem}
           initialPose={'hidden'}
@@ -304,42 +324,19 @@ class ProjectPreview extends Component {
             to={`/projects/${slug}/`}
             title={transitionName || null}
             color={colorMain}
-            onMouseOver={e => this.onHover(true)}
-            onMouseOut={e => this.onHover(false)}
-            onFocus={e => this.onHover(true)}
-            onBlur={e => this.onHover(false)}
-            style={transform}
+            onMouseOver={e => setHover(true)}
+            onMouseOut={e => setHover(false)}
+            onFocus={e => setHover(true)}
+            onBlur={e => setHover(false)}
           >
             <TransitionContainer direction="out" distance={150}>
-              <Box as={`figure`} mb={[2,2,4]}>
-                {HAS_HOVER && (
-                  <ProjectHoverPane color={colorMain}>
-                    {/* {imageHover && !videoPreview && (
-                      <Img
-                        fade={false}
-                        fluid={imageHover.fluid}
-                        objectFit="cover"
-                        objectPosition="center center"
-                        style={{ width: `100%`, height: `100%` }}
-                      />
-                    )} */}
-                    {videoPreview && (
-                      <video muted playsInline loop ref={this.videoRef}>
-                        <source src={videoPreview.file.url} type="video/mp4" />
-                      </video>
-                    )}
-                  </ProjectHoverPane>
-                )}
-                <FigureBox>
-                  <Img
-                    fade={false}
-                    fluid={imageMain.fluid}
-                    objectFit="cover"
-                    objectPosition="center center"
-                    style={{ height: `100%` }}
-                  />
-                </FigureBox>
-              </Box>
+              <ProjectFigure
+                color={colorMain}
+                video={videoPreview}
+                image={imageMain}
+                active={hover}
+                mb={[2,2,4]}
+              ></ProjectFigure>
 
               <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
                 <Text
@@ -374,9 +371,15 @@ class ProjectPreview extends Component {
             </TransitionContainer>
           </TransitionLinkComponent>
         </Box>
-      </InView>
-    )
-  }
+      </ParallaxBox>
+    </InView>
+  )
+}
+
+ProjectPreview.propTypes = {
+  delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
+  columns: PropTypes.object,
+  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
 }
 
 export default ProjectPreview
