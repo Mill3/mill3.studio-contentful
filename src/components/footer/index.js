@@ -69,9 +69,14 @@ const Footer = ({ intl }) => {
     <Box mt={[4, 5]} pt={[4]} pb={[4]} as={FooterContainer}>
       <AnimatedBackgroundContainer backgroundColor="#ffffff">
         <Container fluid>
-          <Flex flexWrap={'wrap'}>
+          <Flex
+            flexDirection={['column', null, 'row']}
+            alignItems={[null, null, "baseline"]}
+            justifyContent={[null, null, "space-between"]}
+            flexWrap={[null, null, 'wrap']}
+          >
 
-            <Box as={`aside`} width={[1, 1, 1, '444px']}>
+            <Box as={`aside`} width={[1, null, 'auto', '35%']} maxWidth={[null, null, null, 444]} order={0}>
               <TransitionContainer distance={0} autoCalculateDelay={false} index={0}>
                 <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
                   {intl.formatMessage({ id: 'footer.stopBy' }).toString()}
@@ -95,8 +100,9 @@ const Footer = ({ intl }) => {
 
             <Box
               as={`aside`}
-              width={[1, 1, 1, 'auto']}
-              mt={[4, 4, 4, 0]}
+              width={[1, null, 'auto', '35%']}
+              mt={[5, null, 0]}
+              order={1}
             >
               <TransitionContainer distance={0} autoCalculateDelay={false} index={0.5}>
                 <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
@@ -112,9 +118,9 @@ const Footer = ({ intl }) => {
 
             <Box
               as={`aside`}
-              width={[1, 1, 1, `auto`]}
-              ml={[0, 0, `auto`]}
-              mt={[4, 4, 4, 0]}
+              width={[1, null, `auto`]}
+              mt={[5, null, 0]}
+              order={2}
             >
               <TransitionContainer distance={0} autoCalculateDelay={false} index={0.75}>
                 <Text as={`h6`} mb={[2, 2, 3]} className={`is-serif fw-900`}>
@@ -128,25 +134,23 @@ const Footer = ({ intl }) => {
               </TransitionContainer>
             </Box>
 
-            <Flex as={`aside`} flexDirection={["column", null, null, "row"]} alignItems="baseline" justifyContent="space-between" width={[`100%`]} mt={[4]}>
-              <Flex as={Networks} width="auto" m={0} p={0} className="is-sans fw-400">
-                {NETWORKS.map(({name, url}, index) =>
-                  <Text
-                    as={'a'}
-                    key={index}
-                    href={url || "#"}
-                    target="_blank"
-                    color="#000"
-                    fontSize={['13px', 'inherit']}
-                    mx={['10px']}
-                  >{name}</Text>
-                )}
-              </Flex>
-
-              <Text as={`p`} width="auto" m={0} mt={[4, null, 3, 0]} p={0} fontSize={[1]} className={`is-gray`}>
-                {intl.formatMessage({ id: 'footer.rights' }).toString()}
-              </Text>
+            <Flex as={Networks} width={[1, null, "auto"]} order={[0, null, 3]} m={0} mt={[3, null, 4]} p={0} className="is-sans fw-400">
+              {NETWORKS.map(({name, url}, index) =>
+                <Text
+                  as={'a'}
+                  key={index}
+                  href={url || "#"}
+                  target="_blank"
+                  color="#000"
+                  fontSize={['13px', 'inherit']}
+                  mx={['10px']}
+                >{name}</Text>
+              )}
             </Flex>
+
+            <Text as={`p`} width="auto" order={[4]} m={0} mt={[5, null, 4]} p={0} fontSize={[0, 1]} className={`is-gray`}>
+              {intl.formatMessage({ id: 'footer.rights' }).toString()}
+            </Text>
 
           </Flex>
         </Container>

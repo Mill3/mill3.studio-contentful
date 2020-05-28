@@ -41,6 +41,7 @@ const ProjectPoses = posed.article({
 })
 
 const ProjectWrapper = styled(Box)`
+  /*
   @media (max-width: ${parseInt(breakpoints[1]) - 1}px) {
     &:nth-child(even) {
       padding-left: 5vw;
@@ -52,6 +53,7 @@ const ProjectWrapper = styled(Box)`
       }
     }
   }
+  */
 
   &:last-child {
     margin-bottom: 0 !important;

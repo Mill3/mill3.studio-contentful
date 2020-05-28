@@ -9,7 +9,7 @@ import { InView } from 'react-intersection-observer'
 
 import Container from '@styles/Container'
 import { breakpoints, colors, header } from '@styles/Theme'
-import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from "@components/content_rows";
 import { TRANSITION_PANE_STATES } from '@components/transitions'
@@ -79,12 +79,12 @@ const VideoPlaybackStyle = styled.button`
   color: currentColor;
   text-transform: uppercase;
   position: absolute;
-  top: -47px;
-  right: -47px;
+  top: ${HAS_HOVER ? '-47px' : '50%'};
+  right: ${HAS_HOVER ? '-47px' : '50%'};
   outline: none !important;
   cursor: pointer;
   transform-origin: center center;
-  transform: translate3d(0px, 0px, 0);
+  transform: ${HAS_HOVER ? 'translate3d(0px, 0px, 0)' : 'translate(50%, -50%) !important'};
 `
 
 export const charPoses = {
@@ -229,7 +229,7 @@ class BoxVideo extends Component {
 
         <Box as={VideoPlaybackStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}}>Play</Box>
 
-        <Box
+        {HAS_HOVER && <Box
           ref={this.ref}
           width={['100%']}
           height={'100%'}
@@ -237,7 +237,7 @@ class BoxVideo extends Component {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
           onMouseMove={this.onMouseMove}
-         />
+         />}
       </Box>
     )
   }
