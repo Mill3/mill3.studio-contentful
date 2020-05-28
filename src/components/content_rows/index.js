@@ -85,7 +85,7 @@ const AnimatedBg = styled.div`
   z-index: -1;
   opacity: ${props => props.opacity};
   transform: translate3d(0, 0px, 0);
-  transition: opacity 250ms linear;
+  transition: opacity ${props => props.duration}ms linear;
 `
 
 export class AnimatedBackgroundContainer extends Component {
@@ -153,7 +153,7 @@ export class AnimatedBackgroundContainer extends Component {
       this.exitViewportTicker = null
 
       // update state
-      this.setState({ inView: false }, () => this.exitViewportTicker = setTimeout(this.onExitCompleted, 250))
+      this.setState({ inView: false }, () => this.exitViewportTicker = setTimeout(this.onExitCompleted, this.props.duration))
 
       const { onChange } = this.props
       if( onChange ) onChange(false);
@@ -173,7 +173,7 @@ export class AnimatedBackgroundContainer extends Component {
   }
 
   render() {
-    const { backgroundColor, children, threshold } = this.props
+    const { backgroundColor, children, duration, threshold } = this.props
     const { inView, y } = this.state
     const t = { transform: `translate3d(0, ${y}px, 0)` }
 
@@ -183,6 +183,7 @@ export class AnimatedBackgroundContainer extends Component {
           as={AnimatedBg}
           backgroundColor={backgroundColor}
           opacity={inView ? 1 : 0}
+          duration={duration || 250}
           style={t}
         />
         {children}
@@ -194,11 +195,12 @@ export class AnimatedBackgroundContainer extends Component {
 export const AnimatedBackgroundRowContainer = ({
   backgroundColor,
   children,
+  duration,
   threshold,
   onChange,
   ...props
 }) => (
-  <AnimatedBackgroundContainer backgroundColor={backgroundColor} threshold={threshold} onChange={onChange}>
+  <AnimatedBackgroundContainer backgroundColor={backgroundColor} duration={duration} threshold={threshold} onChange={onChange}>
     <RowContainer {...props}>{children}</RowContainer>
   </AnimatedBackgroundContainer>
 )

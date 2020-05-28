@@ -2,18 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
 
-export const HomeTitleStyle = styled.h2`
-  font-family: ${props => props.theme.fonts.serif};
-  font-size: 156px;
-  font-weight: 300;
-  margin: 0;
-  padding: 0;
+const HomeTitleStyle = styled.h2`
   text-transform: uppercase;
   transform-origin: top center;
 `
 
 const HomeTitle = ({ children, ...props }) => (
-  <Text as={HomeTitleStyle} {...props}>{children}</Text>
+  <Text
+    as={HomeTitleStyle}
+    fontFamily={'serif'}
+    fontSize={['9.2vw', null, '10.416666667vw', null, '10.833333333vw']}
+    fontWeight={'300'}
+    m={0}
+    p={0}
+    {...props}
+  >{children}</Text>
 )
 
 export default HomeTitle

@@ -4,6 +4,8 @@ import { Box, Text } from 'rebass'
 import { injectIntl } from 'react-intl'
 
 import { ParagraphPoses } from './'
+import { ArrowButton } from '@components/buttons'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import Container from '@styles/Container'
 
 const ParagraphHidePoses = posed.p({
@@ -31,9 +33,9 @@ const StickyIntro = ({ intl, appear, inverted, hidden, ...props }) => {
       {...props}
     >
       <Box
-        fontSize={'24px'}
+        fontSize={[3, null, '24px']}
         lineHeight={"1.333333333"}
-        maxWidth={467}
+        maxWidth={['100%', null, 375, 467]}
         alignSelf="flex-end"
         style={{position: 'relative', pointerEvents: hidden ? 'none' : 'auto'}}
       >
@@ -59,6 +61,19 @@ const StickyIntro = ({ intl, appear, inverted, hidden, ...props }) => {
             pose={hidden ? `hidden` : `visible`}
           >
             {intl.formatMessage({ id: 'intro.LatestWorkIntro' }).toString()}
+          </Text>
+
+          <Text
+            as={ParagraphHidePoses}
+            m={0}
+            p={0}
+            mt={3}
+            initialPose={`visible`}
+            pose={hidden ? `hidden` : `visible`}
+          >
+            <TransitionLinkComponent to={`/projects/`}>
+              <ArrowButton color={inverted ? "white" : "black"}>{intl.formatMessage({ id: 'projects.Button' })}</ArrowButton>
+            </TransitionLinkComponent>
           </Text>
         </Box>
       </Box>

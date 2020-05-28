@@ -18,12 +18,12 @@ const StickyOutro = ({ intl, appear, ...props }) => {
     >
       <Box
         as={ParagraphPoses}
-        maxWidth={[467]}
+        maxWidth={['100%', null, 340, 467]}
         initialPose={`init`}
         pose={appear ? `appear` : null}
         delay={0}
       >
-        <Text as="p" fontSize={['24px']} lineHeight={["1.333333333"]} m={0} p={0}>
+        <Text as="p" fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
           {intl.formatMessage({ id: 'projects.HomeOutro' })}
         </Text>
 

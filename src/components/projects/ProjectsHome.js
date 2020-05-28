@@ -1,19 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass'
-import { injectIntl } from 'react-intl'
-import { InView } from 'react-intersection-observer'
-import posed from 'react-pose'
+import { Flex } from 'rebass'
 
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
-import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'
 //import { breakpoints } from '@styles/Theme'
 //import ResponsiveProp from '@utils/ResponsiveProp'
 //import Viewport from '@utils/Viewport'
 //import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
-import TransitionLinkComponent from '@components/transitions/TransitionLink'
 //import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 export const columns = {
@@ -50,26 +45,6 @@ export const ProjectHomeCol = index => {
   let column = columns.hasOwnProperty(index) ? columns[index] : columns[0]
   return column
 }
-
-const ButtonPoses = posed.div({
-  init: {
-    opacity: 0,
-    y: 100,
-  },
-  appear: {
-    opacity: 1,
-    y: 0,
-    delay: ({delay}) => delay,
-    transition: {
-      opacity: { duration: 400, easing: 'linear' },
-      y: {
-        type: 'spring',
-        stiffness: 60,
-        damping: 8,
-      },
-    },
-  },
-})
 
 //const mobileBreakpoint = parseInt(breakpoints[1])
 
@@ -121,9 +96,8 @@ class ProjectsHome extends React.Component {
   }
 
   render() {
-    const { intl } = this.props
     return (
-      <Container fluid display="flex" flexDirection="column">
+      <Container fluid>
         <Flex
           as={ProjectIndexList}
           mb={['90px']}
@@ -133,27 +107,9 @@ class ProjectsHome extends React.Component {
         >
           {this.list()}
         </Flex>
-
-        <InView threshold={1} triggerOnce={true}>
-          {({ inView, ref }) => (
-            <Box
-              as={ButtonPoses}
-              ref={ref}
-              width={[`auto`]}
-              alignSelf="flex-end"
-              initialPose="init"
-              pose={inView ? "appear" : "init"}
-              delay={0}
-            >
-              <TransitionLinkComponent to={`/projects/`}>
-                <ArrowButton>{intl.formatMessage({ id: 'projects.Button' })}</ArrowButton>
-              </TransitionLinkComponent>
-            </Box>
-          )}
-        </InView>
       </Container>
     )
   }
 }
 
-export default injectIntl(ProjectsHome)
+export default ProjectsHome

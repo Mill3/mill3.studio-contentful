@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
@@ -20,10 +20,6 @@ export const TitlePoses = posed.h2({
   }
 })
 const TitleStyle = styled(TitlePoses)`
-  font-family: ;
-  font-size: 156px;
-  font-weight: 300;
-  margin: 0;
   text-transform: uppercase;
   transform-origin: top center;
 `
@@ -47,35 +43,44 @@ const Ellipse = posed.ellipse({
 })
 const LatestSpan = styled.span`
   position: relative;
-  padding-left: 50px;
-  padding-right: 50px;
 
   & > div > div:nth-child(2) {
     margin-right: -0.125em;
   }
 `
-const ArrowSpan = posed.span({
-  exit: { opacity: 0, x: '-50%' },
-  enter: {
-    opacity: 1,
-    x: '0%',
-    delay: ({delay}) => delay,
-    transition: {
-      x: {
-        type: 'spring',
-      },
-    },
-  },
-  out: {
-    opacity: 0,
-    x: '50%',
-    transition: {
-      x: {
-        type: 'spring',
-      },
-    },
-  },
-})
+const arrowAppear = keyframes`
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+`
+const arrowSwitchTitle = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+`
+const ArrowSpan = styled.span`
+  opacity: 0;
+  transform: translateX(-50%);
+
+  &.--appear {
+    animation-name: ${arrowAppear};
+    animation-duration: 850ms;
+    animation-delay: ${props => props.delay}ms;
+    animation-fill-mode: both;
+  }
+  &.--switchTitle {
+    animation-name: ${arrowSwitchTitle};
+    animation-duration: 850ms;
+    animation-delay: ${props => props.delay}ms;
+    animation-fill-mode: both;
+  }
+`
 const WorkSpan = styled.span`
   & > div > div:nth-child(1) {
     margin-right: -0.075em;
@@ -98,7 +103,8 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
     <Container
       fluid
       color={inverted ? "white" : "black"}
-      pt={7}
+      pt={[6, null, '170px', 7]}
+      pb={[4, null, 2, 0]}
       {...props}
     >
       <Box style={{position: 'relative'}}>
@@ -108,6 +114,8 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
           display="flex"
           flexDirection="column"
           alignItems="center"
+          justifyContent="center"
+          width={'100%'}
           style={{position: 'absolute', top: 0, left: 0}}
           aria-hidden={true}
         >
@@ -115,13 +123,16 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
             as={TitleStyle}
             display="flex"
             fontFamily={'serif'}
+            fontSize={['9.2vw', null, '10.416666667vw', null, '10.833333333vw']}
+            fontWeight={'300'}
             alignItems="center"
             justifyContent="center"
+            m={0}
             aria-label={`${switchTitle ? lets : latest} ${work}`}
             initialPose={`static`}
             pose={faded ? `sticky` : `static`}
           >
-            <Box as={LatestSpan} className={'is-sans'}>
+            <Box as={LatestSpan} px={[3, null, 4, "50px"]} className={'is-sans'}>
               <Box as={EllipseSVG} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 625 290.4">
                 <Box
                   as={Ellipse}
@@ -159,7 +170,12 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
               </Box>
             </Box>
 
-            <Box as={ArrowSpan} initialPose={'exit'} pose={appear ? `enter` : null} delay={latest.length * 30 + 350} mx={[4]}>→</Box>
+            <Box
+              as={ArrowSpan}
+              delay={(switchTitle ? lets : latest).length * 30 + (switchTitle ? 150 : 350)}
+              mx={[3, 4]}
+              className={appear && !switchTitle ? `--appear` : (switchTitle ? `--switchTitle` : null)}
+            >→</Box>
 
             <Box as={WorkSpan}>
               <SplitText

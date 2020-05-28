@@ -20,7 +20,6 @@ const FooterContainer = styled.footer`
 const Networks = styled.nav`
   a {
     position: relative;
-    margin: 0 10px;
 
     &:not(:last-child)::after {
       content: '';
@@ -129,7 +128,7 @@ const Footer = ({ intl }) => {
               </TransitionContainer>
             </Box>
 
-            <Flex as={`aside`} alignItems="baseline" justifyContent="space-between" width={[`100%`]} mt={[4]}>
+            <Flex as={`aside`} flexDirection={["column", null, null, "row"]} alignItems="baseline" justifyContent="space-between" width={[`100%`]} mt={[4]}>
               <Flex as={Networks} width="auto" m={0} p={0} className="is-sans fw-400">
                 {NETWORKS.map(({name, url}, index) =>
                   <Text
@@ -138,11 +137,13 @@ const Footer = ({ intl }) => {
                     href={url || "#"}
                     target="_blank"
                     color="#000"
+                    fontSize={['13px', 'inherit']}
+                    mx={['10px']}
                   >{name}</Text>
                 )}
               </Flex>
 
-              <Text as={`p`} width="auto" m={0} p={0} fontSize={[1]} className={`is-gray`}>
+              <Text as={`p`} width="auto" m={0} mt={[4, null, 3, 0]} p={0} fontSize={[1]} className={`is-gray`}>
                 {intl.formatMessage({ id: 'footer.rights' }).toString()}
               </Text>
             </Flex>

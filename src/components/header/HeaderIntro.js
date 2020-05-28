@@ -111,8 +111,8 @@ export const charPoses = {
   },
 }
 const fontSizes = {
-  'en': ['7.729468599vw', null, '4.861111111vw'],
-  'fr': ['7.729468599vw', null, '4.861111111vw']
+  'en': ['7.729468599vw', null, '6vw', '4.861111111vw'],
+  'fr': ['7.729468599vw', null, '6vw', '4.861111111vw']
 }
 
 const PLAY_BUTTON_DEFAULT = {
@@ -213,7 +213,7 @@ class BoxVideo extends Component {
     const { x, y } = this.state
 
     return (
-      <Box width={['100%', null, '50%']} css={{position: 'relative'}} {...this.props}>
+      <Box css={{position: 'relative'}} {...this.props}>
         <Box width={['100%']} height={0} pb={['100%']} bg="#464925">
         </Box>
 
@@ -249,8 +249,8 @@ class HeaderIntro extends Component {
         initialPose={`init`}
         pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `leaving` : `entering`}
       >
-        <AnimatedBackgroundContainer backgroundColor={'black'}>
-          <Container fluid display="flex" flexDirection="column" pt={[6, null, null, null, "170px"]} pb={[6]}>
+        <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
+          <Container fluid display="flex" flexDirection="column" pt={[6, null, "170px"]} pb={[6, null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
                 initialPose={`exit`}
@@ -282,18 +282,19 @@ class HeaderIntro extends Component {
             </Text>
           </Container>
 
-          <Container fluid display="flex" alignItems="center">
+          <Container fluid display="flex" flexDirection={["column-reverse", null, "row"]} alignItems="center">
             <InView threshold={0.5} triggerOnce={true}>
               {({ inView, ref }) => (
                 <Box
                   ref={ref}
                   as={ParagraphPoses}
-                  width={['100%', null, '50%']}
+                  width={['100%', null, '55%', '50%']}
+                  pr={[0, null, '6vw', 0]}
                   initialPose={`init`}
                   pose={inView ? `appear` : null}
                   delay={0}
                 >
-                  <Text as="p" maxWidth={[414]} fontSize={['24px']} lineHeight={["1.333333333"]} m={0} p={0}>
+                  <Text as="p" maxWidth={['100%', null, null, 414]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
                     {intl.formatMessage({ id: 'intro.AboutUs' }).toString()}
                   </Text>
 
@@ -306,7 +307,11 @@ class HeaderIntro extends Component {
               )}
             </InView>
 
-            <BoxVideo onClick={() => console.log('play video')} />
+            <BoxVideo
+              width={['100%', null, '45%', '50%']}
+              mb={[4, null, 0]}
+              onClick={() => console.log('play video')}
+            />
           </Container>
         </AnimatedBackgroundContainer>
       </Box>

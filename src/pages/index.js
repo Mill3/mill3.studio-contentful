@@ -52,11 +52,11 @@ class IndexPage extends React.Component {
                 <StickyTitle
                   inverted={headerInView}
                   appear={introInView}
-                  faded={projectsInView || (outroInView && !introAtEnd)}
+                  faded={projectsInView}
                   switchTitle={introAtEnd} />
               </StickyElement>
 
-              <StickyElement target={this.stickyContainerRef.current} mb="50vh">
+              <StickyElement target={this.stickyContainerRef.current} mb={["25vh", null, "50vh"]}>
                 <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
               </StickyElement>
             </InView>
@@ -78,7 +78,7 @@ class IndexPage extends React.Component {
           </Box>
 
           <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-            <StickyOutro appear={introAtEnd} pb={6} />
+            <StickyOutro appear={introAtEnd} pt={[0, null, null, null, '100px']} pb={[5, null, 6]} />
             <ContactForm />
           </InView>
         </React.Fragment>
