@@ -150,8 +150,8 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
               </Box>
 
               <SplitText
-                initialPose={`exit`}
-                pose={appear && !switchTitle ? `enter` : `out`}
+                initialPose={`out`}
+                pose={appear && !switchTitle ? `enter` : (switchTitle ? `leave` : `out`)}
                 startDelay={appear && !switchTitle ? 250 : 0}
                 charPoses={charPoses}
               >
@@ -160,9 +160,9 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
 
               <Box as={LetsSpan}>
                 <SplitText
-                  initialPose={`exit`}
+                  initialPose={`out`}
                   pose={switchTitle ? `enter` : `out`}
-                  startDelay={switchTitle ? latest.length * 30 : 0}
+                  startDelay={latest.length * 30}
                   charPoses={charPoses}
                 >
                   {lets}
@@ -179,7 +179,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
 
             <Box as={WorkSpan}>
               <SplitText
-                initialPose={`exit`}
+                initialPose={`out`}
                 pose={appear ? `enter` : `out`}
                 startDelay={latest.length * 30 + 450}
                 charPoses={charPoses}

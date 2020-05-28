@@ -109,6 +109,16 @@ export const charPoses = {
       },
     },
   },
+  leave: {
+    opacity: 0,
+    y: -20,
+    delay: ({ charIndex }) => charIndex * 30,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  },
 }
 const fontSizes = {
   'en': ['7.729468599vw', null, '6vw', '4.861111111vw'],

@@ -16,6 +16,29 @@ import Input from '@components/form/Input'
 import { space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
+const BgPoses = posed.div({
+  default: {
+    scaleX: 1.0,
+    scaleY: 1.0,
+  },
+  hover: {
+    scaleX: 1.0,
+    scaleY: 1.1,
+    transition: {
+      type: 'tween',
+      duration: 450,
+      easing: [0.65, 0.05, 0.36, 1],
+    }
+  },
+  expanded: {
+    scaleX: 1.1,
+    scaleY: 1.0,
+    transition: {
+      scaleY: { duration: 0 },
+      default: { type: 'tween', duration: 450, easing: [0.65, 0.05, 0.36, 1] }
+    }
+  }
+})
 const IntroPoses = posed.h4({
   default: {
     y: 0,
@@ -30,6 +53,14 @@ const IntroPoses = posed.h4({
   },
 })
 
+const BgStyle = styled(BgPoses)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform-origin: center center;
+`
 const FormStyle = styled.form`
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
   opacity: ${props => props.disabled ? 0.25 : 1};
@@ -40,21 +71,8 @@ const FormStyle = styled.form`
 `
 const IntroStyle = styled(IntroPoses)`
   cursor: pointer;
-  position: relative;
   display: ${props => props.visible ? 'block' : 'none'};
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    transform-origin: center center;
-    transform: scaleY(${props => props.pose === "disabled" ? 1.1 : 1});
-    transition: transform 450ms ease-out;
-  }
   &::after {
     content: '→';
     display: inline-block;
@@ -62,16 +80,6 @@ const IntroStyle = styled(IntroPoses)`
     font-size: 80%;
     transform-origin: center center;
     transform: rotate(${props => props.pose === "disabled" ? -90 : 90}deg);
-  }
-
-  span {
-    position: relative;
-  }
-
-  &:hover {
-    &::before {
-      transform: scaleY(1.1)
-    }
   }
 `
 const FieldGroupStyle = styled.div`
@@ -144,6 +152,7 @@ class ContactForm extends Component {
     this.state = {
       activeField: null,
       expanded: false,
+      hoverToggleButton: false,
       monitorScroll: false,
       submitting: false,
       submitted: false,
@@ -348,11 +357,26 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { activeField, expanded, submitting, submitted } = this.state
+    const { activeField, expanded, submitting, submitted, hoverToggleButton } = this.state
     const { intl } = this.props
 
     return (
-      <Box {...this.props} ref={this.sectionRef} display="flex" flexDirection="column" alignItems="center" bg={"#000"} color="white" mx={[0, null, 4]}>
+      <Flex
+        ref={this.sectionRef}
+        as="section"
+        flexDirection="column"
+        alignItems="center"
+        color="white"
+        mx={[0, null, 4]}
+        style={{position: 'relative'}}
+        {...this.props}
+      >
+        <Box
+          as={BgStyle}
+          bg="#000"
+          initialPose="default"
+          pose={expanded ? 'expanded': (hoverToggleButton ? "hover" : "default")}
+        />
 
         <Text
           as={IntroStyle}
@@ -366,6 +390,11 @@ class ContactForm extends Component {
           initialPose="default"
           pose={expanded ? "disabled" : "default"}
           onClick={() => this.setState({expanded: !expanded, monitorScroll: !expanded})}
+          onFocus={() => this.setState({hoverToggleButton: true})}
+          onBlur={() => this.setState({hoverToggleButton: false})}
+          onMouseOver={() => this.setState({hoverToggleButton: true})}
+          onMouseOut={() => this.setState({hoverToggleButton: false})}
+          style={{position: 'relative', zIndex: 1}}
         >
           <FormattedMessage id="contact.FormIntroLine" />
         </Text>
@@ -379,6 +408,7 @@ class ContactForm extends Component {
           mx="auto"
           onSubmit={this.onSubmit}
           disabled={submitting || submitted ? true : false}
+          style={{position: 'relative'}}
         >
           <Box as={FormFooter} width={[`100%`, `100%`, `75%`, `60%`, `50%`]} mx="auto" py={expanded ? 4 : 0} visible={expanded}>
             <Box py={5}>
@@ -469,7 +499,7 @@ class ContactForm extends Component {
         </Flex>
 
         {/* confirm message at the end */}
-        <Box as={ConfirmMessage} visible={submitted}>
+        <Box as={ConfirmMessage} visible={submitted} style={{position: 'relative'}}>
           <Text
             as="h4"
             className="is-sans is-light"
@@ -482,7 +512,7 @@ class ContactForm extends Component {
           </Text>
         </Box>
 
-      </Box>
+      </Flex>
     )
   }
 }
