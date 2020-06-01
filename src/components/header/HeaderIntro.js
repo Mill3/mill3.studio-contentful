@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Text } from 'rebass'
@@ -11,7 +11,7 @@ import Container from '@styles/Container'
 import { breakpoints, colors, header } from '@styles/Theme'
 import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { ArrowButton } from '@components/buttons'
-import { AnimatedBackgroundContainer } from "@components/content_rows";
+import { AnimatedBackgroundContainer } from '@components/content_rows'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
@@ -66,6 +66,19 @@ const ParagraphPoses = posed.div({
       },
     },
   },
+  leave: {
+    opacity: 0,
+    y: 100,
+    delay: ({delay}) => delay,
+    transition: {
+      opacity: { duration: 400, easing: 'linear' },
+      y: {
+        type: 'spring',
+        stiffness: 60,
+        damping: 8,
+      },
+    },
+  }
 })
 const VideoPlaybackStyle = styled.button`
   display: flex;
@@ -220,11 +233,12 @@ class BoxVideo extends Component {
   }
 
   render() {
+    const { forwardedRef, ...rest} = this.props
     const { x, y } = this.state
 
     return (
-      <Box css={{position: 'relative'}} {...this.props}>
-        <Box width={['100%']} height={0} pb={['100%']} bg="#464925">
+      <Box ref={forwardedRef} css={{position: 'relative'}} {...rest}>
+        <Box width={['100%']} height={0} pb={['100%']} bg="olive">
         </Box>
 
         <Box as={VideoPlaybackStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}}>Play</Box>
@@ -244,29 +258,56 @@ class BoxVideo extends Component {
 }
 
 
+const ForwardedBoxVideo = forwardRef((props, ref) =>
+  <BoxVideo {...props} forwardedRef={ref} />
+)
+
+
 class HeaderIntro extends Component {
   static contextTypes = {
     layoutState: PropTypes.object,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.boxVideoRef = createRef()
+
+    this.onBoxVideoClicked = this.onBoxVideoClicked.bind(this)
+  }
+
+  onBoxVideoClicked(e) {
+    if( e ) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    this.context.layoutState.setDemoReel(true, this.boxVideoRef.current)
+  }
+
   render() {
     const { intl } = this.props
     const { layoutState } = this.context
+    const { transitionState, demoReel } = layoutState
+
+    const isTransitionVisible = transitionState === TRANSITION_PANE_STATES['visible']
+    const isDemoReel = demoReel.active === true
+    const isTransitionIntro = transitionState === TRANSITION_PANE_STATES['intro']
 
     return (
       <Box
         as={Header}
         initialPose={`init`}
-        pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `leaving` : `entering`}
+        pose={isTransitionVisible ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
           <Container fluid display="flex" flexDirection="column" pt={[6, null, "170px"]} pb={[6, null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
                 initialPose={`exit`}
-                pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
+                pose={isTransitionVisible || isDemoReel ? `out` : `enter`}
                 startDelay={
-                  layoutState.transitionState === TRANSITION_PANE_STATES['intro']
+                  isTransitionIntro
                     ? TRANSITION_INTRO_DELAY * 1.25
                     : TRANSITION_DURATION * 0.85
                 }
@@ -279,9 +320,9 @@ class HeaderIntro extends Component {
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-normal is-sans fw-300`}>
               <SplitText
                 initialPose={`exit`}
-                pose={layoutState.transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `enter`}
+                pose={isTransitionVisible || isDemoReel ? `out` : `enter`}
                 startDelay={
-                  layoutState.transitionState === TRANSITION_PANE_STATES['intro']
+                  isTransitionIntro
                     ? TRANSITION_INTRO_DELAY * 1.25
                     : TRANSITION_DURATION * 0.85
                 }
@@ -301,7 +342,7 @@ class HeaderIntro extends Component {
                   width={['100%', null, '55%', '50%']}
                   pr={[0, null, '6vw', 0]}
                   initialPose={`init`}
-                  pose={inView ? `appear` : null}
+                  pose={isDemoReel ? `leave` : (inView ? `appear` : `init`)}
                   delay={0}
                 >
                   <Text as="p" maxWidth={['100%', null, null, 414]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
@@ -317,10 +358,11 @@ class HeaderIntro extends Component {
               )}
             </InView>
 
-            <BoxVideo
+            <ForwardedBoxVideo
+              ref={this.boxVideoRef}
               width={['100%', null, '45%', '50%']}
               mb={[4, null, 0]}
-              onClick={() => console.log('play video')}
+              onClick={this.onBoxVideoClicked}
             />
           </Container>
         </AnimatedBackgroundContainer>

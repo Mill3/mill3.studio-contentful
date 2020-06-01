@@ -6,7 +6,6 @@ export const LinkButtonStyle = styled.span`
   display: inline-block;
   line-height: 1.15;
   font-family: ${props => props.theme.fonts.serif};
-  color: #000;
   text-align: center;
   position: relative;
   transition: color 0.5s;
@@ -28,9 +27,9 @@ export const LinkButtonStyle = styled.span`
   }
 `
 
-const LinkButton = ({children, hoverColor, fontSize = [6], fontWeight = 300, ...props}) => {
+const LinkButton = ({children, hoverColor, fontSize = [6], fontWeight = 300, color = "#000", ...props}) => {
   return (
-    <Text as={LinkButtonStyle} fontSize={fontSize} fontWeight={fontWeight} hoverColor={hoverColor} {...props}>
+    <Text as={LinkButtonStyle} fontSize={fontSize} fontWeight={fontWeight} color={color} hoverColor={hoverColor} {...props}>
       {children}
     </Text>
   );

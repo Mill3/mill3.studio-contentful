@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Location } from '@reach/router'
 import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
@@ -17,11 +18,30 @@ import { pathIsLocaleRoot } from '@utils/Locales'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 
-const SiteHeader = styled.header`
+const SiteHeaderPose = posed.header({
+  visible: {
+    y: 0,
+    transition: {
+      type: 'tween',
+      duration: 450,
+      delay: 250,
+      ease: 'circOut',
+    }
+  },
+  hidden: {
+    y: '-100%',
+    transition: {
+      type: 'tween',
+      duration: 450,
+      ease: 'circOut',
+    },
+  },
+})
+const SiteHeader = styled(SiteHeaderPose)`
   position: relative;
   z-index: 1000;
+  pointer-events: ${props => props.visible ? 'all' : 'none'};
 `
-
 const HeaderStyle = styled.div`
   height: ${props => props.theme.header.height}px;
 `
@@ -33,12 +53,23 @@ class Header extends React.Component {
 
   render() {
     const { layoutState } = this.context
+    const { demoReel } = layoutState
 
     return (
       <Location>
         {({ location }) => (
-          <Box as={SiteHeader} pt={[0, 0, 0, `24px`]}>
-            <TransitionContainer distance={10} disabledPose={'none'} delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65 }>
+          <Box
+            as={SiteHeader}
+            pt={[0, 0, 0, `24px`]}
+            defaultPose={'visible'}
+            pose={demoReel.active ? 'hidden' : 'visible'}
+            visible={!demoReel.active}
+          >
+            <TransitionContainer
+              distance={10}
+              disabledPose={'none'}
+              delayIn={layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65 }
+            >
               <Container fluid className={`z-10`}>
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
