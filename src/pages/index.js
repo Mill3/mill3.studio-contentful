@@ -8,6 +8,7 @@ import { Box } from 'rebass'
 import SEO from '@components/seo'
 
 import HeaderIntro from '@components/header/HeaderIntro'
+import DemoReel from '@components/home/DemoReel'
 import HomeTitle from '@components/home/HomeTitle'
 import StickyTitle from '@components/home/StickyTitle'
 import StickyIntro from '@components/home/StickyIntro'
@@ -19,7 +20,6 @@ import Container from '@styles/Container'
 import StickyElement from '@utils/StickyElement'
 
 class IndexPage extends React.Component {
-
   constructor(props) {
     super(props)
 
@@ -81,6 +81,8 @@ class IndexPage extends React.Component {
             <StickyOutro appear={introAtEnd} pt={[0, null, null, null, '100px']} pb={[5, null, 6]} />
             <ContactForm />
           </InView>
+
+          <DemoReel />
         </React.Fragment>
       </LayoutContext.Provider>
     )

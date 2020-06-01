@@ -4,9 +4,11 @@ import { Location } from '@reach/router'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { ThemeProvider } from 'styled-components'
 import { TransitionGroup } from 'react-transition-group'
+import SmoothScrollbar from 'smooth-scrollbar'
 import Scrollbar from 'react-smooth-scrollbar'
 
 import LayoutContext, { defaultContextValue } from '@components/contexts/LayoutContext'
+import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -33,6 +35,7 @@ import FullViewportHeight from '@utils/FullViewportHeight'
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
+SmoothScrollbar.use(ScrollbarPausePlugin)
 addLocaleData([...enData, ...frData])
 
 class Layout extends React.Component {
@@ -45,6 +48,7 @@ class Layout extends React.Component {
     super(props)
 
     this.setOptions = this.setOptions.bind(this)
+    this.setDemoReel = this.setDemoReel.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
     this.onScroll = this.onScroll.bind(this)
     this.scrollToTop = this.scrollToTop.bind(this)
@@ -53,6 +57,7 @@ class Layout extends React.Component {
       ...defaultContextValue,
       transitionState: TRANSITION_PANE_STATES['intro'],
       set: this.setOptions,
+      setDemoReel: this.setDemoReel,
     }
 
     this.scrollbarRef = createRef()
@@ -73,11 +78,24 @@ class Layout extends React.Component {
     }))
   }
 
+  setDemoReel(active = false, trigger = null) {
+    this.setState(state => ({
+      demoReel: {
+        active,
+        trigger,
+      },
+    }))
+  }
+
   setTransitionState(state) {
     let inTransition = state === TRANSITION_PANE_STATES['visible']
     this.setState({
       inTransition: inTransition,
-      transitionState: state
+      transitionState: state,
+      options: {
+        ...this.state.options,
+        ...{ demoReel: false },
+      },
     })
   }
 

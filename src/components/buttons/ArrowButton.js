@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { Box } from 'rebass'
 
 const underlineOver = keyframes`
@@ -25,6 +25,35 @@ const arrowDisappear = keyframes`
   to {
     opacity: 0;
     transform: translate(75%, -50%);
+  }
+`
+const arrowMixin = css`
+  &:before,
+  &:after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    display: block;
+    font-size: 80%;
+    margin-top: -2px;
+    transform: translate(0%, -50%);
+    will-change: transform, opacity;
+  }
+
+  &:before {
+    animation-name: ${arrowAppear};
+    animation-duration: 250ms;
+    animation-delay: 200ms;
+    animation-fill-mode: both;
+    animation-timing-function: ease-out;
+  }
+  &:after {
+    animation-name: ${arrowDisappear};
+    animation-duration: 250ms;
+    animation-delay: 0ms;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
   }
 `
 
@@ -62,35 +91,9 @@ export const ArrowButtonStyle = styled.span`
   line-height: 1.2;
   font-family: ${props => props.theme.fonts.sans};
   font-weight: 400;
-  padding: 0 1em 7px 0;
+  padding: 0 ${({ arrow }) => arrow ? '1em' : 0} 7px 0;
 
-  &:before,
-  &:after {
-    content: '→';
-    position: absolute;
-    top: 50%;
-    right: -1px;
-    display: block;
-    font-size: 80%;
-    margin-top: -2px;
-    transform: translate(0%, -50%);
-    will-change: transform, opacity;
-  }
-
-  &:before {
-    animation-name: ${arrowAppear};
-    animation-duration: 250ms;
-    animation-delay: 200ms;
-    animation-fill-mode: both;
-    animation-timing-function: ease-out;
-  }
-  &:after {
-    animation-name: ${arrowDisappear};
-    animation-duration: 250ms;
-    animation-delay: 0ms;
-    animation-fill-mode: both;
-    animation-timing-function: linear;
-  }
+  ${({ arrow }) => (arrow ? arrowMixin : null)};
 
   &:hover,
   &:focus,
@@ -125,9 +128,9 @@ export const ArrowButtonStyle = styled.span`
   }
 `
 
-const ArrowButton = ({color, children}) => {
+const ArrowButton = ({arrow = true, color = "#000", children}) => {
   return (
-    <Box as={ArrowButtonStyle} color={color || "#000"} fontSize={[2,2,3]}>
+    <Box as={ArrowButtonStyle} arrow={arrow} color={color} fontSize={[2,2,3]}>
       <Box as={UnderlineStyle} aria-hidden="true"></Box>
       {children}
     </Box>

@@ -57,6 +57,18 @@ const messages = defineMessages({
     id: 'intro.LatestWorkIntro',
     defaultMessage: 'Our expertise in digital experiences was awarded numerous times in various fields: corporate, education & entertainment. Here’s a few.'
   },
+  demoReelTitle: {
+    id: "demoReel.Title",
+    defaultMessage: 'Our Work In Motion'
+  },
+  demoReelButton: {
+    id: 'demoReel.Button',
+    defaultMessage: 'Keep having fun'
+  },
+  demoReelClose: {
+    id: 'demoReel.Close',
+    defaultMessage: 'Close'
+  },
   thankYou: {
     id: 'contact.ThankYou',
     defaultMessage: 'Thank you!'
