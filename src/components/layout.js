@@ -94,7 +94,6 @@ class Layout extends React.Component {
       transitionState: state,
       options: {
         ...this.state.options,
-        ...{ demoReel: false },
       },
     })
   }
