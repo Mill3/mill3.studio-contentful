@@ -81,7 +81,7 @@ const AnimatedBg = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
   z-index: -1;
   opacity: ${props => props.opacity};
   transform: translate3d(0, 0px, 0);
