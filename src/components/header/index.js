@@ -74,11 +74,11 @@ class Header extends React.Component {
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
                       <TransitionLinkComponent to={`/`} title={`✌️`} color={`#121212`}>
-                        <Logo inverted={pathIsLocaleRoot(location)} />
+                        <Logo inverted={pathIsLocaleRoot(location) || layoutState.invertedHeader} />
                       </TransitionLinkComponent>
                   </Box>
                   <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                    <Nav inverted={pathIsLocaleRoot(location)} pathname={location.pathname} />
+                    <Nav inverted={pathIsLocaleRoot(location) || layoutState.invertedHeader} pathname={location.pathname} />
                   </Box>
                 </Flex>
               </Container>

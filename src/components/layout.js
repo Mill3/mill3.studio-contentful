@@ -47,8 +47,8 @@ class Layout extends React.Component {
   constructor(props) {
     super(props)
 
-    this.setOptions = this.setOptions.bind(this)
     this.setDemoReel = this.setDemoReel.bind(this)
+    this.setHeaderInverted = this.setHeaderInverted.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
     this.onScroll = this.onScroll.bind(this)
     this.scrollToTop = this.scrollToTop.bind(this)
@@ -56,8 +56,8 @@ class Layout extends React.Component {
     this.state = {
       ...defaultContextValue,
       transitionState: TRANSITION_PANE_STATES['intro'],
-      set: this.setOptions,
       setDemoReel: this.setDemoReel,
+      setHeaderInverted: this.setHeaderInverted
     }
 
     this.scrollbarRef = createRef()
@@ -69,21 +69,18 @@ class Layout extends React.Component {
     };
   }
 
-  setOptions(newData) {
-    this.setState(state => ({
-      options: {
-        ...this.state.options,
-        ...newData,
-      },
-    }))
-  }
-
   setDemoReel(active = false, trigger = null) {
     this.setState(state => ({
       demoReel: {
         active,
         trigger,
       },
+    }))
+  }
+
+  setHeaderInverted(inverted = false) {
+    this.setState(state => ({
+      invertedHeader: inverted
     }))
   }
 
@@ -111,6 +108,7 @@ class Layout extends React.Component {
   render() {
     const { transitionState } = this.state
     const { children, pageContext } = this.props
+
 
     if (pageContext.layout === 'basic') {
       return(
@@ -199,7 +197,7 @@ class Layout extends React.Component {
 
 Layout.defaultProps = {
   withIntro: false,
-  introComponent: null,
+  introComponent: null
 }
 
 Layout.propTypes = {

@@ -78,10 +78,10 @@ export const RowContainer = ({ alignContent, backgroundColor, addSpacer, childre
 
 const AnimatedBg = styled.div`
   position: absolute;
-  top: 0;
+  top: -50vh;
   left: 0;
   width: 100vw;
-  height: 150vh;
+  height: 200vh;
   z-index: -1;
   opacity: ${props => props.opacity};
   transform: translate3d(0, 0px, 0);

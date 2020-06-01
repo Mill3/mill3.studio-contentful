@@ -20,6 +20,10 @@ import Container from '@styles/Container'
 import StickyElement from '@utils/StickyElement'
 
 class IndexPage extends React.Component {
+  static contextTypes = {
+    layoutState: PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
 
@@ -33,6 +37,13 @@ class IndexPage extends React.Component {
 
     this.stickyContainerRef = createRef()
   }
+
+  // componentDidMount() {
+  //   this.context.layoutState.setInverted(true)
+  // }
+  // componentWillUnmount() {
+  //   this.context.layoutState.setInverted(false)
+  // }
 
   render() {
     const { data } = this.props

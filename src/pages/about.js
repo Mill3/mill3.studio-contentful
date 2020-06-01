@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'react-intl'
 import { Box } from 'rebass'
-import styled from 'styled-components'
+
+import LayoutContext from '@components/contexts/LayoutContext'
 
 import SEO from '@components/seo'
 import ClientsFooter from '@components/clients/ClientsFooter'
@@ -13,62 +15,68 @@ import AboutServices from '@components/pages/about/AboutServices'
 import AboutClients from '@components/pages/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 
-// import TransitionContainer from '@components/transitions/TransitionContainer'
-import {
-  AnimatedBackgroundRowContainer,
-  AnimatedBackgroundContainer,
-  VERTICAL_SPACER,
-  BOTTOM_SPACER,
-} from '@components/content_rows'
+import { AnimatedBackgroundContainer } from '@components/content_rows'
 
-const About = ({ data, intl }) => {
-  const { page } = data
-  console.log('page:', page)
+class About extends Component {
+  static contextTypes = {
+    layoutState: PropTypes.object,
+    getScrollbar: PropTypes.func,
+  }
 
-  return (
-    <React.Fragment>
-      {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
-      {/* black wrapper for 2 first section */}
-      <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.5}>
+  componentDidMount() {
+    this.context.layoutState.setHeaderInverted(true)
+  }
 
-        {/* the intro */}
-        <AboutIntro data={page.intro} color="#fff" />
+  componentWillUnmount() {
+    this.context.layoutState.setHeaderInverted(false)
+  }
 
-      </AnimatedBackgroundContainer>
+  render() {
+    const { data, intl } = this.props
+    const { page } = data
 
-      <AnimatedBackgroundContainer backgroundColor={'red'} threshold={0.5}>
+    return (
+      <LayoutContext.Provider inverted={true}>
+        {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
-        {/* Team */}
-        <AboutTeam
-          data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
-          color="#fff"
+        {/* black wrapper for 2 first section */}
+        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.4}>
+          {/* the intro */}
+          <AboutIntro data={page.intro} color="#fff" />
+
+          {/* Team */}
+          <AboutTeam
+            data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
+            color="#fff"
+          />
+        </AnimatedBackgroundContainer>
+
+        <AboutProcess
+          data={{ processIntro: page.processIntro, processes: page.processes }}
         />
 
-      </AnimatedBackgroundContainer>
+        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.4}>
+          <AboutServices
+            data={{ servicesIntro: page.servicesIntro, services: page.services }}
+            color="#fff"
+          />
+        </AnimatedBackgroundContainer>
 
-      <AboutProcess
-        data={{ processIntro: page.processIntro, processes: page.processes }}
-      />
+        <AboutClients data={{ clientsIntro: page.clientsIntro }} />
 
-      <AnimatedBackgroundRowContainer backgroundColor={'#000'} threshold={0.5}>
+        <ClientsFooter />
 
-        <AboutServices
-          data={{ servicesIntro: page.servicesIntro, services: page.services }}
-          color="#fff"
-        />
-
-      </AnimatedBackgroundRowContainer>
-
-      <AboutClients data={{ clientsIntro: page.clientsIntro }} />
-
-      <ClientsFooter />
-
-      <Box pt={[6]}>
-        <ContactForm />
-      </Box>
-    </React.Fragment>
-  )
+        <Box pt={[6]}>
+          <ContactForm />
+        </Box>
+      </LayoutContext.Provider>
+    )
+  }
 }
 
 export default injectIntl(About)
