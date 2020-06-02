@@ -16,7 +16,7 @@ import AboutServices from '@components/pages/about/AboutServices'
 import AboutClients from '@components/pages/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 
-import { BodyInvertedTriggerWrapper } from '@components/content_rows'
+import { AnimatedBackgroundRowContainer } from '@components/content_rows'
 
 class About extends Component {
   static contextTypes = {
@@ -26,6 +26,7 @@ class About extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.setBodyInverted = this.setBodyInverted.bind(this)
   }
 
   componentDidMount() {
@@ -34,6 +35,11 @@ class About extends Component {
 
   componentWillUnmount() {
     this.context.layoutState.setHeaderInverted(false)
+  }
+
+  setBodyInverted(inView) {
+    console.log('inView:', inView)
+    this.context.layoutState.setBodyInverted(inView)
   }
 
   render() {
@@ -45,7 +51,7 @@ class About extends Component {
       <LayoutContext.Provider>
         {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
-        <BodyInvertedTriggerWrapper threshold={0.25}>
+        <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
           {({ inView }) => (
             <Box>
               {/* the intro */}
@@ -59,19 +65,19 @@ class About extends Component {
               />
             </Box>
           )}
-        </BodyInvertedTriggerWrapper>
+        </AnimatedBackgroundRowContainer>
 
         <AboutProcess
           data={{ processIntro: page.processIntro, processes: page.processes }}
           color={`currentColor`}
         />
 
-        <BodyInvertedTriggerWrapper threshold={0.5}>
+        <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
           <AboutServices
             data={{ servicesIntro: page.servicesIntro, services: page.services }}
             color="currentColor"
           />
-        </BodyInvertedTriggerWrapper>
+        </AnimatedBackgroundRowContainer>
 
         <AboutClients data={{ clientsIntro: page.clientsIntro }} color="currentColor" />
 

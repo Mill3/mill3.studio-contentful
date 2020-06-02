@@ -13,13 +13,14 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
     scroll-behavior: smooth;
-    /* overflow-x: hidden; */
     color: ${props => props.inverted ? `#fff` : `#000`};
     background-color: transparent;
     &:after {
       content: "";
       display: block;
-      transition: opacity 1s;
+      pointer-events: none;
+      transform: translate3d(0, 0px, 0);
+      transition: opacity 250ms linear;
       position: absolute;
       height: 100%;
       width: 100%;

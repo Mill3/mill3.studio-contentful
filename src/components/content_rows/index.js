@@ -79,10 +79,10 @@ export const RowContainer = ({ alignContent, backgroundColor, addSpacer, childre
 
 const AnimatedBg = styled.div`
   position: absolute;
-  top: -50vh;
+  top: 0;
   left: 0;
   width: 100vw;
-  height: 200vh;
+  height: 100vh;
   z-index: -1;
   opacity: ${props => props.opacity};
   transform: translate3d(0, 0px, 0);
@@ -214,44 +214,44 @@ export const AnimatedBackgroundRowContainer = ({
     threshold={threshold}
     onChange={onChange}
   >
-    <RowContainer {...props}>{children}</RowContainer>
+    <RowContainer {...props}>{typeof children == `function` ? children(props) : children}</RowContainer>
   </AnimatedBackgroundContainer>
 )
 
-export const BodyInvertedTriggerWrapper = (props, context) => {
-  const { children } = props
-  const { layoutState } = context
-  const [ref, inView] = useInView({
-    threshold: props.threshold ? props.threshold : 0.25,
-  })
+// export const BodyInvertedTriggerWrapper = (props, context) => {
+//   const { children } = props
+//   const { layoutState } = context
+//   const [ref, inView] = useInView({
+//     threshold: props.threshold ? props.threshold : 0.25,
+//   })
 
-  useEffect(() => {
-    // when in view, not inverted and invertedBodyRef is not this ref
-    if (inView && !layoutState.invertedBody && layoutState.invertedBodyRef != ref) {
-      layoutState.setBodyInverted(true, ref)
+//   useEffect(() => {
+//     // when in view, not inverted and invertedBodyRef is not this ref
+//     if (inView && !layoutState.invertedBody && layoutState.invertedBodyRef != ref) {
+//       layoutState.setBodyInverted(true, ref)
 
-    // when not in view, inverted and invertedBodyRef is this ref
-    } else if (
-      !inView &&
-      layoutState.invertedBody &&
-      layoutState.invertedBodyRef == ref
-    ) {
-      layoutState.setBodyInverted(false, null)
-    }
-  })
+//     // when not in view, inverted and invertedBodyRef is this ref
+//     } else if (
+//       !inView &&
+//       layoutState.invertedBody &&
+//       layoutState.invertedBodyRef == ref
+//     ) {
+//       layoutState.setBodyInverted(false, null)
+//     }
+//   })
 
-  return (
-    <LayoutContext.Provider>
-      <Box ref={ref}>
-        {typeof children === `function` ? children({ inView: inView }) : children}
-      </Box>
-    </LayoutContext.Provider>
-  )
-}
+//   return (
+//     <LayoutContext.Provider>
+//       <Box ref={ref}>
+//         {typeof children === `function` ? children({ inView: inView }) : children}
+//       </Box>
+//     </LayoutContext.Provider>
+//   )
+// }
 
-BodyInvertedTriggerWrapper.contextTypes = {
-  layoutState: PropTypes.object,
-}
+// BodyInvertedTriggerWrapper.contextTypes = {
+//   layoutState: PropTypes.object,
+// }
 
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,

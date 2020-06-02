@@ -22,7 +22,7 @@ const AboutIntro = ({ data, color }) => {
       px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
     >
-      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`15vw`]}>
+      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`8vw`]}>
         <span dangerouslySetInnerHTML={{ __html: data.title }}></span>
       </AboutSectionHeading>
       <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
