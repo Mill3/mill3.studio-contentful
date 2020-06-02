@@ -12,10 +12,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-text-size-adjust: none;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
-    scroll-behavior: smooth;
-    /* color: ${props => props.inverted ? `#fff` : `#000`}; */
-    color: #000;
-    background-color: transparent;
+    /* scroll-behavior: smooth; */
     &:after {
       content: "";
       display: block;

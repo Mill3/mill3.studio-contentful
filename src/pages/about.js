@@ -9,11 +9,11 @@ import LayoutContext from '@components/contexts/LayoutContext'
 import SEO from '@components/seo'
 import ClientsFooter from '@components/clients/ClientsFooter'
 // import { BodyInvertedTriggerWrapper } from '@components/pages/about'
-import AboutIntro from '@components/pages/about/AboutIntro'
-import AboutTeam from '@components/pages/about/AboutTeam'
-import AboutProcess from '@components/pages/about/AboutProcess'
-import AboutServices from '@components/pages/about/AboutServices'
-import AboutClients from '@components/pages/about/AboutClients'
+import AboutIntro from '@components/about/AboutIntro'
+import AboutTeam from '@components/about/AboutTeam'
+import AboutProcess from '@components/about/AboutProcess'
+import AboutServices from '@components/about/AboutServices'
+import AboutClients from '@components/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 
 import { AnimatedBackgroundRowContainer } from '@components/content_rows'
@@ -35,6 +35,7 @@ class About extends Component {
 
   componentWillUnmount() {
     this.context.layoutState.setHeaderInverted(false)
+    this.context.layoutState.setBodyInverted(false)
   }
 
   setBodyInverted(inView) {
