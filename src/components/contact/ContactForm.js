@@ -136,7 +136,7 @@ const FieldGroup = forwardRef((props, ref) => {
         onSubmit={e => console.log(e)}
         {...validate}
       />
-      {error ? <span class="is-sans h6">{error}</span> : null}
+      {error ? <span className="is-sans h6">{error}</span> : null}
     </Flex>
   )
 })

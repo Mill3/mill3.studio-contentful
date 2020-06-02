@@ -1,14 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
+// import SplitText from 'react-pose-text'
 import Lottie from "lottie-react";
-import globeAnimation from "./globe.json";
 
-import { HORIZONTAL_SPACER } from '@components/content_rows'
+import globeAnimation from "@animations/globe.json";
+
+import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 const AboutIntro = ({ data, color }) => {
-  const ref = useRef();
+  const animationRef = useRef();
+
   return (
     <Flex
       as={AboutSectionContainer}
@@ -17,12 +20,13 @@ const AboutIntro = ({ data, color }) => {
       justifyContent="center"
       alignItems="center"
       px={HORIZONTAL_SPACER}
+      py={VERTICAL_SPACER}
     >
-      <AboutSectionHeading heading={'h1'} textAlign="center">
+      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`15vw`]}>
         <span dangerouslySetInnerHTML={{ __html: data.title }}></span>
       </AboutSectionHeading>
       <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
-        <Lottie ref={ref} animationData={globeAnimation} />
+        <Lottie ref={animationRef} animationData={globeAnimation} />
         <h5>{ data.shortText }</h5>
       </Flex>
     </Flex>

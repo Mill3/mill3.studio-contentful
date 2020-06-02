@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import { InView } from 'react-intersection-observer'
+import { InView, useInView } from 'react-intersection-observer'
 
+import LayoutContext from '@components/contexts/LayoutContext'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
@@ -143,7 +144,7 @@ export class AnimatedBackgroundContainer extends Component {
       })
 
       const { onChange } = this.props
-      if( onChange ) onChange(true);
+      if (onChange) onChange(true)
     } else {
       // if already outside of viewport, skip
       if (this.state.inView === false) return
@@ -153,10 +154,17 @@ export class AnimatedBackgroundContainer extends Component {
       this.exitViewportTicker = null
 
       // update state
-      this.setState({ inView: false }, () => this.exitViewportTicker = setTimeout(this.onExitCompleted, this.props.duration))
+      this.setState(
+        { inView: false },
+        () =>
+          (this.exitViewportTicker = setTimeout(
+            this.onExitCompleted,
+            this.props.duration
+          ))
+      )
 
       const { onChange } = this.props
-      if( onChange ) onChange(false);
+      if (onChange) onChange(false)
     }
   }
   onExitCompleted() {
@@ -186,7 +194,7 @@ export class AnimatedBackgroundContainer extends Component {
           duration={duration || 250}
           style={t}
         />
-        {children}
+        {typeof children == `function` ? children({ inView: inView }) : children}
       </InView>
     )
   }
@@ -200,10 +208,50 @@ export const AnimatedBackgroundRowContainer = ({
   onChange,
   ...props
 }) => (
-  <AnimatedBackgroundContainer backgroundColor={backgroundColor} duration={duration} threshold={threshold} onChange={onChange}>
+  <AnimatedBackgroundContainer
+    backgroundColor={backgroundColor}
+    duration={duration}
+    threshold={threshold}
+    onChange={onChange}
+  >
     <RowContainer {...props}>{children}</RowContainer>
   </AnimatedBackgroundContainer>
 )
+
+export const BodyInvertedTriggerWrapper = (props, context) => {
+  const { children } = props
+  const { layoutState } = context
+  const [ref, inView] = useInView({
+    threshold: props.threshold ? props.threshold : 0.25,
+  })
+
+  useEffect(() => {
+    // when in view, not inverted and invertedBodyRef is not this ref
+    if (inView && !layoutState.invertedBody && layoutState.invertedBodyRef != ref) {
+      layoutState.setBodyInverted(true, ref)
+
+    // when not in view, inverted and invertedBodyRef is this ref
+    } else if (
+      !inView &&
+      layoutState.invertedBody &&
+      layoutState.invertedBodyRef == ref
+    ) {
+      layoutState.setBodyInverted(false, null)
+    }
+  })
+
+  return (
+    <LayoutContext.Provider>
+      <Box ref={ref}>
+        {typeof children === `function` ? children({ inView: inView }) : children}
+      </Box>
+    </LayoutContext.Provider>
+  )
+}
+
+BodyInvertedTriggerWrapper.contextTypes = {
+  layoutState: PropTypes.object,
+}
 
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,
@@ -310,11 +358,7 @@ class ContentRow extends Component {
         case CONTENT_ROW_TYPES['section_break']:
           return (
             <div id={id} key={index}>
-              <ContentSectionBreak
-                isFirst={isFirst}
-                isLast={isLast}
-                data={row}
-              />
+              <ContentSectionBreak isFirst={isFirst} isLast={isLast} data={row} />
             </div>
           )
         default:
