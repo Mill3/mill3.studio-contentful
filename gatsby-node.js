@@ -22,6 +22,7 @@ exports.onCreateWebpackConfig = ({ stage, getConfig, rules, loaders, plugins, ac
         '@styles': path.resolve(__dirname, 'src/styles/'),
         '@svg': path.resolve(__dirname, 'src/svg/'),
         '@images': path.resolve(__dirname, 'src/images/'),
+        '@animations': path.resolve(__dirname, 'src/animations/'),
       },
       modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     },

@@ -44,7 +44,7 @@ class About extends Component {
         {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
         {/* black wrapper for 2 first section */}
-        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.4}>
+        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.15}>
           {/* the intro */}
           <AboutIntro data={page.intro} color="#fff" />
 

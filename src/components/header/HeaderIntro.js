@@ -15,7 +15,7 @@ import { AnimatedBackgroundContainer } from '@components/content_rows'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
-const HeaderIntroPoses = posed.header({
+export const HeaderIntroPoses = posed.header({
   init: {
     y: 0,
   },
@@ -33,6 +33,7 @@ const HeaderIntroPoses = posed.header({
     },
   },
 })
+
 const Header = styled(HeaderIntroPoses)`
   color: ${props => props.theme.colors.white};
   margin-top: -${header.height}px;
