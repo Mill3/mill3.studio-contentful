@@ -13,7 +13,8 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
     scroll-behavior: smooth;
-    color: ${props => props.inverted ? `#fff` : `#000`};
+    /* color: ${props => props.inverted ? `#fff` : `#000`}; */
+    color: #000;
     background-color: transparent;
     &:after {
       content: "";

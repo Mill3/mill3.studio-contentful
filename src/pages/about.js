@@ -38,14 +38,14 @@ class About extends Component {
   }
 
   setBodyInverted(inView) {
-    console.log('inView:', inView)
     this.context.layoutState.setBodyInverted(inView)
   }
 
   render() {
-    const { data, intl } = this.props
+    const { data } = this.props
     const { layoutState } = this.context
     const { page } = data
+    const color = layoutState.invertedBody ? `#fff` : `#000`
 
     return (
       <LayoutContext.Provider>
@@ -55,13 +55,12 @@ class About extends Component {
           {({ inView }) => (
             <Box>
               {/* the intro */}
-              <AboutIntro data={page.intro} inView={inView} color={`currentColor`} />
+              <AboutIntro data={page.intro} color={color} />
 
               {/* Team */}
               <AboutTeam
                 data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
-                inView={inView}
-                color={`currentColor`}
+                color={color}
               />
             </Box>
           )}
@@ -69,17 +68,17 @@ class About extends Component {
 
         <AboutProcess
           data={{ processIntro: page.processIntro, processes: page.processes }}
-          color={`currentColor`}
+          color={color}
         />
 
         <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
           <AboutServices
             data={{ servicesIntro: page.servicesIntro, services: page.services }}
-            color="currentColor"
+            color={color}
           />
         </AnimatedBackgroundRowContainer>
 
-        <AboutClients data={{ clientsIntro: page.clientsIntro }} color="currentColor" />
+        <AboutClients data={{ clientsIntro: page.clientsIntro }} color={color} />
 
         <ClientsFooter />
 
@@ -92,7 +91,7 @@ class About extends Component {
   }
 }
 
-export default injectIntl(About)
+export default About
 
 export const projectQuery = graphql`
   fragment sectionBannerFragment on ContentfulSectionBanner {
