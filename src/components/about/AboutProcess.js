@@ -4,6 +4,7 @@ import { Flex, Box, Heading } from 'rebass'
 
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
+import AboutProcessList from './AboutProcessList'
 import StickyElement from '@utils/StickyElement'
 
 const AboutProcess = ({ data, color }) => {
@@ -28,14 +29,7 @@ const AboutProcess = ({ data, color }) => {
       )}
 
       {processes &&
-      <Box ref={processesContainerRef} as={ProcessesContainer}>
-        <StickyElement target={processesContainerRef.current}>
-          <Heading>1</Heading>
-        </StickyElement>
-        <div>
-          {processes.map((process, i) => (<Box as={ProcessItem} key={i}>{process.title}</Box>))}
-        </div>
-      </Box>
+        <AboutProcessList processes={processes} />
       }
 
     </Box>
