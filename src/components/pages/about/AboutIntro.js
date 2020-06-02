@@ -1,7 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
-import { useInView } from 'react-intersection-observer'
 // import SplitText from 'react-pose-text'
 import Lottie from "lottie-react";
 

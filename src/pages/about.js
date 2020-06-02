@@ -8,6 +8,7 @@ import LayoutContext from '@components/contexts/LayoutContext'
 
 import SEO from '@components/seo'
 import ClientsFooter from '@components/clients/ClientsFooter'
+// import { BodyInvertedTriggerWrapper } from '@components/pages/about'
 import AboutIntro from '@components/pages/about/AboutIntro'
 import AboutTeam from '@components/pages/about/AboutTeam'
 import AboutProcess from '@components/pages/about/AboutProcess'
@@ -15,7 +16,7 @@ import AboutServices from '@components/pages/about/AboutServices'
 import AboutClients from '@components/pages/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 
-import { AnimatedBackgroundContainer } from '@components/content_rows'
+import { BodyInvertedTriggerWrapper } from '@components/content_rows'
 
 class About extends Component {
   static contextTypes = {
@@ -37,42 +38,49 @@ class About extends Component {
 
   render() {
     const { data, intl } = this.props
+    const { layoutState } = this.context
     const { page } = data
 
     return (
-      <LayoutContext.Provider inverted={true}>
+      <LayoutContext.Provider>
         {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
-        {/* black wrapper for 2 first section */}
-        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.15}>
-          {/* the intro */}
-          <AboutIntro data={page.intro} color="#fff" />
+        <BodyInvertedTriggerWrapper threshold={0.25}>
+          {({ inView }) => (
+            <Box>
+              {/* the intro */}
+              <AboutIntro data={page.intro} inView={inView} color={`currentColor`} />
 
-          {/* Team */}
-          <AboutTeam
-            data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
-            color="#fff"
-          />
-        </AnimatedBackgroundContainer>
+              {/* Team */}
+              <AboutTeam
+                data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
+                inView={inView}
+                color={`currentColor`}
+              />
+            </Box>
+          )}
+        </BodyInvertedTriggerWrapper>
 
         <AboutProcess
           data={{ processIntro: page.processIntro, processes: page.processes }}
+          color={`currentColor`}
         />
 
-        <AnimatedBackgroundContainer backgroundColor={'#000'} threshold={0.4}>
+        <BodyInvertedTriggerWrapper threshold={0.5}>
           <AboutServices
             data={{ servicesIntro: page.servicesIntro, services: page.services }}
-            color="#fff"
+            color="currentColor"
           />
-        </AnimatedBackgroundContainer>
+        </BodyInvertedTriggerWrapper>
 
-        <AboutClients data={{ clientsIntro: page.clientsIntro }} />
+        <AboutClients data={{ clientsIntro: page.clientsIntro }} color="currentColor" />
 
         <ClientsFooter />
 
         <Box pt={[6]}>
           <ContactForm />
         </Box>
+
       </LayoutContext.Provider>
     )
   }

@@ -49,6 +49,7 @@ class Layout extends React.Component {
 
     this.setDemoReel = this.setDemoReel.bind(this)
     this.setHeaderInverted = this.setHeaderInverted.bind(this)
+    this.setBodyInverted = this.setBodyInverted.bind(this)
     this.setTransitionState = this.setTransitionState.bind(this)
     this.onScroll = this.onScroll.bind(this)
     this.scrollToTop = this.scrollToTop.bind(this)
@@ -57,7 +58,8 @@ class Layout extends React.Component {
       ...defaultContextValue,
       transitionState: TRANSITION_PANE_STATES['intro'],
       setDemoReel: this.setDemoReel,
-      setHeaderInverted: this.setHeaderInverted
+      setHeaderInverted: this.setHeaderInverted,
+      setBodyInverted: this.setBodyInverted
     }
 
     this.scrollbarRef = createRef()
@@ -81,6 +83,13 @@ class Layout extends React.Component {
   setHeaderInverted(inverted = false) {
     this.setState(state => ({
       invertedHeader: inverted
+    }))
+  }
+
+  setBodyInverted(inverted = false, ref = null) {
+    this.setState(state => ({
+      invertedBody: inverted,
+      invertedBodyRef: ref
     }))
   }
 
@@ -109,7 +118,6 @@ class Layout extends React.Component {
     const { transitionState } = this.state
     const { children, pageContext } = this.props
 
-
     if (pageContext.layout === 'basic') {
       return(
         <React.Fragment>
@@ -128,7 +136,7 @@ class Layout extends React.Component {
             <LayoutContext.Provider value={this.state}>
               <FullViewportHeight>
 
-                <GlobalStyle />
+                <GlobalStyle inverted={this.state.invertedBody} />
 
                 <ThemeProvider theme={Theme}>
                   <React.Fragment>

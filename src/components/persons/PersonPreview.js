@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import { Box, Heading } from 'rebass'
 
 const PersonPreview = ({ person }) => {
-  console.log('person:', person)
   return (
     <Box>
       <Box as={FigureContainer} mb={3}>
-        <img srcSet={person.photo.fluid.srcSet} alt={person.fullname} class="img-fluid" />
+        <img srcSet={person.photo.fluid.srcSet} alt={person.fullname} className="img-fluid" />
       </Box>
       <figcaption>
         <Heading as="h4" fontSize={24} fontWeight={400} mb={2}>{person.fullName}</Heading>

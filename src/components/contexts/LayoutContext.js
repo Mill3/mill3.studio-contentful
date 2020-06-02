@@ -3,6 +3,7 @@ import React from "react"
 export const defaultContextValue = {
   inTransition: true,
   invertedHeader: false,
+  invertedBody: false,
   demoReel: {
     active: false,
     trigger: null,

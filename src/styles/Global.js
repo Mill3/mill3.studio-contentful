@@ -14,6 +14,21 @@ const GlobalStyle = createGlobalStyle`
     text-rendering: optimizeSpeed;
     scroll-behavior: smooth;
     /* overflow-x: hidden; */
+    color: ${props => props.inverted ? `#fff` : `#000`};
+    background-color: transparent;
+    &:after {
+      content: "";
+      display: block;
+      transition: opacity 1s;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background-color: #000;
+      opacity: ${props => props.inverted ? `1` : `0`};
+    }
   }
 
   /* type */
