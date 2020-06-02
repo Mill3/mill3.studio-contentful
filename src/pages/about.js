@@ -20,7 +20,6 @@ import { AnimatedBackgroundContainer } from '@components/content_rows'
 class About extends Component {
   static contextTypes = {
     layoutState: PropTypes.object,
-    getScrollbar: PropTypes.func,
   }
 
   constructor(props) {

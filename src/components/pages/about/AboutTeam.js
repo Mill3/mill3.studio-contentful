@@ -1,15 +1,26 @@
 import React from 'react';
-import { Box } from 'rebass'
+import { Flex } from 'rebass'
 
 import PersonPreview from '@components/persons/PersonPreview';
 
-import { AboutSectionContainer } from './index'
+import { HORIZONTAL_SPACER } from '@components/content_rows'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 const AboutTeam = ({ data, color }) => {
+  console.log('data:', data)
   return (
-    <Box as={AboutSectionContainer} color={color}>
-      About Team
-    </Box>
+    <Flex
+      as={AboutSectionContainer}
+      color={color}
+      flexDirection="column"
+      justifyContent="start"
+      alignItems="center"
+      px={HORIZONTAL_SPACER}
+    >
+      <AboutSectionHeading heading={'h1'} textAlign="center">
+        <span dangerouslySetInnerHTML={{ __html: data.teamIntro.title }}></span>
+      </AboutSectionHeading>
+    </Flex>
   );
 }
 

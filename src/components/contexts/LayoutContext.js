@@ -7,9 +7,6 @@ export const defaultContextValue = {
     active: false,
     trigger: null,
   },
-  // options: {
-  //   inverted: false,
-  // },
   set: () => {},
   setDemoReel: () => {},
   setInverted: () => {},

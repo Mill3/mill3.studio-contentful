@@ -59,6 +59,9 @@ const ClientRowInner = styled.div`
   transition: padding 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
+const ClientsContainer = styled.div`
+`
+
 export const filterByLocale = (data, locale = `en`) => {
   return data.filter(e => e.node.node_locale === locale)
 }
@@ -207,8 +210,7 @@ const ClientsList = ({ intl }) => {
     }
   `)
   return (
-    <Box pt={[5,5,0]}>
-      {/* {console.log(intl)} */}
+    <Box as={ClientsContainer} pt={[5,5,0]}>
       <ClientRow projectName={intl.formatMessage({id: 'clients.project'})} name={intl.formatMessage({id: 'clients.name'})} service={intl.formatMessage({id: 'clients.expertise'})} year={intl.formatMessage({id: 'clients.year'})} sep={false} textColor={colors.text} hoverIndex={false} />
       <CliensRows data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
     </Box>
