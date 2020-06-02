@@ -69,6 +69,10 @@ const messages = defineMessages({
     id: 'demoReel.Close',
     defaultMessage: 'Close'
   },
+  demoReelPlay: {
+    id: 'demoReel.Play',
+    defaultMessage: 'Play',
+  },
   thankYou: {
     id: 'contact.ThankYou',
     defaultMessage: 'Thank you!'

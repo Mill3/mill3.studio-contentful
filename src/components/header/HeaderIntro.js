@@ -6,10 +6,13 @@ import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
 import { InView } from 'react-intersection-observer'
+import memoize from 'memoize-one'
 
 import Container from '@styles/Container'
-import { breakpoints, colors, header } from '@styles/Theme'
+import { breakpoints, colors, header, space } from '@styles/Theme'
 import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import ResponsiveProp from '@utils/ResponsiveProp'
+import Viewport from '@utils/Viewport'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from '@components/content_rows'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
@@ -33,21 +36,6 @@ const HeaderIntroPoses = posed.header({
     },
   },
 })
-const Header = styled(HeaderIntroPoses)`
-  color: ${props => props.theme.colors.white};
-  margin-top: -${header.height}px;
-  padding-top: ${header.height}px;
-
-  @media (min-width: ${breakpoints[2]}) {
-    margin-top: -${header.height + 24}px;
-    padding-top: ${header.height + 24}px;
-  }
-`
-const HeaderTextStyle = styled.h1`
-  margin: 0;
-  line-height: 1.242857143;
-  transform-origin: top center;
-`
 const ParagraphPoses = posed.div({
   init: {
     opacity: 0,
@@ -80,7 +68,66 @@ const ParagraphPoses = posed.div({
     },
   }
 })
-const VideoPlaybackStyle = styled.button`
+const VideoPlayerPoses = posed.video({
+  default: {
+    right: 0,
+    width: '100%',
+    height: '100%',
+    transition: {
+      type: 'tween',
+      duration: 950,
+      delay: 350,
+      ease: [0.645, 0.045, 0.355, 1.000],
+    },
+    flip: true,
+  },
+  fullscreen: {
+    right: () => videoPlayerRightOffset.getValue(),
+    width: () => videoPlayerWidth.getValue(),
+    height: () => videoPlayerHeight.getValue(),
+    transition: {
+      type: 'tween',
+      duration: 1250,
+      ease: [0.645, 0.045, 0.355, 1.000],
+    },
+    flip: true,
+  }
+})
+const VideoPlaybackPoses = posed.button({
+  visible: {
+    opacity: 1,
+    delay: 850,
+  },
+  hidden: {
+    opacity: 0,
+    delay: 0,
+  },
+})
+
+const Header = styled(HeaderIntroPoses)`
+  color: ${props => props.theme.colors.white};
+  margin-top: -${header.height}px;
+  padding-top: ${header.height}px;
+
+  @media (min-width: ${breakpoints[2]}) {
+    margin-top: -${header.height + 24}px;
+    padding-top: ${header.height + 24}px;
+  }
+`
+const HeaderTextStyle = styled.h1`
+  margin: 0;
+  line-height: 1.242857143;
+  transform-origin: top center;
+`
+const VideoPlayerStyle = styled(VideoPlayerPoses)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+const VideoPlaybackStyle = styled(VideoPlaybackPoses)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,6 +146,7 @@ const VideoPlaybackStyle = styled.button`
   transform-origin: center center;
   transform: ${HAS_HOVER ? 'translate3d(0px, 0px, 0)' : 'translate(50%, -50%) !important'};
 `
+
 
 export const charPoses = {
   exit: { opacity: 0, y: 20 },
@@ -137,6 +185,9 @@ const fontSizes = {
   'en': ['7.729468599vw', null, '6vw', '4.861111111vw'],
   'fr': ['7.729468599vw', null, '6vw', '4.861111111vw']
 }
+const videoPlayerRightOffset = new ResponsiveProp([-24, space[4] * -1, '-5vw'])
+const videoPlayerWidth = new ResponsiveProp(['100vw', null, null, '60vw'])
+const videoPlayerHeight = new ResponsiveProp(['100vw', null, null, '100vh'])
 
 const PLAY_BUTTON_DEFAULT = {
   x: -72,
@@ -154,6 +205,10 @@ export const lerp = (s, e, m) => s * (1 - m) + e * m;
 
 
 class BoxVideo extends Component {
+  static contextTypes = {
+    layoutState: PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
 
@@ -167,20 +222,34 @@ class BoxVideo extends Component {
     this.event = null
     this.rect = { width: 0, height: 0 }
     this.ref = createRef()
+    this.video = createRef()
 
     this.onMouseEnter = this.onMouseEnter.bind(this)
     this.onMouseLeave = this.onMouseLeave.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onRender = this.onRender.bind(this)
     this.onResize = this.onResize.bind(this)
+
+    this.onDemoReelContextChange = memoize(active => {
+      if( this.video.current ) {
+        const v = this.video.current
+
+        if( active ) v.play()
+        else v.pause()
+      }
+
+      return active
+    })
+    this.getPoses = memoize((active) => active ? ['fullscreen', 'hidden'] : ['default', 'visible'])
   }
 
   componentDidMount() {
     this.onResize()
-    window.addEventListener('resize', this.onResize)
+    Viewport.on(this.onResize)
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize)
+    Viewport.off(this.onResize)
+
     if( this.raf ) cancelAnimationFrame(this.raf)
     this.raf = null;
   }
@@ -233,15 +302,35 @@ class BoxVideo extends Component {
   }
 
   render() {
-    const { forwardedRef, ...rest} = this.props
+    const { forwardedRef, intl, video, ...rest} = this.props
     const { x, y } = this.state
+    const { active } = this.context.layoutState.demoReel
+    const [ playerPose, buttonPose ] = this.getPoses(active)
+
+    this.onDemoReelContextChange(active)
 
     return (
       <Box ref={forwardedRef} css={{position: 'relative'}} {...rest}>
-        <Box width={['100%']} height={0} pb={['100%']} bg="olive">
+        <Box width={['100%']} height={0} pb={['100%']} css={{position: 'relative'}}>
+          <Box
+            as={VideoPlayerStyle}
+            ref={this.video}
+            disablePictureInPicture
+            playsInline
+            preload="metadata"
+            loop
+            src={video?.file?.url}
+            initialPose="default"
+            pose={playerPose}
+          />
         </Box>
 
-        <Box as={VideoPlaybackStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}}>Play</Box>
+        <Box
+          as={VideoPlaybackStyle}
+          initialPose="visible"
+          pose={buttonPose}
+          style={{transform: `translate3d(${x}px, ${y}px, 0)`}}
+        >{intl.formatMessage({ id: 'demoReel.Play' })}</Box>
 
         {HAS_HOVER && <Box
           ref={this.ref}
@@ -258,8 +347,9 @@ class BoxVideo extends Component {
 }
 
 
+const I18nBoxVideo = injectIntl(BoxVideo)
 const ForwardedBoxVideo = forwardRef((props, ref) =>
-  <BoxVideo {...props} forwardedRef={ref} />
+  <I18nBoxVideo {...props} forwardedRef={ref} />
 )
 
 
@@ -272,6 +362,7 @@ class HeaderIntro extends Component {
     super(props)
 
     this.boxVideoRef = createRef()
+    this.demoAsBeenClickedOnce = false
 
     this.onBoxVideoClicked = this.onBoxVideoClicked.bind(this)
   }
@@ -286,13 +377,16 @@ class HeaderIntro extends Component {
   }
 
   render() {
-    const { intl } = this.props
+    const { intl, data } = this.props
     const { layoutState } = this.context
     const { transitionState, demoReel } = layoutState
 
-    const isTransitionVisible = transitionState === TRANSITION_PANE_STATES['visible']
     const isDemoReel = demoReel.active === true
+    const isTransitionVisible = transitionState === TRANSITION_PANE_STATES['visible']
     const isTransitionIntro = transitionState === TRANSITION_PANE_STATES['intro']
+    const titleDelay = isTransitionIntro ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85
+
+    if( !this.demoAsBeenClickedOnce ) this.demoAsBeenClickedOnce = isDemoReel;
 
     return (
       <Box
@@ -301,16 +395,12 @@ class HeaderIntro extends Component {
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
-          <Container fluid display="flex" flexDirection="column" pt={[6, null, "170px"]} pb={[6, null, "170px", 6]}>
+          <Container fluid display="flex" flexDirection="column" pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
                 initialPose={`exit`}
-                pose={isTransitionVisible || isDemoReel ? `out` : `enter`}
-                startDelay={
-                  isTransitionIntro
-                    ? TRANSITION_INTRO_DELAY * 1.25
-                    : TRANSITION_DURATION * 0.85
-                }
+                pose={isTransitionVisible ? `out` : `enter`}
+                startDelay={titleDelay}
                 charPoses={charPoses}
               >
                 {intl.formatMessage({ id: 'intro.LineA' }).toString()}
@@ -320,12 +410,8 @@ class HeaderIntro extends Component {
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-normal is-sans fw-300`}>
               <SplitText
                 initialPose={`exit`}
-                pose={isTransitionVisible || isDemoReel ? `out` : `enter`}
-                startDelay={
-                  isTransitionIntro
-                    ? TRANSITION_INTRO_DELAY * 1.25
-                    : TRANSITION_DURATION * 0.85
-                }
+                pose={isTransitionVisible ? `out` : `enter`}
+                startDelay={titleDelay}
                 charPoses={charPoses}
               >
                 {intl.formatMessage({ id: 'intro.LineB' }).toString()}
@@ -340,10 +426,11 @@ class HeaderIntro extends Component {
                   ref={ref}
                   as={ParagraphPoses}
                   width={['100%', null, '55%', '50%']}
+                  mt={[4, null, 0]}
                   pr={[0, null, '6vw', 0]}
                   initialPose={`init`}
                   pose={isDemoReel ? `leave` : (inView ? `appear` : `init`)}
-                  delay={0}
+                  delay={isDemoReel ? 0 : (inView && this.demoAsBeenClickedOnce ? 950 : 0 )}
                 >
                   <Text as="p" maxWidth={['100%', null, null, 414]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
                     {intl.formatMessage({ id: 'intro.AboutUs' }).toString()}
@@ -360,8 +447,8 @@ class HeaderIntro extends Component {
 
             <ForwardedBoxVideo
               ref={this.boxVideoRef}
+              video={data?.demoReel?.video}
               width={['100%', null, '45%', '50%']}
-              mb={[4, null, 0]}
               onClick={this.onBoxVideoClicked}
             />
           </Container>

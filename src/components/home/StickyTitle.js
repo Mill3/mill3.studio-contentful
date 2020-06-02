@@ -141,7 +141,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
                   rx="308"
                   ry="141"
                   stroke="currentColor"
-                  strokeWidth="9"
+                  strokeWidth="4"
                   fill="none"
                   initialPose={`exit`}
                   pose={appear ? `enter` : `exit`}

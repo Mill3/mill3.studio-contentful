@@ -1,22 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import posed from 'react-pose'
 import { Location } from '@reach/router'
 import { injectIntl, intlShape } from 'react-intl'
 import { Flex, Box } from 'rebass'
 
-// import LayoutContext from '@components/contexts/LayoutContext'
-// import Viewport from '@utils/Viewport'
-import Nav from '@components/nav/index'
-
 import Container from '@styles/Container'
 import Logo from '@svg/Logo'
+import Nav from '@components/nav/index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { pathIsLocaleRoot } from '@utils/Locales'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
+
 
 const SiteHeaderPose = posed.header({
   visible: {
@@ -37,10 +35,17 @@ const SiteHeaderPose = posed.header({
     },
   },
 })
+const SiteHeaderDisabled = css`
+  &,
+  * {
+    pointer-events: none;
+  }
+`
 const SiteHeader = styled(SiteHeaderPose)`
   position: relative;
   z-index: 1000;
-  pointer-events: ${props => props.visible ? 'all' : 'none'};
+
+  ${({ visible }) => (visible ? null : SiteHeaderDisabled)};
 `
 const HeaderStyle = styled.div`
   height: ${props => props.theme.header.height}px;
@@ -64,6 +69,7 @@ class Header extends React.Component {
             defaultPose={'visible'}
             pose={demoReel.active ? 'hidden' : 'visible'}
             visible={!demoReel.active}
+            withParent={false}
           >
             <TransitionContainer
               distance={10}

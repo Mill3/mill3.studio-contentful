@@ -1,5 +1,6 @@
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { graphql } from 'gatsby'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { InView } from 'react-intersection-observer'
@@ -18,6 +19,17 @@ import ContactForm from '@components/contact/ContactForm'
 import LayoutContext from '@components/contexts/LayoutContext'
 import Container from '@styles/Container'
 import StickyElement from '@utils/StickyElement'
+
+
+const IndexContainer = styled.div`
+  opacity: 1;
+  transition: opacity 650ms 1050ms linear;
+
+  &.--demoReel {
+    opacity: 0;
+    transition: opacity 450ms linear;
+  }
+`
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -38,26 +50,20 @@ class IndexPage extends React.Component {
     this.stickyContainerRef = createRef()
   }
 
-  // componentDidMount() {
-  //   this.context.layoutState.setInverted(true)
-  // }
-  // componentWillUnmount() {
-  //   this.context.layoutState.setInverted(false)
-  // }
-
   render() {
     const { data } = this.props
     const { headerInView, introInView, introAtEnd, projectsInView, outroInView } = this.state
+    const { demoReel } = this.context.layoutState
 
     return (
       <LayoutContext.Provider>
         <SEO seo={data.seoFields} />
         <React.Fragment>
           <InView onChange={(inView) => this.setState({ headerInView: inView })}>
-            <HeaderIntro />
+            <HeaderIntro data={data} />
           </InView>
 
-          <Box ref={this.stickyContainerRef}>
+          <Box ref={this.stickyContainerRef} as={IndexContainer} className={demoReel.active ? '--demoReel' : null}>
             <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
               <StickyElement target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
                 <StickyTitle
@@ -89,7 +95,7 @@ class IndexPage extends React.Component {
           </Box>
 
           <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-            <StickyOutro appear={introAtEnd} pt={[0, null, null, null, '100px']} pb={[5, null, 6]} />
+            <StickyOutro appear={introAtEnd} pb={[5, null, 6]} />
             <ContactForm />
           </InView>
 
@@ -108,8 +114,8 @@ IndexPage.propTypes = {
 
 export default injectIntl(IndexPage)
 
-export const projectQuery = graphql`
-  query projectsHomeQuery($locale: String!) {
+export const homeQuery = graphql`
+  query homeQuery($locale: String!) {
     seoFields : contentfulSeo(slug: { eq: "homepage" }, node_locale : { eq: $locale }) {
       ...seoFragment
     }
@@ -117,6 +123,17 @@ export const projectQuery = graphql`
       edges {
         node {
           ...Project
+        }
+      }
+    }
+    demoReel : contentfulVideoItem(slug: { eq: "demo-reel" }, node_locale : { eq: $locale }) {
+      id
+      video {
+        id
+        file {
+          url
+          fileName
+          contentType
         }
       }
     }

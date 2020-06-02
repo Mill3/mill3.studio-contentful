@@ -256,6 +256,7 @@ class Nav extends React.Component {
           pose={visible ? 'visible' : 'hidden'}
           visible={visible}
           inverted={inverted}
+          withParent={false}
         >
           <NavItem>
             <TransitionLinkComponent to={`/projects/`} color={colors.blue}>
