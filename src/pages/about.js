@@ -112,10 +112,7 @@ export const projectQuery = graphql`
         title
         photo {
           fluid {
-            base64
-            tracedSVG
-            srcWebp
-            srcSetWebp
+            srcSet
           }
         }
       }
