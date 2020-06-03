@@ -5,6 +5,7 @@ import { Flex, Box, Heading } from 'rebass'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutProcessList from './AboutProcessList'
+import AboutProcessIntro from './AboutProcessIntro'
 import StickyElement from '@utils/StickyElement'
 
 const AboutProcess = ({ data, color }) => {
@@ -15,7 +16,7 @@ const AboutProcess = ({ data, color }) => {
     <Box
       as={AboutSectionContainer}
       color={color}
-      px={[2,4]}
+      // px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
     >
       <AboutSectionHeading>
@@ -23,9 +24,7 @@ const AboutProcess = ({ data, color }) => {
       </AboutSectionHeading>
 
       {processIntro.introBlurb && (
-        <Box px={HORIZONTAL_SPACER} py={VERTICAL_SPACER} textAlign="center">
-          <Heading fontSize={`5vw`} dangerouslySetInnerHTML={{ __html: processIntro.introBlurb.introBlurb }} />
-        </Box>
+        <AboutProcessIntro text={processIntro.introBlurb.introBlurb} />
       )}
 
       {processes &&

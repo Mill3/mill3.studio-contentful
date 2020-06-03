@@ -19,7 +19,6 @@ const AboutIntro = ({ data, color }) => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
     >
       <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`8vw`]}>
