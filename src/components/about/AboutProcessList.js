@@ -101,10 +101,8 @@ class AboutProcessList extends Component {
     const duration = current.getDuration()
     const totalFrames = duration * 30
     // TODO: increment value should be based on parent available height
-    const incrementFrameBy = 0.5
+    const incrementFrameBy = 1
 
-    // stop here if current frame is over max total frames
-    if (this.frame >= totalFrames) return
 
     // increment frame based on scroll direction
     if (direction === "down") {
@@ -112,6 +110,9 @@ class AboutProcessList extends Component {
     } else if(direction === "up") {
       this.frame = this.frame > 1 ? (this.frame -= incrementFrameBy) : 1
     }
+
+    // stop here if current frame is over max total frames
+    if (this.frame >= totalFrames) return
 
     // go to frame
     current.goToAndStop(this.frame, true)
