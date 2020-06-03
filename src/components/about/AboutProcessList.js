@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
-import { InView, useInView } from 'react-intersection-observer'
+import { InView } from 'react-intersection-observer'
 // import { debounce } from 'lodash'
 // import { isBrowser } from 'react-device-detect'
 import Lottie from 'lottie-react'
@@ -124,11 +124,12 @@ class AboutProcessList extends Component {
       this.items.push(
         <Flex
           ref={this.itemsRefs[i]}
+          key={i}
           as={ProcessItem}
           px={6}
           active={this.state.activeItem === i}
-          first={i == processes.length - 1}
-          last={i == processes.length - 1}
+          first={i === processes.length - 1}
+          last={i === processes.length - 1}
         >
           <Heading as={ProcessHeading} mr={[0, null, 6]} width={(`100%`, null, '30%')}>
             {process.title}

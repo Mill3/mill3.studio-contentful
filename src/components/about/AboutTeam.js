@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box } from 'rebass'
+import { Box } from 'rebass'
 
 import PersonPreview from '@components/persons/PersonPreview'
 
-import { HORIZONTAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 const AboutTeam = ({ data, color }) => {

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { Box, Flex, Heading } from 'rebass'
+import { Box, Heading } from 'rebass'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 
 export const AboutSectionHeading = props => {
