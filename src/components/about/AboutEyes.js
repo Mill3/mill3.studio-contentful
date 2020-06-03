@@ -57,6 +57,8 @@ const EyelidPoses = posed.div({
 })
 
 const ContainerStyle = styled.div`
+  pointer-events: none;
+  
   ${() => DEBUG ? DebugMixin : null}
 `
 const EyeStyle = styled.div`
