@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import { InView, useInView } from 'react-intersection-observer'
-import { debounce } from 'lodash'
-import { isBrowser } from 'react-device-detect'
+// import { debounce } from 'lodash'
+// import { isBrowser } from 'react-device-detect'
 import Lottie from 'lottie-react'
 
-import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
 import StickyElement from '@utils/StickyElement'
 import Viewport from '@utils/Viewport'
 
@@ -27,6 +24,7 @@ class AboutProcessList extends Component {
       inView: false,
       monitorScroll: false,
     }
+    this.frame = 0;
     this.scrollbar = null
     this.mounted = false
     this.items = []
@@ -44,7 +42,6 @@ class AboutProcessList extends Component {
     this.props.processes.forEach(process => {
       this.itemsRefs.push(React.createRef())
     })
-    console.log('this.itemsRefs:', this.itemsRefs)
 
     this.context.getScrollbar(s => {
       this.scrollbar = s
@@ -55,6 +52,11 @@ class AboutProcessList extends Component {
   onScroll() {
     if (!this.state.inView) return
 
+    this._setActiveItemObserver();
+    this._setAnimation();
+  }
+
+  _setActiveItemObserver() {
     const { activeItem } = this.state
 
     const vh = Viewport.height * 0.5
@@ -91,6 +93,26 @@ class AboutProcessList extends Component {
     this.setState({
       activeItem: nearestItem,
     })
+  }
+
+  _setAnimation() {
+    const { current } = this.animationRef
+    const { direction } = this.scrollbar;
+    const duration = current.getDuration()
+    const totalFrames = duration * 30
+
+    // stop here if current frame is over max total frames
+    if(this.frame >= totalFrames) return;
+
+    // increment frame based on scroll direction
+    if (direction == `down`) {
+      this.frame = this.frame < totalFrames ? this.frame += 1 : totalFrames
+    } else {
+      this.frame = this.frame > 1 ? this.frame -= 1 : 1;
+    }
+
+    // go to frame
+    current.goToAndStop(this.frame, true);
   }
 
   list(processes) {
@@ -134,7 +156,7 @@ class AboutProcessList extends Component {
         >
           <StickyElement target={this.processesContainerRef.current}>
             <Heading as={ContainerHeading}>0{this.state.activeItem + 1}</Heading>
-            <Lottie ref={this.animationRef} animationData={starAnimation} />
+            <Lottie autoplay={false} ref={this.animationRef} animationData={starAnimation} />
           </StickyElement>
           <div>{this.list(processes)}</div>
         </Box>

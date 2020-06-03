@@ -54,6 +54,11 @@ class About extends Component {
 
         <Box px={HORIZONTAL_SPACER}>
 
+          <AboutProcess
+            data={{ processIntro: page.processIntro, processes: page.processes }}
+            color={color}
+          />
+
           <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
             {({ inView }) => (
               <React.Fragment>
@@ -68,11 +73,6 @@ class About extends Component {
               </React.Fragment>
             )}
           </AnimatedBackgroundRowContainer>
-
-          <AboutProcess
-            data={{ processIntro: page.processIntro, processes: page.processes }}
-            color={color}
-          />
 
           <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.5}>
             <AboutServices
