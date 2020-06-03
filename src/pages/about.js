@@ -16,7 +16,7 @@ import AboutServices from '@components/about/AboutServices'
 import AboutClients from '@components/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 
-import { AnimatedBackgroundRowContainer } from '@components/content_rows'
+import { AnimatedBackgroundRowContainer, HORIZONTAL_SPACER } from '@components/content_rows'
 
 class About extends Component {
   static contextTypes = {
@@ -52,34 +52,39 @@ class About extends Component {
       <LayoutContext.Provider>
         {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
-        <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
-          {({ inView }) => (
-            <Box>
-              {/* the intro */}
-              <AboutIntro data={page.intro} color={color} />
+        <Box px={HORIZONTAL_SPACER}>
 
-              {/* Team */}
-              <AboutTeam
-                data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
-                color={color}
-              />
-            </Box>
-          )}
-        </AnimatedBackgroundRowContainer>
+          <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
+            {({ inView }) => (
+              <React.Fragment>
+                {/* the intro */}
+                <AboutIntro data={page.intro} color={color} />
 
-        <AboutProcess
-          data={{ processIntro: page.processIntro, processes: page.processes }}
-          color={color}
-        />
+                {/* Team */}
+                <AboutTeam
+                  data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
+                  color={color}
+                />
+              </React.Fragment>
+            )}
+          </AnimatedBackgroundRowContainer>
 
-        <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
-          <AboutServices
-            data={{ servicesIntro: page.servicesIntro, services: page.services }}
+          <AboutProcess
+            data={{ processIntro: page.processIntro, processes: page.processes }}
             color={color}
           />
-        </AnimatedBackgroundRowContainer>
 
-        <AboutClients data={{ clientsIntro: page.clientsIntro }} color={color} />
+          <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.5}>
+            <AboutServices
+              data={{ servicesIntro: page.servicesIntro, services: page.services }}
+              color={color}
+            />
+          </AnimatedBackgroundRowContainer>
+
+          <AboutClients data={{ clientsIntro: page.clientsIntro }} color={color} />
+
+
+        </Box>
 
         <ClientsFooter />
 

@@ -19,7 +19,6 @@ const AboutIntro = ({ data, color }) => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
     >
       <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`8vw`]}>
@@ -44,7 +43,7 @@ const Footer = styled.footer`
     margin-top: -160px;
     margin-bottom: -160px;
     path {
-      stroke: #fff;
+      stroke: currentColor;
     }
   }
 `

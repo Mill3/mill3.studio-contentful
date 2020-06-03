@@ -5,6 +5,8 @@ import { Box, Heading } from 'rebass'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutEyes from './AboutEyes'
+import AboutProcessList from './AboutProcessList'
+import AboutProcessIntro from './AboutProcessIntro'
 import StickyElement from '@utils/StickyElement'
 
 
@@ -16,7 +18,7 @@ const AboutProcess = ({ data, color }) => {
     <Box
       as={AboutSectionContainer}
       color={color}
-      px={[2,4]}
+      // px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
       css={{position: 'relative'}}
     >
@@ -24,25 +26,16 @@ const AboutProcess = ({ data, color }) => {
         <span dangerouslySetInnerHTML={{ __html: processIntro.title }}></span>
       </AboutSectionHeading>
 
-      <Box mt={VERTICAL_SPACER} mr={[2, 4, 130]} css={{position: 'absolute', top: 0, right: 0}}>
-        <AboutEyes />
+      <Box mt={VERTICAL_SPACER} css={{position: 'absolute', top: 0, right: 0}}>
+        <AboutEyes color={color} />
       </Box>
 
       {processIntro.introBlurb && (
-        <Box px={HORIZONTAL_SPACER} py={VERTICAL_SPACER} textAlign="center">
-          <Heading fontSize={`5vw`} dangerouslySetInnerHTML={{ __html: processIntro.introBlurb.introBlurb }} />
-        </Box>
+        <AboutProcessIntro text={processIntro.introBlurb.introBlurb} />
       )}
 
       {processes &&
-      <Box ref={processesContainerRef} as={ProcessesContainer}>
-        <StickyElement target={processesContainerRef.current}>
-          <Heading>1</Heading>
-        </StickyElement>
-        <div>
-          {processes.map((process, i) => (<Box as={ProcessItem} key={i}>{process.title}</Box>))}
-        </div>
-      </Box>
+        <AboutProcessList processes={processes} />
       }
 
     </Box>

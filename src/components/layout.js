@@ -9,6 +9,7 @@ import Scrollbar from 'react-smooth-scrollbar'
 
 import LayoutContext, { defaultContextValue } from '@components/contexts/LayoutContext'
 import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
+import ScrollbarDirectionPlugin from '@utils/ScrollbarDirectionPlugin'
 
 // Locale data
 import enData from 'react-intl/locale-data/en'
@@ -35,7 +36,7 @@ import FullViewportHeight from '@utils/FullViewportHeight'
 const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
-SmoothScrollbar.use(ScrollbarPausePlugin)
+SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin)
 addLocaleData([...enData, ...frData])
 
 class Layout extends React.Component {

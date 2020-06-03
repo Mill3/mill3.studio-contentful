@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Flex, Box } from 'rebass'
 
 import PersonPreview from '@components/persons/PersonPreview'
@@ -10,13 +11,9 @@ const AboutTeam = ({ data, color }) => {
   const { teamIntro, teamMembers } = data
 
   return (
-    <Flex
+    <Box
       as={AboutSectionContainer}
       color={color}
-      flexDirection="column"
-      justifyContent="start"
-      alignItems="center"
-      px={HORIZONTAL_SPACER}
     >
       <AboutSectionHeading heading={'h2'} textAlign="center">
         <span dangerouslySetInnerHTML={{ __html: teamIntro.title }}></span>
@@ -27,21 +24,28 @@ const AboutTeam = ({ data, color }) => {
         </Box>
       )}
       {teamMembers && (
-        <Flex flexWrap={['wrap', null, `no-wrap`]} width={[1]}>
+        <Box as={TeamGrid} flexWrap={['wrap', null, `no-wrap`]} width={[`100%`]}>
           {teamMembers.map(teamMember => (
             <Box
               key={teamMember.id}
-              width={[1, null, 1 / 3]}
-              px={[2, null, null, null, 4]}
+              width={[1]}
+              // px={[2, null, null, null, 4]}
               mb={[3, null, 0]}
             >
               <PersonPreview person={teamMember} />
             </Box>
           ))}
-        </Flex>
+        </Box>
       )}
-    </Flex>
+    </Box>
   )
 }
 
 export default AboutTeam
+
+const TeamGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 4vw;
+  /* grid-column-gap: ${props => props.theme.space[4]}px; */
+`
