@@ -74,7 +74,7 @@ class About extends Component {
             color={color}
           />
 
-          <AnimatedBackgroundRowContainer onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.5}>
+          <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.5}>
             <AboutServices
               data={{ servicesIntro: page.servicesIntro, services: page.services }}
               color={color}

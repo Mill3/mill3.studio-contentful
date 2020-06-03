@@ -1,22 +1,29 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import styled from 'styled-components'
 import { Box, Heading } from 'rebass'
+import Lottie from "lottie-react";
 
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 
+import shakeAnimation from "@animations/shake.json";
+
 const AboutClients = ({ data, color }) => {
   const { clientsIntro } = data
   // console.log('data:', data)
+  const animationRef = useRef();
 
   return (
     <Box
       as={AboutSectionContainer}
       color={color}
-      px={[2,4]}
       py={VERTICAL_SPACER}
     >
       <AboutSectionHeading>
         <span dangerouslySetInnerHTML={{ __html: clientsIntro.title }}></span>
+        <Box as={ShakeAnimationContainer} ml={`auto`} width={[`5vw`]}>
+          <Lottie ref={animationRef} animationData={shakeAnimation} />
+        </Box>
       </AboutSectionHeading>
 
       {clientsIntro.introBlurb && (
@@ -30,3 +37,11 @@ const AboutClients = ({ data, color }) => {
 }
 
 export default AboutClients
+
+const ShakeAnimationContainer = styled.div`
+  svg {
+    path {
+      fill: currentColor;
+    }
+  }
+`
