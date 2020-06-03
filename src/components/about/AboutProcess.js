@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components';
-import { Flex, Box, Heading } from 'rebass'
+import { Box, Heading } from 'rebass'
 
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
+import AboutEyes from './AboutEyes'
 import StickyElement from '@utils/StickyElement'
+
 
 const AboutProcess = ({ data, color }) => {
   const { processIntro, processes } = data
@@ -16,10 +18,15 @@ const AboutProcess = ({ data, color }) => {
       color={color}
       px={[2,4]}
       py={VERTICAL_SPACER}
+      css={{position: 'relative'}}
     >
       <AboutSectionHeading>
         <span dangerouslySetInnerHTML={{ __html: processIntro.title }}></span>
       </AboutSectionHeading>
+
+      <Box mt={VERTICAL_SPACER} mr={[2, 4, 130]} css={{position: 'absolute', top: 0, right: 0}}>
+        <AboutEyes />
+      </Box>
 
       {processIntro.introBlurb && (
         <Box px={HORIZONTAL_SPACER} py={VERTICAL_SPACER} textAlign="center">

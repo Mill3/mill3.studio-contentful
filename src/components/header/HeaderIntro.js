@@ -11,6 +11,7 @@ import memoize from 'memoize-one'
 import Container from '@styles/Container'
 import { breakpoints, colors, header, space } from '@styles/Theme'
 import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import { lerp } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 import { ArrowButton } from '@components/buttons'
@@ -196,12 +197,6 @@ const PLAY_BUTTON_DEFAULT = {
 const PLAY_BUTTON_LERP = 0.08
 const PLAY_BUTTON_SPRING = 0.05
 const PLAY_BUTTON_FRICTION = 0.8
-
-/**
- * lerp(start, end, multiplier);
- * lerp(0, 100, 0.12);
- */
-export const lerp = (s, e, m) => s * (1 - m) + e * m;
 
 
 class BoxVideo extends Component {
