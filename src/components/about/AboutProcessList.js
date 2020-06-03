@@ -24,7 +24,7 @@ class AboutProcessList extends Component {
       inView: false,
       monitorScroll: false,
     }
-    this.frame = 0;
+    this.frame = 0
     this.scrollbar = null
     this.mounted = false
     this.items = []
@@ -52,8 +52,8 @@ class AboutProcessList extends Component {
   onScroll() {
     if (!this.state.inView) return
 
-    this._setActiveItemObserver();
-    this._setAnimation();
+    this._setActiveItemObserver()
+    this._setAnimation()
   }
 
   _setActiveItemObserver() {
@@ -97,22 +97,24 @@ class AboutProcessList extends Component {
 
   _setAnimation() {
     const { current } = this.animationRef
-    const { direction } = this.scrollbar;
+    const { direction } = this.scrollbar
     const duration = current.getDuration()
     const totalFrames = duration * 30
+    // TODO: increment value should be based on parent available height
+    const incrementFrameBy = 0.5
 
     // stop here if current frame is over max total frames
-    if(this.frame >= totalFrames) return;
+    if (this.frame >= totalFrames) return
 
     // increment frame based on scroll direction
-    if (direction == `down`) {
-      this.frame = this.frame < totalFrames ? this.frame += 1 : totalFrames
-    } else {
-      this.frame = this.frame > 1 ? this.frame -= 1 : 1;
+    if (direction === "down") {
+      this.frame = this.frame < totalFrames ? (this.frame += incrementFrameBy) : totalFrames
+    } else if(direction === "up") {
+      this.frame = this.frame > 1 ? (this.frame -= incrementFrameBy) : 1
     }
 
     // go to frame
-    current.goToAndStop(this.frame, true);
+    current.goToAndStop(this.frame, true)
   }
 
   list(processes) {
@@ -130,11 +132,7 @@ class AboutProcessList extends Component {
           <Heading as={ProcessHeading} mr={[0, null, 6]} width={(`100%`, null, '30%')}>
             {process.title}
           </Heading>
-          <Box
-            as="p"
-            width={(`100%`, null, '45%')}
-            dangerouslySetInnerHTML={{ __html: process.text.text }}
-          />
+          <Box as="p" width={(`100%`, null, '45%')} dangerouslySetInnerHTML={{ __html: process.text.text }} />
         </Flex>
       )
     })
@@ -144,16 +142,11 @@ class AboutProcessList extends Component {
 
   render() {
     const { processes } = this.props
-    console.log(this.state.activeItem);
+    console.log(this.state.activeItem)
 
     return (
       <InView threshold={0.35} onChange={inView => this.setState({ inView: inView })}>
-        <Box
-          ref={this.processesContainerRef}
-          as={ProcessesContainer}
-          mt={`-25vh`}
-          pt={`50vh`}
-        >
+        <Box ref={this.processesContainerRef} as={ProcessesContainer} mt={`-25vh`} pt={`50vh`}>
           <StickyElement target={this.processesContainerRef.current}>
             <Heading as={ContainerHeading}>0{this.state.activeItem + 1}</Heading>
             <Lottie autoplay={false} ref={this.animationRef} animationData={starAnimation} />
