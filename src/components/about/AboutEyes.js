@@ -5,12 +5,14 @@ import styled, { css } from 'styled-components';
 import { Box, Flex } from 'rebass'
 import { InView } from 'react-intersection-observer'
 
+import { IS_TOUCH_DEVICE } from '@utils/constants'
 import { hypothenuse, limit } from '@utils/Math'
 import Viewport from '@utils/Viewport'
 
 const DEBUG = false
 const DISTANCE_MIN = 50
 const DISTANCE_MAX = 400
+const SCROLL_MAX = 100
 const INVERTED_COLORS = {
   '#fff': '#000',
   '#000': '#fff',
@@ -57,6 +59,8 @@ const EyelidPoses = posed.div({
 })
 
 const ContainerStyle = styled.div`
+  pointer-events: ${IS_TOUCH_DEVICE ? 'auto' : 'none'};
+
   ${() => DEBUG ? DebugMixin : null}
 `
 const EyeStyle = styled.div`
@@ -100,8 +104,9 @@ class AboutEyes extends Component {
     super(props)
 
     this.state = {
-      radians: 0,
+      radians: Math.PI * -1,
       focus: 0,
+      blink: true,
     }
 
     this.ref = createRef()
@@ -114,10 +119,10 @@ class AboutEyes extends Component {
     }
 
     this.onInViewChange = this.onInViewChange.bind(this)
+    this.onClick = this.onClick.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onRAF = this.onRAF.bind(this)
     this.onResize = this.onResize.bind(this)
-    this.onTouchStart = this.onTouchStart.bind(this)
   }
 
   componentDidMount() {
@@ -134,6 +139,8 @@ class AboutEyes extends Component {
 
   onInViewChange(inView) {
     if( inView ) {
+      if( IS_TOUCH_DEVICE ) this.setState({ blink: false })
+
       window.addEventListener('mousemove', this.onMouseMove, { passive: false })
       if( !this.raf ) this.raf = requestAnimationFrame(this.onRAF)
     }
@@ -145,36 +152,54 @@ class AboutEyes extends Component {
       this.mouseEvent = null;
     }
   }
+  onClick() {
+    this.setState({ blink: true }, () => {
+      setTimeout(() => this.setState({ blink: false }), 250)
+    })
+  }
   onMouseMove(event) {
     this.mouseEvent = event;
   }
   onRAF() {
     this.raf = requestAnimationFrame(this.onRAF)
 
-    // get component center position
-    let { cx, cy } = this.constants
+    if( IS_TOUCH_DEVICE ) {
+      if( this.scrollbar ) {
+        const { y } = this.scrollbar._momentum
+        const d = limit(0, SCROLL_MAX, Math.abs(y))
 
-    // subtract scrollbar y offset
-    cy -= this.scrollbar ? this.scrollbar.offset.y : 0
+        this.setState({
+          radians: y >= 0 ? Math.PI * -0.5 : Math.PI * 0.5,
+          focus: d / SCROLL_MAX,
+        })
+      }
+    } else {
+      // get component center position
+      let { cx, cy } = this.constants
 
-    // if mouse position is null, set default value to component center
-    const mx = this.mouseEvent ? this.mouseEvent.clientX : cx
-    const my = this.mouseEvent ? this.mouseEvent.clientY : cy
+      // subtract scrollbar y offset
+      cy -= this.scrollbar ? this.scrollbar.offset.y : 0
 
-    // calculate radians
-    const radians = Math.atan2(my - cy, mx - cx)
+      // if mouse position is null, set default value to component center
+      const mx = this.mouseEvent ? this.mouseEvent.clientX : cx
+      const my = this.mouseEvent ? this.mouseEvent.clientY : cy
 
-    // distance between mouse and center of component
-    const dist = limit( DISTANCE_MIN, DISTANCE_MAX, hypothenuse(mx, my, cx, cy) )
+      // calculate radians
+      const radians = Math.atan2(my - cy, mx - cx)
 
-    // turn this into a percentage based value
-    const percentage = (dist - DISTANCE_MIN) / (DISTANCE_MAX - DISTANCE_MIN)
+      // distance between mouse and center of component
+      const dist = limit( DISTANCE_MIN, DISTANCE_MAX, hypothenuse(mx, my, cx, cy) )
 
-    // update state
-    this.setState({
-      radians: radians - Math.PI,
-      focus: percentage,
-    })
+      // turn this into a percentage based value
+      const percentage = (dist - DISTANCE_MIN) / (DISTANCE_MAX - DISTANCE_MIN)
+
+      // update state
+      this.setState({
+        radians: radians - Math.PI,
+        focus: percentage,
+        blink: percentage === 0,
+      })
+    }
   }
   onResize() {
     if( !this.scrollbar || !this.ref.current ) return
@@ -184,19 +209,15 @@ class AboutEyes extends Component {
     this.constants.cx = rect.x + rect.width * 0.5
     this.constants.cy = rect.y + rect.width * 0.5
   }
-  onTouchStart() {
-
-  }
-  onTouchEnd() {
-
-  }
 
   render() {
     const { color } = this.props
-    const { focus, radians } = this.state
+    const { blink, focus, radians } = this.state
 
     const x = -12 * Math.cos(radians) * focus
     const y = -24 * Math.sin(radians) * focus
+    const bg = INVERTED_COLORS[color]
+    const pose = blink || bg === "#000" ? 'blink' : 'open'
 
     return (
       <InView onChange={this.onInViewChange} threshold={0}>
@@ -208,15 +229,15 @@ class AboutEyes extends Component {
           height={53}
           color={color}
           aria-hidden="true"
-          onTouchStart={this.onTouchStart}
+          onClick={this.onClick}
         >
           <Box as={EyeStyle}>
             <Box as={PupilStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />
-            <Box as={EyelidStyle} bg={INVERTED_COLORS[color]} initialPose={'blink'} pose={focus > 0 ? 'open' : 'blink'} withParent={false} />
+            <Box as={EyelidStyle} bg={bg} initialPose={'blink'} pose={pose} withParent={false} />
           </Box>
           <Box as={EyeStyle}>
             <Box as={PupilStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />
-            <Box as={EyelidStyle} bg={INVERTED_COLORS[color]} initialPose={'blink'} pose={focus > 0 ? 'open' : 'blink'} withParent={false} />
+            <Box as={EyelidStyle} bg={bg} initialPose={'blink'} pose={pose} withParent={false} />
           </Box>
         </Flex>
       </InView>

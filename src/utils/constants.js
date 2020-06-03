@@ -6,6 +6,7 @@ export const TRANSITION_IN_DELAY = 900
 export const TRANSITION_DURATION = 1200
 export const TRANSITION_OUT_DURATION = TRANSITION_DURATION / 3.5
 export const HAS_HOVER = Viewport.mq('(any-hover: hover)')
+export const IS_TOUCH_DEVICE = Viewport.mq('(pointer: coarse)')
 
 export const EASES = {
   default: {
