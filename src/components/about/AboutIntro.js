@@ -43,7 +43,7 @@ const Footer = styled.footer`
     margin-top: -160px;
     margin-bottom: -160px;
     path {
-      stroke: ;
+      stroke: currentColor;
     }
   }
 `

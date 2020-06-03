@@ -15,11 +15,12 @@ class ScrollbarDirectionPlugin extends ScrollbarPlugin {
     this.scrollbar.direction = this.options.direction
   }
 
+  onRender() {
+    this.scrollbar.direction = this.scrollbar.offset.y > this.options.offset.y ? `down` : `up`
+  }
+
   onUpdate() {
-    this.scrollbar.direction =
-      this.scrollbar.offset.y > this.options.offset.y ? `down` : `up`
-    if (this.options.offset.y !== this.scrollbar.offset.y)
-      this.options.offset.y = this.scrollbar.offset.y
+    if (this.options.offset.y !== this.scrollbar.offset.y) this.options.offset.y = this.scrollbar.offset.y
   }
 }
 

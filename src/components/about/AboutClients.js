@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { Box, Heading } from 'rebass'
+import { Flex, Box, Heading } from 'rebass'
 import Lottie from "lottie-react";
 
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
@@ -19,12 +19,14 @@ const AboutClients = ({ data, color }) => {
       color={color}
       py={VERTICAL_SPACER}
     >
-      <AboutSectionHeading>
-        <span dangerouslySetInnerHTML={{ __html: clientsIntro.title }}></span>
+      <Flex as="header">
+        <AboutSectionHeading>
+          <span dangerouslySetInnerHTML={{ __html: clientsIntro.title }}></span>
+        </AboutSectionHeading>
         <Box as={ShakeAnimationContainer} ml={`auto`} width={[`5vw`]}>
           <Lottie ref={animationRef} animationData={shakeAnimation} />
         </Box>
-      </AboutSectionHeading>
+      </Flex>
 
       {clientsIntro.introBlurb && (
         <Box py={VERTICAL_SPACER}>

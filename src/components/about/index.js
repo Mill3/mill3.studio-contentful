@@ -28,7 +28,6 @@ export const AboutSectionContainer = styled.section`
 export const HeadingStyleInner = styled.span`
   line-height: 1.125;
   font-weight: 300;
-  display: flex;
   strong {
     font-family: ${props => props.theme.fonts.sans};
     font-style: normal;
