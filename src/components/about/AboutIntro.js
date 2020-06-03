@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
 // import SplitText from 'react-pose-text'
@@ -6,7 +6,7 @@ import Lottie from "lottie-react";
 
 import globeAnimation from "@animations/globe.json";
 
-import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
+import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 const AboutIntro = ({ data, color }) => {

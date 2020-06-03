@@ -57,8 +57,6 @@ const EyelidPoses = posed.div({
 })
 
 const ContainerStyle = styled.div`
-  pointer-events: none;
-  
   ${() => DEBUG ? DebugMixin : null}
 `
 const EyeStyle = styled.div`
@@ -119,6 +117,7 @@ class AboutEyes extends Component {
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onRAF = this.onRAF.bind(this)
     this.onResize = this.onResize.bind(this)
+    this.onTouchStart = this.onTouchStart.bind(this)
   }
 
   componentDidMount() {
@@ -178,12 +177,18 @@ class AboutEyes extends Component {
     })
   }
   onResize() {
-    if( !this.scrollbar ) return
+    if( !this.scrollbar || !this.ref.current ) return
 
     const rect = this.ref.current.getBoundingClientRect()
 
     this.constants.cx = rect.x + rect.width * 0.5
     this.constants.cy = rect.y + rect.width * 0.5
+  }
+  onTouchStart() {
+
+  }
+  onTouchEnd() {
+
   }
 
   render() {
@@ -203,6 +208,7 @@ class AboutEyes extends Component {
           height={53}
           color={color}
           aria-hidden="true"
+          onTouchStart={this.onTouchStart}
         >
           <Box as={EyeStyle}>
             <Box as={PupilStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />

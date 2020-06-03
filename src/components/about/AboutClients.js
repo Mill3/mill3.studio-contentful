@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import Lottie from "lottie-react";
 
-import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
+import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 import shakeAnimation from "@animations/shake.json";

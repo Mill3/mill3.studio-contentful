@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-import { injectIntl } from 'react-intl'
 import { Box } from 'rebass'
 
 import LayoutContext from '@components/contexts/LayoutContext'

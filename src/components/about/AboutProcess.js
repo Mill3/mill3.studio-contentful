@@ -1,13 +1,12 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components';
-import { Box, Heading } from 'rebass'
+import { Box } from 'rebass'
 
-import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
+import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutEyes from './AboutEyes'
 import AboutProcessList from './AboutProcessList'
 import AboutProcessIntro from './AboutProcessIntro'
-import StickyElement from '@utils/StickyElement'
 
 
 const AboutProcess = ({ data, color }) => {

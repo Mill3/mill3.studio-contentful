@@ -1,10 +1,9 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import { InView, useInView } from 'react-intersection-observer'
+import { InView } from 'react-intersection-observer'
 
-import LayoutContext from '@components/contexts/LayoutContext'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'

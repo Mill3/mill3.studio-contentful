@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'

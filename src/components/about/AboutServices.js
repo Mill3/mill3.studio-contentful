@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+//import styled from 'styled-components'
 import { Box, Heading } from 'rebass'
 
 import { VERTICAL_SPACER } from '@components/content_rows'
@@ -35,4 +35,3 @@ const AboutServices = ({ data, color }) => {
 }
 
 export default AboutServices
-
