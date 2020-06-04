@@ -23,9 +23,10 @@ const AboutIntro = ({ data, color }) => {
       <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3,`8vw`]}>
         <span dangerouslySetInnerHTML={{ __html: data.title }}></span>
       </AboutSectionHeading>
+
       <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
         <Box py={[4]}>
-          <Lottie ref={animationRef} animationData={globeAnimation} />
+          <Lottie ref={animationRef} autoplay={false} animationData={globeAnimation} />
         </Box>
         {data.introBlurb && (
           <p py={[4]} dangerouslySetInnerHTML={{ __html: data.introBlurb.introBlurb }} />

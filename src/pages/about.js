@@ -29,7 +29,7 @@ class About extends Component {
   }
 
   componentDidMount() {
-    this.context.layoutState.setHeaderInverted(true)
+    //this.context.layoutState.setHeaderInverted(true)
   }
 
   componentWillUnmount() {
@@ -82,10 +82,11 @@ class About extends Component {
 
           <AboutClients data={{ clientsIntro: page.clientsIntro }} color={color} />
 
-
         </Box>
 
+        {/*
         <ClientsFooter />
+        */}
 
         <Box pt={[6]}>
           <ContactForm />
@@ -150,10 +151,10 @@ export const projectQuery = graphql`
       services {
         id
         title
-        text {
-          id
-          text
+        description {
+          description
         }
+        slug
       }
       clientsIntro {
         ...sectionBannerFragment

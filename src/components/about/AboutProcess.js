@@ -17,7 +17,6 @@ const AboutProcess = ({ data, color }) => {
     <Box
       as={AboutSectionContainer}
       color={color}
-      // px={HORIZONTAL_SPACER}
       py={VERTICAL_SPACER}
       css={{position: 'relative'}}
     >

@@ -23,7 +23,7 @@ const AboutClients = ({ data, color }) => {
           <span dangerouslySetInnerHTML={{ __html: clientsIntro.title }}></span>
         </AboutSectionHeading>
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <Lottie ref={animationRef} animationData={shakeAnimation} />
+          <Lottie ref={animationRef} autoplay={false} animationData={shakeAnimation} />
         </Box>
       </Flex>
 

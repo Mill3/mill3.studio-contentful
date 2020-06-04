@@ -30,8 +30,7 @@ const TeamMemberPoses = posed.div({
 })
 
 
-const TeamMember = ({ teamMember, index }) => {
-  const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
+const TeamMember = ({ teamMember, delay }) => {
   const [ref, inView] = useInView({ threshold: 0, triggerOnce: true })
 
   return (
@@ -45,7 +44,7 @@ const TeamMember = ({ teamMember, index }) => {
         as={TeamMemberPoses}
         initialPose="hidden"
         pose={inView ? "visible" : "hidden"}
-        delay={IS_FLEX_ROW ? index * 125 : 0}
+        delay={delay}
         withParent={false}
       >
         <PersonPreview person={teamMember} />
@@ -57,6 +56,7 @@ const TeamMember = ({ teamMember, index }) => {
 
 const AboutTeam = ({ data, color }) => {
   const { teamIntro, teamMembers } = data
+  const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
   return (
     <Box
@@ -75,7 +75,13 @@ const AboutTeam = ({ data, color }) => {
 
       {teamMembers && (
         <Flex flexDirection={['column', null, 'row']} mx={[space[2] * -1, null, null, null, -50]}>
-          {teamMembers.map((teamMember, index) => <TeamMember key={index} index={index} teamMember={teamMember} />)}
+          {teamMembers.map((teamMember, index) => (
+            <TeamMember
+              key={index}
+              teamMember={teamMember}
+              delay={IS_FLEX_ROW ? index * 125 : 0} 
+            />
+          ))}
         </Flex>
       )}
     </Box>
