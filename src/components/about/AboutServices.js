@@ -55,7 +55,7 @@ export default AboutServices
 const LottieContainer = styled.div`
   svg {
     path {
-      fill: currentColor;
+      stroke: currentColor;
     }
   }
 `

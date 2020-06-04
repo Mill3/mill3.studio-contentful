@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import { InView } from 'react-intersection-observer'
-// import { debounce } from 'lodash'
-// import { isBrowser } from 'react-device-detect'
+import posed from 'react-pose'
+import SplitText from 'react-pose-text'
 import Lottie from 'lottie-react'
 
 import StickyElement from '@utils/StickyElement'
@@ -32,7 +32,6 @@ class AboutProcessList extends Component {
     this.processesContainerRef = React.createRef()
     this.animationRef = React.createRef()
     this.onScroll = this.onScroll.bind(this)
-    // this.debounced = debounce(() => this.setState({ monitorScroll: true }), 1000)
   }
 
   componentDidMount() {
@@ -120,18 +119,26 @@ class AboutProcessList extends Component {
   list(processes) {
     this.items = []
     processes.forEach((process, i) => {
+      const inView = this.state.activeItem === i
       this.items.push(
         <Flex
           ref={this.itemsRefs[i]}
           key={i}
           as={ProcessItem}
           px={6}
-          active={this.state.activeItem === i}
+          active={inView}
           first={i === processes.length - 1}
           last={i === processes.length - 1}
         >
           <Heading as={ProcessHeading} mr={[0, null, 6]} width={(`100%`, null, '30%')}>
-            {process.title}
+            <SplitText
+              initialPose={`out`}
+              pose={inView ? `enter` : `out`}
+              startDelay={inView ? 250 : 0}
+              charPoses={charPoses}
+            >
+              {process.title}
+            </SplitText>
           </Heading>
           <Box as="p" width={(`100%`, null, '45%')} dangerouslySetInnerHTML={{ __html: process.text.text }} />
         </Flex>
@@ -188,6 +195,32 @@ const ContainerHeading = styled(ProcessHeading)`
 
 const ProcessItem = styled.article`
   height: ${props => (props.last ? `auto` : `35vh`)};
-  transition: opacity 0.25s linear;
-  opacity: ${props => (props.active ? 1 : 0.125)};
+  /* opacity: ${props => (props.active ? 1 : 0.125)}; */
+  p {
+    transition: opacity 0.25s linear 0.25s;
+    opacity: ${props => (props.active ? 1 : 0.125)};
+  }
 `
+
+const charPoses = {
+  enter: {
+    opacity: 1,
+    y: 0,
+    delay: ({ charIndex, startDelay }) => startDelay + charIndex * 30,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  },
+  out: {
+    opacity: 0.125,
+    y: 5,
+    delay: ({ charIndex }) => charIndex * 30,
+    transition: {
+      y: {
+        type: 'spring',
+      },
+    },
+  }
+}
