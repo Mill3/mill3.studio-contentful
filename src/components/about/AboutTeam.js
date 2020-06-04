@@ -7,8 +7,7 @@ import PersonPreview from '@components/persons/PersonPreview'
 import { breakpoints, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
-import { AboutSectionContainer, AboutSectionHeading } from './index'
-
+import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
 
 const TeamMemberPoses = posed.div({
   hidden: {
@@ -28,7 +27,6 @@ const TeamMemberPoses = posed.div({
     },
   }
 })
-
 
 const TeamMember = ({ teamMember, index }) => {
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
@@ -62,9 +60,10 @@ const AboutTeam = ({ data, color }) => {
     <Box
       as={AboutSectionContainer}
       color={color}
+      mb={[6]}
     >
       <AboutSectionHeading heading={'h2'} textAlign="center">
-        <span dangerouslySetInnerHTML={{ __html: teamIntro.title }}></span>
+        <AnimatedTitle startDelay={0} source={teamIntro.title} />
       </AboutSectionHeading>
 
       {teamIntro.introBlurb && (

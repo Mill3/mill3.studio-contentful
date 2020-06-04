@@ -4,10 +4,10 @@ import { Flex, Box, Heading } from 'rebass'
 import Lottie from "lottie-react";
 
 import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
+import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
 import AboutServicesTicker from './AboutServicesTicker'
 
-import shakeAnimation from "@animations/globe.json";
+import shakeAnimation from "@animations/infinite.json";
 
 const AboutServices = ({ data, color }) => {
   const { servicesIntro, services } = data
@@ -22,7 +22,7 @@ const AboutServices = ({ data, color }) => {
 
       <Flex as="header">
         <AboutSectionHeading>
-          <span dangerouslySetInnerHTML={{ __html: servicesIntro.title }}></span>
+          <AnimatedTitle startDelay={750} source={servicesIntro.title} />
         </AboutSectionHeading>
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
           <Lottie ref={animationRef} animationData={shakeAnimation} />

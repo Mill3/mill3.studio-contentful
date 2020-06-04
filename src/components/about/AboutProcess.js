@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Box } from 'rebass'
 
 import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
+import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
 import AboutEyes from './AboutEyes'
 import AboutProcessList from './AboutProcessList'
 import AboutProcessIntro from './AboutProcessIntro'
@@ -22,7 +22,7 @@ const AboutProcess = ({ data, color }) => {
       css={{position: 'relative'}}
     >
       <AboutSectionHeading>
-        <span dangerouslySetInnerHTML={{ __html: processIntro.title }}></span>
+        <AnimatedTitle startDelay={750} source={processIntro.title} />
       </AboutSectionHeading>
 
       <Box mt={VERTICAL_SPACER} css={{position: 'absolute', top: 0, right: 0}}>
