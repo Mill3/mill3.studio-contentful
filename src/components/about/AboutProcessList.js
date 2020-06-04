@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import { InView } from 'react-intersection-observer'
-import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import Lottie from 'lottie-react'
 
@@ -79,7 +78,7 @@ class AboutProcessList extends Component {
     const { height } = lastItem.current.getBoundingClientRect();
 
     // do nothing if height is the same as previously stored
-    if(this.state.lastItemHeight == height) return;
+    if(this.state.lastItemHeight === height) return;
 
     this.setState({
       lastItemHeight: height

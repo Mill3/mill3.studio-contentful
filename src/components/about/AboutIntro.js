@@ -1,17 +1,17 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
-import Lottie from 'lottie-react'
 
-import globeAnimation from '@animations/globe.json'
-
+import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
+import LottieAnimation from '@components/elements/LottieAnimation'
 import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import { lb2br } from '@utils/Linebreaks'
 
+import globeAnimation from '@animations/globe.json'
+
 const AboutIntro = ({ data, color }) => {
-  const animationRef = useRef()
 
   return (
     <Flex
@@ -23,13 +23,13 @@ const AboutIntro = ({ data, color }) => {
       py={VERTICAL_SPACER}
     >
       <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3, `8vw`]}>
-        <AnimatedTitle startDelay={1000} source={data.title} />
+        <AnimatedHtmlTitle startDelay={1000} source={data.title} />
       </AboutSectionHeading>
 
       <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
         <Box py={[4]}>
           <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={1700} delayOut={0}>
-            <Lottie ref={animationRef} autoplay={false} animationData={globeAnimation} />
+            <LottieAnimation animationData={globeAnimation} />
           </TransitionContainer>
         </Box>
         {data.introBlurb &&

@@ -1,17 +1,15 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components';
+import React from 'react'
 import { Box } from 'rebass'
 
+import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutEyes from './AboutEyes'
 import AboutProcessList from './AboutProcessList'
 import AboutProcessIntro from './AboutProcessIntro'
 
-
 const AboutProcess = ({ data, color }) => {
   const { processIntro, processes } = data
-  const processesContainerRef = useRef();
 
   return (
     <Box
@@ -21,7 +19,7 @@ const AboutProcess = ({ data, color }) => {
       css={{position: 'relative'}}
     >
       <AboutSectionHeading>
-        <AnimatedTitle startDelay={750} source={processIntro.title} />
+        <AnimatedHtmlTitle startDelay={750} source={processIntro.title} />
       </AboutSectionHeading>
 
       <Box mt={VERTICAL_SPACER} css={{position: 'absolute', top: 0, right: 0}}>
@@ -41,13 +39,3 @@ const AboutProcess = ({ data, color }) => {
 }
 
 export default AboutProcess
-
-const ProcessesContainer = styled.footer`
-  /* min-height: 200vh; */
-  position: relative;
-  border: 1px solid rebeccapurple;
-`
-
-const ProcessItem = styled.article`
-  height: 50vh;
-`

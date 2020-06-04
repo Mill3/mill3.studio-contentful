@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
-import Lottie from "lottie-react";
 
+import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
+import LottieAnimation from '@components/elements/LottieAnimation'
 import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 import ClientsFooter from '@components/clients/ClientsFooter'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { ArrowButton } from '@components/buttons'
@@ -15,7 +16,6 @@ import shakeAnimation from "@animations/shake.json";
 
 const AboutClients = ({ data, color }) => {
   const { clientsIntro } = data
-  const animationRef = useRef();
 
   return (
     <Box
@@ -25,10 +25,10 @@ const AboutClients = ({ data, color }) => {
     >
       <Flex as="header">
         <AboutSectionHeading>
-          <AnimatedTitle startDelay={750} source={clientsIntro.title} />
+          <AnimatedHtmlTitle startDelay={750} source={clientsIntro.title} />
         </AboutSectionHeading>
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <Lottie ref={animationRef} autoplay={false} animationData={shakeAnimation} />
+          <LottieAnimation animationData={shakeAnimation} />
         </Box>
       </Flex>
 

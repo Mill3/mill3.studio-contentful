@@ -3,11 +3,11 @@ import posed from 'react-pose'
 import { Box, Flex } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
+import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import PersonPreview from '@components/persons/PersonPreview'
 import { breakpoints, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-
-import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 
 const TeamMemberPoses = posed.div({
   hidden: {
@@ -64,7 +64,7 @@ const AboutTeam = ({ data, color }) => {
       mb={[6]}
     >
       <AboutSectionHeading heading={'h2'} textAlign="center">
-        <AnimatedTitle startDelay={0} source={teamIntro.title} />
+        <AnimatedHtmlTitle startDelay={0} source={teamIntro.title} />
       </AboutSectionHeading>
 
       {teamIntro.introBlurb && (

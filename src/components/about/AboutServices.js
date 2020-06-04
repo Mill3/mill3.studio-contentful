@@ -3,14 +3,15 @@ import posed from 'react-pose'
 import styled from 'styled-components'
 import { Box, Flex, Heading } from 'rebass'
 import { useInView } from 'react-intersection-observer'
-import Lottie from 'lottie-react'
 
+import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
+import LottieAnimation from '@components/elements/LottieAnimation'
 import { VERTICAL_SPACER } from '@components/content_rows'
 import { format } from '@components/content_rows/ContentText'
 import { HAS_HOVER } from '@utils/constants'
 import { breakpoints } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutServicesTicker from './AboutServicesTicker'
 import { lb2br } from '@utils/Linebreaks'
 
@@ -43,11 +44,7 @@ const Service = ({delay, title, text, slug}) => {
       <Box as={ServicePoses} initialPose="hidden" pose={inView ? "visible" : "hidden"} delay={delay} withParent={false}>
         <Box as={LottieContainer} flexShrink={0} width={40} height={80} aria-hidden="true">
           {animation && (
-            <Lottie
-              ref={lottieRef}
-              animationData={animation}
-              autoplay={HAS_HOVER ? false : inView}
-            />
+            <LottieAnimation startInView={false} fwRef={lottieRef} animationData={animation} />
           )}
         </Box>
 
@@ -64,7 +61,6 @@ const Service = ({delay, title, text, slug}) => {
 const AboutServices = ({ data, color }) => {
   const { servicesIntro, services } = data
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
-  const animationRef = useRef();
 
   return (
     <Box
@@ -75,11 +71,11 @@ const AboutServices = ({ data, color }) => {
 
       <Flex as="header">
         <AboutSectionHeading>
-          <AnimatedTitle startDelay={750} source={servicesIntro.title} />
+          <AnimatedHtmlTitle startDelay={750} source={servicesIntro.title} />
         </AboutSectionHeading>
 
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <Lottie ref={animationRef} autoplay={false} animationData={shakeAnimation} />
+          <LottieAnimation animationData={shakeAnimation} />
         </Box>
       </Flex>
 
