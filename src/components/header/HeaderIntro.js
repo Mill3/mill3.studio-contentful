@@ -198,6 +198,9 @@ const PLAY_BUTTON_LERP = 0.08
 const PLAY_BUTTON_SPRING = 0.05
 const PLAY_BUTTON_FRICTION = 0.8
 
+const VIDEO_LOOP_START_AT = 0
+const VIDEO_LOOP_END_AT = 3
+
 
 class BoxVideo extends Component {
   static contextTypes = {
@@ -207,7 +210,7 @@ class BoxVideo extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { ...PLAY_BUTTON_DEFAULT }
+    this.state = { inView: false, ...PLAY_BUTTON_DEFAULT }
     this.target = { ...PLAY_BUTTON_DEFAULT }
     this.current = { ...PLAY_BUTTON_DEFAULT }
     this.velocity = { x: 0, y: 0 }
@@ -224,17 +227,9 @@ class BoxVideo extends Component {
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onRender = this.onRender.bind(this)
     this.onResize = this.onResize.bind(this)
+    this.onTimeUpdate = this.onTimeUpdate.bind(this)
+    this.onInViewChange = this.onInViewChange.bind(this)
 
-    this.onDemoReelContextChange = memoize(active => {
-      if( this.video.current ) {
-        const v = this.video.current
-
-        if( active ) v.play()
-        else v.pause()
-      }
-
-      return active
-    })
     this.getPoses = memoize((active) => active ? ['fullscreen', 'hidden'] : ['default', 'visible'])
   }
 
@@ -295,6 +290,27 @@ class BoxVideo extends Component {
   onResize() {
     if( this.ref.current ) this.rect = this.ref.current.getBoundingClientRect()
   }
+  onTimeUpdate() {
+    // do nothing if videoRef is undefined
+    if( !this.video.current ) return
+
+    // if video is fullscreen, do not activate synthetic loop
+    const { active } = this.context.layoutState.demoReel
+    if( active ) return
+
+    // get video timestamp
+    const { currentTime } = this.video.current
+
+    // if timestamp is higher than looping timestamp, set timestamp to loop beginning
+    if( currentTime > VIDEO_LOOP_END_AT ) this.video.current.currentTime = VIDEO_LOOP_START_AT
+  }
+  onInViewChange(inView) {
+    const { current } = this.video
+    if( !current ) return
+
+    if( inView ) current.play()
+    else current.pause()
+  }
 
   render() {
     const { forwardedRef, intl, video, ...rest} = this.props
@@ -302,23 +318,25 @@ class BoxVideo extends Component {
     const { active } = this.context.layoutState.demoReel
     const [ playerPose, buttonPose ] = this.getPoses(active)
 
-    this.onDemoReelContextChange(active)
-
     return (
       <Box ref={forwardedRef} css={{position: 'relative'}} {...rest}>
-        <Box width={['100%']} height={0} pb={['100%']} css={{position: 'relative'}}>
-          <Box
-            as={VideoPlayerStyle}
-            ref={this.video}
-            disablePictureInPicture
-            playsInline
-            preload="metadata"
-            loop
-            src={video?.file?.url}
-            initialPose="default"
-            pose={playerPose}
-          />
-        </Box>
+        <InView onChange={this.onInViewChange}>
+          <Box width={['100%']} height={0} pb={['100%']} css={{position: 'relative'}}>
+            <Box
+              as={VideoPlayerStyle}
+              ref={this.video}
+              onTimeUpdate={this.onTimeUpdate}
+              disablePictureInPicture
+              muted={!active}
+              playsInline
+              preload="auto"
+              loop
+              src={video?.file?.url}
+              initialPose="default"
+              pose={playerPose}
+            />
+          </Box>
+        </InView>
 
         <Box
           as={VideoPlaybackStyle}

@@ -182,7 +182,7 @@ export class AnimatedBackgroundContainer extends Component {
   }
 
   render() {
-    const { backgroundColor, children, duration, threshold, onChange } = this.props
+    const { backgroundColor, children, duration, threshold } = this.props
     const { inView, y } = this.state
     const t = { transform: `translate3d(0, ${y}px, 0)` }
 
