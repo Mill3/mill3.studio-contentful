@@ -2,20 +2,21 @@ import React, { useEffect, useRef } from 'react'
 import Lottie from 'lottie-react'
 import { useInView } from 'react-intersection-observer'
 
-const LottieAnimation = ({ animationData, startInView = true, fwRef = null }) => {
-  const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: false })
+const LottieAnimation = React.forwardRef((props, ref) => {
+  const { animationData, startInView = true } = props
+  const [refWrapper, inView] = useInView({ threshold: 0.1 })
   const animationRef = useRef()
 
   useEffect(() => {
-    const { current } = fwRef || animationRef
+    const { current } = ref || animationRef
     inView && startInView ? current.play() : current.pause()
   })
 
   return (
-    <div ref={ref}>
-      <Lottie ref={fwRef || animationRef} autoplay={false} animationData={animationData} />
+    <div ref={refWrapper}>
+      <Lottie ref={ref || animationRef} autoplay={false} animationData={animationData} />
     </div>
   );
-}
+})
 
 export default LottieAnimation;
