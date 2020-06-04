@@ -103,7 +103,6 @@ class AboutProcessList extends Component {
     // TODO: increment value should be based on parent available height
     const incrementFrameBy = 1
 
-
     // increment frame based on scroll direction
     if (direction === "down") {
       this.frame = this.frame < totalFrames ? (this.frame += incrementFrameBy) : totalFrames

@@ -142,7 +142,14 @@ export default props => (
     render={data => {
       const tickers = Array(props.quantity || 3)
         .fill()
-        .map((item, index) => <ClientsTicker data={data.allContentfulClients} direction={index % 2 ? -1 : 1} speedBase={(index + 1) * 10 * 4.5} key={index} />)
+        .map((item, index) => (
+          <ClientsTicker
+            data={data.allContentfulClients}
+            direction={index % 2 ? -1 : 1}
+            speedBase={(index + 1) * 10 * 4.5}
+            key={index}
+          />
+        ))
 
       return (
         <Box as={ClientsTickerContainer} pt={[4]}>

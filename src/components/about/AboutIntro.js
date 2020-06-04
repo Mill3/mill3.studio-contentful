@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
-// import SplitText from 'react-pose-text'
 import Lottie from "lottie-react";
 
 import globeAnimation from "@animations/globe.json";
@@ -28,7 +27,12 @@ const AboutIntro = ({ data, color }) => {
         <Box py={[4]}>
           <Lottie ref={animationRef} animationData={globeAnimation} />
         </Box>
-        <Heading as="h5" fontWeight="300" mt={[3]}>{ data.shortText }</Heading>
+        {data.introBlurb && (
+          <p py={[4]} dangerouslySetInnerHTML={{ __html: data.introBlurb.introBlurb }} />
+        )}
+        {data.shortText &&
+          <Heading as="h5" fontWeight="300" mt={[3]}>{ data.shortText }</Heading>
+        }
       </Flex>
     </Flex>
   )

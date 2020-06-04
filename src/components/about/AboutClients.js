@@ -10,7 +10,6 @@ import shakeAnimation from "@animations/shake.json";
 
 const AboutClients = ({ data, color }) => {
   const { clientsIntro } = data
-  // console.log('data:', data)
   const animationRef = useRef();
 
   return (
@@ -23,7 +22,7 @@ const AboutClients = ({ data, color }) => {
         <AboutSectionHeading>
           <span dangerouslySetInnerHTML={{ __html: clientsIntro.title }}></span>
         </AboutSectionHeading>
-        <Box as={ShakeAnimationContainer} ml={`auto`} width={[`5vw`]}>
+        <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
           <Lottie ref={animationRef} animationData={shakeAnimation} />
         </Box>
       </Flex>
@@ -40,7 +39,7 @@ const AboutClients = ({ data, color }) => {
 
 export default AboutClients
 
-const ShakeAnimationContainer = styled.div`
+const LottieContainer = styled.div`
   svg {
     path {
       fill: currentColor;

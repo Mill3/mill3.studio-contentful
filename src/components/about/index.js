@@ -9,7 +9,7 @@ export const AboutSectionHeading = props => {
   return (
     <TransitionContainer>
       <Heading as={heading || `h2`} fontFamily="serif" {...props}>
-        <Box as={HeadingStyleInner} fontSize={['9.2vw', null, '4.433333333vw']}>
+        <Box as={HeadingStyleInner} fontSize={['clamp(28px, calc(4vw + 28px), 120px)']}>
           {children}
         </Box>
       </Heading>
