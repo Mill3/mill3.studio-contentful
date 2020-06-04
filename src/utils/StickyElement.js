@@ -59,11 +59,26 @@ class StickyElement extends Component {
     return true
   }
 
+  calculateHeight() {
+    if(!this.ref.current) return 0;
+
+    const elements = this.ref.current.querySelectorAll(`:scope > *`);
+    let h = 0
+
+    if(!elements) return h;
+
+    // console.log('elements:', elements)
+    [...elements].forEach(e => { if(e.getBoundingClientRect().height > h) h += e.getBoundingClientRect().height })
+
+    return h;
+  }
+
   onScroll({ offset }) {
     this.scrollY = offset.y
 
     const { top, bottom }  = this.rect
-    const y = Math.min(bottom, Math.min(top - this.scrollY, 0) * -1)
+    const heightOffset = this.props.contained ? this.calculateHeight() : 0;
+    const y = Math.min(bottom - heightOffset, Math.min(top - this.scrollY, 0) * -1)
 
     if( this.state.y !== y ) this.setState({ y: y })
 
@@ -84,6 +99,7 @@ class StickyElement extends Component {
       }
     }
   }
+
   onResize() {
     if( !this.props.target || !this.ref.current ) return
 

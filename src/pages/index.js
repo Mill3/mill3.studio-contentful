@@ -65,7 +65,7 @@ class IndexPage extends React.Component {
 
           <Box ref={this.stickyContainerRef} as={IndexContainer} className={demoReel.active ? '--demoReel' : null}>
             <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
-              <StickyElement target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
+              <StickyElement contained={false} target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
                 <StickyTitle
                   inverted={headerInView}
                   appear={introInView}
@@ -73,7 +73,7 @@ class IndexPage extends React.Component {
                   switchTitle={introAtEnd} />
               </StickyElement>
 
-              <StickyElement target={this.stickyContainerRef.current} mb={["25vh", null, "50vh"]}>
+              <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["25vh", null, "50vh"]}>
                 <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
               </StickyElement>
             </InView>

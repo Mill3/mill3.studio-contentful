@@ -19,11 +19,11 @@ export const AboutSectionHeading = props => {
 
 export const AboutSectionContainer = styled.section`
   min-height: 85vh;
-  p, h1, h2, h3, h4, h5, ul, ol {
+  /* p, h1, h2, h3, h4, h5, ul, ol {
     transform: translate3d(0, 0px, 0);
     will-change: color;
     transition: color 0.25s linear;
-  }
+  } */
 `
 export const HeadingStyleInner = styled.span`
   line-height: 1.125;

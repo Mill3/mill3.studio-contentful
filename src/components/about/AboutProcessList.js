@@ -21,6 +21,7 @@ class AboutProcessList extends Component {
     super(props)
     this.state = {
       activeItem: 0,
+      lastItemHeight: 0,
       inView: false,
       monitorScroll: false,
     }
@@ -31,6 +32,8 @@ class AboutProcessList extends Component {
     this.itemsRefs = []
     this.processesContainerRef = React.createRef()
     this.animationRef = React.createRef()
+    this.currentActiveItemRef = React.createRef()
+    this.onResize = this.onResize.bind(this)
     this.onScroll = this.onScroll.bind(this)
   }
 
@@ -46,6 +49,16 @@ class AboutProcessList extends Component {
       this.scrollbar = s
       if (this.mounted) this.scrollbar.addListener(this.onScroll)
     })
+
+    window.addEventListener('resize', this.onResize);
+  }
+
+  componentDidUpdate() {
+    this.onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   onScroll() {
@@ -53,6 +66,23 @@ class AboutProcessList extends Component {
 
     this._setActiveItemObserver()
     this._setAnimation()
+  }
+
+  onResize() {
+    const lastItem = this.itemsRefs[this.itemsRefs.length - 1]
+
+    // stop if not there yet
+    if(!lastItem.current) return;
+
+    // get height from last element in list
+    const { height } = lastItem.current.getBoundingClientRect();
+
+    // do nothing if height is the same as previously stored
+    if(this.state.lastItemHeight == height) return;
+
+    this.setState({
+      lastItemHeight: height
+    })
   }
 
   _setActiveItemObserver() {
@@ -119,7 +149,7 @@ class AboutProcessList extends Component {
   list(processes) {
     this.items = []
     processes.forEach((process, i) => {
-      const active = this.state.activeItem === i && this.state.inView
+      const active = this.state.activeItem >= i && this.state.inView
       this.items.push(
         <Flex
           ref={this.itemsRefs[i]}
@@ -144,6 +174,10 @@ class AboutProcessList extends Component {
         </Flex>
       )
     })
+
+    // trigger resize event
+    // this.onResize();
+
     return this.items
   }
 
@@ -151,10 +185,12 @@ class AboutProcessList extends Component {
     const { processes } = this.props
 
     return (
-      <InView threshold={0.25} onChange={inView => this.setState({ inView: inView })}>
-        <Box ref={this.processesContainerRef} as={ProcessesContainer} pt={`25vh`}>
-          <StickyElement target={this.processesContainerRef.current}>
-            <Heading as={ContainerHeading}>0{this.state.activeItem + 1}</Heading>
+      <InView threshold={0.15} onChange={inView => this.setState({ inView: inView })}>
+        <Box ref={this.processesContainerRef} as={ProcessesContainer} pt={`25vh`} mb={`25vh`}>
+          <StickyElement contained={true} target={this.processesContainerRef.current}>
+            <Heading ref={this.currentActiveItemRef} as={CurrentActiveItem} active={this.state.inView} height={this.state.lastItemHeight}>
+              0{this.state.activeItem + 1}
+            </Heading>
             <Lottie autoplay={false} ref={this.animationRef} animationData={starAnimation} />
           </StickyElement>
           <div>{this.list(processes)}</div>
@@ -186,9 +222,12 @@ const ProcessHeading = styled.h4`
   margin-top: 0;
 `
 
-const ContainerHeading = styled(ProcessHeading)`
+const CurrentActiveItem = styled(ProcessHeading)`
   position: absolute;
   top: 0;
+  display: block;
+  transition: opacity 0.25s linear 0.25s;
+  opacity: ${props => (props.active ? 1 : 0.125)};
 `
 
 const ProcessItem = styled.article`

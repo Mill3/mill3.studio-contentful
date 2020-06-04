@@ -1,6 +1,6 @@
-import React, { Component, createRef, useState, useEffect } from 'react'
+import React, { createRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Heading } from 'rebass'
+import { Box, Heading } from 'rebass'
 import { TweenMax, Linear } from 'gsap'
 
 const AboutServicesTicker = ({ text }) => {
@@ -8,14 +8,12 @@ const AboutServicesTicker = ({ text }) => {
   const refMain = createRef();
   const refCopy = createRef();
 
-  // random duration
-  let duration = 25
 
   useEffect(() => {
     if(animating) return;
 
     let elements = [refMain.current, refCopy.current]
-    TweenMax.to(elements, duration, {
+    TweenMax.to(elements, 25, {
       x: '-100%',
       ease: Linear.easeNone,
       repeat: Infinity,
