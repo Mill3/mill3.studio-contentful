@@ -119,22 +119,22 @@ class AboutProcessList extends Component {
   list(processes) {
     this.items = []
     processes.forEach((process, i) => {
-      const inView = this.state.activeItem === i
+      const active = this.state.activeItem === i && this.state.inView
       this.items.push(
         <Flex
           ref={this.itemsRefs[i]}
           key={i}
           as={ProcessItem}
           px={6}
-          active={inView}
+          active={active}
           first={i === processes.length - 1}
           last={i === processes.length - 1}
         >
           <Heading as={ProcessHeading} mr={[0, null, 6]} width={(`100%`, null, '30%')}>
             <SplitText
               initialPose={`out`}
-              pose={inView ? `enter` : `out`}
-              startDelay={inView ? 250 : 0}
+              pose={active ? `enter` : `out`}
+              startDelay={active ? 250 : 0}
               charPoses={charPoses}
             >
               {process.title}
@@ -144,17 +144,15 @@ class AboutProcessList extends Component {
         </Flex>
       )
     })
-    // console.log(this.itemsRefs);
     return this.items
   }
 
   render() {
     const { processes } = this.props
-    console.log(this.state.activeItem)
 
     return (
-      <InView threshold={0.35} onChange={inView => this.setState({ inView: inView })}>
-        <Box ref={this.processesContainerRef} as={ProcessesContainer} mt={`-25vh`} pt={`50vh`}>
+      <InView threshold={0.25} onChange={inView => this.setState({ inView: inView })}>
+        <Box ref={this.processesContainerRef} as={ProcessesContainer} pt={`25vh`}>
           <StickyElement target={this.processesContainerRef.current}>
             <Heading as={ContainerHeading}>0{this.state.activeItem + 1}</Heading>
             <Lottie autoplay={false} ref={this.animationRef} animationData={starAnimation} />
@@ -195,7 +193,6 @@ const ContainerHeading = styled(ProcessHeading)`
 
 const ProcessItem = styled.article`
   height: ${props => (props.last ? `auto` : `35vh`)};
-  /* opacity: ${props => (props.active ? 1 : 0.125)}; */
   p {
     transition: opacity 0.25s linear 0.25s;
     opacity: ${props => (props.active ? 1 : 0.125)};
