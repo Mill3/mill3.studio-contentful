@@ -9,8 +9,8 @@ const PersonPreview = ({ person }) => {
         <img srcSet={person.photo.fluid.srcSet} alt={person.fullname} className="img-fluid" />
       </Box>
       <figcaption>
-        <Heading as="h4" fontSize={24} fontWeight={400} mb={2}>{person.fullName}</Heading>
-        <Heading as="h6" fontSize={12} fontWeight={400}>{person.title}</Heading>
+        <Heading as="h4" fontSize={24} fontWeight={400} lineHeight={1.291666667} m={0} mb={2} p={0}>{person.fullName}</Heading>
+        <Heading as="h6" fontSize={12} fontWeight={400} lineHeight={1.291666667} m={0} p={0}>{person.title}</Heading>
       </figcaption>
     </Box>
   );
