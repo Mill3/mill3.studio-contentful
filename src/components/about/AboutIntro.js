@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex, Box, Heading } from 'rebass'
 // import SplitText from 'react-pose-text'
 import Lottie from "lottie-react";
 
@@ -25,8 +25,10 @@ const AboutIntro = ({ data, color }) => {
         <span dangerouslySetInnerHTML={{ __html: data.title }}></span>
       </AboutSectionHeading>
       <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
-        <Lottie ref={animationRef} animationData={globeAnimation} />
-        <h5>{ data.shortText }</h5>
+        <Box py={[4]}>
+          <Lottie ref={animationRef} animationData={globeAnimation} />
+        </Box>
+        <Heading as="h5" fontWeight="300" mt={[3]}>{ data.shortText }</Heading>
       </Flex>
     </Flex>
   )
@@ -39,9 +41,9 @@ export default AboutIntro
 
 const Footer = styled.footer`
   svg {
-    transform: scale(0.95, 0.75) !important;
+    /* transform: scale(0.95, 0.75) !important;
     margin-top: -160px;
-    margin-bottom: -160px;
+    margin-bottom: -160px; */
     path {
       stroke: currentColor;
     }
