@@ -11,6 +11,7 @@ import ContentSlides from './ContentSlides'
 import ContentSectionBreak from './ContentSectionBreak'
 import ContentForm from './ContentForm'
 import ContentSpacer from './ContentSpacer'
+import { space } from '@styles/Theme'
 
 export const ALIGN_VALUES = {
   snap: 'snap-both',
@@ -39,6 +40,7 @@ export const CONTENT_ROW_TYPES = {
 // this value is used in Rebass margin properties
 export const VERTICAL_SPACER = [4, 4, 5, 5, 6]
 export const HORIZONTAL_SPACER = [`24px`, 4, 5, 5, 6]
+export const HORIZONTAL_SPACER_INVERTED = [`-24px`, `${space[4] * -1}px`, `${space[5] * -1}px`, null, `${space[6] * -1}px`]
 export const BOTTOM_SPACER = [4, 4, 5, 5]
 
 // gutter between each grid elements
@@ -180,7 +182,7 @@ export class AnimatedBackgroundContainer extends Component {
   }
 
   render() {
-    const { backgroundColor, children, duration, threshold } = this.props
+    const { backgroundColor, children, duration, threshold, onChange } = this.props
     const { inView, y } = this.state
     const t = { transform: `translate3d(0, ${y}px, 0)` }
 
@@ -207,8 +209,7 @@ export const AnimatedBackgroundRowContainer = ({
   onChange,
   wrapper,
   ...props
-  }) => {
-
+}) => {
   let Wrapper = wrapper ? wrapper : RowContainer;
 
   return (

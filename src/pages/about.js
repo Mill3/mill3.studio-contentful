@@ -29,7 +29,7 @@ class About extends Component {
   }
 
   componentDidMount() {
-    this.context.layoutState.setHeaderInverted(true)
+    //this.context.layoutState.setHeaderInverted(true)
   }
 
   componentWillUnmount() {
@@ -38,6 +38,7 @@ class About extends Component {
   }
 
   setBodyInverted(inView) {
+    this.context.layoutState.setHeaderInverted(inView)
     this.context.layoutState.setBodyInverted(inView)
   }
 
@@ -147,10 +148,10 @@ export const projectQuery = graphql`
       services {
         id
         title
-        text {
-          id
-          text
+        description {
+          description
         }
+        slug
       }
       clientsIntro {
         ...sectionBannerFragment

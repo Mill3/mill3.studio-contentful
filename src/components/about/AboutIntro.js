@@ -26,10 +26,10 @@ const AboutIntro = ({ data, color }) => {
         <AnimatedTitle startDelay={1000} source={data.title} />
       </AboutSectionHeading>
 
-      <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]}>
+      <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
         <Box py={[4]}>
           <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={1700} delayOut={0}>
-            <Lottie ref={animationRef} animationData={globeAnimation} />
+            <Lottie ref={animationRef} autoplay={false} animationData={globeAnimation} />
           </TransitionContainer>
         </Box>
         {data.introBlurb &&

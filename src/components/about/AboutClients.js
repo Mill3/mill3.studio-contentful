@@ -28,7 +28,7 @@ const AboutClients = ({ data, color }) => {
           <AnimatedTitle startDelay={750} source={clientsIntro.title} />
         </AboutSectionHeading>
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <Lottie ref={animationRef} animationData={shakeAnimation} />
+          <Lottie ref={animationRef} autoplay={false} animationData={shakeAnimation} />
         </Box>
       </Flex>
 
