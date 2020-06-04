@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Text } from 'rebass'
+import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
 import { injectIntl } from 'react-intl'
 import { useStaticQuery, graphql } from 'gatsby'
@@ -14,10 +14,16 @@ import ExternalLink from '@svg/ExternalLink'
 
 const ClientRowElement = styled.p`
   ${display};
+  font-weight: 300;
+`
+
+const ClientRowElementName = styled.h4`
+  ${display};
+  font-weight: 300;
+  text-transform: uppercase;
 `
 
 const ClientRowStyle = styled.div`
-
   p {
     font-weight: 500;
     color: ${props => props.color};
@@ -59,21 +65,19 @@ const ClientRowInner = styled.div`
   transition: padding 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
-const ClientsContainer = styled.div`
-`
+const ClientsContainer = styled.div``
 
 export const filterByLocale = (data, locale = `en`) => {
   return data.filter(e => e.node.node_locale === locale)
 }
 
 class ClientRow extends React.Component {
-
   render() {
-    const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep } = this.props
+    const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = this.props
 
     const isCurrent = () => hoverIndex !== null && index === hoverIndex
-    const isPrev = () => hoverIndex !== null && (index === hoverIndex - 1)
-    const isNext = () => hoverIndex !== null && (index === hoverIndex + 1)
+    const isPrev = () => hoverIndex !== null && index === hoverIndex - 1
+    const isNext = () => hoverIndex !== null && index === hoverIndex + 1
 
     const padding = () => {
       // when current give it more padding
@@ -106,19 +110,18 @@ class ClientRow extends React.Component {
     const LinkElement = project ? TransitionLinkComponent : `a`
 
     const LinkProps = () => {
-
       if (project) {
         return {
-          to : `/projects/${project.slug}`,
+          to: `/projects/${project.slug}`,
           title: project.transitionName,
-          color: project.colorMain
+          color: project.colorMain,
         }
       }
 
       if (url) {
         return {
-          href : url,
-          target: '_blank'
+          href: url,
+          target: '_blank',
         }
       }
     }
@@ -127,18 +130,31 @@ class ClientRow extends React.Component {
       <Box as={ClientRowStyle} color={color()}>
         <TransitionContainer direction="out" distance={-25}>
           <LinkElement {...LinkProps()}>
-            <Flex as={ClientRowInner} py={padding()} px={[0, 0, 4]} flexWrap={`wrap`}>
-              <Text as={ClientRowElement} fontSize={[0,1,2]} pr={[2,0]} margin={0} width={[`50%`,`50%`,`40%`]}>
+            <Flex as={ClientRowInner} py={padding()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
+              <Heading
+                as={labelRow ? ClientRowElement : ClientRowElementName}
+                fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}
+                fontFamily="sans"
+                pr={[2]}
+                margin={0}
+                width={[`50%`, `50%`, `40%`]}
+              >
                 {projectName}
-                {(url && !project) && <ExternalLink color={colors.blue} />}
-              </Text>
-              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[1/3,1/3,1/4]}>
+                {url && !project && <ExternalLink color={colors.blue} />}
+              </Heading>
+              <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[1 / 3, 1 / 3, 1 / 4]}>
                 {name}
               </Text>
-              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[1/4]} display={['none', 'none', 'block']}>
+              <Text
+                as={ClientRowElement}
+                fontSize={[0, 1, 2]}
+                margin={0}
+                width={[1 / 4]}
+                display={['none', 'none', 'block']}
+              >
                 {service}
               </Text>
-              <Text as={ClientRowElement} fontSize={[0,1,2]} margin={0} width={[`auto`]} ml={[`auto`]}>
+              <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[`auto`]} ml={[`auto`]}>
                 {year}
               </Text>
             </Flex>
@@ -167,6 +183,7 @@ class CliensRows extends React.Component {
 
   render() {
     const { data } = this.props
+
     return (
       <React.Fragment>
         {data.map((client, index) => (
@@ -210,8 +227,17 @@ const ClientsList = ({ intl }) => {
     }
   `)
   return (
-    <Box as={ClientsContainer} pt={[5,5,0]}>
-      <ClientRow projectName={intl.formatMessage({id: 'clients.project'})} name={intl.formatMessage({id: 'clients.name'})} service={intl.formatMessage({id: 'clients.expertise'})} year={intl.formatMessage({id: 'clients.year'})} sep={false} textColor={colors.text} hoverIndex={false} />
+    <Box as={ClientsContainer} pt={[5, 5, 0]}>
+      <ClientRow
+        projectName={intl.formatMessage({ id: 'clients.project' })}
+        name={intl.formatMessage({ id: 'clients.name' })}
+        service={intl.formatMessage({ id: 'clients.expertise' })}
+        year={intl.formatMessage({ id: 'clients.year' })}
+        sep={false}
+        textColor={colors.text}
+        hoverIndex={false}
+        labelRow={true}
+      />
       <CliensRows data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
     </Box>
   )

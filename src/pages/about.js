@@ -6,7 +6,7 @@ import { Box } from 'rebass'
 import LayoutContext from '@components/contexts/LayoutContext'
 
 import SEO from '@components/seo'
-import ClientsFooter from '@components/clients/ClientsFooter'
+
 // import { BodyInvertedTriggerWrapper } from '@components/pages/about'
 import AboutIntro from '@components/about/AboutIntro'
 import AboutTeam from '@components/about/AboutTeam'
@@ -82,10 +82,7 @@ class About extends Component {
 
           <AboutClients data={{ clientsIntro: page.clientsIntro }} color={color} />
 
-
         </Box>
-
-        <ClientsFooter />
 
         <Box pt={[6]}>
           <ContactForm />

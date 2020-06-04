@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
 import AboutServicesTicker from './AboutServicesTicker'
+import { lb2br } from '@utils/Linebreaks'
 
 import shakeAnimation from "@animations/infinite.json";
 
@@ -35,7 +36,7 @@ const AboutServices = ({ data, color }) => {
 
       {servicesIntro.introBlurb && (
         <Box width={[1,null,1/2,2/3]}>
-          <Heading fontWeight="300" dangerouslySetInnerHTML={{ __html: servicesIntro.introBlurb.introBlurb }} />
+          <Heading fontWeight="300" dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }} />
         </Box>
       )}
 

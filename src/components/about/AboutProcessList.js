@@ -9,6 +9,7 @@ import Lottie from 'lottie-react'
 
 import StickyElement from '@utils/StickyElement'
 import Viewport from '@utils/Viewport'
+import { lb2br } from '@utils/Linebreaks'
 
 import starAnimation from '@animations/star.json'
 
@@ -170,7 +171,7 @@ class AboutProcessList extends Component {
               {process.title}
             </SplitText>
           </Heading>
-          <Box as="p" width={(`100%`, null, '45%')} dangerouslySetInnerHTML={{ __html: process.text.text }} />
+          <Box as="p" width={(`100%`, null, '45%')} dangerouslySetInnerHTML={{ __html: lb2br(process.text.text) }} />
         </Flex>
       )
     })

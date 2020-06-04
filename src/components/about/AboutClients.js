@@ -5,6 +5,11 @@ import Lottie from "lottie-react";
 
 import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
+import ClientsFooter from '@components/clients/ClientsFooter'
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import { ArrowButton } from '@components/buttons'
+
+import { lb2br } from '@utils/Linebreaks'
 
 import shakeAnimation from "@animations/shake.json";
 
@@ -28,10 +33,17 @@ const AboutClients = ({ data, color }) => {
       </Flex>
 
       {clientsIntro.introBlurb && (
-        <Box py={VERTICAL_SPACER}>
-          <Heading dangerouslySetInnerHTML={{ __html: clientsIntro.introBlurb.introBlurb }} />
-        </Box>
+        <Flex py={VERTICAL_SPACER}>
+          <Heading fontWeight="300" width={[1,null,1/2,2/3]} dangerouslySetInnerHTML={{ __html: lb2br(clientsIntro.introBlurb.introBlurb) }} />
+          <Box as="nav" alignSelf="flex-end" ml="auto">
+            <TransitionLinkComponent to="/contact/">
+              <ArrowButton>Let's chat</ArrowButton>
+            </TransitionLinkComponent>
+          </Box>
+        </Flex>
       )}
+
+      <ClientsFooter asList={true} switchButton={false} />
 
     </Box>
   )
