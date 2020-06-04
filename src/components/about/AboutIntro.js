@@ -32,9 +32,13 @@ const AboutIntro = ({ data, color }) => {
             <Lottie ref={animationRef} animationData={globeAnimation} />
           </TransitionContainer>
         </Box>
-        {data.introBlurb && <p py={[4]} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />}
+        {data.introBlurb &&
+          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={1750} delayOut={50}>
+            <p py={[4]} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />
+          </TransitionContainer>
+        }
         {data.shortText && (
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={1775} delayOut={0}>
+          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={1800} delayOut={250}>
             <Heading as="h5" fontWeight="300" mt={[3]}>
               {data.shortText}
             </Heading>
