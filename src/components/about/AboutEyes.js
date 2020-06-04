@@ -139,6 +139,7 @@ class AboutEyes extends Component {
 
   onInViewChange(inView) {
     if( inView ) {
+      this.onResize()
       if( IS_TOUCH_DEVICE ) this.setState({ blink: false })
 
       window.addEventListener('mousemove', this.onMouseMove, { passive: false })
@@ -207,7 +208,7 @@ class AboutEyes extends Component {
     const rect = this.ref.current.getBoundingClientRect()
 
     this.constants.cx = rect.x + rect.width * 0.5
-    this.constants.cy = rect.y + rect.width * 0.5
+    this.constants.cy = rect.y + rect.height * 0.5 + this.scrollbar.offset.y
   }
 
   render() {
