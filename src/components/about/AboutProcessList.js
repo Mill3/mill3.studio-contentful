@@ -53,12 +53,12 @@ class AboutProcessList extends Component {
     window.addEventListener('resize', this.onResize);
   }
 
-  componentDidUpdate() {
-    this.onResize();
-  }
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
+  }
+
+  componentDidUpdate() {
+    this.onResize();
   }
 
   onScroll() {

@@ -74,7 +74,7 @@ const AboutServices = ({ data, color }) => {
 
       <Flex as="header">
         <AboutSectionHeading>
-          <span dangerouslySetInnerHTML={{ __html: servicesIntro.title }}></span>
+          <AnimatedTitle startDelay={750} source={servicesIntro.title} />
         </AboutSectionHeading>
 
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>

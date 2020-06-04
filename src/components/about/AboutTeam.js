@@ -7,8 +7,7 @@ import PersonPreview from '@components/persons/PersonPreview'
 import { breakpoints, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
 
-import { AboutSectionContainer, AboutSectionHeading } from './index'
-
+import { AboutSectionContainer, AboutSectionHeading, AnimatedTitle } from './index'
 
 const TeamMemberPoses = posed.div({
   hidden: {
@@ -62,9 +61,10 @@ const AboutTeam = ({ data, color }) => {
     <Box
       as={AboutSectionContainer}
       color={color}
+      mb={[6]}
     >
       <AboutSectionHeading heading={'h2'} textAlign="center">
-        <span dangerouslySetInnerHTML={{ __html: teamIntro.title }}></span>
+        <AnimatedTitle startDelay={0} source={teamIntro.title} />
       </AboutSectionHeading>
 
       {teamIntro.introBlurb && (
@@ -79,7 +79,7 @@ const AboutTeam = ({ data, color }) => {
             <TeamMember
               key={index}
               teamMember={teamMember}
-              delay={IS_FLEX_ROW ? index * 125 : 0} 
+              delay={IS_FLEX_ROW ? index * 125 : 0}
             />
           ))}
         </Flex>
