@@ -182,11 +182,14 @@ class CliensRows extends React.Component {
   }
 
   render() {
+    const { limit } = this.props
     const { data } = this.props
+    const clients = limit ? data.slice(0, limit) : data
+    console.log('clients:', clients)
 
     return (
       <React.Fragment>
-        {data.map((client, index) => (
+        {clients.map((client, index) => (
           <div
             key={index}
             role="button"
@@ -214,7 +217,7 @@ class CliensRows extends React.Component {
   }
 }
 
-const ClientsList = ({ intl }) => {
+const ClientsList = ({ limit, intl }) => {
   const data = useStaticQuery(graphql`
     query ClientsList {
       allContentfulClients(sort: { fields: [year, name], order: DESC }) {
@@ -238,7 +241,7 @@ const ClientsList = ({ intl }) => {
         hoverIndex={false}
         labelRow={true}
       />
-      <CliensRows data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
+      <CliensRows limit={limit} data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
     </Box>
   )
 }
@@ -260,6 +263,11 @@ export const query = graphql`
     }
     project {
       ...Project
+    }
+    hoverImage {
+      fixed(width: 1200, quality: 85) {
+        ...GatsbyContentfulFixed_noBase64
+      }
     }
   }
 `

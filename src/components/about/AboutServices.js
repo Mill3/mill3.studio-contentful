@@ -17,12 +17,15 @@ import { lb2br } from '@utils/Linebreaks'
 
 import shakeAnimation from "@animations/globe.json"
 import infiniAnimation from "@animations/infini.json"
+import targetAnimation from "@animations/target.json"
+import arrowAnimation from "@animations/arrow.json"
+import triangleAnimation from "@animations/triangle.json"
 
 const animationsBySlug = {
-  strategy: shakeAnimation,
-  design: infiniAnimation,
-  technology: infiniAnimation,
-  performance: infiniAnimation,
+  strategy: infiniAnimation,
+  design: targetAnimation,
+  technology: arrowAnimation,
+  performance: triangleAnimation,
 }
 
 const Service = ({delay, title, text, slug}) => {
@@ -32,7 +35,7 @@ const Service = ({delay, title, text, slug}) => {
 
   const wrapperProps = HAS_HOVER ? {
     onMouseEnter: () => lottieRef.current.play(),
-    onMouseLeave: () => lottieRef.current.pause(),
+    onMouseLeave: () => lottieRef.current.stop(),
   } : {}
 
   return (
@@ -75,7 +78,7 @@ const AboutServices = ({ data, color }) => {
         </AboutSectionHeading>
 
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <LottieAnimation animationData={shakeAnimation} />
+          <LottieAnimation animationData={targetAnimation} />
         </Box>
       </Flex>
 

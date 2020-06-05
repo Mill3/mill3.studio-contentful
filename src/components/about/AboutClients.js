@@ -43,7 +43,7 @@ const AboutClients = ({ data, color }) => {
         </Flex>
       )}
 
-      <ClientsFooter asList={true} switchButton={false} />
+      <ClientsFooter asList={true} switchButton={false} limit={12} />
 
     </Box>
   )

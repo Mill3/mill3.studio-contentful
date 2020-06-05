@@ -17,7 +17,7 @@ const AboutServicesTicker = ({ text }) => {
   )
 }
 
-const TickerText = ({fwRef, text, inView}) => {
+const TickerText = ({ text, inView}) => {
   return (
     <Heading
       as={TickerLineItem}

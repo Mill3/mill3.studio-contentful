@@ -22,7 +22,7 @@ export const LogoSVG = styled.svg`
   }
 
   polygon, path {
-    transition: fill 1s ease-in 2s;
+    transition: fill 1s ease-in;
     overflow: visible;
   }
 

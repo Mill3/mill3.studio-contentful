@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Flex, Box } from 'rebass'
 import { injectIntl } from 'react-intl'
 
+import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'
 import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
@@ -11,7 +12,9 @@ import ClientsList from '@components/clients/ClientsList'
 const ClientsFooterContainer = styled.footer``
 
 const ClientsFooter = ({ intl, asList = false, switchButton = true }) => {
+  // console.log('limit:', limit)
   const [list, setList] = useState(asList)
+  const [limit, setLimit] = useState(18)
 
   return (
     <ClientsFooterContainer>
@@ -27,9 +30,16 @@ const ClientsFooter = ({ intl, asList = false, switchButton = true }) => {
         {/* show client list */}
         {list && (
           <Container>
-            <ClientsList />
+            <ClientsList limit={limit} />
           </Container>
         )}
+        {limit && list &&
+          <Flex pt={54} as="nav" justifyContent="center">
+            <a href="#" onClick={(e) => setLimit(null)}>
+              <ArrowButton arrow={false}>Show full list</ArrowButton>
+            </a>
+          </Flex>
+        }
         {/* show ticker */}
         {!list && <ClientsTicker quantity={5} />}
       </Box>
