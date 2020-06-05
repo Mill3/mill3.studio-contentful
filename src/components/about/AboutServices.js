@@ -22,10 +22,10 @@ import arrowAnimation from "@animations/arrow.json"
 import triangleAnimation from "@animations/triangle.json"
 
 const animationsBySlug = {
-  strategy: infiniAnimation,
-  design: targetAnimation,
-  technology: arrowAnimation,
-  performance: triangleAnimation,
+  strategy: targetAnimation,
+  design: triangleAnimation,
+  technology: infiniAnimation,
+  performance: arrowAnimation,
 }
 
 const Service = ({delay, title, text, slug}) => {
