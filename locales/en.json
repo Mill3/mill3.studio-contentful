@@ -58,6 +58,8 @@
   "clients.name": "Name",
   "clients.expertise": "Expertise",
   "clients.year": "Year",
+  "clients.showMoreButton": "Show full list",
+  "clients.showLessButton": "Show less",
   "submit": "Submit",
   "footer.stopBy": "Stop by.",
   "footer.address": "1275 Avenue des Canadiens-de-Montréal",

@@ -168,6 +168,14 @@ const messages = defineMessages({
   aboutUs: {
     id: 'About us',
     defaultMessage: 'About us'
+  },
+  clientsFooterShowMoreButton: {
+    id: "clients.showMoreButton",
+    defaultMessage: 'Show full list'
+  },
+  clientsFooterShowLessButton: {
+    id: "clients.showLessButton",
+    defaultMessage: 'Show less'
   }
 })
 

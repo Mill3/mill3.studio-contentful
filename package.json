@@ -73,6 +73,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "clean": "gatsby clean",
     "netlify-proxy": "netlify-lambda serve src/functions/",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",

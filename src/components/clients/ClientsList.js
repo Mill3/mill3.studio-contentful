@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
 import { injectIntl } from 'react-intl'
 import { useStaticQuery, graphql } from 'gatsby'
+import posed, { PoseGroup } from 'react-pose'
+import memoize from 'memoize-one'
 
 import { colors } from '@styles/Theme'
 
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
-
 import ExternalLink from '@svg/ExternalLink'
+
+
+const filterByLocale = memoize((data, locale = 'en') => {
+  return data.filter(e => e.node.node_locale === locale)
+})
+
 
 const ClientRowElement = styled.p`
   ${display};
@@ -65,159 +72,147 @@ const ClientRowInner = styled.div`
   transition: padding 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
-const ClientsContainer = styled.div``
+const ClientPoses = posed.div({
+  enter: {
+    opacity: 1,
+    duration: 1000,
+    delay: ({ delay = 0 }) => delay,
+  },
+  exit: {
+    opacity: 0,
+    delay: 0,
+    duration: 350,
+  },
+})
 
-export const filterByLocale = (data, locale = `en`) => {
-  return data.filter(e => e.node.node_locale === locale)
-}
+const ClientRow = (props) => {
+  const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = props
 
-class ClientRow extends React.Component {
-  render() {
-    const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = this.props
+  const isCurrent = () => hoverIndex !== null && index === hoverIndex
+  const isPrev = () => hoverIndex !== null && index === hoverIndex - 1
+  const isNext = () => hoverIndex !== null && index === hoverIndex + 1
 
-    const isCurrent = () => hoverIndex !== null && index === hoverIndex
-    const isPrev = () => hoverIndex !== null && index === hoverIndex - 1
-    const isNext = () => hoverIndex !== null && index === hoverIndex + 1
+  const padding = () => {
+    // when current give it more padding
+    if (isCurrent()) return [`34px`]
 
-    const padding = () => {
-      // when current give it more padding
-      if (isCurrent()) return [`34px`]
+    // prev or next, little bit more
+    if (isPrev() || isNext()) return [`24px`]
 
-      // prev or next, little bit more
-      if (isPrev() || isNext()) return [`24px`]
+    // default
+    return [`17px`]
+  }
 
-      // default
-      return [`17px`]
-    }
+  const color = () => {
+    // when forcing a specific color
+    if (textColor) return textColor
 
-    const color = () => {
-      // when forcing a specific color
-      if (textColor) return textColor
+    // when current give it more padding
+    if (isCurrent()) return colors.blue
 
-      // when current give it more padding
-      if (isCurrent()) return colors.blue
+    // prev or next, gray text
+    if (isPrev() || isNext()) return colors.gray
 
-      // prev or next, gray text
-      if (isPrev() || isNext()) return colors.gray
+    // not prev neither next, but has a hoverIndex value, text is lighter grey
+    if (hoverIndex !== null) return `#E0E0E0`
 
-      // not prev neither next, but has a hoverIndex value, text is lighter grey
-      if (hoverIndex !== null) return `#E0E0E0`
+    // hoverIndex is null, no element is active, return default color
+    return colors.text
+  }
 
-      // hoverIndex is null, no element is active, return default color
-      return colors.text
-    }
+  const LinkElement = project ? TransitionLinkComponent : `a`
 
-    const LinkElement = project ? TransitionLinkComponent : `a`
-
-    const LinkProps = () => {
-      if (project) {
-        return {
-          to: `/projects/${project.slug}`,
-          title: project.transitionName,
-          color: project.colorMain,
-        }
-      }
-
-      if (url) {
-        return {
-          href: url,
-          target: '_blank',
-        }
+  const LinkProps = () => {
+    if (project) {
+      return {
+        to: `/projects/${project.slug}`,
+        title: project.transitionName,
+        color: project.colorMain,
       }
     }
 
-    return (
-      <Box as={ClientRowStyle} color={color()}>
-        <TransitionContainer direction="out" distance={-25}>
-          <LinkElement {...LinkProps()}>
-            <Flex as={ClientRowInner} py={padding()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
-              <Heading
-                as={labelRow ? ClientRowElement : ClientRowElementName}
-                fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}
-                fontFamily="sans"
-                pr={[2]}
-                margin={0}
-                width={[`50%`, `50%`, `40%`]}
-              >
-                {projectName}
-                {url && !project && <ExternalLink color={colors.blue} />}
-              </Heading>
-              <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[1 / 3, 1 / 3, 1 / 4]}>
-                {name}
-              </Text>
-              <Text
-                as={ClientRowElement}
-                fontSize={[0, 1, 2]}
-                margin={0}
-                width={[1 / 4]}
-                display={['none', 'none', 'block']}
-              >
-                {service}
-              </Text>
-              <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[`auto`]} ml={[`auto`]}>
-                {year}
-              </Text>
-            </Flex>
-            {sep && <Box as={`hr`} margin={[0]} width={`100%`} />}
-          </LinkElement>
-        </TransitionContainer>
-      </Box>
-    )
-  }
-}
-
-class CliensRows extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      hoverIndex: null,
+    if (url) {
+      return {
+        href: url,
+        target: '_blank',
+      }
     }
-    this.setHoverIndex = this.setHoverIndex.bind(this)
   }
 
-  setHoverIndex(index) {
-    this.setState({
-      hoverIndex: index,
-    })
-  }
-
-  render() {
-    const { limit } = this.props
-    const { data } = this.props
-    const clients = limit ? data.slice(0, limit) : data
-    console.log('clients:', clients)
-
-    return (
-      <React.Fragment>
-        {clients.map((client, index) => (
-          <div
-            key={index}
-            role="button"
-            tabIndex="0"
-            onMouseEnter={e => this.setHoverIndex(index)}
-            onMouseLeave={e => this.setHoverIndex(null)}
-            onFocus={e => this.setHoverIndex(index)}
-            onBlur={e => this.setHoverIndex(null)}
-          >
-            <ClientRow
-              index={index}
-              hoverIndex={this.state.hoverIndex}
-              projectName={client.node.projectName || client.node.name}
-              project={client.node.project}
-              url={client.node.url}
-              name={client.node.name}
-              service={client.node.service ? client.node.service.title : null}
-              year={client.node.year}
-              sep={true}
-            />
-          </div>
-        ))}
-      </React.Fragment>
-    )
-  }
+  return (
+    <Box as={ClientRowStyle} color={color()}>
+      <TransitionContainer direction="out" distance={-25}>
+        <LinkElement {...LinkProps()}>
+          <Flex as={ClientRowInner} py={padding()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
+            <Heading
+              as={labelRow ? ClientRowElement : ClientRowElementName}
+              fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}
+              fontFamily="sans"
+              pr={[2]}
+              margin={0}
+              width={[`50%`, `50%`, `40%`]}
+            >
+              {projectName}
+              {url && !project && <ExternalLink color={colors.blue} />}
+            </Heading>
+            <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[1 / 3, 1 / 3, 1 / 4]}>
+              {name}
+            </Text>
+            <Text
+              as={ClientRowElement}
+              fontSize={[0, 1, 2]}
+              margin={0}
+              width={[1 / 4]}
+              display={['none', 'none', 'block']}
+            >
+              {service}
+            </Text>
+            <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[`auto`]} ml={[`auto`]}>
+              {year}
+            </Text>
+          </Flex>
+          {sep && <Box as={`hr`} margin={[0]} width={`100%`} />}
+        </LinkElement>
+      </TransitionContainer>
+    </Box>
+  )
 }
 
-const ClientsList = ({ limit, intl }) => {
+const CliensRows = ({ data, limit }) => {
+  const [ hoverIndex, setHoverIndex ] = useState(null)
+  const clients = limit ? data.slice(0, limit) : data
+
+  return (
+    <PoseGroup animateOnMount={false} flipMove={false}>
+      {clients.map((client, index) => (
+        <ClientPoses
+          key={index}
+          role="button"
+          tabIndex="0"
+          onMouseEnter={e => setHoverIndex(index)}
+          onMouseLeave={e => setHoverIndex(null)}
+          onFocus={e => setHoverIndex(index)}
+          onBlur={e => setHoverIndex(null)}
+          delay={index * 100}
+        >
+          <ClientRow
+            index={index}
+            hoverIndex={hoverIndex}
+            projectName={client.node.projectName || client.node.name}
+            project={client.node.project}
+            url={client.node.url}
+            name={client.node.name}
+            service={client.node.service ? client.node.service.title : null}
+            year={client.node.year}
+            sep={true}
+          />
+        </ClientPoses>
+      ))}
+    </PoseGroup>
+  )
+}
+
+const ClientsList = ({ fwdRef, limit, intl }) => {
   const data = useStaticQuery(graphql`
     query ClientsList {
       allContentfulClients(sort: { fields: [year, name], order: DESC }) {
@@ -230,7 +225,7 @@ const ClientsList = ({ limit, intl }) => {
     }
   `)
   return (
-    <Box as={ClientsContainer} pt={[5, 5, 0]}>
+    <Box ref={fwdRef} pt={[5, 5, 0]}>
       <ClientRow
         projectName={intl.formatMessage({ id: 'clients.project' })}
         name={intl.formatMessage({ id: 'clients.name' })}

@@ -196,7 +196,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     width: auto;
     overflow: visible;
-    outline: none;
+    outline: none !important;
 
     background: transparent;
 

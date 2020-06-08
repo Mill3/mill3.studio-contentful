@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import { injectIntl } from 'react-intl'
 
@@ -9,15 +9,13 @@ import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ClientsList from '@components/clients/ClientsList'
 
-const ClientsFooterContainer = styled.footer``
-
-const ClientsFooter = ({ intl, asList = false, switchButton = true }) => {
-  // console.log('limit:', limit)
+const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true }, { getScrollbar }) => {
   const [list, setList] = useState(asList)
-  const [limit, setLimit] = useState(18)
+  const [listLimit, setLimit] = useState(limit)
+  const ref = useRef()
 
   return (
-    <ClientsFooterContainer>
+    <footer>
       {switchButton && (
         <Flex justifyContent={`flex-end`} px={[4, 3, 6]} mb={list ? ['-25px', 0] : ['-55px']}>
           <ChipButton onClick={e => setList(!list)}>
@@ -30,21 +28,58 @@ const ClientsFooter = ({ intl, asList = false, switchButton = true }) => {
         {/* show client list */}
         {list && (
           <Container>
-            <ClientsList limit={limit} />
+            <ClientsList fwdRef={ref} limit={listLimit} />
           </Container>
         )}
-        {limit && list &&
+
+        {/* show more/less button */}
+        {list && (
           <Flex pt={54} as="nav" justifyContent="center">
-            <button className="btn-reset" onClick={(e) => setLimit(null)}>
-              <ArrowButton arrow={false}>Show full list</ArrowButton>
+            <button
+              className="btn-reset"
+              onClick={() => {
+                if( ref.current ) {
+                  const { y } = ref.current.getBoundingClientRect()
+                  const height = listLimit * 81
+
+                  getScrollbar(scrollbar => {
+                    const offset = scrollbar.offset.y
+                    const top = y + height + offset - 100
+
+                    if( listLimit ) {
+                      // expand list
+                      setLimit(null)
+
+                      // scroll list to top
+                      scrollbar.scrollTo(0, top, 1200)
+                    } else {
+                      // scroll list to top
+                      scrollbar.scrollTo(0, top, 1200, {
+                        callback: () => {
+                          // collapse list
+                          setLimit(limit)
+                        }
+                      })
+                    }
+                  })
+                }
+                else setLimit(listLimit ? null : limit)
+              }}
+            >
+              <ArrowButton arrow={false}>{intl.formatMessage({ id: listLimit ? 'clients.showMoreButton' : 'clients.showLessButton'}).toString()}</ArrowButton>
             </button>
           </Flex>
-        }
+        )}
+
         {/* show ticker */}
         {!list && <ClientsTicker quantity={5} />}
       </Box>
-    </ClientsFooterContainer>
+    </footer>
   )
+}
+
+ClientsFooter.contextTypes = {
+  getScrollbar: PropTypes.func,
 }
 
 export default injectIntl(ClientsFooter)
