@@ -35,9 +35,9 @@ const ClientsFooter = ({ intl, asList = false, switchButton = true }) => {
         )}
         {limit && list &&
           <Flex pt={54} as="nav" justifyContent="center">
-            <a href="#" onClick={(e) => setLimit(null)}>
+            <button className="btn-reset" onClick={(e) => setLimit(null)}>
               <ArrowButton arrow={false}>Show full list</ArrowButton>
-            </a>
+            </button>
           </Flex>
         }
         {/* show ticker */}

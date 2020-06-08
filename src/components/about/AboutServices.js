@@ -15,7 +15,6 @@ import { AboutSectionContainer, AboutSectionHeading } from './index'
 import AboutServicesTicker from './AboutServicesTicker'
 import { lb2br } from '@utils/Linebreaks'
 
-import shakeAnimation from "@animations/globe.json"
 import infiniAnimation from "@animations/infini.json"
 import targetAnimation from "@animations/target.json"
 import arrowAnimation from "@animations/arrow.json"
