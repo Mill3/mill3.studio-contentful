@@ -28,18 +28,11 @@ class About extends Component {
     this.setBodyInverted = this.setBodyInverted.bind(this)
   }
 
-  componentDidMount() {
-    //this.context.layoutState.setHeaderInverted(true)
-  }
-
-  componentWillUnmount() {
-    this.context.layoutState.setHeaderInverted(false)
-    this.context.layoutState.setBodyInverted(false)
-  }
-
   setBodyInverted(inView) {
-    this.context.layoutState.setHeaderInverted(inView)
-    this.context.layoutState.setBodyInverted(inView)
+    const { layoutState } = this.context
+
+    layoutState.setHeaderInverted(inView)
+    layoutState.setBodyInverted(inView)
   }
 
   render() {

@@ -78,24 +78,12 @@ const messages = defineMessages({
     defaultMessage: 'Thank you!'
   },
   contactIntroLine1: {
-    id: 'contact.ContactIntroPart1',
-    defaultMessage: 'We would love to talk.'
+    id: 'contact.ContactIntroLine1',
+    defaultMessage: '<span>We would </span><strong>love to talk.</strong>'
   },
   contactIntroLine2: {
-    id: 'contact.ContactIntroPart2',
-    defaultMessage: 'Give us '
-  },
-  contactIntroLine3: {
-    id: 'contact.ContactIntroPart3',
-    defaultMessage: 'a call'
-  },
-  contactIntroLine4: {
-    id: 'contact.ContactIntroPart4',
-    defaultMessage: ', join our social fun'
-  },
-  contactIntroLine5: {
-    id: 'contact.ContactIntroPart5',
-    defaultMessage: 'or, fill out the form below.'
+    id: 'contact.ContactIntroLine2',
+    defaultMessage: '<span>Give us a call, join our social fun or, fill out the form below.</span>'
   },
   contactFormIntro: {
     id: 'contact.FormIntroLine',

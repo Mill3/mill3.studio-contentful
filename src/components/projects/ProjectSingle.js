@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect }  from 'react'
+import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Flex, Box, Text } from 'rebass'
 import { injectIntl, FormattedMessage } from 'react-intl'
@@ -6,8 +7,6 @@ import { useInView } from 'react-intersection-observer'
 import SplitText from 'react-pose-text'
 
 import { REVEALS_DELAY } from '@utils/constants'
-
-import LayoutContext from '@components/contexts/LayoutContext'
 
 import Container from '@styles/Container'
 import ContentRow from '@components/content_rows'
@@ -62,11 +61,16 @@ const ProjectFooter = ({ next }) => {
   );
 }
 
-const ProjectSingle = ({ intl, pageContext, data }) => {
+const ProjectSingle = ({ intl, pageContext, data }, { layoutState }) => {
   const { project, next } = data
 
+  useEffect(() => {
+    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <LayoutContext.Provider set={{ color: `#fff` }}>
+    <>
 
       <SEO
         seo={project.seo}
@@ -112,8 +116,12 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
         </TransitionContainer>
       </Container>
 
-    </LayoutContext.Provider>
+    </>
   )
+}
+
+ProjectSingle.contextTypes = {
+  layoutState: PropTypes.object,
 }
 
 export default injectIntl(ProjectSingle)

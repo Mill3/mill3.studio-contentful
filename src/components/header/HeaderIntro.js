@@ -9,7 +9,7 @@ import { InView } from 'react-intersection-observer'
 import memoize from 'memoize-one'
 
 import Container from '@styles/Container'
-import { breakpoints, colors, header, space } from '@styles/Theme'
+import { breakpoints, header, space } from '@styles/Theme'
 import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { lerp } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -107,11 +107,11 @@ const VideoPlaybackPoses = posed.button({
 
 const Header = styled(HeaderIntroPoses)`
   color: ${props => props.theme.colors.white};
-  margin-top: -${header.height}px;
+  margin-top: ${header.height * -1}px;
   padding-top: ${header.height}px;
 
   @media (min-width: ${breakpoints[2]}) {
-    margin-top: -${header.height + 24}px;
+    margin-top: ${(header.height + 24) * -1}px;
     padding-top: ${header.height + 24}px;
   }
 `
@@ -407,7 +407,7 @@ class HeaderIntro extends Component {
         initialPose={`init`}
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
-        <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
+        <AnimatedBackgroundContainer backgroundColor={'#000'} duration={500}>
           <Container fluid display="flex" flexDirection="column" pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
@@ -450,7 +450,7 @@ class HeaderIntro extends Component {
                   </Text>
 
                   <Text as="p" m={0} p={0} mt={3}>
-                    <TransitionLinkComponent to={`/about/`} color={colors.black}>
+                    <TransitionLinkComponent to={`/about/`} color={'#000'}>
                       <ArrowButton color={"white"}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
                     </TransitionLinkComponent>
                   </Text>

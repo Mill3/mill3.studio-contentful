@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { FormattedMessage } from 'react-intl'
 import Container from '@styles/Container'
@@ -30,6 +31,17 @@ export const ProjectIndexList = styled.div`
 `
 
 class ProjectsIndex extends Component {
+  static contextTypes = {
+    layoutState: PropTypes.object,
+  }
+
+  componentDidMount() {
+    const { layoutState } = this.context
+
+    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
+    if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
+  }
+
   list() {
     const columns = {
       width: [1, 1, 1 / 2, 1 / 3],

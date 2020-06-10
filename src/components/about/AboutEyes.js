@@ -135,6 +135,10 @@ class AboutEyes extends Component {
   }
   componentWillUnmount() {
     Viewport.off(this.onResize)
+    window.removeEventListener('mousemove', this.onMouseMove, { passive: false })
+    if( this.raf ) cancelAnimationFrame(this.onRAF)
+
+    this.raf = null;
   }
 
   onInViewChange(inView) {

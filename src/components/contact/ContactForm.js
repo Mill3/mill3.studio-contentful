@@ -18,12 +18,12 @@ import Viewport from '@utils/Viewport'
 
 const BgPoses = posed.div({
   default: {
-    scaleX: 1.0,
+    scaleX: 0.9,
     scaleY: 1.0,
   },
   hover: {
     scaleX: 1.0,
-    scaleY: 1.1,
+    scaleY: 1.0,
     transition: {
       type: 'tween',
       duration: 450,
@@ -31,7 +31,7 @@ const BgPoses = posed.div({
     }
   },
   expanded: {
-    scaleX: 1.1,
+    scaleX: 1.0,
     scaleY: 1.0,
     transition: {
       scaleY: { duration: 0 },
@@ -71,16 +71,20 @@ const FormStyle = styled.form`
 `
 const IntroStyle = styled(IntroPoses)`
   cursor: pointer;
-  display: ${props => props.visible ? 'block' : 'none'};
+  display: ${({ visible }) => visible ? 'block' : 'none'};
+  pointer-events: ${({ disabled }) => disabled ? 'none' : 'auto'};
 
-  &::after {
-    content: '→';
-    display: inline-block;
-    margin-left: 0.25em;
-    font-size: 80%;
-    transform-origin: center center;
-    transform: rotate(${props => props.pose === "disabled" ? -90 : 90}deg);
-  }
+  ${({ disabled, pose }) => !disabled && `
+      &::after {
+        content: '→';
+        display: inline-block;
+        margin-left: 0.25em;
+        font-size: 80%;
+        transform-origin: center center;
+        transform: rotate(${pose === "disabled" ? -90 : 90}deg);
+      }
+    `
+  }}
 `
 const FieldGroupStyle = styled.div`
   width: 100%;
@@ -358,7 +362,7 @@ class ContactForm extends Component {
 
   render() {
     const { activeField, expanded, submitting, submitted, hoverToggleButton } = this.state
-    const { intl } = this.props
+    const { intl, expandable = true, ...rest } = this.props
 
     return (
       <Flex
@@ -367,9 +371,8 @@ class ContactForm extends Component {
         flexDirection="column"
         alignItems="center"
         color="white"
-        mx={[0, null, 4]}
         style={{position: 'relative'}}
-        {...this.props}
+        {...rest}
       >
         <Box
           as={BgStyle}
@@ -381,11 +384,12 @@ class ContactForm extends Component {
         <Text
           as={IntroStyle}
           className="is-sans is-light"
-          fontSize={['7.729468599vw', null, '5.2vw', '2.222222222vw']}
+          fontSize={['7.729468599vw', null, '3.5vw', '2.222222222vw']}
           textAlign="center"
           m={0}
           py={4}
           width={expanded ? "auto" : "100%"}
+          disabled={!expandable}
           visible={!submitted}
           initialPose="default"
           pose={expanded ? "disabled" : "default"}
