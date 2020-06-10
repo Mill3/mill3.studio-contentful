@@ -19,6 +19,7 @@ import infiniAnimation from "@animations/infini.json"
 import targetAnimation from "@animations/target.json"
 import arrowAnimation from "@animations/arrow.json"
 import triangleAnimation from "@animations/triangle.json"
+import servicesAnimation from "@animations/services.json"
 
 const animationsBySlug = {
   strategy: targetAnimation,
@@ -77,7 +78,7 @@ const AboutServices = ({ data, color }) => {
         </AboutSectionHeading>
 
         <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <LottieAnimation animationData={targetAnimation} />
+          <LottieAnimation animationData={servicesAnimation} />
         </Box>
       </Flex>
 
