@@ -26,7 +26,8 @@ const AboutIntro = ({ data, color }, { layoutState }) => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      py={VERTICAL_SPACER}
+      pt={VERTICAL_SPACER}
+      pb={[5]}
     >
       <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3, `8vw`]}>
         <AnimatedHtmlTitle startDelay={delay} source={data.title} />
