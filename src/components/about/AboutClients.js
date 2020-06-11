@@ -34,7 +34,13 @@ const AboutClients = ({ data, color }) => {
 
       {clientsIntro.introBlurb && (
         <Flex py={VERTICAL_SPACER}>
-          <Heading fontWeight="300" width={[1,null,1/2,2/3]} dangerouslySetInnerHTML={{ __html: lb2br(clientsIntro.introBlurb.introBlurb) }} />
+          <Heading
+            fontWeight="300"
+            width={[1, null, 1/2, 2/3]} 
+            maxWidth={[null, null, null, 920]}
+            dangerouslySetInnerHTML={{ __html: lb2br(clientsIntro.introBlurb.introBlurb) }}
+          />
+
           <Box as="nav" alignSelf="flex-end" ml="auto">
             <TransitionLinkComponent to="/contact/">
               <ArrowButton>Let's chat</ArrowButton>
