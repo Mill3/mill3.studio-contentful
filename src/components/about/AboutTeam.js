@@ -1,6 +1,6 @@
 import React from 'react'
 import posed from 'react-pose'
-import { Box, Flex } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
@@ -68,8 +68,19 @@ const AboutTeam = ({ data, color }) => {
       </AboutSectionHeading>
 
       {teamIntro.introBlurb && (
-        <Box py={5} px={[null, null, null, `14vw`, `18vw`]} textAlign="center">
-          <p dangerouslySetInnerHTML={{ __html: teamIntro.introBlurb.introBlurb }}></p>
+        <Box            
+          mx={"auto"}
+          mt={5}
+          mb={[5, null, null, 6, 155]}
+          width={[1, null, 1/2, 2/3]}
+          maxWidth={[null, null, null, 920]}
+          textAlign="center"
+        >
+          <Text
+            fontSize={[null, null, null, 4]}
+            fontWeight="300"
+            dangerouslySetInnerHTML={{ __html: teamIntro.introBlurb.introBlurb }}
+          />
         </Box>
       )}
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Heading } from 'rebass'
+import { Flex, Box, Text } from 'rebass'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import LottieAnimation from '@components/elements/LottieAnimation'
@@ -34,9 +34,11 @@ const AboutClients = ({ data, color }) => {
 
       {clientsIntro.introBlurb && (
         <Flex py={VERTICAL_SPACER}>
-          <Heading
+          <Text
+            as="p"
+            fontSize={[null, null, null, 4]}
             fontWeight="300"
-            width={[1, null, 1/2, 2/3]} 
+            width={[1, null, 1/2, 2/3]}
             maxWidth={[null, null, null, 920]}
             dangerouslySetInnerHTML={{ __html: lb2br(clientsIntro.introBlurb.introBlurb) }}
           />

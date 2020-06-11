@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import posed from 'react-pose'
 import styled from 'styled-components'
-import { Box, Flex, Heading } from 'rebass'
+import { Box, Flex, Heading, Text } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
@@ -88,7 +88,12 @@ const AboutServices = ({ data, color }) => {
 
       {servicesIntro.introBlurb && (
         <Box width={[1, null, 1/2, 2/3]} maxWidth={[null, null, null, 920]}>
-          <Heading fontWeight="300" dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }} />
+          <Text
+            as="p"
+            fontSize={[null, null, null, 4]}
+            fontWeight="300"
+            dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }}
+          />
         </Box>
       )}
 
