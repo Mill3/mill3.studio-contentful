@@ -79,7 +79,7 @@ class Header extends React.Component {
               <Container fluid className={`z-10`}>
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
-                      <TransitionLinkComponent to={`/`} title={`✌️`} color={`black`}>
+                      <TransitionLinkComponent to={`/`} title={`Home Sweet Home`} color={`blue`}>
                         <Logo inverted={pathIsLocaleRoot(location) || layoutState.invertedHeader} />
                       </TransitionLinkComponent>
                   </Box>
