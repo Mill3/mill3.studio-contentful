@@ -25,11 +25,7 @@ const ProcessStickyElement = styled.div`
   }
 `
 const ProcessHeading = styled.h4`
-  font-size: 52px;
-  line-height: 1;
-  font-weight: 400;
   text-transform: uppercase;
-  margin-top: 0;
 `
 const CurrentActiveItem = styled(ProcessHeading)`
   transition: opacity 0.25s linear 0.25s;
@@ -157,11 +153,18 @@ class AboutProcessList extends Component {
         <Flex
           key={i}
           as={ProcessItem}
-          px={6}
+          px={[0, null, null, '10.763888889vw']}
           height={'35vh'}
           active={active}
         >
-          <Heading as={ProcessHeading} mr={[0, null, 6]} width={(`100%`, null, '30%')}>
+          <Heading
+            as={ProcessHeading}
+            mr={[0, null, null, '6.944444444vw']}
+            width={(`100%`, null, null, '22.222222222vw')}
+            fontSize={[48, null, null, '3.333333333vw']}
+            fontWeight={400}
+            lineHeight={1}
+          >
             <SplitText
               initialPose={`out`}
               pose={active ? `enter` : `out`}
@@ -197,6 +200,10 @@ class AboutProcessList extends Component {
               ref={this.currentActiveItemRef}
               as={CurrentActiveItem}
               active={inView}
+              m={0}
+              fontSize={[52, null, null, '3.611111111vw']}
+              fontWeight={400}
+              lineHeight={[1]}
             >0{activeIndex + 1}</Heading>
 
             <Lottie
