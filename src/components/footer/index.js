@@ -134,7 +134,7 @@ const Footer = ({ intl }) => {
               </TransitionContainer>
             </Box>
 
-            <Flex as={Networks} width={[1, null, "auto"]} order={[0, null, 3]} m={0} mt={[3, null, 4]} p={0} className="is-sans fw-400">
+            <Flex as={Networks} width={[1, null, "auto", 0.5]} order={[0, null, 3]} m={0} mt={[3, null, 4]} p={0} className="is-sans fw-400">
               {NETWORKS.map(({name, url}, index) =>
                 <Text
                   as={'a'}
