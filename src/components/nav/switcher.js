@@ -21,7 +21,6 @@ const Switcher = (props) => {
           hidden={key === locale ? true : false}
           href={`/${locales[key].path}/`}
           color={`#fff`}
-          localePrefix={false}
         >
           <Text fontSize={fontSizes}>
             {locales[key].locale}
