@@ -14,16 +14,23 @@ import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
 import { space } from '@styles/Theme'
+import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
+
+const BackgroundScaleX = new ResponsiveProp([
+  () => (Viewport.width - 48) / Viewport.width,
+  () => (Viewport.width - space[4] * 2) / Viewport.width,
+  () => 0.9,
+])
 
 const BgPoses = posed.div({
   default: {
-    scaleX: 0.9,
+    scaleX: () => BackgroundScaleX.getValue()(),
     scaleY: 1.0,
   },
   hover: {
-    scaleX: 1.0,
-    scaleY: 1.0,
+    scaleX: () => BackgroundScaleX.getValue()(),
+    scaleY: 1.1,
     transition: {
       type: 'tween',
       duration: 450,
@@ -388,9 +395,9 @@ class ContactForm extends Component {
           textAlign="center"
           m={0}
           py={4}
-          width={expanded ? "auto" : "100%"}
           disabled={!expandable}
           visible={!submitted}
+          width={expanded ? "auto" : ["calc(100% - 48px)", `calc(100% - ${space[4] * 2}px)`, 0.9]}
           initialPose="default"
           pose={expanded ? "disabled" : "default"}
           onClick={() => this.setState({expanded: !expanded, monitorScroll: !expanded})}

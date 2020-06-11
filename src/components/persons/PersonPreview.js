@@ -20,7 +20,8 @@ export default PersonPreview;
 
 const FigureContainer = styled.figure`
   position: relative;
-  padding-bottom: 100%;
+  padding-bottom: 133.3333333%;
+
   img {
     position: absolute;
     top: 0;
