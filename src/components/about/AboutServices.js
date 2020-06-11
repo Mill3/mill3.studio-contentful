@@ -87,7 +87,7 @@ const AboutServices = ({ data, color }) => {
       }
 
       {servicesIntro.introBlurb && (
-        <Box width={[1,null,1/2,2/3]}>
+        <Box width={[1, null, 1/2, 2/3]} maxWidth={[null, null, null, 920]}>
           <Heading fontWeight="300" dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }} />
         </Box>
       )}
