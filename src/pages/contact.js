@@ -55,7 +55,7 @@ const Contact = ({ data, intl }, { layoutState }) => {
             <AboutSectionHeading heading={'h1'} textAlign="center">
               <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'contact.ContactIntroLine1' })} />
               <br />
-              <AnimatedHtmlTitle startDelay={delay + 800} source={intl.formatMessage({ id: 'contact.ContactIntroLine2' })} />
+              <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'contact.ContactIntroLine2' })} />
             </AboutSectionHeading>
           </Box>
 
