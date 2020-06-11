@@ -45,15 +45,15 @@ const Service = ({delay, title, text, slug}) => {
       {...wrapperProps}
     >
       <Box as={ServicePoses} initialPose="hidden" pose={inView ? "visible" : "hidden"} delay={delay} withParent={false}>
-        <Box as={LottieContainer} flexShrink={0} width={40} height={80} aria-hidden="true">
+        <Box as={LottieContainer} flexShrink={0} width={40} height={40} aria-hidden="true">
           {animation && (
             <LottieAnimation startInView={false} ref={lottieRef} animationData={animation} />
           )}
         </Box>
 
-        <Heading as="h4" m={0} mb={3} p={0} fontSize={[28]} fontWeight={400} lineHeight={1.214285714}>{title}</Heading>
+        <Heading as="h4" m={0} mt={[28]} p={0} fontSize={[28]} fontWeight={400} lineHeight={1.214285714}>{title}</Heading>
 
-        <Box as={ServiceDescription} mt={3} fontSize={2} lineHeight={1.5}>
+        <Box as={ServiceDescription} mt={[42]} fontSize={2} lineHeight={1.5}>
           {text}
         </Box>
       </Box>
