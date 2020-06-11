@@ -185,7 +185,7 @@ class AboutProcessList extends Component {
 
     return (
       <InView threshold={0.15} onChange={this.onVisibilityChange}>
-        <Box ref={this.containerRef} as={`footer`} pt={`25vh`} css={{position: 'relative'}}>
+        <Box ref={this.containerRef} as={`footer`} pt={`25vh`} color="#000" css={{position: 'relative'}}>
 
           <StickyElement
             target={this.containerRef.current}

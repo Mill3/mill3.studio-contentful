@@ -383,7 +383,7 @@ class ContactForm extends Component {
       >
         <Box
           as={BgStyle}
-          bg="#000"
+          bg="black"
           initialPose="default"
           pose={expanded ? 'expanded': (hoverToggleButton ? "hover" : "default")}
         />

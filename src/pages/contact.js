@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 
-import { AboutSectionContainer, AboutSectionHeading } from '@components/about'
+import { AboutSectionHeading } from '@components/about'
 import ContactForm from '@components/contact/ContactForm'
 import ContactTicker from '@components/contact/ContactTicker'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
@@ -39,15 +39,16 @@ const Contact = ({ data, intl }, { layoutState }) => {
     <>
       <SEO seo={data.seoFields} url={`contact/`} />
 
-      <Box as={Header} bg="#000" color="white">
+      <Box as={Header} bg="black" color="white">
         <Flex
-          as={AboutSectionContainer}
+          as="section"
           color="white"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
           px={HORIZONTAL_SPACER}
           py={VERTICAL_SPACER}
+          minHeight={['65vh', null, 0]}
         >
 
           <Box width={[1, null, 1, 0.9]}>
@@ -60,7 +61,7 @@ const Contact = ({ data, intl }, { layoutState }) => {
 
         </Flex>
 
-        <ContactTicker mt={[0, null, 6]} py={[4, null, 5]} />
+        <ContactTicker py={[4, null, 5]} />
       </Box>
 
       <ContactForm px={[24, 4, 0]}expandable={false} opened={true} />

@@ -86,7 +86,7 @@ const ProjectSingle = ({ intl, pageContext, data }, { layoutState }) => {
           label={{
             text: "projects.label",
             url: "/projects/",
-            transitionColor: "#000",
+            transitionColor: "black",
           }}
           title={project.name}
           subHeading={project.subHeading ? project.subHeading.subHeading : null}

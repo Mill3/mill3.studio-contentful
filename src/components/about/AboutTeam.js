@@ -58,23 +58,20 @@ const AboutTeam = ({ data, color }) => {
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
   return (
-    <Box
-      as={AboutSectionContainer}
-      color={color}
-      mb={[6]}
-    >
-      <AboutSectionHeading heading={'h2'} textAlign="center">
+    <Box as={AboutSectionContainer} mb={[6]}>
+      <AboutSectionHeading heading={'h2'} textAlign="center" color="#fff">
         <AnimatedHtmlTitle startDelay={0} source={teamIntro.title} />
       </AboutSectionHeading>
 
       {teamIntro.introBlurb && (
-        <Box            
+        <Box
           mx={"auto"}
           mt={5}
           mb={[5, null, null, 6, 155]}
           width={[1, null, 1/2, 2/3]}
           maxWidth={[null, null, null, 920]}
           textAlign="center"
+          color="#fff"
         >
           <Text
             fontSize={[null, null, null, 4]}
@@ -85,7 +82,7 @@ const AboutTeam = ({ data, color }) => {
       )}
 
       {teamMembers && (
-        <Flex flexDirection={['column', null, 'row']} mx={[space[2] * -1, null, null, null, -50]}>
+        <Flex color={color} flexDirection={['column', null, 'row']} mx={[space[2] * -1, null, null, null, -50]}>
           {teamMembers.map((teamMember, index) => (
             <TeamMember
               key={index}

@@ -14,7 +14,7 @@ import { lb2br } from '@utils/Linebreaks'
 
 import shakeAnimation from "@animations/shake.json";
 
-const AboutClients = ({ data, color }) => {
+const AboutClients = ({ data, color = "#000" }) => {
   const { clientsIntro } = data
 
   return (

@@ -11,7 +11,7 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, localePre
       to={path}
       activeClassName={`--active`}
       partiallyActive={true}
-      state={{ transitionColor: color || '#000', transitionTitle: title || null }}
+      state={{ transitionColor: color || 'black', transitionTitle: title || null }}
     />
   )
 }

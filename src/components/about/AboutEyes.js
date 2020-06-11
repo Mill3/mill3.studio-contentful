@@ -110,6 +110,7 @@ class AboutEyes extends Component {
     }
 
     this.ref = createRef()
+    this.mounted = false
     this.scrollbar = null
     this.raf = null
     this.mouseEvent = null
@@ -126,6 +127,8 @@ class AboutEyes extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true
+
     this.context.getScrollbar(s => {
       this.scrollbar = s
       this.onResize()
@@ -138,10 +141,13 @@ class AboutEyes extends Component {
     window.removeEventListener('mousemove', this.onMouseMove, { passive: false })
     if( this.raf ) cancelAnimationFrame(this.onRAF)
 
-    this.raf = null;
+    this.raf = null
+    this.mounted = false
   }
 
   onInViewChange(inView) {
+    if( !this.mounted ) return
+
     if( inView ) {
       this.onResize()
       if( IS_TOUCH_DEVICE ) this.setState({ blink: false })
@@ -158,6 +164,8 @@ class AboutEyes extends Component {
     }
   }
   onClick() {
+    if( !this.mounted ) return
+
     this.setState({ blink: true }, () => {
       setTimeout(() => this.setState({ blink: false }), 250)
     })
@@ -166,6 +174,8 @@ class AboutEyes extends Component {
     this.mouseEvent = event;
   }
   onRAF() {
+    if( !this.mounted ) return
+
     this.raf = requestAnimationFrame(this.onRAF)
 
     if( IS_TOUCH_DEVICE ) {
@@ -207,7 +217,7 @@ class AboutEyes extends Component {
     }
   }
   onResize() {
-    if( !this.scrollbar || !this.ref.current ) return
+    if( !this.mounted || !this.scrollbar || !this.ref.current ) return
 
     const rect = this.ref.current.getBoundingClientRect()
 

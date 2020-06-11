@@ -14,7 +14,7 @@ import { lb2br } from '@utils/Linebreaks'
 
 import globeAnimation from '@animations/globe.json'
 
-const AboutIntro = ({ data, color }, { layoutState }) => {
+const AboutIntro = ({ data, color = 'white' }, { layoutState }) => {
 
   const { transitionState } = layoutState
   const delay = transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY

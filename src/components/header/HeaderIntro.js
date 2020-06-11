@@ -407,7 +407,7 @@ class HeaderIntro extends Component {
         initialPose={`init`}
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
-        <AnimatedBackgroundContainer backgroundColor={'#000'} duration={500}>
+        <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
           <Container fluid display="flex" flexDirection="column" pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
@@ -450,7 +450,7 @@ class HeaderIntro extends Component {
                   </Text>
 
                   <Text as="p" m={0} p={0} mt={3}>
-                    <TransitionLinkComponent to={`/about/`} color={'#000'}>
+                    <TransitionLinkComponent to={`/about/`} color={'black'}>
                       <ArrowButton color={"white"}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
                     </TransitionLinkComponent>
                   </Text>

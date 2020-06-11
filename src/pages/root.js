@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Theme from '@styles/Theme'
+
 const RootPagePane = styled.div`
   position: fixed;
   top: 0;
@@ -8,7 +10,7 @@ const RootPagePane = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 10000;
-  background: #000;
+  background: ${() => Theme.colors.black};
 `
 
 const RootPage = () => (

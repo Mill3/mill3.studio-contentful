@@ -8,7 +8,7 @@ import AboutEyes from './AboutEyes'
 import AboutProcessList from './AboutProcessList'
 import AboutProcessIntro from './AboutProcessIntro'
 
-const AboutProcess = ({ data, color }) => {
+const AboutProcess = ({ data, color = '#000' }) => {
   const { processIntro, processes } = data
 
   return (

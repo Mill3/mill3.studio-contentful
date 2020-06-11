@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
       top: 0;
       left: 0;
       z-index: -1;
-      background-color: #000;
+      background-color: ${() => Theme.colors.black};
       opacity: ${props => props.inverted ? `1` : `0`};
     }
   }

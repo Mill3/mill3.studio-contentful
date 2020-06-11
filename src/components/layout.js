@@ -145,7 +145,7 @@ class Layout extends React.Component {
                     <TransitionPane
                       transitionState={transitionState}
                       location={location}
-                      color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : '#000'}
+                      color={location.state && location.state.transitionColor !== undefined ? location.state.transitionColor : 'black'}
                       title={location.state && location.state.transitionTitle !== undefined ? location.state.transitionTitle : null}
                     />
 
