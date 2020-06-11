@@ -94,9 +94,12 @@ const IntroStyle = styled(IntroPoses)`
   }}
 `
 const FieldGroupStyle = styled.div`
-  width: 100%;
   opacity: ${props => (props.active ? 1 : 0.33)};
   transition: opacity 350ms linear;
+
+  &:hover {
+    opacity: 1;
+  }
 `
 const LabelStyle = styled.label`
   display: block;
@@ -126,28 +129,28 @@ const FieldGroup = forwardRef((props, ref) => {
 
   return (
     <Flex
-      as={FieldGroupStyle}
-      flexDirection="column"
-      alignItems={'center'}
+      as="div"
+      width={1}
       py={5}
-      active={active}
       {...childProps}
     >
-      <Text as={LabelStyle} fontSize={['4.347826087vw', null, '3vw', '1.944444444vw']} fontWeight={[300, null, 500]} htmlFor={name}>
-        {label}
-      </Text>
-      <Input
-        ref={ref}
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onSubmit={e => console.log(e)}
-        {...validate}
-      />
-      {error ? <span className="is-sans h6">{error}</span> : null}
+      <Flex as={FieldGroupStyle} width={1} flexDirection="column" alignItems={'center'} active={active}>
+        <Text as={LabelStyle} fontSize={['4.347826087vw', null, '3vw', '1.944444444vw']} fontWeight={[300, null, 500]} htmlFor={name}>
+          {label}
+        </Text>
+        <Input
+          ref={ref}
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onSubmit={e => console.log(e)}
+          {...validate}
+        />
+        {error ? <span className="is-sans h6">{error}</span> : null}
+      </Flex>
     </Flex>
   )
 })
@@ -485,17 +488,19 @@ class ContactForm extends Component {
                 }}
               />
 
-              <Flex as={FieldGroupStyle} py={5} alignItems="center" active={activeField === 'subscribe'}>
-                <Checkbox
-                  ref={this.subscribeRef}
-                  id="subscribe"
-                  name="subscribe"
-                  value="1"
-                  onFocus={e => this.onFocusChange(e.target.name)}
-                />
-                <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} className="fw-300" m={0}>
-                  <FormattedMessage id="contact.Subscribe" />
-                </Text>
+              <Flex as="div" width={1} py={5} alignItems="center" active={activeField === 'subscribe'}>
+                <Flex as={FieldGroupStyle} width={1} alignItems="center">
+                  <Checkbox
+                    ref={this.subscribeRef}
+                    id="subscribe"
+                    name="subscribe"
+                    value="1"
+                    onFocus={e => this.onFocusChange(e.target.name)}
+                  />
+                  <Text as="label" htmlFor="subscribe" fontSize={[2, null, null, '1.25vw']} className="fw-300" m={0}>
+                    <FormattedMessage id="contact.Subscribe" />
+                  </Text>
+                </Flex>
               </Flex>
 
               <Flex justifyContent={"center"}>
