@@ -4,14 +4,10 @@ import { Flex, Box, Heading } from 'rebass'
 import styled from 'styled-components'
 
 import { RowContainer } from './index'
-import {
-  CalculatePaddingTop,
-  CalculatePaddingBottom,
-  TextColumn,
-  format,
-} from './ContentText'
+import { CalculatePaddingTop, CalculatePaddingBottom, TextColumn, format } from './ContentText'
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
+import { space } from '@styles/Theme'
 
 const FormField = ({ data }) => {
   const [focused, setFocus] = useState(false)
@@ -22,12 +18,10 @@ const FormField = ({ data }) => {
     setFocus(true)
     //setError(false)
   }
-
   const onBlur = () => {
     const value = inputRef.current.value.trim()
     setFocus(value ? true : false)
   }
-
   const onError = () => {
     //setError(true)
   }
@@ -35,7 +29,7 @@ const FormField = ({ data }) => {
   const { label, type, slug, values, required, width } = data
   const id = `field-id-${slug}`
   const isCheckbox = type === 'radio' || type === 'checkbox'
-  const columnWidth = isCheckbox ? [1] : width ? [1,1, width] : [1, 1, 1/2]
+  const columnWidth = isCheckbox ? [1] : width ? [1, null, width] : [1, null, 1/2]
   const props = {
     ref: inputRef,
     slug: slug,
@@ -56,8 +50,8 @@ const FormField = ({ data }) => {
       flexDirection={isCheckbox ? 'row' : 'column'}
       mb={[3, 4]}
       width={columnWidth}
-      py={[3,3,0]}
-      px={[0,0,0,2]}
+      py={[3, null, 0]}
+      px={[2]}
     >
 
       {/* label */}
@@ -71,15 +65,14 @@ const FormField = ({ data }) => {
           <Select {...props}>
             <option></option>
             {/* list all values as options */}
-            {values &&
-              values.map((value, index) => (
-                <option value={value} key={index}>
-                  {value}
-                </option>
-              ))}
+            {values && values.map((value, index) => (
+              <option value={value} key={index}>
+                {value}
+              </option>
+            ))}
           </Select>
         ) : (
-          [type === 'checkbox' ? <Checkbox {...props} /> : [<Input {...props} />]]
+          type === 'checkbox' ? <Checkbox {...props} /> : <Input {...props} />
         )}
 
       </Box>
@@ -135,9 +128,7 @@ const ContentForm = props => {
   }
 
   const hasContent = title || text;
-  const columnsWidth = [1, 1, 1, 1 / 2];
-
-  // console.log(backgroundColor);
+  const columnsWidth = [1, null, null, 1 / 2];
 
 
   return (
@@ -171,19 +162,18 @@ const ContentForm = props => {
         {/* form */}
         <Box
           as="aside"
-          px={[2, 3, 3, 3, 4, 6]}
-          pt={[4, 4, 4, 0]}
+          px={[2, 3, null, null, 4, 6]}
+          pt={[4, null, null, 0]}
           width={columnsWidth}
           color={textColor}
         >
           {!submitted && (
             <form action={webhookUrl} onSubmit={e => onSubmit(e)} method="post">
               {/* all form fields */}
-              <Flex flexWrap={'wrap'}>
-                {contentfulfields &&
-                  contentfulfields.map((field, index) => (
-                    <FormField index={index} data={field} />
-                  ))}
+              <Flex flexWrap={'wrap'} mx={[space[2] * -1]}>
+                {contentfulfields && contentfulfields.map((field, index) => (
+                  <FormField key={`key-${index}`} index={index} data={field} />
+                ))}
               </Flex>
               {/* submit button */}
               <Box>
@@ -240,10 +230,11 @@ const formInputContainer = styled.div`
   label {
     position: absolute;
     top: 50%;
-    transition: transform 0.125s ease-in;
-    font-size: ${props => (props.focused ? `11px` : `16px`)};
-    transform: ${props => (props.focused ? `translateY(-140%)` : `translateY(-50%)`)};
     left: ${props => props.theme.space[2]}px;
+    font-size: 16px;
+    transform-origin: top left;
+    transform: ${({ focused }) => focused ? 'translateY(-100%) scale(0.6875)' : 'translateY(-50%) scale(1)'};
+    transition: transform 250ms cubic-bezier(0.215, 0.610, 0.355, 1.000); /* easeOutCubic */
     z-index: 1;
     pointer-events: none;
   }

@@ -146,7 +146,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         {/* all image items */}
         {data.imageItems &&
           data.imageItems.map((imageItem, index) => (
-            <Flex alignItems={data.alignVertical} flexWrap={'wrap'}>
+            <Flex key={index} alignItems={data.alignVertical} flexWrap={'wrap'}>
               <Box width={imageItem.sideText ? [1, 1, 1, 1 / 2] : [1]} order={imageItem.invertOrder ? 1 : 0}>
                 <ContentImage
                   img={imageItem.media}
