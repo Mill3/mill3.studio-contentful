@@ -29,7 +29,7 @@ const AboutIntro = ({ data, color = 'white' }, { layoutState }) => {
       pt={VERTICAL_SPACER}
       pb={[5]}
     >
-      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3, `8vw`]}>
+      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, '5vw', `8vw`, '12vw']}>
         <AnimatedHtmlTitle startDelay={delay} source={data.title} />
       </AboutSectionHeading>
 
