@@ -17,16 +17,11 @@ const InputStyle = styled.input`
   &::placeholder {
     color: #D1D1D1;
   }
-  /*
-  &:invalid {
-    border-bottom-color: ${colors.blue};
-  }
-  */
 `
 
 const Input = forwardRef((props, ref) => {
   return (
-    <Text as={InputStyle} ref={ref} type="text" fontFamily="serif" fontSize={['5.797101449vw', null, '3vw', '1.944444444vw']} textAlign="center" fontWeight={300} color={['blue', null, 'white']} {...props} />
+    <Text as={InputStyle} ref={ref} type="text" fontFamily="serifText" fontSize={['5.797101449vw', null, '3vw', '1.944444444vw']} textAlign="center" fontWeight={400} color={['blue', null, 'white']} {...props} />
   )
 })
 

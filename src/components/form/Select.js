@@ -19,8 +19,8 @@ const SelectStyle = styled.select`
   background-size: 7% auto;
   padding: 0 0.5em;
   color: ${props => props.burried ? colors.gray : colors.black};
-  font-family: ${fonts.serif};
-  font-weight: 300;
+  font-family: ${fonts.serifText};
+  font-weight: 400;
   line-height: 1.48;
   overflow: hidden;
   position: relative;

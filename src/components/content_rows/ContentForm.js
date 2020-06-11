@@ -199,11 +199,12 @@ const Input = styled.input`
   border: none;
   padding: 0.25rem 0;
   border-bottom: 1px solid ${props => props.theme.colors.blue};
-  /* color: ${props => props.theme.colors.white}; */
   border-radius: 0;
+  font-family: ${props => props.theme.fonts.serifText};
+  font-weight: normal;
+
   &:focus {
     outline: none;
-    /* border-color: ${props => props.theme.colors.white}; */
   }
 `
 
@@ -217,8 +218,10 @@ const Select = styled.select`
   background: transparent;
   border-radius: 0;
   border-radius: 0px;
-  /* color: ${props => props.theme.colors.white}; */
   border-bottom: 1px solid ${props => props.theme.colors.blue};
+  font-family: ${props => props.theme.fonts.serifText};
+  font-weight: normal;
+
   &:focus {
     outline: none;
   }
