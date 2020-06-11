@@ -7,7 +7,7 @@ import { TRANSITION_PANE_STATES } from './index'
 
 const TransitionContainerPoses = posed.div({
   none: {
-    display: `block`
+    display: `block`,
   },
   // when initial needs no animation
   visible: {
@@ -46,10 +46,11 @@ export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 
   }
 
   // default value
-  return ((TRANSITION_IN_DELAY / 4) * index)
+  return (TRANSITION_IN_DELAY / 4) * index
 }
 
 class TransitionContainer extends React.Component {
+
   static contextTypes = {
     layoutState: PropTypes.object,
   }
@@ -82,7 +83,14 @@ class TransitionContainer extends React.Component {
     const pose = () => (!enabled ? disabledPose : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
 
     return (
-      <TransitionContainerPoses ref={ref} initialPose={initial()} pose={pose()} distance={distance} delayIn={delayIn || calculatedDelay} delayOut={delayOut || calculatedDelay}>
+      <TransitionContainerPoses
+        ref={ref}
+        initialPose={initial()}
+        pose={pose()}
+        distance={distance}
+        delayIn={delayIn || calculatedDelay}
+        delayOut={delayOut || calculatedDelay}
+      >
         {children}
       </TransitionContainerPoses>
     )
@@ -101,10 +109,7 @@ TransitionContainer.defaultProps = {
 }
 
 TransitionContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   enabled: PropTypes.bool,
   disabledPose: PropTypes.string,
   direction: PropTypes.string,
