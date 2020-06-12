@@ -164,6 +164,14 @@ const messages = defineMessages({
   clientsFooterShowLessButton: {
     id: "clients.showLessButton",
     defaultMessage: 'Show less'
+  },
+  opensourceTitle: {
+    id: "opensource.title",
+    defaultMessage: "<span>We use </span><strong>open-source code</strong><span> every day.</span>"
+  },
+  opensourceDescription: {
+    id: "opensource.description",
+    defaultMessage: "In the process, we try our best to contribute back to the community. Explore below some of our projects that we maintain on a daily basis."
   }
 })
 
