@@ -11,7 +11,6 @@ import Logo from '@svg/Logo'
 import Nav from '@components/nav/index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
-import { pathIsLocaleRoot } from '@utils/Locales'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 
@@ -80,11 +79,11 @@ class Header extends React.Component {
                 <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
                   <Box width={'auto'} className={`is-relative z-20`}>
                       <TransitionLinkComponent to={`/`} title={`Home Sweet Home`} color={`blue`}>
-                        <Logo inverted={pathIsLocaleRoot(location) || layoutState.invertedHeader} />
+                        <Logo inverted={layoutState.invertedHeader} />
                       </TransitionLinkComponent>
                   </Box>
                   <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                    <Nav inverted={pathIsLocaleRoot(location) || layoutState.invertedHeader} pathname={location.pathname} />
+                    <Nav inverted={layoutState.invertedHeader} pathname={location.pathname} />
                   </Box>
                 </Flex>
               </Container>

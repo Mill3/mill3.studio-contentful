@@ -378,6 +378,7 @@ class HeaderIntro extends Component {
     this.demoAsBeenClickedOnce = false
 
     this.onBoxVideoClicked = this.onBoxVideoClicked.bind(this)
+    this.setBodyInverted = this.setBodyInverted.bind(this)
   }
 
   onBoxVideoClicked(e) {
@@ -387,6 +388,12 @@ class HeaderIntro extends Component {
     }
 
     this.context.layoutState.setDemoReel(true, this.boxVideoRef.current)
+  }
+  setBodyInverted(inView) {
+    const { layoutState } = this.context;
+
+    layoutState.setHeaderInverted(inView)
+    layoutState.setBodyInverted(inView)
   }
 
   render() {
@@ -407,7 +414,7 @@ class HeaderIntro extends Component {
         initialPose={`init`}
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
-        <AnimatedBackgroundContainer backgroundColor={'black'} duration={500}>
+        <AnimatedBackgroundContainer backgroundColor={'transparent'} duration={500} onChange={this.setBodyInverted}>
           <Container fluid display="flex" flexDirection="column" pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
             <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
               <SplitText
