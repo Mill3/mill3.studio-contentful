@@ -137,5 +137,16 @@ export const homeQuery = graphql`
         }
       }
     }
+    demoReelMobile : contentfulVideoItem(slug: { eq: "demo-reel-mobile" }, node_locale : { eq: $locale }) {
+      id
+      video {
+        id
+        file {
+          url
+          fileName
+          contentType
+        }
+      }
+    }
   }
 `

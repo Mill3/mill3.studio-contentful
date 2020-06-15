@@ -9,7 +9,9 @@ import { injectIntl } from 'react-intl'
 import { charPoses } from '@components/header/HeaderIntro'
 import HomeTitle from '@components/home/HomeTitle'
 import Container from '@styles/Container'
+import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
+import Viewport from '@utils/Viewport'
 
 
 export const TitlePoses = posed.h2({
@@ -17,7 +19,7 @@ export const TitlePoses = posed.h2({
     opacity: 1,
   },
   sticky: {
-    opacity: 0.075,
+    opacity: () => Viewport.mq(`(min-width: ${breakpoints[1]})`) ? 0.075 : 0,
   }
 })
 const TitleStyle = styled(TitlePoses)`

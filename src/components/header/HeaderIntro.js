@@ -460,7 +460,7 @@ class HeaderIntro extends Component {
 
             <ForwardedBoxVideo
               ref={this.boxVideoRef}
-              video={data?.demoReel?.video}
+              video={data?.[Viewport.width < 768 ? 'demoReelMobile' : 'demoReel']?.video}
               width={['100%', null, '45%', '50%']}
               onClick={this.onBoxVideoClicked}
             />
