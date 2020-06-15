@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-text-size-adjust: none;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
+    overflow: hidden;
     /* scroll-behavior: smooth; */
     &:after {
       content: "";

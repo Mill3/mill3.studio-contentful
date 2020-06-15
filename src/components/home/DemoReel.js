@@ -173,10 +173,21 @@ class DemoReel extends Component {
 
       return pause
     })
+    this.onActiveChange = memoize(active => {
+      if( active ) window.addEventListener('keydown', this.onKeyDown)
+      else window.removeEventListener('keydown', this.onKeyDown)
+
+      return active
+    })
+
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   componentDidMount() {
     this.context.getScrollbar(s => this.scrollbar = s)
+  }
+  onKeyDown({ key }) {
+    if(key === 'Escape' || key === 'Esc') this.close()
   }
 
   close() { this.context.layoutState.setDemoReel(false) }
@@ -186,6 +197,7 @@ class DemoReel extends Component {
     const title = intl.formatMessage({ id: 'demoReel.Title' }).split("<br />")
 
     this.changeScrollbarPauseStatus(active, trigger)
+    this.onActiveChange(active)
 
     return (
       <Flex
