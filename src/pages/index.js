@@ -73,7 +73,7 @@ class IndexPage extends React.Component {
                   switchTitle={introAtEnd} />
               </StickyElement>
 
-              <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["25vh", null, "50vh"]}>
+              <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
                 <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
               </StickyElement>
             </InView>

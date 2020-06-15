@@ -9,6 +9,7 @@ import { injectIntl } from 'react-intl'
 import { charPoses } from '@components/header/HeaderIntro'
 import HomeTitle from '@components/home/HomeTitle'
 import Container from '@styles/Container'
+import ResponsiveProp from '@utils/ResponsiveProp'
 
 
 export const TitlePoses = posed.h2({
@@ -93,6 +94,7 @@ const LetsSpan = styled.span`
   width: 100%;
   text-align: center;
 `
+const SVGBorderWidth = new ResponsiveProp(['2vw', null, 4, 2])
 
 const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) => {
   const latest = intl.formatMessage({ id: 'intro.Latest' })
@@ -141,7 +143,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
                   rx="308"
                   ry="141"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth={SVGBorderWidth.getValue()}
                   fill="none"
                   initialPose={`exit`}
                   pose={appear ? `enter` : `exit`}

@@ -17,19 +17,24 @@ import { space } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
+/*
 const BackgroundScaleX = new ResponsiveProp([
-  () => (Viewport.width - 48) / Viewport.width,
+  () => 1,
   () => (Viewport.width - space[4] * 2) / Viewport.width,
   () => 0.9,
 ])
+*/
+const BackgroundScaleX = new ResponsiveProp([1, null, 0.9])
 
 const BgPoses = posed.div({
   default: {
-    scaleX: () => BackgroundScaleX.getValue()(),
+    //scaleX: () => BackgroundScaleX.getValue()(),
+    scaleX: () => BackgroundScaleX.getValue(),
     scaleY: 1.0,
   },
   hover: {
-    scaleX: () => BackgroundScaleX.getValue()(),
+    //scaleX: () => BackgroundScaleX.getValue()(),
+    scaleX: () => BackgroundScaleX.getValue(),
     scaleY: 1.1,
     transition: {
       type: 'tween',
