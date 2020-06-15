@@ -35,7 +35,8 @@ const Viewport = (() => {
     on,
     off,
     mq,
-    isMobile
+    isMobile,
+    exists: hasWindow,
   }
 })()
 

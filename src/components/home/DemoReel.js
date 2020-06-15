@@ -9,6 +9,7 @@ import memoize from 'memoize-one'
 
 import { ArrowButton } from '@components/buttons'
 import { charPoses } from '@components/header/HeaderIntro'
+import Viewport from '@utils/Viewport'
 
 const DemoReelPoses = posed.section({
   inactive: {
@@ -174,6 +175,8 @@ class DemoReel extends Component {
       return pause
     })
     this.onActiveChange = memoize(active => {
+      if( !Viewport.exists ) return active
+
       if( active ) window.addEventListener('keydown', this.onKeyDown)
       else window.removeEventListener('keydown', this.onKeyDown)
 
