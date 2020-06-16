@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 import { InView } from 'react-intersection-observer'
 
+import { LayoutContext } from '@layouts'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
@@ -91,9 +92,11 @@ const AnimatedBg = styled.div`
 `
 
 export class AnimatedBackgroundContainer extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+  // static contextTypes = {
+  //   getScrollbar: PropTypes.func,
+  // }
+
+  static contextType = LayoutContext;
 
   constructor(props) {
     super(props)
@@ -103,6 +106,7 @@ export class AnimatedBackgroundContainer extends Component {
     }
 
     this.mounted = false
+    this.scrollbar = false;
     this.exitViewportTicker = null
 
     this.onVisibilityChange = this.onVisibilityChange.bind(this)
@@ -110,25 +114,44 @@ export class AnimatedBackgroundContainer extends Component {
     this.onScroll = this.onScroll.bind(this)
   }
 
-  componentDidMount() {
-    this.mounted = true
-    // this.context.getScrollbar(s => {
-    //   if( !this.mounted ) return
+  // componentDidMount() {
+  //   this.mounted = true
+  //   this.context.getScrollbar(s => {
+  //     if( !this.mounted ) return
 
-    //   this.scrollbar = s
+  //     this.scrollbar = s
 
-    //   // if inView (true) was triggered before scrollbar context
-    //   if( this.state.inView ) {
-    //     // cancel timeout if exists
-    //     if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
-    //     this.exitViewportTicker = null
+  //     // if inView (true) was triggered before scrollbar context
+  //     if( this.state.inView ) {
+  //       // cancel timeout if exists
+  //       if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
+  //       this.exitViewportTicker = null
 
-    //     // first, remove listener to prevent doubling, then add scroll listener
-    //     this.scrollbar.removeListener(this.onScroll)
-    //     this.scrollbar.addListener(this.onScroll)
-    //   }
-    // })
+  //       // first, remove listener to prevent doubling, then add scroll listener
+  //       this.scrollbar.removeListener(this.onScroll)
+  //       this.scrollbar.addListener(this.onScroll)
+  //     }
+  //   })
+  // }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.mounted = true
+      this.scrollbar = this.context.layoutState.scrollbar
+
+      if( this.state.inView ) {
+        // cancel timeout if exists
+        if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
+        this.exitViewportTicker = null
+
+        // first, remove listener to prevent doubling, then add scroll listener
+        this.scrollbar.removeListener(this.onScroll)
+        this.scrollbar.addListener(this.onScroll)
+      }
+    }
   }
+
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null

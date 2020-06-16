@@ -362,8 +362,6 @@ const I18nBoxVideo = injectIntl(BoxVideo)
 const ForwardedBoxVideo = forwardRef((props, ref) =>
   <I18nBoxVideo {...props} forwardedRef={ref} />
 )
-
-
 class HeaderIntro extends Component {
 
   constructor(props) {

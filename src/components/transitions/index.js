@@ -125,8 +125,8 @@ const TransitionPane = ({ location }) => {
   useEffect(() => {
     if(transition.inTransition) {
       dispatch({type: "transition.setState", transitionState: `hidden`, inTransition: false})
-      dispatch({type: "header.revert"})
-      dispatch({type: "body.revert"})
+      // dispatch({type: "header.reset"})
+      // dispatch({type: "body.reset"})
     }
   }, [location]);
 

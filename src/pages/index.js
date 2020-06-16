@@ -53,6 +53,10 @@ class IndexPage extends React.Component {
     // this.context.dispatch({type: "body.invert"})
   }
 
+  componentWillUnmount() {
+    this.context.dispatch({type: "header.reset"})
+  }
+
   render() {
     const { data } = this.props
     const { headerInView, introInView, introAtEnd, projectsInView, outroInView } = this.state
