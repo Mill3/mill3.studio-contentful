@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 
+import { LayoutContext } from "@layouts"
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
 import Container from '@styles/Container'
@@ -50,10 +51,6 @@ const mobileBreakpoint = parseInt(breakpoints[1])
 
 class ProjectsHome extends React.Component {
 
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
-
   list() {
 
     if (this.props.data) {
@@ -71,7 +68,7 @@ class ProjectsHome extends React.Component {
         ])
       }
       const getDelay = index => {
-        const delayBase = layoutState.transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+        const delayBase = layoutState.transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
         if (isMobile) return index === 0 ? delayBase * 1.25 : 0
         else return index < 2 ? (delayBase * 1.25) + index * 150 : 0
@@ -111,5 +108,7 @@ class ProjectsHome extends React.Component {
     )
   }
 }
+
+ProjectsHome.contextType = LayoutContext;
 
 export default ProjectsHome

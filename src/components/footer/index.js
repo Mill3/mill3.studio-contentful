@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import { AnimatedBackgroundContainer } from '@components/content_rows'
 import Container from '@styles/Container'

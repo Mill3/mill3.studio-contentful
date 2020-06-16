@@ -188,13 +188,13 @@ class ParallaxBox extends Component {
   componentDidMount() {
     if (this.props.offset === 0) return
 
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    //   this.scrollbar.addListener(this.onScroll)
 
-      Viewport.on(this.debouncedOnResize)
-      this.onResize()
-    })
+    //   Viewport.on(this.debouncedOnResize)
+    //   this.onResize()
+    // })
   }
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)

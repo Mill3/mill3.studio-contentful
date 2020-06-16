@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'

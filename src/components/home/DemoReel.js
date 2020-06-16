@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { Box, Flex, Text } from 'rebass'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 import memoize from 'memoize-one'
 
+import { LayoutContext } from '@layouts'
 import { ArrowButton } from '@components/buttons'
 import { charPoses } from '@components/header/HeaderIntro'
 
@@ -131,16 +132,17 @@ const ButtonReset = styled.button`
 `
 
 class DemoReel extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-    getScrollbar: PropTypes.func,
-  }
+  // static contextTypes = {
+  //   layoutState: PropTypes.object,
+  //   getScrollbar: PropTypes.func,
+  // }
 
   constructor(props) {
     super(props)
 
     this.y = 0
     this.resumeY = 0
+    this.scrollbar = null
 
     this.changeScrollbarPauseStatus = memoize((pause, trigger) => {
       if( this.scrollbar && pause === true ) {
@@ -175,15 +177,21 @@ class DemoReel extends Component {
     })
   }
 
-  componentDidMount() {
-    this.context.getScrollbar(s => this.scrollbar = s)
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+    }
   }
 
-  close() { this.context.layoutState.setDemoReel(false) }
+  close() {
+    this.context.dispatch({type: 'demoReel.stop'})
+  }
   render() {
     const { intl } = this.props
     const { active, trigger } = this.context.layoutState.demoReel
     const title = intl.formatMessage({ id: 'demoReel.Title' }).split("<br />")
+    // console.log('active, trigger:', active, trigger)
 
     this.changeScrollbarPauseStatus(active, trigger)
 
@@ -255,5 +263,7 @@ class DemoReel extends Component {
     )
   }
 }
+
+DemoReel.contextType = LayoutContext;
 
 export default injectIntl(DemoReel)

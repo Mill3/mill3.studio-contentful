@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl'
+import { defineMessages } from 'gatsby-plugin-intl'
 
 const messages = defineMessages({
   work: {

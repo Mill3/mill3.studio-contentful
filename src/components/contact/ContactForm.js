@@ -1,6 +1,6 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
 import { Box, Flex, Text } from 'rebass'
 import posed from 'react-pose'
 import { omit } from 'lodash'
@@ -199,10 +199,10 @@ class ContactForm extends Component {
   componentDidMount() {
     this.mounted = true
 
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      if( this.mounted ) this.scrollbar.addListener(this.onScroll)
-    })
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    //   if( this.mounted ) this.scrollbar.addListener(this.onScroll)
+    // })
 
     if( this.props.opened === true ) this.setState({expanded: true, monitorScroll: true})
   }

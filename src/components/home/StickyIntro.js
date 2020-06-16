@@ -1,7 +1,7 @@
 import React from 'react'
 import posed from 'react-pose'
 import { Box, Text } from 'rebass'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import { ParagraphPoses } from './'
 import { ArrowButton } from '@components/buttons'

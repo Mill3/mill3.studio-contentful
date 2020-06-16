@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useRef, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import posed from 'react-pose'
 
 import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from './index'
+
+import { LayoutContext } from '@layouts'
 
 const TransitionContainerPoses = posed.div({
   none: {
@@ -49,52 +51,45 @@ export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 
   return (TRANSITION_IN_DELAY / 4) * index
 }
 
-class TransitionContainer extends React.Component {
+const TransitionContainer = props => {
+  const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index } = props
+  const { layoutState, } = useContext(LayoutContext)
+  const { transition } = layoutState
+  const [pose, setPose] = useState('in')
+  const [calculatedDelay, setCalculatedDelay] = useState(0)
+  const ref = useRef()
 
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
+  const initial = direction === `both` ? `hidden` : `visible`
 
-  constructor(props) {
-    super(props)
 
-    this.ref = React.createRef()
-    this.calculatedDelay = 0
-  }
-
-  componentDidMount() {
-    this.calculatedDelay = calculateDelayForElement(
-      this.ref.current ? this.ref.current : null,
-      this.props.autoCalculateDelay,
-      this.props.index
+  useEffect(() => {
+    // calculate delay
+    setCalculatedDelay(
+      calculateDelayForElement(ref.current ? ref.current : null, autoCalculateDelay, index)
     )
-  }
 
-  render() {
-    const { children, enabled, disabledPose, direction, distance, delayIn, delayOut } = this.props
+    // set pose
+    if(!enabled ) {
+      setPose(disabledPose)
+    } else if(enabled && transition.inTransition) {
+      setPose('out')
+    } else {
+      setPose('in')
+    }
+  }, [ref, layoutState]);
 
-    const { transitionState } = this.context.layoutState
-    const { ref, calculatedDelay } = this
-
-    // determine initial pose, no fade in unless direction is set to both
-    const initial = () => (direction === `both` ? `hidden` : `visible`)
-
-    // pick right pose based on transition status
-    const pose = () => (!enabled ? disabledPose : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
-
-    return (
-      <TransitionContainerPoses
-        ref={ref}
-        initialPose={initial()}
-        pose={pose()}
-        distance={distance}
-        delayIn={delayIn || calculatedDelay}
-        delayOut={delayOut || calculatedDelay}
-      >
-        {children}
-      </TransitionContainerPoses>
-    )
-  }
+  return (
+    <TransitionContainerPoses
+      ref={ref}
+      initialPose={initial}
+      pose={pose}
+      distance={distance}
+      delayIn={delayIn || calculatedDelay}
+      delayOut={delayOut || calculatedDelay}
+    >
+      {children}
+    </TransitionContainerPoses>
+  )
 }
 
 TransitionContainer.defaultProps = {

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from "gatsby-plugin-intl"
 
 import { colors } from '@styles/Theme'
 import Switcher from '@components/nav/switcher'

@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import { Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 import { InView } from 'react-intersection-observer'
 import memoize from 'memoize-one'
 
+import { LayoutContext } from '@layouts'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
 import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
@@ -107,12 +108,10 @@ const VideoPlaybackPoses = posed.button({
 
 const Header = styled(HeaderIntroPoses)`
   color: ${props => props.theme.colors.white};
-  margin-top: ${header.height * -1}px;
-  padding-top: ${header.height}px;
+  padding-top: ${header.height * 2}px;
 
   @media (min-width: ${breakpoints[2]}) {
-    margin-top: ${(header.height + 24) * -1}px;
-    padding-top: ${header.height + 24}px;
+    padding-top: ${header.height * 2 + 24}px;
   }
 `
 const HeaderTextStyle = styled.h1`
@@ -203,9 +202,6 @@ const VIDEO_LOOP_END_AT = 3
 
 
 class BoxVideo extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
 
   constructor(props) {
     super(props)
@@ -359,6 +355,8 @@ class BoxVideo extends Component {
   }
 }
 
+BoxVideo.contextType = LayoutContext;
+
 
 const I18nBoxVideo = injectIntl(BoxVideo)
 const ForwardedBoxVideo = forwardRef((props, ref) =>
@@ -367,9 +365,6 @@ const ForwardedBoxVideo = forwardRef((props, ref) =>
 
 
 class HeaderIntro extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
 
   constructor(props) {
     super(props)
@@ -386,17 +381,17 @@ class HeaderIntro extends Component {
       e.stopPropagation()
     }
 
-    this.context.layoutState.setDemoReel(true, this.boxVideoRef.current)
+    this.context.dispatch({type: 'demoReel.start', trigger: this.boxVideoRef.current})
   }
 
   render() {
     const { intl, data } = this.props
     const { layoutState } = this.context
-    const { transitionState, demoReel } = layoutState
+    const { transition, demoReel } = layoutState
 
-    const isDemoReel = demoReel.active === true
-    const isTransitionVisible = transitionState === TRANSITION_PANE_STATES['visible']
-    const isTransitionIntro = transitionState === TRANSITION_PANE_STATES['intro']
+    const isDemoReel = demoReel?.active === true
+    const isTransitionVisible = transition.state === TRANSITION_PANE_STATES['visible']
+    const isTransitionIntro = transition.state === TRANSITION_PANE_STATES['intro']
     const titleDelay = isTransitionIntro ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85
 
     if( !this.demoAsBeenClickedOnce ) this.demoAsBeenClickedOnce = isDemoReel;
@@ -470,5 +465,7 @@ class HeaderIntro extends Component {
     )
   }
 }
+
+HeaderIntro.contextType = LayoutContext;
 
 export default injectIntl(HeaderIntro)

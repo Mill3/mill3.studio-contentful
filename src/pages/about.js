@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Box } from 'rebass'
+import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
 
-import LayoutContext from '@components/contexts/LayoutContext'
+import LayoutContext from '@layouts/LayoutContext'
 
 import SEO from '@components/seo'
 
 // import { BodyInvertedTriggerWrapper } from '@components/pages/about'
+import Layout from '@layouts'
 import AboutIntro from '@components/about/AboutIntro'
 import AboutTeam from '@components/about/AboutTeam'
 import AboutProcess from '@components/about/AboutProcess'
@@ -25,24 +27,26 @@ class About extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.setBodyInverted = this.setBodyInverted.bind(this)
+    // this.setBodyInverted = this.setBodyInverted.bind(this)
   }
 
   setBodyInverted(inView) {
-    const { layoutState } = this.context
+    console.log('inView:', inView)
+    // const { layoutState } = this.context
 
-    layoutState.setHeaderInverted(inView)
-    layoutState.setBodyInverted(inView)
+    // layoutState.setHeaderInverted(inView)
+    // layoutState.setBodyInverted(inView)
   }
 
   render() {
     const { data } = this.props
     const { layoutState } = this.context
     const { page } = data
-    const color = layoutState.invertedBody ? `#fff` : `#000`
+    // const color = layoutState.invertedBody ? `#fff` : `#000`
+    const color = `#fff`
 
     return (
-      <LayoutContext.Provider>
+      <>
         {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
         <Box px={HORIZONTAL_SPACER}>
@@ -80,12 +84,12 @@ class About extends Component {
           <ContactForm />
         </Box>
 
-      </LayoutContext.Provider>
+      </>
     )
   }
 }
 
-export default About
+export default injectIntl(About)
 
 export const projectQuery = graphql`
   fragment sectionBannerFragment on ContentfulSectionBanner {
@@ -98,8 +102,8 @@ export const projectQuery = graphql`
     }
   }
 
-  query aboutPageQuery($locale: String!) {
-    page: contentfulPageAbout(slug: { eq: "about-us" }, node_locale: { eq: $locale }) {
+  query aboutPageQuery($language: String!) {
+    page: contentfulPageAbout(slug: { eq: "about-us" }, node_locale: { eq: $language }) {
       id
       title
       slug

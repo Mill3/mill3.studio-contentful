@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import { Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 
 import { charPoses } from '@components/header/HeaderIntro'

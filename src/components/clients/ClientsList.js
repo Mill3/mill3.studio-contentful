@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import posed, { PoseGroup } from 'react-pose'
@@ -171,7 +171,7 @@ class ClientRowThumbnail extends Component {
   }
 
   componentDidMount() {
-    this.context.getScrollbar(s => this.scrollbar = s)
+    // this.context.getScrollbar(s => this.scrollbar = s)
   }
 
   onMouseMove(event) {

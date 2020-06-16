@@ -46,9 +46,9 @@ class HyperLink extends Component {
 
   componentDidMount() {
     this.mounted = true
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-    })
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    // })
   }
 
   scrollTo(e, element) {

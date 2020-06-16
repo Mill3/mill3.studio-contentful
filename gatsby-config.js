@@ -85,10 +85,26 @@ module.exports = {
         }`
       }
     },
+    // {
+    //   resolve: `gatsby-plugin-transition-link`,
+    //   options: {
+    //     layout: require.resolve(`./src/layouts/transitionLayout.js`),
+    //   },
+    // },
     {
       resolve: `gatsby-plugin-layout`,
       options: {
-        component: require.resolve(`./src/components/layout.js`),
+        component: require.resolve(`./src/layouts`),
+      },
+    },
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+        path: `${__dirname}/locales`,
+        languages: [`en`, `fr`],
+        defaultLanguage: `en`,
+        redirect: true,
+        // redirectComponent: require.resolve(`./src/components/redirect.js`),
       },
     },
     {

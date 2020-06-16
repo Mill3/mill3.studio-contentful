@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
-import { IntlProvider, addLocaleData } from 'react-intl'
+import { IntlProvider, addLocaleData } from 'gatsby-plugin-intl'
 import { ThemeProvider } from 'styled-components'
 import { TransitionGroup } from 'react-transition-group'
 import SmoothScrollbar from 'smooth-scrollbar'

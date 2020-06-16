@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 

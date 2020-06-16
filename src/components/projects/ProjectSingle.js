@@ -2,7 +2,7 @@ import React, { useEffect }  from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Flex, Box, Text } from 'rebass'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
 import { useInView } from 'react-intersection-observer'
 import SplitText from 'react-pose-text'
 

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'gatsby-plugin-intl'
 import Container from '@styles/Container'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
+import Layout from '@layouts'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
@@ -30,17 +31,25 @@ export const ProjectIndexList = styled.div`
   }
 `
 
-class ProjectsIndex extends Component {
+const ProjectsIndex = () => {
+  return (
+    <div>project index yo</div>
+   );
+}
+
+export default ProjectsIndex;
+
+class _ProjectsIndex extends Component {
   static contextTypes = {
     layoutState: PropTypes.object,
   }
 
-  componentDidMount() {
-    const { layoutState } = this.context
+  // componentDidMount() {
+  //   const { layoutState } = this.context
 
-    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
-  }
+  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
+  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
+  // }
 
   list() {
     const columns = {
@@ -158,15 +167,15 @@ class ProjectsIndex extends Component {
   }
 }
 
-export default ProjectsIndex
+// export default ProjectsIndex
 
 export const projectQuery = graphql`
-  query allProjectsQuery($locale: String!) {
-    seoFields : contentfulSeo(slug: { eq: "projects-index" }, node_locale : { eq: $locale }) {
+  query allProjectsQuery($language: String!) {
+    seoFields : contentfulSeo(slug: { eq: "projects-index" }, node_locale : { eq: $language }) {
       ...seoFragment
     }
     projects : allContentfulProjects(
-      filter: { node_locale: { eq: $locale } }
+      filter: { node_locale: { eq: $language } }
       sort: { fields: [publishDate, createdAt], order: DESC }
     ) {
       edges {

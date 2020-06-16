@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -106,13 +106,13 @@ class NewsPreview extends Component {
     this.mounted = true
     if (this.props.offset === 0) return
 
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    //   this.scrollbar.addListener(this.onScroll)
 
-      Viewport.on(this.debouncedOnResize)
-      this.onResize()
-    })
+    //   Viewport.on(this.debouncedOnResize)
+    //   this.onResize()
+    // })
   }
   componentWillUnmount() {
     this.mounted = false

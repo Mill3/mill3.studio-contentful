@@ -4,9 +4,11 @@ import { Box } from 'rebass'
 
 import { getTranslate } from '@utils/transform'
 
+import { LayoutContext } from '@layouts'
+
 class StickyElement extends Component {
   static contextTypes = {
-    getScrollbar: PropTypes.func,
+    layoutContext: PropTypes.object,
   }
 
   constructor(props) {
@@ -22,6 +24,7 @@ class StickyElement extends Component {
     this.scrollY = 0
     this.scrollLimit = 0
     this.atEnd = false
+    this.scrollbar = null
 
     this.ref = createRef()
 
@@ -30,17 +33,18 @@ class StickyElement extends Component {
   }
 
   componentDidMount() {
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
-
-      this.scrollY = this.scrollbar.offset.y
-      this.scrollLimit = this.scrollbar.limit.y
-    })
-
     window.addEventListener('resize', this.onResize)
     this.onResize()
   }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.scrollbar.addListener(this.onScroll)
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize)
 
@@ -115,6 +119,7 @@ class StickyElement extends Component {
   render() {
     const { y } = this.state
     const { children, onEnd, ...props } = this.props
+    // console.log(this.context);
 
     return (
       <Box ref={this.ref} {...props} style={{transform: `translate3d(0px, ${y}px, 0)`}}>
@@ -123,5 +128,7 @@ class StickyElement extends Component {
     )
   }
 }
+
+StickyElement.contextType = LayoutContext
 
 export default StickyElement

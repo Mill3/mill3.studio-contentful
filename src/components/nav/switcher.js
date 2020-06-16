@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from "gatsby-plugin-intl"
 import { Text } from 'rebass'
+// import TransitionLink, { TransitionState } from "gatsby-plugin-transition-link";
 
 import locales from '@locales/locales'
 
@@ -21,7 +23,7 @@ const Switcher = (props) => {
           hidden={key === locale ? true : false}
           href={`/${locales[key].path}/`}
           color={`#fff`}
-          localePrefix={false}
+          // localePrefix={false}
         >
           <Text fontSize={fontSizes}>
             {locales[key].locale}

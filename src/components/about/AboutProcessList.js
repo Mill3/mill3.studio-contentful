@@ -88,10 +88,10 @@ class AboutProcessList extends Component {
   }
 
   componentDidMount() {
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.onResize()
-    })
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    //   this.onResize()
+    // })
 
     Viewport.on(this.onResize)
   }

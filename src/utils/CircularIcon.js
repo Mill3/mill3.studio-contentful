@@ -65,10 +65,10 @@ class CircularIcon extends Component {
   }
 
   mouse() {
-    this.context.getScrollbar(s => {
-      this.scrollbar = s
-      this.scrollbar.addListener(this.onScroll)
-    })
+    // this.context.getScrollbar(s => {
+    //   this.scrollbar = s
+    //   this.scrollbar.addListener(this.onScroll)
+    // })
   }
 
   onScroll() {

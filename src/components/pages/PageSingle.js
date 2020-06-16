@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from 'rebass'
-import { injectIntl } from 'react-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import ContentRow from '@components/content_rows'
 import SEO from '@components/seo'

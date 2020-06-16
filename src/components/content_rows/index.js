@@ -112,22 +112,22 @@ export class AnimatedBackgroundContainer extends Component {
 
   componentDidMount() {
     this.mounted = true
-    this.context.getScrollbar(s => {
-      if( !this.mounted ) return
+    // this.context.getScrollbar(s => {
+    //   if( !this.mounted ) return
 
-      this.scrollbar = s
+    //   this.scrollbar = s
 
-      // if inView (true) was triggered before scrollbar context
-      if( this.state.inView ) {
-        // cancel timeout if exists
-        if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
-        this.exitViewportTicker = null
+    //   // if inView (true) was triggered before scrollbar context
+    //   if( this.state.inView ) {
+    //     // cancel timeout if exists
+    //     if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
+    //     this.exitViewportTicker = null
 
-        // first, remove listener to prevent doubling, then add scroll listener
-        this.scrollbar.removeListener(this.onScroll)
-        this.scrollbar.addListener(this.onScroll)
-      }
-    })
+    //     // first, remove listener to prevent doubling, then add scroll listener
+    //     this.scrollbar.removeListener(this.onScroll)
+    //     this.scrollbar.addListener(this.onScroll)
+    //   }
+    // })
   }
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Flex, Text } from 'rebass'
-import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'gatsby-plugin-intl'
 
 import SEO from '@components/seo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
