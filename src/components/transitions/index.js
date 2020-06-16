@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { TransitionState } from 'gatsby-plugin-transition-link'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
@@ -13,11 +11,9 @@ import {
   TRANSITION_INTRO_DELAY,
   TRANSITION_DURATION,
   TRANSITION_IN_DELAY,
-  TRANSITION_OUT_DELAY,
+  // TRANSITION_OUT_DELAY,
   TRANSITION_OUT_DURATION,
 } from '@utils/constants'
-
-// console.log('LayoutContext:', LayoutContext)
 
 export const TRANSITION_PANE_STATES = {
   init: 'init',
@@ -151,7 +147,7 @@ const TransitionPane = ({ location }) => {
 
   useEffect(() => {
     setPose(transition.state)
-  }, [layoutState])
+  }, [layoutState, transition])
 
   return (
     <Flex

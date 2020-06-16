@@ -8,17 +8,11 @@ import SmoothScrollbar from 'smooth-scrollbar'
 import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
 import ScrollbarDirectionPlugin from '@utils/ScrollbarDirectionPlugin'
 
-// Locale data
-// import enData from 'react-intl/locale-data/en'
-// import frData from 'react-intl/locale-data/fr'
-
 import { defaultContextValue, reducer, LayoutContext } from './layoutContext'
 
 // messages
-import en from '@locales/en.json'
-import fr from '@locales/fr.json'
-
-import { getLocale } from '@utils/Locales'
+// import en from '@locales/en.json'
+// import fr from '@locales/fr.json'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -32,7 +26,7 @@ import { TRANSITION_DURATION, TRANSITION_OUT_DELAY } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 
-const messages = { en, fr }
+// const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin)
@@ -61,7 +55,10 @@ const Layout = props => {
 
   useEffect(() => {
     if (!layoutState.scrollbar) initScrollbar()
-  }, [scrollbarRef])
+  }, [scrollbarRef, layoutState])
+
+  console.log(layoutState.invertedBody);
+
 
   return (
     <Location>

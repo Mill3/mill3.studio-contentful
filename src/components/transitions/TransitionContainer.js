@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import posed from 'react-pose'
 
 import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
-import { TRANSITION_PANE_STATES } from './index'
 
 import { LayoutContext } from '@layouts/layoutContext'
 
@@ -75,7 +74,7 @@ const TransitionContainer = props => {
     } else {
       setPose('in')
     }
-  }, [ref, layoutState]);
+  }, [ref, layoutState, autoCalculateDelay, index, enabled, disabledPose, transition]);
 
   return (
     <TransitionContainerPoses

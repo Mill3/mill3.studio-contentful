@@ -6,6 +6,8 @@ import { InView } from 'react-intersection-observer'
 import SplitText from 'react-pose-text'
 import Lottie from 'lottie-react'
 
+import { LayoutContext } from '@layouts/layoutContext'
+
 import starAnimation from '@animations/star.json'
 import { limit } from '@utils/Math'
 import StickyElement from '@utils/StickyElement'
@@ -63,9 +65,8 @@ const charPoses = {
 
 
 class AboutProcessList extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -95,6 +96,15 @@ class AboutProcessList extends Component {
 
     Viewport.on(this.onResize)
   }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.onResize()
+    }
+  }
+
   componentWillUnmount() {
     Viewport.off(this.onResize)
   }

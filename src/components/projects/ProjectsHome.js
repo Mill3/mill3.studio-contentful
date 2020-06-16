@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 
 import { LayoutContext } from "@layouts/layoutContext"

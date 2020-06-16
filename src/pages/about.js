@@ -4,7 +4,7 @@ import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
 
-import LayoutContext from '@layouts/LayoutContext'
+import { LayoutContext } from '@layouts/layoutContext'
 
 import SEO from '@components/seo'
 
@@ -20,30 +20,31 @@ import ContactForm from '@components/contact/ContactForm'
 import { AnimatedBackgroundRowContainer, HORIZONTAL_SPACER } from '@components/content_rows'
 
 class About extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
+
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
     this.state = {}
-    // this.setBodyInverted = this.setBodyInverted.bind(this)
+    this.setBodyInverted = this.setBodyInverted.bind(this)
   }
 
   setBodyInverted(inView) {
-    console.log('inView:', inView)
-    // const { layoutState } = this.context
-
-    // layoutState.setHeaderInverted(inView)
-    // layoutState.setBodyInverted(inView)
+    const { dispatch } = this.context
+    if(inView === true) {
+      dispatch({type: "header.invert"})
+      dispatch({type: "body.invert"})
+    } else {
+      dispatch({type: "body.reset"})
+      dispatch({type: "header.reset"})
+    }
   }
 
   render() {
     const { data } = this.props
     const { layoutState } = this.context
     const { page } = data
-    // const color = layoutState.invertedBody ? `#fff` : `#000`
-    const color = `#fff`
+    const color = layoutState.invertedBody ? `#fff` : `#000`
 
     return (
       <>
@@ -51,7 +52,7 @@ class About extends Component {
 
         <Box px={HORIZONTAL_SPACER}>
 
-          <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
+          <AnimatedBackgroundRowContainer wrapper={Box} onChange={this.setBodyInverted} backgroundColor={`transparent`} threshold={0.15}>
             <React.Fragment>
               {/* the intro */}
               <AboutIntro data={page.intro} />
