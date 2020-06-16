@@ -11,7 +11,12 @@ import AboutClients from '@components/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
 import SEO from '@components/seo'
 
-import { AnimatedBackgroundRowContainer, HORIZONTAL_SPACER } from '@components/content_rows'
+import { AnimatedBackgroundRowContainer } from '@components/content_rows'
+import ResponsiveProp from '@utils/ResponsiveProp'
+
+
+const HEADER_INVIEW_THRESHOLD = new ResponsiveProp([0.1, null, 0.25])
+const SERVICES_INVIEW_THRESHOLD = new ResponsiveProp([0.2, null, 0.5])
 
 
 const About = ({ data }, { layoutState }) => {
@@ -26,10 +31,10 @@ const About = ({ data }, { layoutState }) => {
     <>
       {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
-      <Box px={HORIZONTAL_SPACER}>
+      <Box>
 
-        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={0.25}>
-          <React.Fragment>
+        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={HEADER_INVIEW_THRESHOLD.getValue()}>
+          <>
             {/* the intro */}
             <AboutIntro data={page.intro} />
 
@@ -38,7 +43,7 @@ const About = ({ data }, { layoutState }) => {
               data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
               color={color}
             />
-          </React.Fragment>
+          </>
         </AnimatedBackgroundRowContainer>
 
         <AboutProcess
@@ -46,7 +51,7 @@ const About = ({ data }, { layoutState }) => {
           color={color}
         />
 
-        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={0.5}>
+        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={SERVICES_INVIEW_THRESHOLD.getValue()}>
           <AboutServices
             data={{ servicesIntro: page.servicesIntro, services: page.services }}
             color={color}

@@ -1,7 +1,7 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
 import { injectIntl } from 'react-intl'
@@ -415,28 +415,30 @@ class HeaderIntro extends Component {
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'transparent'} duration={500} onChange={this.setBodyInverted}>
-          <Container fluid display="flex" flexDirection="column" pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
-            <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
-              <SplitText
-                initialPose={`exit`}
-                pose={isTransitionVisible ? `out` : `enter`}
-                startDelay={titleDelay}
-                charPoses={charPoses}
-              >
-                {intl.formatMessage({ id: 'intro.LineA' }).toString()}
-              </SplitText>
-            </Text>
+          <Container fluid pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
+            <Flex px={[16, 40 - space[4], 0]} display="flex" flexDirection="column">
+              <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
+                <SplitText
+                  initialPose={`exit`}
+                  pose={isTransitionVisible ? `out` : `enter`}
+                  startDelay={titleDelay}
+                  charPoses={charPoses}
+                >
+                  {intl.formatMessage({ id: 'intro.LineA' }).toString()}
+                </SplitText>
+              </Text>
 
-            <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-normal is-sans fw-300`}>
-              <SplitText
-                initialPose={`exit`}
-                pose={isTransitionVisible ? `out` : `enter`}
-                startDelay={titleDelay}
-                charPoses={charPoses}
-              >
-                {intl.formatMessage({ id: 'intro.LineB' }).toString()}
-              </SplitText>
-            </Text>
+              <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-normal is-sans fw-300`}>
+                <SplitText
+                  initialPose={`exit`}
+                  pose={isTransitionVisible ? `out` : `enter`}
+                  startDelay={titleDelay}
+                  charPoses={charPoses}
+                >
+                  {intl.formatMessage({ id: 'intro.LineB' }).toString()}
+                </SplitText>
+              </Text>
+            </Flex>
           </Container>
 
           <Container fluid display="flex" flexDirection={["column-reverse", null, "row"]} alignItems="center">
@@ -446,7 +448,7 @@ class HeaderIntro extends Component {
                   ref={ref}
                   as={ParagraphPoses}
                   width={['100%', null, '55%', '50%']}
-                  mt={[4, null, 0]}
+                  mt={[45, null, 0]}
                   pr={[0, null, '6vw', 0]}
                   initialPose={`init`}
                   pose={isDemoReel ? `leave` : (inView ? `appear` : `init`)}
@@ -456,7 +458,7 @@ class HeaderIntro extends Component {
                     {intl.formatMessage({ id: 'intro.AboutUs' }).toString()}
                   </Text>
 
-                  <Text as="p" m={0} p={0} mt={3}>
+                  <Text as="p" m={0} p={0} mt={[60, null, 3]}>
                     <TransitionLinkComponent to={`/about/`} color={'black'}>
                       <ArrowButton color={"white"}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
                     </TransitionLinkComponent>

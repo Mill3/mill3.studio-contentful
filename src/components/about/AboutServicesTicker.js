@@ -3,12 +3,10 @@ import styled, { keyframes } from 'styled-components'
 import { Box, Heading } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
-import { HORIZONTAL_SPACER_INVERTED } from '@components/content_rows'
-
 const AboutServicesTicker = ({ text }) => {
   const [ref, inView] = useInView({ threshold: 0 })
   return (
-    <Box ref={ref} mx={HORIZONTAL_SPACER_INVERTED} my={6} py={5} as={TickerContainer}>
+    <Box ref={ref} py={[40, null, 80]} as={TickerContainer}>
       <Box as={TickerLine}>
         <TickerText text={text} inView={inView} />
         <TickerText text={text} inView={inView} />
@@ -22,7 +20,7 @@ const TickerText = ({ text, inView}) => {
     <Heading
       as={TickerLineItem}
       fontWeight={300}
-      fontSize={['clamp(28px, calc(4vw + 28px), 120px)']}
+      fontSize={['9.661835749vw', null, '10.416666667vw', '8.064516129vw', '5.555555556vw']}
       pr={4}
       inView={inView}
     >{text}</Heading>

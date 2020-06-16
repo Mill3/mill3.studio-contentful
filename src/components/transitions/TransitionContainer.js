@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Box } from 'rebass'
 import posed from 'react-pose'
 
 import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
@@ -71,7 +72,7 @@ class TransitionContainer extends React.Component {
   }
 
   render() {
-    const { children, enabled, disabledPose, direction, distance, delayIn, delayOut } = this.props
+    const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, ...rest } = this.props
 
     const { transitionState } = this.context.layoutState
     const { ref, calculatedDelay } = this
@@ -83,16 +84,18 @@ class TransitionContainer extends React.Component {
     const pose = () => (!enabled ? disabledPose : transitionState === TRANSITION_PANE_STATES['visible'] ? `out` : `in`)
 
     return (
-      <TransitionContainerPoses
+      <Box
+        as={TransitionContainerPoses}
         ref={ref}
         initialPose={initial()}
         pose={pose()}
         distance={distance}
         delayIn={delayIn || calculatedDelay}
         delayOut={delayOut || calculatedDelay}
+        {...rest}
       >
         {children}
-      </TransitionContainerPoses>
+      </Box>
     )
   }
 }

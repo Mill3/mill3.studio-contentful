@@ -9,6 +9,7 @@ import { VERTICAL_SPACER } from '@components/content_rows'
 import { AboutSectionContainer, AboutSectionHeading } from './index'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 import TransitionContainer from '@components/transitions/TransitionContainer'
+import Container from '@styles/Container'
 import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import { lb2br } from '@utils/Linebreaks'
 
@@ -20,39 +21,41 @@ const AboutIntro = ({ data, color = 'white' }, { layoutState }) => {
   const delay = transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
   return (
-    <Flex
-      as={AboutSectionContainer}
-      color={color}
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      pt={VERTICAL_SPACER}
-      pb={[5]}
-    >
-      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, '5vw', `8vw`, '12vw']}>
-        <AnimatedHtmlTitle startDelay={delay} source={data.title} />
-      </AboutSectionHeading>
+    <Container fluid>
+      <Flex
+        as={AboutSectionContainer}
+        color={color}
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        pt={VERTICAL_SPACER}
+        pb={[5]}
+      >
+        <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, '5vw', `8vw`, '12vw']}>
+          <AnimatedHtmlTitle startDelay={delay} source={data.title} />
+        </AboutSectionHeading>
+      </Flex>
 
-      <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
-        <Box py={[4]}>
+      <Flex as={Footer} color={color} flexDirection="column" alignItems="center" pb={[40, null, 50]}>
+        <Box>
           <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 700} delayOut={0}>
             <LottieAnimation animationData={globeAnimation} />
           </TransitionContainer>
         </Box>
         {data.introBlurb &&
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 750} delayOut={50}>
-            <p py={[4]} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />
+          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 750} delayOut={50} mt={[40, null, 50]}>
+            <p m={0} p={0} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />
           </TransitionContainer>
         }
         {data.shortText && (
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 800} delayOut={250}>
-            <Heading as="h5" fontWeight="300" mt={[3]}>
+          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 800} delayOut={250} mt={[40, null, 50]}>
+            <Heading as="h5" fontSize={['6.280193237vw', null, '3.645833333vw', '2.822580645vw']} fontWeight="300" m={0} p={0}>
               {data.shortText}
             </Heading>
           </TransitionContainer>
         )}
       </Flex>
-    </Flex>
+    </Container>
   )
 }
 
@@ -66,9 +69,6 @@ export default AboutIntro
 
 const Footer = styled.footer`
   svg {
-    /* transform: scale(0.95, 0.75) !important;
-    margin-top: -160px;
-    margin-bottom: -160px; */
     path {
       stroke: currentColor;
     }

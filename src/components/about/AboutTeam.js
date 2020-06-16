@@ -5,9 +5,10 @@ import { useInView } from 'react-intersection-observer'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import PersonPreview from '@components/persons/PersonPreview'
+import Container from '@styles/Container'
 import { breakpoints, space } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
+import { AboutSectionHeading } from './index'
 
 const TeamMemberPoses = posed.div({
   hidden: {
@@ -36,8 +37,8 @@ const TeamMember = ({ teamMember, delay }) => {
     <Box
       ref={ref}
       width={[1, null, 1/3]}
-      px={[2, null, null, null, 50]}
-      mb={[3, null, 0]}
+      px={[2, null, '2.5vw', null, 50]}
+      mb={[60, null, 0]}
     >
       <Box
         as={TeamMemberPoses}
@@ -58,7 +59,7 @@ const AboutTeam = ({ data, color }) => {
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
   return (
-    <Box as={AboutSectionContainer} mb={[6]}>
+    <Container fluid mb={[0, null, 5, 6]}>
       <AboutSectionHeading heading={'h2'} textAlign="center" color="#fff">
         <AnimatedHtmlTitle startDelay={0} source={teamIntro.title} />
       </AboutSectionHeading>
@@ -66,23 +67,28 @@ const AboutTeam = ({ data, color }) => {
       {teamIntro.introBlurb && (
         <Box
           mx={"auto"}
-          mt={5}
-          mb={[5, null, null, 6, 155]}
-          width={[1, null, 1/2, 2/3]}
-          maxWidth={[null, null, null, 920]}
-          textAlign="center"
+          mt={[40, null, 5]}
+          width={[1]}
+          maxWidth={[null, null, '80vw', '73vw', '56vw']}
+          textAlign={["left", null, "center"]}
           color="#fff"
         >
           <Text
-            fontSize={[null, null, null, 4]}
+            fontSize={['4.830917874vw', null, '3.125vw', '2.419354839vw', '1.666666667vw']}
             fontWeight="300"
+            lineHeight={[1.5, null, 1.583333333]}
             dangerouslySetInnerHTML={{ __html: teamIntro.introBlurb.introBlurb }}
           />
         </Box>
       )}
 
       {teamMembers && (
-        <Flex color={color} flexDirection={['column', null, 'row']} mx={[space[2] * -1, null, null, null, -50]}>
+        <Flex
+          color={color}
+          flexDirection={['column', null, 'row']}
+          mt={[60, null, null, 90, 155]}
+          mx={[space[2] * -1, null, '-2.5vw', null, -50]}
+        >
           {teamMembers.map((teamMember, index) => (
             <TeamMember
               key={index}
@@ -92,7 +98,7 @@ const AboutTeam = ({ data, color }) => {
           ))}
         </Flex>
       )}
-    </Box>
+    </Container>
   )
 }
 

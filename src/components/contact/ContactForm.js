@@ -17,23 +17,14 @@ import { space } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
-/*
-const BackgroundScaleX = new ResponsiveProp([
-  () => 1,
-  () => (Viewport.width - space[4] * 2) / Viewport.width,
-  () => 0.9,
-])
-*/
 const BackgroundScaleX = new ResponsiveProp([1, null, 0.9])
 
 const BgPoses = posed.div({
   default: {
-    //scaleX: () => BackgroundScaleX.getValue()(),
     scaleX: () => BackgroundScaleX.getValue(),
     scaleY: 1.0,
   },
   hover: {
-    //scaleX: () => BackgroundScaleX.getValue()(),
     scaleX: () => BackgroundScaleX.getValue(),
     scaleY: 1.1,
     transition: {
@@ -399,8 +390,9 @@ class ContactForm extends Component {
         <Text
           as={IntroStyle}
           className="is-sans is-light"
-          fontSize={['7.729468599vw', null, '3.5vw', '2.222222222vw']}
+          fontSize={['6.763285024vw', null, '3.5vw', '2.222222222vw']}
           textAlign="center"
+          lineHeight={1.357142857}
           m={0}
           py={4}
           disabled={!expandable}

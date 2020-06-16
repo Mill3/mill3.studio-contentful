@@ -107,8 +107,8 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
     <Container
       fluid
       color={inverted ? "white" : "black"}
-      pt={[6, null, '170px', 7]}
-      pb={[4, null, 2, 0]}
+      pt={[90, null, '170px', 7]}
+      pb={[60, null, 2, 0]}
       {...props}
     >
       <Box style={{position: 'relative'}}>

@@ -2,8 +2,9 @@ import React from 'react'
 import { Box } from 'rebass'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
-import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
+import Container from '@styles/Container'
+
+import { AboutSectionHeading } from './index'
 import AboutEyes from './AboutEyes'
 import AboutProcessList from './AboutProcessList'
 import AboutProcessIntro from './AboutProcessIntro'
@@ -12,17 +13,17 @@ const AboutProcess = ({ data, color = '#000' }) => {
   const { processIntro, processes } = data
 
   return (
-    <Box
-      as={AboutSectionContainer}
+    <Container
+      fluid
       color={color}
-      py={VERTICAL_SPACER}
+      pt={[60, null, 80]}
       css={{position: 'relative'}}
     >
       <AboutSectionHeading>
         <AnimatedHtmlTitle startDelay={750} source={processIntro.title} />
       </AboutSectionHeading>
 
-      <Box mt={VERTICAL_SPACER} css={{position: 'absolute', top: 0, right: 0}}>
+      <Box mt={[60, null, 80]} mr={[24, 4, 0, 60]} css={{position: 'absolute', top: 0, right: 0}}>
         <AboutEyes color={color} />
       </Box>
 
@@ -31,10 +32,10 @@ const AboutProcess = ({ data, color = '#000' }) => {
       )}
 
       {processes &&
-        <AboutProcessList processes={processes} />
+        <AboutProcessList color={color} processes={processes} />
       }
 
-    </Box>
+    </Container>
   )
 }
 

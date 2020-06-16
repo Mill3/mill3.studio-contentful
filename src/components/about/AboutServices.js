@@ -6,12 +6,12 @@ import { useInView } from 'react-intersection-observer'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import LottieAnimation from '@components/elements/LottieAnimation'
-import { VERTICAL_SPACER } from '@components/content_rows'
 import { format } from '@components/content_rows/ContentText'
 import { HAS_HOVER } from '@utils/constants'
+import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import Viewport from '@utils/Viewport'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
+import { AboutSectionHeading } from './index'
 import AboutServicesTicker from './AboutServicesTicker'
 import { lb2br } from '@utils/Linebreaks'
 
@@ -45,15 +45,28 @@ const Service = ({delay, title, text, slug}) => {
       {...wrapperProps}
     >
       <Box as={ServicePoses} initialPose="hidden" pose={inView ? "visible" : "hidden"} delay={delay} withParent={false}>
-        <Box as={LottieContainer} flexShrink={0} width={40} height={40} aria-hidden="true">
+        <Box as={LottieContainer} flexShrink={0} width={40} height={['auto', null, 40]} aria-hidden="true">
           {animation && (
             <LottieAnimation startInView={false} ref={lottieRef} animationData={animation} />
           )}
         </Box>
 
-        <Heading as="h4" m={0} mt={[28]} p={0} fontSize={[28]} fontWeight={400} lineHeight={1.214285714}>{title}</Heading>
+        <Heading
+          as="h4"
+          m={0}
+          mt={[50, null, 28]}
+          p={0}
+          fontSize={['5.797101449vw', null, '3.645833333vw', '2.822580645vw', '1.944444444vw']}
+          fontWeight={300}
+          lineHeight={[1.208333333, null, 1.214285714]}
+        >{title}</Heading>
 
-        <Box as={ServiceDescription} mt={[42]} fontSize={2} lineHeight={1.5}>
+        <Box
+          as={ServiceDescription}
+          mt={[40, null, 4]}
+          fontSize={['4.347826087vw', null, '2.34375vw', '1.814516129vw', '1.25vw']}
+          lineHeight={1.5}
+        >
           {text}
         </Box>
       </Box>
@@ -66,51 +79,53 @@ const AboutServices = ({ data, color }) => {
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
   return (
-    <Box
-      as={AboutSectionContainer}
-      color={color}
-      py={VERTICAL_SPACER}
-    >
+    <Box color={color}>
+      <Container fluid>
+        <Flex as="header" alignItems="center" py={[60, null, 100, 140]}>
+          <AboutSectionHeading>
+            <AnimatedHtmlTitle startDelay={750} source={servicesIntro.title} />
+          </AboutSectionHeading>
 
-      <Flex as="header">
-        <AboutSectionHeading>
-          <AnimatedHtmlTitle startDelay={750} source={servicesIntro.title} />
-        </AboutSectionHeading>
-
-        <Box as={LottieContainer} ml={`auto`} width={[`5vw`]}>
-          <LottieAnimation animationData={servicesAnimation} />
-        </Box>
-      </Flex>
+          <Box as={LottieContainer} ml={`auto`} width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', `5vw`]}>
+            <LottieAnimation animationData={servicesAnimation} />
+          </Box>
+        </Flex>
+      </Container>
 
       {servicesIntro.shortText &&
         <AboutServicesTicker text={servicesIntro.shortText} />
       }
 
-      {servicesIntro.introBlurb && (
-        <Box width={[1, null, 1/2, 2/3]} maxWidth={[null, null, null, 920]}>
-          <Text
-            as="p"
-            fontSize={[null, null, null, 4]}
-            fontWeight="300"
-            dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }}
-          />
-        </Box>
-      )}
+      <Container fluid>
+        {servicesIntro.introBlurb && (
+          <Box width={[1]} maxWidth={[null, null, null, '76vw', '56vw']} mt={[60, null, 110]}>
+            <Text
+              as="p"
+              fontSize={['5.797101449vw', null, '3.645833333vw', '2.822580645vw', '1.944444444vw']}
+              fontWeight="300"
+              lineHeight={1.5}
+              m={0}
+              p={0}
+              dangerouslySetInnerHTML={{ __html: lb2br(servicesIntro.introBlurb.introBlurb) }}
+            />
+          </Box>
+        )}
 
-      {services && (
-        <Flex flexDirection={['column', null, 'row']} flexWrap={'wrap'} mt={[5, null, null, 6, 155]} mx={[0, null, -25]}>
-          {services.map((service, i) => (
-            <Box key={i} width={[1, null, 1/2, 1/4]} px={[0, null, 25]} mb={[5, null, null, 0]}>
-              <Service
-                title={service.title}
-                text={format(service.description.description)}
-                slug={service.slug}
-                delay={IS_FLEX_ROW ? i * 125 : 0}
-              />
-            </Box>
-          ))}
-        </Flex>
-      )}
+        {services && (
+          <Flex flexDirection={['column', null, 'row']} flexWrap={'wrap'} mt={[70, null, null, 6, 155]} mx={[0, null, -25]}>
+            {services.map((service, i) => (
+              <Box key={i} width={[1, null, 1/2, 1/4]} px={[0, null, 25]} mb={[70, null, null, 0]}>
+                <Service
+                  title={service.title}
+                  text={format(service.description.description)}
+                  slug={service.slug}
+                  delay={IS_FLEX_ROW ? i * 125 : 0}
+                />
+              </Box>
+            ))}
+          </Flex>
+        )}
+      </Container>
 
     </Box>
   )
@@ -152,8 +167,13 @@ const ServiceDescription = styled.div`
     padding: 0;
 
     li {
-      padding: ${props => props.theme.space[3]}px 3px;
+      padding: ${props => props.theme.space[3]}px 0;
       border-bottom: 1px solid ${props => props.theme.colors.gray};
+
+      @media (min-width: ${props => props.theme.breakpoints[1]}) {
+        padding-left: 3px;
+        padding-right: 3px;
+      }
 
       &:first-child {
         padding-top: 0;

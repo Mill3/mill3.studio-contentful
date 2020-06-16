@@ -27,7 +27,7 @@ const StickyOutro = ({ intl, appear, ...props }) => {
           {intl.formatMessage({ id: 'projects.HomeOutro' })}
         </Text>
 
-        <Text as="p" m={0} p={0} mt={3}>
+        <Text as="p" m={0} p={0} mt={[60, null, 3]}>
           <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
             <ArrowButton>{intl.formatMessage({ id: 'projects.HomeOutroButton' })}</ArrowButton>
           </TransitionLinkComponent>

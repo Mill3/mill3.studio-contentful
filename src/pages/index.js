@@ -44,6 +44,7 @@ class IndexPage extends React.Component {
       introInView: false,
       introAtEnd: false,
       projectsInView: false,
+      letsWorkInView: false,
       outroInView: false,
     }
 
@@ -52,7 +53,7 @@ class IndexPage extends React.Component {
 
   render() {
     const { data } = this.props
-    const { headerInView, introInView, introAtEnd, projectsInView, outroInView } = this.state
+    const { headerInView, introInView, introAtEnd, projectsInView, letsWorkInView, outroInView } = this.state
     const { demoReel } = this.context.layoutState
 
     return (
@@ -74,7 +75,7 @@ class IndexPage extends React.Component {
               </StickyElement>
 
               <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
-                <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
+                <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || letsWorkInView || outroInView} />
               </StickyElement>
             </InView>
 
@@ -84,7 +85,7 @@ class IndexPage extends React.Component {
               </InView>
             )}
 
-            <InView onChange={(inView) => this.setState({ outroInView: inView })}>
+            <InView onChange={(inView) => this.setState({ letsWorkInView: inView })}>
               <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
                 <HomeTitle>
                   <FormattedMessage id="intro.Lets" />
@@ -95,7 +96,7 @@ class IndexPage extends React.Component {
           </Box>
 
           <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-            <StickyOutro appear={introAtEnd} pb={[5, null, 6]} />
+            <StickyOutro appear={introAtEnd} pb={[100, null, 6]} />
             <ContactForm />
           </InView>
 
