@@ -6,7 +6,6 @@
 
 // You can delete this file if you're not using it
 
-import { LayoutContext } from "@layouts"
 import { navigate } from 'gatsby'
 
 import './src/styles/fonts.css'
@@ -22,8 +21,3 @@ export const onInitialClientRender = () => {
   }
 
 }
-
-// export const onRouteUpdate = ({ location, prevLocation }) => {
-//   console.log('new pathname', location.pathname)
-//   console.log('old pathname', prevLocation ? prevLocation.pathname : null)
-// }

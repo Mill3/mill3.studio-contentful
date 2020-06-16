@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
-import { AnimatedBackgroundContainer } from '@components/content_rows'
 import Container from '@styles/Container'
 import TransitionContainer from '@components/transitions/TransitionContainer'
+import { AnimatedBackgroundContainer } from '@components/content_rows'
 
 const FooterContainer = styled.footer`
   font-size: 18px;
@@ -67,7 +67,7 @@ const Footer = ({ intl }) => {
 
   return (
     <Box mt={[4, 5]} pt={[4]} pb={[4]} as={FooterContainer}>
-      <AnimatedBackgroundContainer backgroundColor="#ffffff">
+      <AnimatedBackgroundContainer backgroundColor="#fff" duration={500}>
         <Container fluid>
           <Flex
             flexDirection={['column', null, 'row']}

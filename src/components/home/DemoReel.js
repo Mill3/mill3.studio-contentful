@@ -7,7 +7,7 @@ import { Box, Flex, Text } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 import memoize from 'memoize-one'
 
-import { LayoutContext } from '@layouts'
+import { LayoutContext } from '@layouts/layoutContext'
 import { ArrowButton } from '@components/buttons'
 import { charPoses } from '@components/header/HeaderIntro'
 

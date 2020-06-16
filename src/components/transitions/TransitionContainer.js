@@ -5,7 +5,7 @@ import posed from 'react-pose'
 import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from './index'
 
-import { LayoutContext } from '@layouts'
+import { LayoutContext } from '@layouts/layoutContext'
 
 const TransitionContainerPoses = posed.div({
   none: {
@@ -55,12 +55,11 @@ const TransitionContainer = props => {
   const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index } = props
   const { layoutState, } = useContext(LayoutContext)
   const { transition } = layoutState
-  const [pose, setPose] = useState('in')
+  const [ pose, setPose ] = useState('in')
   const [calculatedDelay, setCalculatedDelay] = useState(0)
   const ref = useRef()
 
   const initial = direction === `both` ? `hidden` : `visible`
-
 
   useEffect(() => {
     // calculate delay

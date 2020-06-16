@@ -1,43 +1,63 @@
-import React, { createContext, useReducer } from "react"
-// import { TransitionState } from 'gatsby-plugin-transition-link'
-
+import { createContext } from "react"
 
 export const defaultContextValue = {
-  count: true,
-  inTransition: true,
+  count: null,
   invertedHeader: false,
   invertedBody: false,
   demoReel: {
     active: false,
     trigger: null,
   },
-  // set: () => {},
-  // setDemoReel: () => {},
-  // setInverted: () => {},
+  transition: {
+    inTransition: false,
+    state: 'intro',
+  },
+  scrollbar: null
 }
 
-const LayoutContext = createContext();
-
-const reducer = (state, action) => {
-  // console.log('state, action:', state, action)
+export const reducer = (state, action) => {
   switch (action.type) {
-    case 'increment':
-      return { ...state, count: true};
-    case 'decrement':
-      return { ...state, count: false};
+    case 'transition.setState':
+      return {
+        ...state,
+        transition: {
+          state: action.transitionState,
+          inTransition: action.inTransition,
+        },
+      }
+    case 'header.invert':
+      return { ...state, invertedHeader: true }
+    case 'header.reset':
+      return { ...state, invertedHeader: false }
+    case 'body.invert':
+      return { ...state, invertedBody: true }
+    case 'body.reset':
+      return { ...state, invertedBody: false }
+    case 'scrollbar.set':
+      return {
+        ...state,
+        scrollbar: action.scrollbar
+      }
+    case 'demoReel.start':
+      return {
+        ...state,
+        demoReel: {
+          active: true,
+          trigger: action.trigger,
+        },
+      }
+    case 'demoReel.stop':
+      return {
+        ...state,
+        demoReel: {
+          active: false,
+        },
+      }
     default:
-      throw new Error();
+      return {
+        ...state,
+      }
   }
 }
 
-// const LayoutProvider = ( { children } ) => {
-//   const [state, dispatch] = useReducer(reducer, defaultContextValue);
-//   console.log('state, dispatch:', state, dispatch)
-//   return <Provider value={{ state, dispatch }}>{children}</Provider>;
-// };
-
-// console.log(LayoutProvider);
-
-// export default LayoutContext
-
-export { LayoutContext, reducer }
+export const LayoutContext = createContext()

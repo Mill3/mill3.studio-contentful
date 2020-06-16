@@ -7,12 +7,13 @@ import { Flex, Text } from 'rebass'
 
 import LogoAnimated from '@svg/LogoAnimated'
 
-import { LayoutContext } from "@layouts"
+import { LayoutContext } from '@layouts/layoutContext'
 
 import {
   TRANSITION_INTRO_DELAY,
   TRANSITION_DURATION,
   TRANSITION_IN_DELAY,
+  TRANSITION_OUT_DELAY,
   TRANSITION_OUT_DURATION,
 } from '@utils/constants'
 
@@ -35,6 +36,7 @@ const Poses = posed.div({
   init: {
     opacity: 1,
   },
+
   // intro site load
   intro: {
     y: `-110%`,
@@ -47,14 +49,40 @@ const Poses = posed.div({
       },
     },
   },
+
+  // when transition start
+  exit: {
+    opacity: 0,
+    transition: {
+      delay: TRANSITION_OUT_DURATION,
+      duration: TRANSITION_OUT_DURATION,
+    },
+  },
+
   // when page change starts
   exiting: {
     opacity: 1,
     transition: {
-      duration: TRANSITION_DURATION / 4,
+      delay: TRANSITION_OUT_DURATION,
+      duration: TRANSITION_OUT_DURATION,
       ease: 'easeOut',
     },
   },
+
+  // when new page is enter
+  enter: {
+    opacity: 1,
+  },
+
+  // when new page is entering
+  entering: {
+    opacity: 0,
+    transition: {
+      duration: TRANSITION_OUT_DURATION,
+      ease: 'easeIn',
+    },
+  },
+
   // when page change starts
   visible: {
     opacity: 1,
@@ -72,6 +100,7 @@ const Poses = posed.div({
       ease: 'easeIn',
     },
   },
+
   // when everything has finished
   // (duration is set to 0 because we don't want the user to see any animation to this pose)
   ended: {
@@ -115,114 +144,50 @@ const TransitionTextStyle = styled.p`
 `
 
 const TransitionPane = ({ location }) => {
-  const { layoutState, dispatch } = useContext(LayoutContext);
-  const { transition } = layoutState;
-
-  const pose = () => {
-    return transition.state
-  }
+  const { layoutState, dispatch } = useContext(LayoutContext)
+  const { transition } = layoutState
+  const [pose, setPose] = useState(transition.state)
+  const { transitionColor, transitionTitle } = location.state
 
   useEffect(() => {
-    if(transition.inTransition) {
-      dispatch({type: "transition.setState", transitionState: `hidden`, inTransition: false})
-      // dispatch({type: "header.reset"})
-      // dispatch({type: "body.reset"})
-    }
-  }, [location]);
+    setPose(transition.state)
+  }, [layoutState])
 
   return (
     <Flex
       as={TransitionPaneStyle}
-      backgroundColor={'red'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      backgroundColor={transitionColor}
       opacity={1}
       initialPose={`init`}
-      pose={pose()}
+      pose={pose}
       onPoseComplete={poseName => {
         // after `intro` or `hidden` pose, revert pane style and position
         if (poseName === `intro`) {
-          dispatch({type: "transition.setState", transitionState: `ended`})
+          dispatch({ type: 'transition.setState', transitionState: `ended`, inTransition: false })
         }
       }}
-    ></Flex>
+    >
+      {/* when in intro state */}
+      {pose === `intro` && <LogoAnimated inverted={true} animated={true} />}
+
+      {/* not intro, has a transitionTitle */}
+      {(pose !== `intro` && transitionTitle) && (
+        <Text
+          as={TransitionTextStyle}
+          fontSize={['18vw', null, `5vw`]}
+          textAlign="center"
+          lineHeight="1.1"
+          className={`is-sans fw-300`}
+        >
+          <span>{transitionTitle}</span>
+        </Text>
+      )}
+    </Flex>
   )
 }
 
-export default React.memo(TransitionPane)
+export default TransitionPane
 
-// class TransitionPane extends React.Component {
 
-//   static childContextTypes = {
-//     layoutState: PropTypes.object
-//   };
-
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       pose: TRANSITION_PANE_STATES['intro'],
-//     }
-//     this.changePose = this.changePose.bind(this)
-//   }
-
-//   getChildContext() {
-//     return {
-//       layoutState: this.state
-//     };
-//   }
-
-//   componentDidUpdate(prevProps, prevState) {
-//     // change state only if transitionState props has changed
-//     if (prevProps.transitionState !== this.props.transitionState) {
-//       this.changePose(this.props.transitionState)
-//     }
-//   }
-
-//   // method for switching active pose
-//   changePose(pose) {
-//     this.setState({
-//       pose: pose,
-//     })
-//   }
-
-//   render() {
-//     const { color, title } = this.props
-//     const { pose } = this.state
-
-//     return (
-//       <Flex
-//         // className="full-vh"
-//         as={TransitionPaneStyle}
-//         p={'4vw'}
-//         justifyContent={'center'}
-//         alignItems={'center'}
-//         backgroundColor={color}
-//         initialPose={TRANSITION_PANE_STATES[`init`]}
-//         pose={pose}
-//         onPoseComplete={poseName => {
-//           // after `intro` or `hidden` pose, revert pane style and position
-//           if (poseName === (TRANSITION_PANE_STATES['intro'] || TRANSITION_PANE_STATES['hidden'])) {
-//             this.changePose(TRANSITION_PANE_STATES['ended'])
-//           }
-//         }}
-//       >
-//         {/* when in intro state */}
-//         {pose === TRANSITION_PANE_STATES['intro'] &&
-//           <LogoAnimated inverted={true} animated={true} />
-//         }
-//         {/* outside intro */}
-//         {pose !== TRANSITION_PANE_STATES['intro'] &&
-//           <Text
-//             as={TransitionTextStyle}
-//             fontSize={['18vw', null, `5vw`]}
-//             textAlign="center"
-//             lineHeight="1.1"
-//             className={`is-sans fw-300`}
-//           >
-//             <span>{title}</span>
-//           </Text>
-//         }
-//       </Flex>
-//     )
-//   }
-// }
-
-// export default TransitionPane

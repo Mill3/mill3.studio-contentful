@@ -4,12 +4,10 @@ import { Box } from 'rebass'
 
 import { getTranslate } from '@utils/transform'
 
-import { LayoutContext } from '@layouts'
+import { LayoutContext } from '@layouts/layoutContext'
 
 class StickyElement extends Component {
-  static contextTypes = {
-    layoutContext: PropTypes.object,
-  }
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -129,6 +127,6 @@ class StickyElement extends Component {
   }
 }
 
-StickyElement.contextType = LayoutContext
+// StickyElement.contextType = LayoutContext
 
 export default StickyElement

@@ -6,7 +6,7 @@ import Container from '@styles/Container'
 import { Flex, Text } from 'rebass'
 import styled from 'styled-components'
 
-import Layout from '@layouts'
+import { LayoutContext } from '@layouts/layoutContext'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import ProjectPreview from './ProjectPreview'
 import SEO from '@components/seo'
@@ -31,25 +31,10 @@ export const ProjectIndexList = styled.div`
   }
 `
 
-const ProjectsIndex = () => {
-  return (
-    <div>project index yo</div>
-   );
-}
 
-export default ProjectsIndex;
+class ProjectsIndex extends Component {
 
-class _ProjectsIndex extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
-
-  // componentDidMount() {
-  //   const { layoutState } = this.context
-
-  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
-  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
-  // }
+  static contextType = LayoutContext
 
   list() {
     const columns = {
@@ -143,7 +128,7 @@ class _ProjectsIndex extends Component {
 
             <HeaderCircle
               ml={['-4.75vw', null, -3, '-28px']}
-              locale={this.props.pageContext.locale}
+              locale={this.props.pageContext.language}
               type={`work`}
               css={{ transform: 'translateY(45%)' }}
             />
@@ -167,7 +152,7 @@ class _ProjectsIndex extends Component {
   }
 }
 
-// export default ProjectsIndex
+export default ProjectsIndex
 
 export const projectQuery = graphql`
   query allProjectsQuery($language: String!) {

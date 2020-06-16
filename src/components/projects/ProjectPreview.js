@@ -7,6 +7,7 @@ import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 
+import { LayoutContext } from '@layouts/layoutContext'
 import { breakpoints } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
@@ -157,14 +158,14 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 
 
 class ParallaxBox extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
 
   static propTypes = {
     active: PropTypes.bool,
     offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
   }
+
   static defaultProps = {
     active: false,
     offset: 0,
@@ -179,6 +180,7 @@ class ParallaxBox extends Component {
 
     this.rect = null
     this.ref = createRef()
+    this.scrollbar = null
 
     this.onScroll = this.onScroll.bind(this)
     this.onResize = this.onResize.bind(this)
@@ -187,15 +189,18 @@ class ParallaxBox extends Component {
 
   componentDidMount() {
     if (this.props.offset === 0) return
-
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   this.scrollbar.addListener(this.onScroll)
-
-    //   Viewport.on(this.debouncedOnResize)
-    //   this.onResize()
-    // })
   }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.scrollbar.addListener(this.onScroll)
+      Viewport.on(this.debouncedOnResize)
+      this.onResize()
+    }
+  }
+
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null

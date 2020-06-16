@@ -9,7 +9,7 @@ import { Box } from 'rebass'
 
 import SEO from '@components/seo'
 
-import { LayoutContext } from '@layouts'
+import { LayoutContext } from '@layouts/layoutContext'
 import HeaderIntro from '@components/header/HeaderIntro'
 import DemoReel from '@components/home/DemoReel'
 import HomeTitle from '@components/home/HomeTitle'

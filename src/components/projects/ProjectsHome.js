@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 
-import { LayoutContext } from "@layouts"
+import { LayoutContext } from "@layouts/layoutContext"
 import ProjectPreview from './ProjectPreview'
 import { ProjectIndexList } from './ProjectsIndex'
 import Container from '@styles/Container'
