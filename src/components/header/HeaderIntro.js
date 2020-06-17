@@ -454,7 +454,7 @@ class HeaderIntro extends Component {
                   pose={isDemoReel ? `leave` : (inView ? `appear` : `init`)}
                   delay={isDemoReel ? 0 : (inView && this.demoAsBeenClickedOnce ? 950 : 0 )}
                 >
-                  <Text as="p" maxWidth={['100%', null, null, 414]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
+                  <Text as="p" maxWidth={['100%', null, null, 425]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
                     {intl.formatMessage({ id: 'intro.AboutUs' }).toString()}
                   </Text>
 
