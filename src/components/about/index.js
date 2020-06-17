@@ -17,14 +17,6 @@ export const AboutSectionHeading = props => {
   )
 }
 
-export const AboutSectionContainer = styled.section`
-  min-height: 65vh;
-
-  @media (min-width: ${props => props.theme.breakpoints[1]}) {
-    min-height: 85vh;
-  }
-`
-
 export const HeadingStyleInner = styled.span`
   line-height: 1.125;
   font-weight: 300;
