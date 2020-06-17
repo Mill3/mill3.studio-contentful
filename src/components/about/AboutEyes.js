@@ -14,7 +14,7 @@ const DISTANCE_MIN = 50
 const DISTANCE_MAX = 400
 const SCROLL_MAX = 100
 const INVERTED_COLORS = {
-  '#fff': '#000',
+  '#fff': 'black',
   '#000': '#fff',
 }
 
