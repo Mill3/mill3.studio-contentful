@@ -18,9 +18,14 @@ import ProjectsHome from '@components/projects/ProjectsHome'
 import ContactForm from '@components/contact/ContactForm'
 import LayoutContext from '@components/contexts/LayoutContext'
 import Container from '@styles/Container'
+import { breakpoints } from '@styles/Theme'
 import StickyElement from '@utils/StickyElement'
+import Viewport from '@utils/Viewport'
 
 
+const PROJECTS_MOBILE_INVIEW = 0.12
+const PROJECTS_MOBILE_OUTVIEW = 0.03
+const PROJECTS_MOBILE_INVIEW_THRESHOLD = [PROJECTS_MOBILE_OUTVIEW, PROJECTS_MOBILE_INVIEW]
 const IndexContainer = styled.div`
   opacity: 1;
   transition: opacity 650ms 1050ms linear;
@@ -49,12 +54,35 @@ class IndexPage extends React.Component {
     }
 
     this.stickyContainerRef = createRef()
+    this.onProjectsInView = this.onProjectsInView.bind(this)
+    this.onProjectsMobileInView = this.onProjectsMobileInView.bind(this)
+  }
+
+  onProjectsInView(inView, entry) { this.setState({ projectsInView: inView }) }
+  onProjectsMobileInView(inView, entry) {
+    if( inView === true ) {
+      const { letsWorkInView, projectsInView } = this.state
+      const { intersectionRatio } = entry
+
+      let value = false
+
+      // if ratio is greater than our IN_VIEW threshold, fade sticky title
+      if( intersectionRatio >= PROJECTS_MOBILE_INVIEW ) value = true
+      // if Let's Work is in view (meaning we are at the end of the projects list)
+      // and ratio is lower than our OUT_VIEW threshold, show sticky title
+      else if( letsWorkInView && intersectionRatio > PROJECTS_MOBILE_OUTVIEW ) value = true
+
+      // update state only if required
+      if( value !== projectsInView ) this.setState({ projectsInView: value })
+    }
+    else this.setState({ projectsInView: false })
   }
 
   render() {
     const { data } = this.props
     const { headerInView, introInView, introAtEnd, projectsInView, letsWorkInView, outroInView } = this.state
     const { demoReel } = this.context.layoutState
+    const isMobile = !Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
     return (
       <LayoutContext.Provider>
@@ -80,7 +108,10 @@ class IndexPage extends React.Component {
             </InView>
 
             {data.projects && (
-              <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.12}>
+              <InView
+                onChange={isMobile ? this.onProjectsMobileInView : this.onProjectsInView}
+                threshold={isMobile ? PROJECTS_MOBILE_INVIEW_THRESHOLD : 0.12}
+              >
                 <ProjectsHome data={data.projects} />
               </InView>
             )}
