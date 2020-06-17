@@ -46,9 +46,7 @@ const Service = ({delay, title, text, slug}) => {
     >
       <Box as={ServicePoses} initialPose="hidden" pose={inView ? "visible" : "hidden"} delay={delay} withParent={false}>
         <Box as={LottieContainer} flexShrink={0} width={40} height={['auto', null, 40]} aria-hidden="true">
-          {animation && (
-            <LottieAnimation startInView={false} ref={lottieRef} animationData={animation} />
-          )}
+          {animation && <LottieAnimation startInView={!HAS_HOVER} ref={lottieRef} animationData={animation} />}
         </Box>
 
         <Heading
