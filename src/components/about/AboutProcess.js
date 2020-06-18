@@ -23,7 +23,11 @@ const AboutProcess = ({ data, color = '#000' }) => {
         <AnimatedHtmlTitle startDelay={750} source={processIntro.title} />
       </AboutSectionHeading>
 
-      <Box mt={[60, null, 80]} mr={[24, 4, 0, 60]} css={{position: 'absolute', top: 0, right: 0}}>
+      <Box
+        mt={['13vw', null, '11vw', '9.5vw', '8.5vw', '7.5vw']} 
+        mr={[24, 4, 0, 60]}
+        css={{position: 'absolute', top: 0, right: 0}}
+      >
         <AboutEyes color={color} />
       </Box>
 

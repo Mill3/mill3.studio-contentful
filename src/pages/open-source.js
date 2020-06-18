@@ -7,13 +7,32 @@ import { Box, Flex, Text } from 'rebass'
 
 import CodePreview from '@components/codes/CodePreview'
 import ContactForm from '@components/contact/ContactForm'
-import { VERTICAL_SPACER } from '@components/content_rows'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
+import NewsPreview from '@components/news/NewsPreview'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 import SEO from '@components/seo'
 import Container from '@styles/Container'
-import { breakpoints, header, space } from '@styles/Theme'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { breakpoints, header } from '@styles/Theme'
+import { TRANSITION_DURATION, TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import ResponsiveProp from '@utils/ResponsiveProp'
+import Viewport from '@utils/Viewport'
+
+
+const mobileBreakpoint = parseInt(breakpoints[1])
+
+const DATA = [{
+  url: "https://www.npmjs.com/package/mill3-wp-boilerplate",
+  name: "Mill3 WP Webpack/Twig Boilerplate",
+  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+}, {
+  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/system-ui-sass",
+  name: "System UI Sass",
+  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+}, {
+  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/barba-scripts",
+  name: "@Barba/scripts",
+  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+}]
 
 
 const Header = styled.header`
@@ -36,6 +55,59 @@ const Grid = styled.ul`
 `
 
 
+const Packages = () => {
+  return (
+    <Flex
+      as={Grid}
+      flexDirection={['column', null, 'row']}
+      flexWrap={'wrap'}
+      m={0}
+      mx={[null, null, '-4.557291667vw', '-3.528225806vw', '-2.430555556vw']}
+      p={0}
+      py={[20, null, 25]}
+    >
+      {DATA.map((data, index) => (
+        <Flex
+          key={index}
+          as="li"
+          width={[1, null, 1/2, 1/3]}
+          px={[null, null, '4.557291667vw', '3.528225806vw', '2.430555556vw']}
+          mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
+        >
+          <CodePreview url={data.url} name={data.name} description={data.description} />
+        </Flex>
+      ))}
+    </Flex>
+  )
+}
+const Articles = ({ data }) => {
+  const columns = {
+    width: [1, null, 1 / 2],
+  }
+  const isMobile = Viewport.width < mobileBreakpoint
+
+  const getDelay = index => {
+    if (isMobile) return index === 0 ? TRANSITION_DURATION : 0
+    else return new ResponsiveProp([null, null, ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0)])
+  }
+
+  return (
+    <Flex
+      as={Grid}
+      flexDirection={['column', null, 'row']}
+      flexWrap={'wrap'}
+      m={0}
+      mx={[-2, null, -3, '-28px']}
+      p={0}
+      pb={[40, null, 90]}
+    >
+      {data.map((news, index) =>
+        <NewsPreview key={index} index={index} news={news} columns={columns} delay={getDelay(index)} />
+      )}
+    </Flex>
+  )
+}
+
 const OpenCode = ({ data, intl }, { layoutState }) => {
   useEffect(() => {
     if( !layoutState.invertedHeader ) layoutState.setHeaderInverted(true) // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,22 +127,32 @@ const OpenCode = ({ data, intl }, { layoutState }) => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          py={VERTICAL_SPACER}
-          minHeight={['65vh', null, 0]}
+          pt={["70px", null, "170px"]}
+          pb={["70px", null, "170px", 6]}
         >
 
           <Text
             as={Title}
             fontFamily="serif"
-            fontSize={['8.2vw', null, '6.5vw', '3.611111111vw']}
+            fontSize={['6.763285024vw', null, '5.2vw', '5.241935484vw', '3.611111111vw']}
             fontWeight="300"
-            lineHeight={1.5}
+            lineHeight={[1.178571429, null, null, 1.538461538]}
             textAlign="center"
           >
             <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'opensource.title' })} />
           </Text>
 
-          <Text as="p" m={0} mt={[3]} mx="auto" p={0} maxWidth={[null, null, null, 800]} fontSize={[24]} textAlign="center">
+          <Text
+            as="p"
+            m={0}
+            mt={[3, null, 4, 2]}
+            mx="auto"
+            p={0}
+            maxWidth={[null, null, '58vw', '75vw', '50vw']}
+            fontSize={['4.830917874vw', null, '3.125vw', '2.419354839vw', '1.666666667vw']}
+            lineHeight={[1.5]}
+            textAlign="center"
+          >
             {intl.formatMessage({ id: 'opensource.description' })}
           </Text>
 
@@ -78,29 +160,26 @@ const OpenCode = ({ data, intl }, { layoutState }) => {
       </Box>
 
       <Box as="section" bg="black" color="white">
-        <Container fluid={true} py={[25]}>
-          <Flex as={Grid} flexDirection={['column', null, 'row']} flexWrap={'wrap'} mx={[-12, space[3] * -0.5, '-2.5vw']} p={0}>
-            <Box as="li" width={[1, null, 1/2, 1/3]} px={[12, 3, '2.5vw']} mb={[24, 4, '5vw']}>
-              <CodePreview />
-            </Box>
-
-            <Box as="li" width={[1, null, 1/2, 1/3]} px={[12, 3, '2.5vw']} mb={[24, 4, '5vw']}>
-              <CodePreview />
-            </Box>
-
-            <Box as="li" width={[1, null, 1/2, 1/3]} px={[12, 3, '2.5vw']} mb={[24, 4, '5vw']}>
-              <CodePreview />
-            </Box>
-
-            <Box as="li" width={[1, null, 1/2, 1/3]} px={[12, 3, '2.5vw']} mb={[24, 4, '5vw']}>
-              <CodePreview />
-            </Box>
-          </Flex>
+        <Container fluid={true}>
+          <Packages />
         </Container>
       </Box>
 
       <Box as="aside">
-        <Container fluid={true} py={[100]}>
+        <Container fluid={true}>
+          <Text
+            as="h2"
+            fontSize={['5.797101449vw', null, '3.645833333vw', '2.822580645vw', '1.944444444vw']}
+            fontWeight="300"
+            lineHeight={[1.2]}
+            m={0}
+            p={0}
+            py={[50]}
+          >
+            {intl.formatMessage({ id: 'opensource.articles' })}
+          </Text>
+
+          <Articles data={data?.articles?.edges} />
         </Container>
       </Box>
 
@@ -119,6 +198,13 @@ export const openCodeQuery = graphql`
   query openCodeQuery($locale: String!) {
     seoFields : contentfulSeo(slug: { eq: "open-source" }, node_locale : { eq: $locale }) {
       ...seoFragment
+    }
+    articles : allContentfulNews(limit: 2, filter: { node_locale: { eq: $locale }, visibleOnlyOnLocale: { eq: $locale } }) {
+      edges {
+        node {
+          ...News
+        }
+      }
     }
   }
 `

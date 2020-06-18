@@ -172,6 +172,10 @@ const messages = defineMessages({
   opensourceDescription: {
     id: "opensource.description",
     defaultMessage: "In the process, we try our best to contribute back to the community. Explore below some of our projects that we maintain on a daily basis."
+  },
+  opensourceArticles: {
+    id: "opensource.articles",
+    defaultMessage: "Related Articles"
   }
 })
 
