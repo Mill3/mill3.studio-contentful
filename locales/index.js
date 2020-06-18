@@ -21,6 +21,10 @@ const messages = defineMessages({
     id: 'nav.Formation',
     defaultMessage: 'Formation'
   },
+  openSource: {
+    id: 'nav.OpenSource',
+    defaultMessage: 'Open Source'
+  },
   work: {
     id: 'nav.Contact',
     defaultMessage: 'Let\'s Talk'
