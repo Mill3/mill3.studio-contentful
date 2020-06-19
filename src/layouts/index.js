@@ -1,4 +1,5 @@
 import React, { useRef, useReducer, useEffect } from 'react'
+import { Box } from 'rebass'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import { ThemeProvider } from 'styled-components'
@@ -9,10 +10,6 @@ import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
 import ScrollbarDirectionPlugin from '@utils/ScrollbarDirectionPlugin'
 
 import { defaultContextValue, reducer, LayoutContext } from './layoutContext'
-
-// messages
-// import en from '@locales/en.json'
-// import fr from '@locales/fr.json'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -26,7 +23,6 @@ import { TRANSITION_DURATION, TRANSITION_OUT_DELAY } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 
-// const messages = { en, fr }
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
 SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin)
@@ -56,9 +52,6 @@ const Layout = props => {
   useEffect(() => {
     if (!layoutState.scrollbar) initScrollbar()
   }, [scrollbarRef, layoutState])
-
-  console.log(layoutState.invertedBody);
-
 
   return (
     <Location>
@@ -110,7 +103,9 @@ const Layout = props => {
                           dispatch({ type: 'transition.setState', transitionState: `entering`, inTransition: false })
                         }}
                       >
-                        {children}
+                        <Box pt={[6]}>
+                          {children}
+                        </Box>
                       </DelayedTransition>
                     </TransitionGroup>
 

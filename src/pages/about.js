@@ -8,8 +8,6 @@ import { LayoutContext } from '@layouts/layoutContext'
 
 import SEO from '@components/seo'
 
-// import { BodyInvertedTriggerWrapper } from '@components/pages/about'
-import Layout from '@layouts'
 import AboutIntro from '@components/about/AboutIntro'
 import AboutTeam from '@components/about/AboutTeam'
 import AboutProcess from '@components/about/AboutProcess'

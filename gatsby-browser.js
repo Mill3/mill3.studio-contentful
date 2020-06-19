@@ -6,18 +6,18 @@
 
 // You can delete this file if you're not using it
 
-import { navigate } from 'gatsby'
+// import { navigate } from 'gatsby'
 
 import './src/styles/fonts.css'
 
-export const onInitialClientRender = () => {
+// export const onInitialClientRender = () => {
 
-  let root = '/'
-  let detectedLocale = 'en'
+//   let root = '/'
+//   let detectedLocale = 'en'
 
-  // on root only, redirect
-  if (window.location.pathname === root) {
-    navigate(`${detectedLocale}/`)
-  }
+//   // on root only, redirect
+//   if (window.location.pathname === root) {
+//     navigate(`${detectedLocale}/`)
+//   }
 
-}
+// }

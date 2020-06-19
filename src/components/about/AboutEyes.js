@@ -5,6 +5,8 @@ import styled, { css } from 'styled-components';
 import { Box, Flex } from 'rebass'
 import { InView } from 'react-intersection-observer'
 
+import { LayoutContext } from '@layouts/layoutContext'
+
 import { IS_TOUCH_DEVICE } from '@utils/constants'
 import { hypothenuse, limit } from '@utils/Math'
 import Viewport from '@utils/Viewport'
@@ -96,9 +98,8 @@ const EyelidStyle = styled(EyelidPoses)`
 
 
 class AboutEyes extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -128,20 +129,24 @@ class AboutEyes extends Component {
 
   componentDidMount() {
     this.mounted = true
-
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   this.onResize()
-    // })
-
     Viewport.on(this.onResize)
   }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.onResize()
+    }
+  }
+
   componentWillUnmount() {
     Viewport.off(this.onResize)
     window.removeEventListener('mousemove', this.onMouseMove, { passive: false })
     if( this.raf ) cancelAnimationFrame(this.onRAF)
 
     this.raf = null
+    this.scrollbar = null
     this.mounted = false
   }
 
