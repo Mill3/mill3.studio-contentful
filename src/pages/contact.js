@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
+
+import { LayoutContext } from '@layouts/layoutContext'
 
 import { AboutSectionHeading } from '@components/about'
 import ContactForm from '@components/contact/ContactForm'
@@ -26,10 +28,10 @@ const Header = styled.header`
   }
 `
 
-const Contact = ({ data, intl }, { layoutState }) => {
+const Contact = ({ data, intl }) => {
+  const { dispatch, layoutState } = useContext(LayoutContext)
   useEffect(() => {
-    if( !layoutState.invertedHeader ) layoutState.setHeaderInverted(true) // eslint-disable-next-line react-hooks/exhaustive-deps
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+    if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { transition } = layoutState
@@ -77,8 +79,8 @@ Contact.contextTypes = {
 export default injectIntl(Contact)
 
 export const contactQuery = graphql`
-  query contactQuery($locale: String!) {
-    seoFields : contentfulSeo(slug: { eq: "contact" }, node_locale : { eq: $locale }) {
+  query contactQuery($language: String!) {
+    seoFields : contentfulSeo(slug: { eq: "contact" }, node_locale : { eq: $language }) {
       ...seoFragment
     }
   }

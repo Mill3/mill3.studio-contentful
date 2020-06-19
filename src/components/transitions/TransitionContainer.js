@@ -52,9 +52,8 @@ export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 
 }
 
 const TransitionContainer = props => {
-  // const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index } = props
   const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index, ...rest } = props
-  const { layoutState, } = useContext(LayoutContext)
+  const { layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
   const [ pose, setPose ] = useState('in')
   const [calculatedDelay, setCalculatedDelay] = useState(0)

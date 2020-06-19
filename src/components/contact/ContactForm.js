@@ -9,7 +9,7 @@ import axios from 'axios'
 import { debounce } from 'lodash'
 import { isBrowser } from 'react-device-detect'
 
-
+import { LayoutContext } from '@layouts/layoutContext'
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
 import Input from '@components/form/Input'
@@ -152,9 +152,7 @@ const FieldGroup = forwardRef((props, ref) => {
 })
 
 class ContactForm extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -170,6 +168,7 @@ class ContactForm extends Component {
     }
 
     this.mounted = false
+    this.scrollbar = false
     this.sectionRef = createRef()
     this.formRef = createRef()
     this.typeRef = createRef()
@@ -197,19 +196,21 @@ class ContactForm extends Component {
 
   componentDidMount() {
     this.mounted = true
-
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   if( this.mounted ) this.scrollbar.addListener(this.onScroll)
-    // })
-
     if( this.props.opened === true ) this.setState({expanded: true, monitorScroll: true})
+  }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.mounted = true
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.scrollbar.addListener(this.onScroll)
+    }
   }
 
   componentWillUnmount() {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
     this.scrollbar = null
-
     this.mounted = false
   }
 

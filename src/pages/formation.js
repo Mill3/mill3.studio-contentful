@@ -7,10 +7,10 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import PageSingle from '@components/pages/PageSingle'
 
 const Formation = ({ data, intl }, { layoutState }) => {
-  useEffect(() => {
-    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   return (
     <React.Fragment>
@@ -26,8 +26,8 @@ Formation.contextTypes = {
 export default injectIntl(Formation)
 
 export const projectQuery = graphql`
-  query formationPageQuery($locale: String!) {
-    page: contentfulPages(slug: { eq: "formation" }, node_locale : { eq: $locale }) {
+  query formationPageQuery($language: String!) {
+    page: contentfulPages(slug: { eq: "formation" }, node_locale : { eq: $language }) {
       ...PageSingle
     }
   }

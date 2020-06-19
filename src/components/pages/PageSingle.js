@@ -5,7 +5,8 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import ContentRow from '@components/content_rows'
 import SEO from '@components/seo'
 
-const PageSingle = ({ intl, data }) => {
+const PageSingle = ({ data }) => {
+  console.log('data:', data)
   const { page } = data
 
   return (
