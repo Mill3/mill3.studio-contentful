@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, useContext, useEffect } from 'react'
 import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
@@ -33,50 +32,25 @@ const Blockquote = ({ children }) => (
   </Box>
 )
 
-class HyperLink extends Component {
-
-  static contextType = LayoutContext
-
-  constructor(props) {
-    super(props);
-    this.scrollTo = this.scrollTo.bind(this);
-    this.scrollbar = null;
-    this.mounted = false;
+const HyperLink = ({ node, children }) => {
+  const { layoutState } = useContext(LayoutContext)
+  const { scrollbar } = layoutState
+  const hasHash = node.data.uri.search('#') >= 0
+  const element = (hasHash && typeof window !== `undefined`) ? document.querySelector(node.data.uri) : null
+  let props = {}
+  if (element && scrollbar) {
+    props.href = "#"
+    props.onClick = (e) => scrollbar.scrollIntoView(element, { alignToTop: true })
+  } else {
+    props.href = node.data.uri
+    props.target = "_blank"
   }
 
-  componentDidMount() {
-    this.mounted = true
-  }
-
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-    }
-  }
-
-  scrollTo(e, element) {
-    e.preventDefault()
-    if (this.scrollbar && element) this.scrollbar.scrollIntoView(element, { alignToTop: true })
-  }
-
-  render() {
-    const { node, children } = this.props
-    const hasHash = node.data.uri.search('#') >= 0
-    const element = (hasHash && typeof window !== `undefined`) ? document.querySelector(node.data.uri) : null
-    let props = {}
-
-    if (element) {
-      props.href = "#"
-      props.onClick = (e) => this.scrollTo(e, element)
-    } else {
-      props.href = node.data.uri
-      props.target = "_blank"
-    }
-
-    return (<a {...props}>{ children }</a>);
-  }
+  return (
+    <a {...props}>{ children }</a>
+  )
 }
+
 
 const options = {
   renderMark: {

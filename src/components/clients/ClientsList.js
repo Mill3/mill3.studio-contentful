@@ -72,8 +72,10 @@ const ClientRowStyle = styled.div`
 `
 
 const ClientRowInner = styled.div`
-  will-change: padding;
-  transition: padding 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: height;
+  transition: height 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  height: ${props => props.height};
 `
 
 const ClientPoses = posed.div({
@@ -104,10 +106,10 @@ const ClientRowThumbnailWrapPoses = posed.div({
     rotate: 15,
     transition: {
       type: 'tween',
-      duration: 150,
+      duration: 125,
       ease: 'circOut',
       opacity: {
-        duration: 150,
+        duration: 100,
         ease: 'linear',
       },
     },
@@ -118,10 +120,10 @@ const ClientRowThumbnailWrapPoses = posed.div({
     rotate: 0,
     transition: {
       type: 'tween',
-      duration: 500,
+      duration: 150,
       ease: 'circOut',
       opacity: {
-        duration: 250,
+        duration: 100,
         ease: 'linear',
       },
     },
@@ -172,7 +174,6 @@ class ClientRowThumbnail extends Component {
     if(this.scrollbar) return
     if(this.context.layoutState.scrollbar) {
       this.scrollbar = this.context.layoutState.scrollbar
-      // this.scrollbar.addListener(this.onScroll)
     }
   }
 
@@ -281,15 +282,15 @@ const ClientRow = (props) => {
   const isPrev = () => hoverIndex !== null && index === hoverIndex - 1
   const isNext = () => hoverIndex !== null && index === hoverIndex + 1
 
-  const padding = () => {
+  const calculateHeight = () => {
     // when current give it more padding
-    if (isCurrent()) return [`34px`]
+    if (isCurrent()) return [`110px`]
 
     // prev or next, little bit more
-    if (isPrev() || isNext()) return [`24px`]
+    if (isPrev() || isNext()) return [`94px`]
 
     // default
-    return [`17px`]
+    return [`84px`]
   }
   const color = () => {
     // when forcing a specific color
@@ -332,7 +333,7 @@ const ClientRow = (props) => {
     <Box as={ClientRowStyle} color={color()}>
       <TransitionContainer direction="out" distance={-25}>
         <LinkElement {...LinkProps()}>
-          <Flex as={ClientRowInner} py={padding()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
+          <Flex as={ClientRowInner} height={calculateHeight()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
             <Heading
               as={labelRow ? ClientRowElement : ClientRowElementName}
               fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}

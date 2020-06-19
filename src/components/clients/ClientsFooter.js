@@ -42,9 +42,7 @@ const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, 
               onClick={() => {
                 if( ref.current ) {
                   const { y } = ref.current.getBoundingClientRect()
-                  // console.log('y:', y)
                   const height = listLimit * 81
-                  console.log('scrollbar:', scrollbar)
 
                   const offset = scrollbar.offset.y
                   const top = y + height + offset - 100

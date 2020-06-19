@@ -95,7 +95,6 @@ const TransitionContainer = props => {
 TransitionContainer.defaultProps = {
   enabled: true,
   direction: `both`,
-  // disabledPose: `hidden`,
   autoCalculateDelay: true,
   distance: 80,
   delayIn: null,
@@ -115,4 +114,4 @@ TransitionContainer.propTypes = {
   index: PropTypes.number,
 }
 
-export default TransitionContainer
+export default React.memo(TransitionContainer)
