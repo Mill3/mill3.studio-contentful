@@ -85,12 +85,6 @@ module.exports = {
         }`
       }
     },
-    // {
-    //   resolve: `gatsby-plugin-transition-link`,
-    //   options: {
-    //     layout: require.resolve(`./src/layouts/transitionLayout.js`),
-    //   },
-    // },
     {
       resolve: `gatsby-plugin-layout`,
       options: {

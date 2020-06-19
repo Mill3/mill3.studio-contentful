@@ -8,8 +8,9 @@ import SmoothScrollbar from 'smooth-scrollbar'
 
 import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
 import ScrollbarDirectionPlugin from '@utils/ScrollbarDirectionPlugin'
+import ScrollbarEasePlugin from '@utils/ScrollbarEasePlugin'
 
-import { defaultContextValue, reducer, LayoutContext } from './layoutContext'
+import { defaultContextValue, reducer, LayoutContext } from '@layouts/layoutContext'
 
 import Header from '@components/header'
 import Footer from '@components/footer'
@@ -25,7 +26,7 @@ import FullViewportHeight from '@utils/FullViewportHeight'
 
 const SCROLL_EVENT = typeof window === 'object' ? new Event('scroll') : null
 
-SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin)
+SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin, ScrollbarEasePlugin)
 
 const Layout = props => {
   const [layoutState, dispatch] = useReducer(reducer, defaultContextValue)

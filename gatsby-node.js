@@ -63,9 +63,6 @@ exports.createPages = ({ graphql, actions }) => {
       createPage({
         path: `/projects/`,
         component: slash(ProjectIndexTemplate),
-        // context: {
-        //   locale: locale.path,
-        // },
       })
 
       _.each(projects, (edge, index) => {
@@ -86,31 +83,7 @@ exports.createPages = ({ graphql, actions }) => {
         })
       })
 
-      // Loop each locales Index page
-      // _.each(locales, locale => {
 
-      //   // get all project for current locale
-      //   const localizedProjects = projects.filter(project => project.node.node_locale === locale.path)
-
-      //   _.each(localizedProjects, (edge, index) => {
-      //     // pick next node
-      //     const next =
-      //       index === localizedProjects.length - 1 ? localizedProjects[0].node : localizedProjects[index + 1].node
-
-      //     createPage({
-      //       path: `/projects/${edge.node.slug}/`,
-      //       component: slash(ProjectSingleTemplate),
-      //       context: {
-      //         id: edge.node.id,
-      //         contentful_id: edge.node.contentful_id,
-      //         slug: edge.node.slug,
-      //         locale: edge.node.node_locale,
-      //         colorMain: edge.node.colorMain | `#000`,
-      //         nextId: next ? next.id : null,
-      //       },
-      //     })
-      //   })
-      // })
     })
 
     // News index page
@@ -159,28 +132,6 @@ exports.createPages = ({ graphql, actions }) => {
         })
       })
 
-      // News Index page
-      // _.each(locales, locale => {
-      //   const { path } = locale
-
-      //   // get all News items visible for current locale only
-      //   const localizedNews = news.filter(newsItem => newsItem.node.visibleOnlyOnLocale === path)
-
-      //   // create each new only for current locale path
-      //   _.each(localizedNews, (newsItem, index) => {
-      //     const { node_locale, slug, id, contentful_id } = newsItem.node
-      //     createPage({
-      //       path: `/${path}/journal/${slug}/`,
-      //       component: slash(NewsSingleTemplate),
-      //       context: {
-      //         id: id,
-      //         contentful_id: contentful_id,
-      //         slug: slug,
-      //         locale: path,
-      //       },
-      //     })
-      //   })
-      // })
     })
 
     resolve()
