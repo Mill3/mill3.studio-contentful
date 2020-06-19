@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
@@ -75,7 +75,7 @@ const ClientRowInner = styled.div`
   will-change: height;
   transition: height 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
-  height: ${props => props.height};
+  height: ${props => props.height}px;
 `
 
 const ClientPoses = posed.div({
@@ -277,30 +277,35 @@ class ClientRowThumbnail extends Component {
 
 const ClientRow = (props) => {
   const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = props
+  const [ height, setHeight ] = useState(84)
+  const [ isCurrent, setIsCurrent ] = useState(false)
+  const [ isPrev, setPrev ] = useState(false)
+  const [ isNext, setNext ] = useState(false)
 
-  const isCurrent = () => hoverIndex !== null && index === hoverIndex
-  const isPrev = () => hoverIndex !== null && index === hoverIndex - 1
-  const isNext = () => hoverIndex !== null && index === hoverIndex + 1
+  useEffect(() => {
+    (hoverIndex !== null && index === hoverIndex) ? setIsCurrent(true) : setIsCurrent(false);
+    (hoverIndex !== null && index === hoverIndex - 1) ? setPrev(true) : setPrev(false);
+    (hoverIndex !== null && index === hoverIndex + 1) ? setNext(true) : setNext(false);
+
+    calculateHeight()
+
+  }, [index, hoverIndex, height, isCurrent, isNext, isPrev])
 
   const calculateHeight = () => {
-    // when current give it more padding
-    if (isCurrent()) return [`110px`]
-
-    // prev or next, little bit more
-    if (isPrev() || isNext()) return [`94px`]
-
-    // default
-    return [`84px`]
+    if(isCurrent) return setHeight(110)
+    if (isPrev || isNext) return setHeight(97)
+    return setHeight(84)
   }
+
   const color = () => {
     // when forcing a specific color
     if (textColor) return textColor
 
     // when current give it more padding
-    if (isCurrent()) return colors.blue
+    if (isCurrent) return colors.blue
 
     // prev or next, gray text
-    if (isPrev() || isNext()) return colors.gray
+    if (isPrev || isNext) return colors.gray
 
     // not prev neither next, but has a hoverIndex value, text is lighter grey
     if (hoverIndex !== null) return `#E0E0E0`
@@ -333,7 +338,7 @@ const ClientRow = (props) => {
     <Box as={ClientRowStyle} color={color()}>
       <TransitionContainer direction="out" distance={-25}>
         <LinkElement {...LinkProps()}>
-          <Flex as={ClientRowInner} height={calculateHeight()} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
+          <Flex as={ClientRowInner} height={height} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
             <Heading
               as={labelRow ? ClientRowElement : ClientRowElementName}
               fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}
@@ -415,7 +420,7 @@ const ClientsRows = ({ data, limit }) => {
         })}
       </PoseGroup>
 
-      {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />}
+      {/* {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />} */}
     </div>
   )
 }
