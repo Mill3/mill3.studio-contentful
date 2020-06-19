@@ -96,7 +96,7 @@ const LetsSpan = styled.span`
   width: 100%;
   text-align: center;
 `
-const SVGBorderWidth = new ResponsiveProp(['2vw', null, 4, 2])
+const SVGBorderWidth = new ResponsiveProp([4, null, null, 2])
 
 const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) => {
   const latest = intl.formatMessage({ id: 'intro.Latest' })
