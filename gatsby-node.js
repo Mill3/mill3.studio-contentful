@@ -65,23 +65,33 @@ exports.createPages = ({ graphql, actions }) => {
         component: slash(ProjectIndexTemplate),
       })
 
-      _.each(projects, (edge, index) => {
-        // pick next node
-        const next = index === projects.length - 1 ? projects[0].node : projects[index + 1].node
+      Object.keys(locales).map(lang => {
+        const localizedProjects = projects.filter(project => project.node.node_locale === lang)
 
-        createPage({
-          path: `/projects/${edge.node.slug}/`,
-          component: slash(ProjectSingleTemplate),
-          context: {
-            id: edge.node.id,
-            contentful_id: edge.node.contentful_id,
-            slug: edge.node.slug,
-            locale: edge.node.node_locale,
-            colorMain: edge.node.colorMain | `#000`,
-            nextId: next ? next.id : null,
-          },
+        _.each(localizedProjects, (edge, index) => {
+          console.log('localizedProjects:', localizedProjects)
+
+          // pick next node
+          const next = (index === localizedProjects.length - 1) ? localizedProjects[0].node : localizedProjects[index + 1].node
+          // console.log('next:', edge.node.slug, edge.node.node_locale, next)
+
+          createPage({
+            path: `/projects/${edge.node.slug}/`,
+            component: slash(ProjectSingleTemplate),
+            context: {
+              id: edge.node.id,
+              contentful_id: edge.node.contentful_id,
+              slug: edge.node.slug,
+              // locale: edge.node.node_locale,
+              colorMain: edge.node.colorMain | `#000`,
+              nextId: next ? next.id : null,
+            },
+          })
         })
+
       })
+
+
 
 
     })

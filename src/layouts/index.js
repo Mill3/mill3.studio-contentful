@@ -50,6 +50,12 @@ const Layout = props => {
     scrollbarInstance.addListener(onScroll)
   }
 
+  const scrollToTop = () => {
+    const { scrollbar } = layoutState
+    if(!scrollbar) return
+    scrollbar.scrollTo(0, 0)
+  }
+
   useEffect(() => {
     if (!layoutState.scrollbar) initScrollbar()
   }, [scrollbarRef, layoutState])
@@ -100,6 +106,7 @@ const Layout = props => {
                           dispatch({type: "body.reset"})
                           dispatch({type: "header.reset"})
                           dispatch({ type: 'transition.setState', transitionState: `enter`, inTransition: true })
+                          scrollToTop()
                         }}
                         onEntering={e => {
                           console.warn(`4. entering`);
