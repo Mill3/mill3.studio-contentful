@@ -19,8 +19,14 @@ import StickyOutro from '@components/home/StickyOutro'
 import ProjectsHome from '@components/projects/ProjectsHome'
 import ContactForm from '@components/contact/ContactForm'
 import Container from '@styles/Container'
+import { breakpoints } from '@styles/Theme'
 import StickyElement from '@utils/StickyElement'
+import Viewport from '@utils/Viewport'
 
+
+const PROJECTS_MOBILE_INVIEW = 0.12
+const PROJECTS_MOBILE_OUTVIEW = 0.03
+const PROJECTS_MOBILE_INVIEW_THRESHOLD = [PROJECTS_MOBILE_OUTVIEW, PROJECTS_MOBILE_INVIEW]
 const IndexContainer = styled.div`
   opacity: 1;
   transition: opacity 650ms 1050ms linear;
@@ -32,6 +38,7 @@ const IndexContainer = styled.div`
 `
 
 class IndexPage extends React.Component {
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -41,89 +48,94 @@ class IndexPage extends React.Component {
       introInView: false,
       introAtEnd: false,
       projectsInView: false,
+      letsWorkInView: false,
       outroInView: false,
     }
 
     this.stickyContainerRef = createRef()
+    this.onProjectsInView = this.onProjectsInView.bind(this)
+    this.onProjectsMobileInView = this.onProjectsMobileInView.bind(this)
   }
 
-  componentDidMount() {
-    // console.log(this.context);
-    this.context.dispatch({type: "header.invert"})
-    // this.context.dispatch({type: "body.invert"})
-  }
+  onProjectsInView(inView, entry) { this.setState({ projectsInView: inView }) }
+  onProjectsMobileInView(inView, entry) {
+    if( inView === true ) {
+      const { letsWorkInView, projectsInView } = this.state
+      const { intersectionRatio } = entry
 
-  componentWillUnmount() {
-    this.context.dispatch({type: "header.reset"})
+      let value = false
+
+      // if ratio is greater than our IN_VIEW threshold, fade sticky title
+      if( intersectionRatio >= PROJECTS_MOBILE_INVIEW ) value = true
+      // if Let's Work is in view (meaning we are at the end of the projects list)
+      // and ratio is lower than our OUT_VIEW threshold, show sticky title
+      else if( letsWorkInView && intersectionRatio > PROJECTS_MOBILE_OUTVIEW ) value = true
+
+      // update state only if required
+      if( value !== projectsInView ) this.setState({ projectsInView: value })
+    }
+    else this.setState({ projectsInView: false })
   }
 
   render() {
     const { data } = this.props
-    const { headerInView, introInView, introAtEnd, projectsInView, outroInView } = this.state
-    const { layoutState } = this.context
+    const { headerInView, introInView, introAtEnd, projectsInView, letsWorkInView, outroInView } = this.state
+    const { demoReel } = this.context.layoutState
+    const isMobile = !Viewport.mq(`(min-width: ${breakpoints[1]})`)
 
     return (
-        <>
-          <SEO seo={data.seoFields} />
+      <>
+        <SEO seo={data.seoFields} />
+        <React.Fragment>
+          <InView onChange={(inView) => this.setState({ headerInView: inView })}>
+            <HeaderIntro data={data} />
+          </InView>
 
-          <React.Fragment>
-            <InView onChange={(inView) => this.setState({ headerInView: inView })}>
-              <HeaderIntro data={data} />
+          <Box ref={this.stickyContainerRef} as={IndexContainer} className={demoReel.active ? '--demoReel' : null}>
+            <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
+              <StickyElement contained={false} target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
+                <StickyTitle
+                  inverted={headerInView}
+                  appear={introInView}
+                  faded={projectsInView}
+                  switchTitle={introAtEnd} />
+              </StickyElement>
+
+              <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
+                <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || letsWorkInView || outroInView} />
+              </StickyElement>
             </InView>
 
-            <Box ref={this.stickyContainerRef} as={IndexContainer} className={layoutState.demoReel.active ? '--demoReel' : null}>
-              <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
-                <StickyElement contained={false} target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
-                  <StickyTitle
-                    inverted={headerInView}
-                    appear={introInView}
-                    faded={projectsInView}
-                    switchTitle={introAtEnd} />
-                </StickyElement>
-
-                <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
-                  <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || outroInView} />
-                </StickyElement>
+            {data.projects && (
+              <InView
+                onChange={isMobile ? this.onProjectsMobileInView : this.onProjectsInView}
+                threshold={isMobile ? PROJECTS_MOBILE_INVIEW_THRESHOLD : 0.12}
+              >
+                <ProjectsHome data={data.projects} />
               </InView>
+            )}
 
-              {data.projects && (
-                <InView onChange={(inView) => this.setState({ projectsInView: inView })} threshold={0.12}>
-                  <ProjectsHome data={data.projects} />
-                </InView>
-              )}
-
-              <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-                <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
-                  <HomeTitle>
-                    <FormattedMessage id="intro.Lets" />
-                    <FormattedMessage id="intro.Work" />
-                  </HomeTitle>
-                </Container>
-              </InView>
-            </Box>
-
-            <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-              <StickyOutro appear={introAtEnd} pb={[5, null, 6]} />
-              <ContactForm />
+            <InView onChange={(inView) => this.setState({ letsWorkInView: inView })}>
+              <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
+                <HomeTitle>
+                  <FormattedMessage id="intro.Lets" />
+                  <FormattedMessage id="intro.Work" />
+                </HomeTitle>
+              </Container>
             </InView>
+          </Box>
 
-            <DemoReel />
-          </React.Fragment>
-        </>
+          <InView onChange={(inView) => this.setState({ outroInView: inView })}>
+            <StickyOutro appear={introAtEnd} pb={[100, null, 6]} />
+            <ContactForm />
+          </InView>
 
+          <DemoReel />
+        </React.Fragment>
+      </>
     )
   }
 }
-
-// IndexPage.propTypes = {
-//   pageContext: PropTypes.shape({
-//     locale: PropTypes.string.isRequired,
-//   }).isRequired,
-// }
-
-// export default IndexPage
-
-IndexPage.contextType = LayoutContext
 
 export default injectIntl(IndexPage)
 
@@ -144,6 +156,17 @@ export const homeQuery = graphql`
       }
     }
     demoReel: contentfulVideoItem(slug: { eq: "demo-reel" }, node_locale: { eq: $language }) {
+      id
+      video {
+        id
+        file {
+          url
+          fileName
+          contentType
+        }
+      }
+    }
+    demoReelMobile : contentfulVideoItem(slug: { eq: "demo-reel-mobile" }, node_locale : { eq: $language }) {
       id
       video {
         id

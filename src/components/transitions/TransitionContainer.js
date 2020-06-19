@@ -1,5 +1,6 @@
 import React, { useRef, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { Box } from 'rebass'
 import posed from 'react-pose'
 
 import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
@@ -51,14 +52,14 @@ export const calculateDelayForElement = (el, autoCalculateDelay = true, index = 
 }
 
 const TransitionContainer = props => {
-  const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index } = props
+  // const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index } = props
+  const { children, enabled, disabledPose, direction, distance, delayIn, delayOut, autoCalculateDelay, index, ...rest } = props
   const { layoutState, } = useContext(LayoutContext)
   const { transition } = layoutState
   const [ pose, setPose ] = useState('in')
   const [calculatedDelay, setCalculatedDelay] = useState(0)
   const ref = useRef()
-
-  const initial = direction === `both` ? `hidden` : `visible`
+  const initial = `hidden`
 
   useEffect(() => {
     // calculate delay
@@ -77,16 +78,18 @@ const TransitionContainer = props => {
   }, [ref, layoutState, autoCalculateDelay, index, enabled, disabledPose, transition]);
 
   return (
-    <TransitionContainerPoses
+    <Box
+      as={TransitionContainerPoses}
       ref={ref}
       initialPose={initial}
       pose={pose}
       distance={distance}
       delayIn={delayIn || calculatedDelay}
       delayOut={delayOut || calculatedDelay}
+      {...rest}
     >
       {children}
-    </TransitionContainerPoses>
+    </Box>
   )
 }
 

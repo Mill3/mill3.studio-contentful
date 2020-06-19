@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect }  from 'react'
+import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 
 import ContentRow from '@components/content_rows'
@@ -6,8 +7,13 @@ import Container from '@styles/Container'
 import SingleHeader from '@components/elements/SingleHeader'
 import SEO from '@components/seo'
 
-const NewsSingle = ({ pageContext, data }) => {
+const NewsSingle = ({ pageContext, data }, { layoutState }) => {
   const { news } = data
+
+  useEffect(() => {
+    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <React.Fragment>
@@ -36,6 +42,11 @@ const NewsSingle = ({ pageContext, data }) => {
     </React.Fragment>
   );
 }
+
+NewsSingle.contextTypes = {
+  layoutState: PropTypes.object,
+}
+
 
 export default NewsSingle;
 

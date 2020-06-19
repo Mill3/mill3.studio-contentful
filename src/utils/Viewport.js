@@ -30,12 +30,13 @@ const Viewport = (() => {
   }
 
   return {
-    width,
-    height,
     on,
     off,
     mq,
-    isMobile
+    exists: hasWindow,
+    get width() { return width },
+    get height() { return height },
+    get isMobile() { return isMobile },
   }
 })()
 

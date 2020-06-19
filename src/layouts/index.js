@@ -96,6 +96,8 @@ const Layout = props => {
                         }}
                         onEnter={e => {
                           console.warn(`3 enter`);
+                          dispatch({type: "body.reset"})
+                          dispatch({type: "header.reset"})
                           dispatch({ type: 'transition.setState', transitionState: `enter`, inTransition: true })
                         }}
                         onEntering={e => {

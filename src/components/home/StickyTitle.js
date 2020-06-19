@@ -9,6 +9,9 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import { charPoses } from '@components/header/HeaderIntro'
 import HomeTitle from '@components/home/HomeTitle'
 import Container from '@styles/Container'
+import { breakpoints } from '@styles/Theme'
+import ResponsiveProp from '@utils/ResponsiveProp'
+import Viewport from '@utils/Viewport'
 
 
 export const TitlePoses = posed.h2({
@@ -16,7 +19,7 @@ export const TitlePoses = posed.h2({
     opacity: 1,
   },
   sticky: {
-    opacity: 0.075,
+    opacity: () => Viewport.mq(`(min-width: ${breakpoints[1]})`) ? 0.075 : 0,
   }
 })
 const TitleStyle = styled(TitlePoses)`
@@ -93,6 +96,7 @@ const LetsSpan = styled.span`
   width: 100%;
   text-align: center;
 `
+const SVGBorderWidth = new ResponsiveProp(['2vw', null, 4, 2])
 
 const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) => {
   const latest = intl.formatMessage({ id: 'intro.Latest' })
@@ -103,8 +107,8 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
     <Container
       fluid
       color={inverted ? "white" : "black"}
-      pt={[6, null, '170px', 7]}
-      pb={[4, null, 2, 0]}
+      pt={[90, null, '170px', 7]}
+      pb={[60, null, 2, 0]}
       {...props}
     >
       <Box style={{position: 'relative'}}>
@@ -141,7 +145,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
                   rx="308"
                   ry="141"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth={SVGBorderWidth.getValue()}
                   fill="none"
                   initialPose={`exit`}
                   pose={appear ? `enter` : `exit`}

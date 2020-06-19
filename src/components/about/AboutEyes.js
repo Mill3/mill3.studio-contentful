@@ -16,7 +16,7 @@ const DISTANCE_MIN = 50
 const DISTANCE_MAX = 400
 const SCROLL_MAX = 100
 const INVERTED_COLORS = {
-  '#fff': '#000',
+  '#fff': 'black',
   '#000': '#fff',
 }
 
@@ -67,7 +67,6 @@ const ContainerStyle = styled.div`
 `
 const EyeStyle = styled.div`
   position: relative;
-  width: 33px;
   height: 100%;
   border-radius: 50%;
   border: 2px solid currentColor;
@@ -77,8 +76,6 @@ const PupilStyle = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 18px;
-  height: 18px;
   margin: -9px 0 0 -9px;
   border-radius: 100%;
   background: currentColor;
@@ -96,6 +93,18 @@ const EyelidStyle = styled(EyelidPoses)`
   border-radius: 0 0 45% 45%;
 `
 
+
+const Eye = ({ x, y, bg, pose }) => {
+  const size = ['4.347826087vw', null, '2.34375vw', '1.814516129vw', 18]
+  const margin = ['-2.173913043vw', null, '-1.171875vw', '-0.907258065vw', -9]
+
+  return (
+    <Box as={EyeStyle} width={['7.971014493vw', null, '4.296875vw', '3.326612903vw', 33]} mt={margin} ml={margin}>
+      <Box as={PupilStyle} width={size} height={size} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />
+      <Box as={EyelidStyle} bg={bg} initialPose={'blink'} pose={pose} withParent={false} />
+    </Box>
+  )
+}
 
 class AboutEyes extends Component {
 
@@ -245,20 +254,14 @@ class AboutEyes extends Component {
           ref={this.ref}
           as={ContainerStyle}
           justifyContent="space-between"
-          width={[70]}
-          height={53}
+          width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', 70]}
+          height={['12.801932367vw', null, '6.901041667vw', '5.342741935vw', 53]}
           color={color}
           aria-hidden="true"
           onClick={this.onClick}
         >
-          <Box as={EyeStyle}>
-            <Box as={PupilStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />
-            <Box as={EyelidStyle} bg={bg} initialPose={'blink'} pose={pose} withParent={false} />
-          </Box>
-          <Box as={EyeStyle}>
-            <Box as={PupilStyle} style={{transform: `translate3d(${x}px, ${y}px, 0)`}} />
-            <Box as={EyelidStyle} bg={bg} initialPose={'blink'} pose={pose} withParent={false} />
-          </Box>
+          <Eye x={x} y={y} bg={bg} pose={pose} />
+          <Eye x={x} y={y} bg={bg} pose={pose} />
         </Flex>
       </InView>
     )

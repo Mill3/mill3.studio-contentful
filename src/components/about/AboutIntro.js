@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 
@@ -7,54 +6,50 @@ import { LayoutContext } from '@layouts/layoutContext'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import LottieAnimation from '@components/elements/LottieAnimation'
-import { VERTICAL_SPACER } from '@components/content_rows'
-import { AboutSectionContainer, AboutSectionHeading } from './index'
-// import { TRANSITION_PANE_STATES } from '@components/transitions'
+import { AboutSectionHeading } from './index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
+import Container from '@styles/Container'
+import { breakpoints, header } from '@styles/Theme'
 import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import { lb2br } from '@utils/Linebreaks'
 
 import globeAnimation from '@animations/globe.json'
 
 const AboutIntro = ({ data, color = 'white' }) => {
-  const { layoutState, dispatch } = useContext(LayoutContext)
+  const { layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
   const delay = transition.state === `intro` ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
   return (
-    <Flex
-      as={AboutSectionContainer}
-      color={color}
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      pt={VERTICAL_SPACER}
-      pb={[5]}
-    >
-      <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, 0, 3, `8vw`]}>
-        <AnimatedHtmlTitle startDelay={delay} source={data.title} />
-      </AboutSectionHeading>
-
-      <Flex as={Footer} flexDirection="column" alignItems="center" paddingTop={[5]} >
-        <Box py={[4]}>
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 700} delayOut={0}>
-            <LottieAnimation animationData={globeAnimation} />
-          </TransitionContainer>
+    <Box as={Header}>
+      <Container fluid>
+        <Box color={color} pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
+          <AboutSectionHeading heading={'h1'} textAlign="center" px={[0, 0, '5vw', `7.15vw`, '11vw']}>
+            <AnimatedHtmlTitle startDelay={delay} source={data.title} />
+          </AboutSectionHeading>
         </Box>
-        {data.introBlurb &&
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 750} delayOut={50}>
-            <p py={[4]} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />
-          </TransitionContainer>
-        }
-        {data.shortText && (
-          <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 800} delayOut={250}>
-            <Heading as="h5" fontWeight="300" mt={[3]}>
-              {data.shortText}
-            </Heading>
-          </TransitionContainer>
-        )}
-      </Flex>
-    </Flex>
+
+        <Flex as={Footer} color={color} flexDirection="column" alignItems="center" pb={[40, null, 50]}>
+          <Box>
+            <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 700} delayOut={0}>
+              <LottieAnimation animationData={globeAnimation} />
+            </TransitionContainer>
+          </Box>
+          {data.introBlurb &&
+            <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 750} delayOut={50} mt={[40, null, 50]}>
+              <p m={0} p={0} dangerouslySetInnerHTML={{ __html: lb2br(data.introBlurb.introBlurb) }} />
+            </TransitionContainer>
+          }
+          {data.shortText && (
+            <TransitionContainer distance={50} autoCalculateDelay={false} delayIn={delay + 800} delayOut={250} mt={[40, null, 50]}>
+              <Heading as="h5" fontSize={['6.280193237vw', null, '3.645833333vw', '2.822580645vw']} fontWeight="300" m={0} p={0}>
+                {data.shortText}
+              </Heading>
+            </TransitionContainer>
+          )}
+        </Flex>
+      </Container>
+    </Box>
   )
 }
 
@@ -62,11 +57,17 @@ export default AboutIntro
 
 // styles below here
 
+const Header = styled.header`
+  margin-top: ${header.height * -1}px;
+  padding-top: ${header.height}px;
+
+  @media (min-width: ${breakpoints[2]}) {
+    margin-top: ${(header.height + 24) * -1}px;
+    padding-top: ${header.height + 24}px;
+  }
+`
 const Footer = styled.footer`
   svg {
-    /* transform: scale(0.95, 0.75) !important;
-    margin-top: -160px;
-    margin-bottom: -160px; */
     path {
       stroke: currentColor;
     }

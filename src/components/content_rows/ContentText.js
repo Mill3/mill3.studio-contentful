@@ -119,10 +119,6 @@ export const postBody = styled.div`
     @media (min-width: ${props => props.theme.breakpoints[2]}) {
       font-size: ${props => props.theme.fontSizes[6]}px;
     }
-    @media (min-width: ${props => props.theme.breakpoints[4]}) {
-      margin-left: -5vw;
-      margin-right: -5vw;
-    }
   }
 
   h3 {

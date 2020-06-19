@@ -4,31 +4,34 @@ import { charPoses } from '@components/header/HeaderIntro'
 import { useInView } from 'react-intersection-observer'
 
 export const AnimatedHtmlTitle = ({ source, startDelay }) => {
-  const HTML = require('html-parse-stringify')
   const [ref, inView] = useInView({ threshold: 1, triggerOnce: true })
+  const HTML = require('html-parse-stringify')
   const parts = HTML.parse(source)
-  let elements = []
+
+  let delay = startDelay || 250
 
   const build = () => {
-    parts.forEach((part, i) => {
-      const Tag = part.name
-      elements.push(
+    return parts.map((part, i) => {
+      const { children, name } = part
+      const Tag = name
+      const text = (children[0].children ? children[0].children : children).map(c => c.content).join(' ')
+      const d = delay
+
+      delay += text.length * 30
+
+      return (
         <Tag key={i}>
           <SplitText
             initialPose={`out`}
             pose={inView ? `enter` : `out`}
-            startDelay={inView ? startDelay || 250 : 0}
+            startDelay={inView ? d : 0}
             charPoses={charPoses}
           >
-            {part.children[0].children
-              ? part.children[0].children.map(c => c.content).join(' ')
-              : part.children.map(c => c.content).join(' ')}
+            {text}
           </SplitText>
         </Tag>
       )
     })
-
-    return elements
   }
 
   return <span ref={ref}>{build()}</span>

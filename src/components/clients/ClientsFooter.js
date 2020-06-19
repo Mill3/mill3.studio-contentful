@@ -9,13 +9,13 @@ import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ClientsList from '@components/clients/ClientsList'
 
-const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true }, { getScrollbar }) => {
+const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, ...rest }, { getScrollbar }) => {
   const [list, setList] = useState(asList)
   const [listLimit, setLimit] = useState(limit)
   const ref = useRef()
 
   return (
-    <footer>
+    <Box as="footer" {...rest}>
       {switchButton && (
         <Flex justifyContent={`flex-end`} px={[4, 3, 6]} mb={list ? ['-25px', 0] : ['-55px']}>
           <ChipButton onClick={e => setList(!list)}>
@@ -74,7 +74,7 @@ const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true }
         {/* show ticker */}
         {!list && <ClientsTicker quantity={5} />}
       </Box>
-    </footer>
+    </Box>
   )
 }
 

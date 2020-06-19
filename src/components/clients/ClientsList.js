@@ -289,7 +289,6 @@ const ClientRow = (props) => {
     // default
     return [`17px`]
   }
-
   const color = () => {
     // when forcing a specific color
     if (textColor) return textColor
@@ -307,9 +306,10 @@ const ClientRow = (props) => {
     return colors.text
   }
 
-  const LinkElement = project ? TransitionLinkComponent : `a`
-
+  const LinkElement = sep ? (project ? TransitionLinkComponent : `a`) : React.Fragment
   const LinkProps = () => {
+    if (!sep) return {}
+
     if (project) {
       return {
         to: `/projects/${project.slug}`,
@@ -365,7 +365,7 @@ const ClientRow = (props) => {
   )
 }
 
-const CliensRows = ({ data, limit }) => {
+const ClientsRows = ({ data, limit }) => {
   const [ hoverIndex, setHoverIndex ] = useState(null)
   const [ ref, inView ] = useInView({ threshold: 0 })
   const clients = limit ? data.slice(0, limit) : data
@@ -430,7 +430,7 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
     }
   `)
   return (
-    <Box ref={fwdRef} pt={[5, 5, 0]}>
+    <Box ref={fwdRef} pt={[80, null, null, 0]}>
       <ClientRow
         projectName={intl.formatMessage({ id: 'clients.project' })}
         name={intl.formatMessage({ id: 'clients.name' })}
@@ -441,7 +441,7 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
         hoverIndex={false}
         labelRow={true}
       />
-      <CliensRows limit={limit} data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
+      <ClientsRows limit={limit} data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
     </Box>
   )
 }

@@ -9,6 +9,7 @@ import memoize from 'memoize-one'
 import { LayoutContext } from '@layouts/layoutContext'
 import { ArrowButton } from '@components/buttons'
 import { charPoses } from '@components/header/HeaderIntro'
+import Viewport from '@utils/Viewport'
 
 const DemoReelPoses = posed.section({
   inactive: {
@@ -110,6 +111,13 @@ const DemoReelStyle = styled(DemoReelPoses)`
   z-index: 10;
   pointer-events: ${props => props.visible ? 'auto' : 'none'};
 `
+const ScrollerStyle = styled.div`
+  overflow-y: scroll;
+
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
+    overflow: hidden;
+  }  
+`
 const TitleStyle = styled.h2`
   margin: 0;
   padding: 0;
@@ -174,6 +182,16 @@ class DemoReel extends Component {
 
       return pause
     })
+    this.onActiveChange = memoize(active => {
+      if( !Viewport.exists ) return active
+
+      if( active ) window.addEventListener('keydown', this.onKeyDown)
+      else window.removeEventListener('keydown', this.onKeyDown)
+
+      return active
+    })
+
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   componentDidUpdate() {
@@ -181,6 +199,9 @@ class DemoReel extends Component {
     if(this.context.layoutState.scrollbar) {
       this.scrollbar = this.context.layoutState.scrollbar
     }
+  }
+  onKeyDown({ key }) {
+    if(key === 'Escape' || key === 'Esc') this.close()
   }
 
   close() {
@@ -193,72 +214,75 @@ class DemoReel extends Component {
     // console.log('active, trigger:', active, trigger)
 
     this.changeScrollbarPauseStatus(active, trigger)
+    this.onActiveChange(active)
 
     return (
-      <Flex
+      <Box
         as={DemoReelStyle}
-        flexDirection={['column-reverse', null, null, 'row']}
-        className="full-vh"
         visible={active}
         initialPose={'inactive'}
         pose={active ? 'active': 'inactive'}
+        className="full-vh"
         style={{transform: `translateY(${this.y}px)`}}
       >
-        <Flex
-          width={[1, null, null, '40%']}
-          height={['auto', null, null, '100%']}
-          flexGrow={[0]}
-          flexDirection="column"
-          justifyContent="space-between"
-          px={[24, 4, 5]}
-          py={[4, null, 5, '90px']}
-        >
-          <Text
-            as={TitleStyle}
-            display={['block', null, null, 'flex']}
-            flexDirection={['column']}
-            fontFamily={"serif"}
-            fontWeight="300"
-            fontSize={['18vw', null, '9.3vw', '6.944444444vw']}
-            lineHeight={[1.08, null, 1.18]}
-            color="white"
-          >
-            {title.map((text, index) =>
-              <Text as="span" key={index}>
-                <SplitText
-                  initialPose={`out`}
-                  pose={active ? `enter` : `out`}
-                  startDelay={index * 250 + 950}
-                  charPoses={charPoses}
-                >
-                  {text}
-                </SplitText>
-              </Text>
-            )}
-          </Text>
-
-          <Text as={ButtonPoses} m={0} mt={[3, null, 4, 0]} p={0} initialPose={'default'} pose={active ? 'visible' : 'default'}>
-            <Box as={ButtonReset} m={[0]} p={0} onClick={() => this.close()}>
-              <ArrowButton color={"white"}>{intl.formatMessage({ id: 'demoReel.Button' })}</ArrowButton>
-            </Box>
-          </Text>
-        </Flex>
-
-        <Flex
-          justifyContent="flex-end"
-          flexGrow={[1]}
-          width={[1, null, null, '60%']}
-          height={['auto']}
-          px={[24, 4, 5]}
-          py={[4, null, 5, '90px']}
-        >
-          <Box as={ClosePoses} initialPose={'default'} pose={active ? 'visible' : 'default'}>
-            <Box as={ButtonReset} m={[0]} p={0} onClick={() => this.close()}>
-              <ArrowButton arrow={false} color="white">{intl.formatMessage({ id: 'demoReel.Close' })}</ArrowButton>
-            </Box>
+        <Box as={ClosePoses} initialPose={'default'} pose={active ? 'visible' : 'default'} css={{position: 'absolute', top: 0, right: 0}}>
+          <Box as={ButtonReset} m={[0]} mt={[4, null, 5, '90px']} mr={[24, 4, 5]} p={0} onClick={() => this.close()}>
+            <ArrowButton arrow={false} color="white">{intl.formatMessage({ id: 'demoReel.Close' })}</ArrowButton>
           </Box>
+        </Box>
+
+        <Flex as={ScrollerStyle} flexDirection={["column", null, null, "row-reverse"]} width={1} height={"100%"}>
+          {/* video placeholder */}
+          <Box
+            flexGrow={[0, null, null, 1]}
+            width={[1, null, null, '60%']}
+            height={[0, null, null, '100%']}
+            pb={['100%', null, null, 0]}
+          />
+
+          {/* content */}
+          <Flex
+            width={[1, null, null, '40%']}
+            height={['auto', null, null, '100%']}
+            flexGrow={1}
+            flexDirection="column"
+            justifyContent="space-between"
+            px={[24, 4, 5]}
+            py={[4, null, 5, '90px']}
+            bg="black"
+          >
+            <Text
+              as={TitleStyle}
+              display={['block', null, null, 'flex']}
+              flexDirection={['column']}
+              fontFamily={"serif"}
+              fontWeight="300"
+              fontSize={['18vw', null, '9.3vw', '6.944444444vw']}
+              lineHeight={[1.08, null, 1.18]}
+              color="white"
+            >
+              {title.map((text, index) =>
+                <Text as="span" key={index}>
+                  <SplitText
+                    initialPose={`out`}
+                    pose={active ? `enter` : `out`}
+                    startDelay={index * 250 + 950}
+                    charPoses={charPoses}
+                  >
+                    {text}
+                  </SplitText>
+                </Text>
+              )}
+            </Text>
+
+            <Text as={ButtonPoses} m={0} mt={[3, null, 4, 0]} p={0} initialPose={'default'} pose={active ? 'visible' : 'default'}>
+              <Box as={ButtonReset} m={[0]} p={0} onClick={() => this.close()}>
+                <ArrowButton color={"white"}>{intl.formatMessage({ id: 'demoReel.Button' })}</ArrowButton>
+              </Box>
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
+      </Box>
     )
   }
 }

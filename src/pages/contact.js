@@ -32,8 +32,8 @@ const Contact = ({ data, intl }, { layoutState }) => {
     if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { transitionState } = layoutState
-  const delay = transitionState === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+  const { transition } = layoutState
+  const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
 
   return (
     <>
@@ -55,7 +55,7 @@ const Contact = ({ data, intl }, { layoutState }) => {
             <AboutSectionHeading heading={'h1'} textAlign="center">
               <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'contact.ContactIntroLine1' })} />
               <br />
-              <AnimatedHtmlTitle startDelay={delay + 800} source={intl.formatMessage({ id: 'contact.ContactIntroLine2' })} />
+              <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'contact.ContactIntroLine2' })} />
             </AboutSectionHeading>
           </Box>
 

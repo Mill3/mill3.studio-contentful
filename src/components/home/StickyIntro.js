@@ -67,7 +67,7 @@ const StickyIntro = ({ intl, appear, inverted, hidden, ...props }) => {
             as={ParagraphHidePoses}
             m={0}
             p={0}
-            mt={3}
+            mt={[60, null, 3]}
             initialPose={`visible`}
             pose={hidden ? `hidden` : `visible`}
           >
