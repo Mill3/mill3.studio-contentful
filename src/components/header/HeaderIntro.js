@@ -411,7 +411,7 @@ class HeaderIntro extends Component {
         pose={isTransitionVisible ? `leaving` : `entering`}
       >
         <AnimatedBackgroundContainer backgroundColor={'transparent'} duration={500} onChange={this.setBodyInverted}>
-          <Container fluid pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
+          <Container fluid _pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
             <Flex px={[16, 40 - space[4], 0]} display="flex" flexDirection="column">
               <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
                 <SplitText

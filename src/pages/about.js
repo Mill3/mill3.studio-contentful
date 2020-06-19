@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Box } from 'rebass'
@@ -28,13 +28,16 @@ const About = ({ data }) => {
   const color = layoutState.invertedBody ? `#fff` : `#000`
   const setBodyInverted = (inView) => {
     if(inView === true) {
-      dispatch({type: "header.invert"})
-      dispatch({type: "body.invert"})
+      dispatch({type: "inverted.set"})
     } else {
-      dispatch({type: "body.reset"})
-      dispatch({type: "header.reset"})
+      dispatch({type: "inverted.reset"})
     }
   }
+
+  // force inverted body when component receive data props
+  useEffect(() => {
+    if(!layoutState.invertedBody) setBodyInverted(true)
+  }, [data])
 
   return (
     <>

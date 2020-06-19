@@ -52,7 +52,7 @@ const Layout = props => {
 
   const scrollToTop = () => {
     const { scrollbar } = layoutState
-    if(!scrollbar) return
+    if (!scrollbar) return
     scrollbar.scrollTo(0, 0)
   }
 
@@ -71,7 +71,6 @@ const Layout = props => {
               <FullViewportHeight>
                 <div ref={scrollbarRef}>
                   <Wrapper>
-
                     {/* main header */}
                     <Header />
 
@@ -86,42 +85,35 @@ const Layout = props => {
                         delay={{
                           exiting: TRANSITION_DURATION,
                           enter: TRANSITION_DURATION,
+                          entering: TRANSITION_DURATION,
                         }}
                         timeout={{
                           exit: TRANSITION_DURATION,
-                          exiting: TRANSITION_DURATION,
+                          // exiting: TRANSITION_DURATION,
                           enter: TRANSITION_DURATION,
-                          entering: TRANSITION_DURATION
+                          entering: TRANSITION_DURATION,
                         }}
                         onExit={e => {
-                          console.warn(`1 exit`);
                           dispatch({ type: 'transition.setState', transitionState: `exit`, inTransition: true })
                         }}
                         onExiting={e => {
-                          console.warn(`2 exiting`);
-                          dispatch({ type: 'transition.setState', transitionState: `exiting`, inTransition: true })
+                          dispatch({ type: 'transition.setState', transitionState: `exiting` })
                         }}
                         onEnter={e => {
-                          console.warn(`3 enter`);
-                          dispatch({type: "body.reset"})
-                          dispatch({type: "header.reset"})
-                          dispatch({ type: 'transition.setState', transitionState: `enter`, inTransition: true })
+                          dispatch({ type: 'inverted.reset' })
+                          dispatch({ type: 'transition.setState', transitionState: `enter` })
                           scrollToTop()
                         }}
                         onEntering={e => {
-                          console.warn(`4. entering`);
                           dispatch({ type: 'transition.setState', transitionState: `entering`, inTransition: false })
                         }}
                       >
-                        <Box pt={[6]}>
-                          {children}
-                        </Box>
+                        <Box pt={[6]}>{children}</Box>
                       </DelayedTransition>
                     </TransitionGroup>
 
                     {/* footer */}
                     <Footer />
-
                   </Wrapper>
                 </div>
               </FullViewportHeight>

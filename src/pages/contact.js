@@ -30,12 +30,11 @@ const Header = styled.header`
 
 const Contact = ({ data, intl }) => {
   const { dispatch, layoutState } = useContext(LayoutContext)
-  useEffect(() => {
-    if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const { transition } = layoutState
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+  useEffect(() => {
+    if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <>

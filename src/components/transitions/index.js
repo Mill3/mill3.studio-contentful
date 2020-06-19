@@ -139,7 +139,7 @@ const TransitionTextStyle = styled.p`
   }
 `
 
-const transitionPropsDefaults = { transitionColor: `#000`, transitionTitle: null }
+const transitionPropsDefaults = { transitionColor: `#121212`, transitionTitle: null }
 
 const TransitionPane = ({ location }) => {
   const { layoutState, dispatch } = useContext(LayoutContext)
@@ -148,6 +148,7 @@ const TransitionPane = ({ location }) => {
   const { transitionColor, transitionTitle } = location.state || transitionPropsDefaults
 
   useEffect(() => {
+    // console.log('transitionColor, transitionTitle:', transitionColor, transitionTitle)
     setPose(transition.state)
   }, [layoutState, transition])
 

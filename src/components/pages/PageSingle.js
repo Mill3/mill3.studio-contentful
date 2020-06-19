@@ -6,7 +6,6 @@ import ContentRow from '@components/content_rows'
 import SEO from '@components/seo'
 
 const PageSingle = ({ data }) => {
-  console.log('data:', data)
   const { page } = data
 
   return (

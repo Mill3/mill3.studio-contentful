@@ -16,6 +16,7 @@ export const defaultContextValue = {
 }
 
 export const reducer = (state, action) => {
+  // console.warn('action.type:', action.type)
   switch (action.type) {
     case 'transition.setState':
       return {
@@ -33,6 +34,12 @@ export const reducer = (state, action) => {
       return { ...state, invertedBody: true }
     case 'body.reset':
       return { ...state, invertedBody: false }
+    // single dispatch for inverting body and nav
+    case 'inverted.set':
+      return { ...state, invertedHeader: true, invertedBody: true }
+    // single dispatch for reverting inverted body and nav
+    case 'inverted.reset':
+      return { ...state, invertedHeader: false, invertedBody: false }
     case 'scrollbar.set':
       return {
         ...state,
