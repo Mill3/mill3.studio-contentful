@@ -8,13 +8,7 @@ import SingleHeader from '@components/elements/SingleHeader'
 import SEO from '@components/seo'
 
 const NewsSingle = ({ pageContext, data }) => {
-  console.log('data:', data)
   const { news } = data
-
-  // useEffect(() => {
-  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
 
   return (
     <React.Fragment>
@@ -47,8 +41,8 @@ const NewsSingle = ({ pageContext, data }) => {
 export default NewsSingle;
 
 export const newsQuery = graphql`
-  query newsQuery($id: String!) {
-    news : contentfulNews(id: { eq: $id }) {
+  query newsQuery($slug: String!, $language: String!) {
+    news : contentfulNews(slug: { eq: $slug }, node_locale: { eq: $language }) {
       id
       slug
       node_locale

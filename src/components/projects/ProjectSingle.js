@@ -116,11 +116,11 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
 export default injectIntl(ProjectSingle)
 
 export const projectQuery = graphql`
-  query projectQuery($id: String!, $language: String!, $nextId: String!) {
-    next: contentfulProjects(id: { eq: $nextId }, node_locale : { eq: $language }) {
+  query projectQuery($slug: String!, $language: String!, $nextSlug: String!) {
+    next: contentfulProjects(slug: { eq: $nextSlug }, node_locale : { eq: $language }) {
       ...Project
     }
-    project: contentfulProjects(id: { eq: $id }, node_locale : { eq: $language }) {
+    project: contentfulProjects(slug: { eq: $slug }, node_locale : { eq: $language }) {
       id
       slug
       node_locale

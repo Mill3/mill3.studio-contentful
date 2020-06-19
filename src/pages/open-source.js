@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'

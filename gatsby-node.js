@@ -80,9 +80,8 @@ exports.createPages = ({ graphql, actions }) => {
               id: edge.node.id,
               contentful_id: edge.node.contentful_id,
               slug: edge.node.slug,
-              // locale: edge.node.node_locale,
               colorMain: edge.node.colorMain | `#000`,
-              nextId: next ? next.id : null,
+              nextSlug: next ? next.slug : null,
             },
           })
         })
@@ -126,19 +125,28 @@ exports.createPages = ({ graphql, actions }) => {
         component: slash(NewsIndexTemplate)
       })
 
-       // create each new only for current locale path
-       _.each(news, (newsItem, index) => {
-        const { slug, id, contentful_id } = newsItem.node
-        createPage({
-          path: `/journal/${slug}/`,
-          component: slash(NewsSingleTemplate),
-          context: {
-            id: id,
-            contentful_id: contentful_id,
-            slug: slug
-          },
+      Object.keys(locales).map(lang => {
+
+        const localizedNews = news.filter(newsItem => newsItem.node.node_locale === lang)
+
+        // create each new only for current locale path
+        _.each(localizedNews, (newsItem, index) => {
+          const { slug, id, contentful_id } = newsItem.node
+          createPage({
+            path: `/journal/${slug}/`,
+            component: slash(NewsSingleTemplate),
+            context: {
+              id: id,
+              contentful_id: contentful_id,
+              slug: slug,
+              language: lang
+            },
+          })
         })
+
       })
+
+
 
     })
 

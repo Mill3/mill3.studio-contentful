@@ -148,7 +148,6 @@ const TransitionPane = ({ location }) => {
   const { transitionColor, transitionTitle } = location.state || transitionPropsDefaults
 
   useEffect(() => {
-    // console.log('transitionColor, transitionTitle:', transitionColor, transitionTitle)
     setPose(transition.state)
   }, [layoutState, transition])
 

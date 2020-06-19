@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 
 import { getTranslate } from '@utils/transform'
