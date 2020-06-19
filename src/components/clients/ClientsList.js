@@ -1,5 +1,4 @@
 import React, { Component, useState } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
@@ -10,7 +9,7 @@ import posed, { PoseGroup } from 'react-pose'
 import memoize from 'memoize-one'
 import { useInView } from 'react-intersection-observer'
 
-
+import { LayoutContext } from '@layouts/layoutContext'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { colors } from '@styles/Theme'
@@ -134,9 +133,8 @@ const ClientRowThumbnailWrapStyle = styled(ClientRowThumbnailWrapPoses)`
 `
 
 class ClientRowThumbnail extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -170,8 +168,12 @@ class ClientRowThumbnail extends Component {
     })
   }
 
-  componentDidMount() {
-    // this.context.getScrollbar(s => this.scrollbar = s)
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      // this.scrollbar.addListener(this.onScroll)
+    }
   }
 
   onMouseMove(event) {

@@ -1,17 +1,19 @@
-import React, { useState, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useRef, useContext } from 'react'
 import { Flex, Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
+import { LayoutContext } from '@layouts/layoutContext'
 import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'
 import ChipButton from '@components/buttons/ChipButton'
 import ClientsTicker from '@components/clients/ClientsTicker'
 import ClientsList from '@components/clients/ClientsList'
 
-const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, ...rest }, { getScrollbar }) => {
+const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, ...rest }) => {
+  const { layoutState } = useContext(LayoutContext)
   const [list, setList] = useState(asList)
   const [listLimit, setLimit] = useState(limit)
+  const { scrollbar } = layoutState
   const ref = useRef()
 
   return (
@@ -40,28 +42,29 @@ const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, 
               onClick={() => {
                 if( ref.current ) {
                   const { y } = ref.current.getBoundingClientRect()
+                  // console.log('y:', y)
                   const height = listLimit * 81
+                  console.log('scrollbar:', scrollbar)
 
-                  getScrollbar(scrollbar => {
-                    const offset = scrollbar.offset.y
-                    const top = y + height + offset - 100
+                  const offset = scrollbar.offset.y
+                  const top = y + height + offset - 100
 
-                    if( listLimit ) {
-                      // expand list
-                      setLimit(null)
+                  if( listLimit ) {
+                    // expand list
+                    setLimit(null)
 
-                      // scroll list to top
-                      scrollbar.scrollTo(0, top, 1200)
-                    } else {
-                      // scroll list to top
-                      scrollbar.scrollTo(0, top, 1200, {
-                        callback: () => {
-                          // collapse list
-                          setLimit(limit)
-                        }
-                      })
-                    }
-                  })
+                    // scroll list to top
+                    scrollbar.scrollTo(0, top, 1200)
+                  } else {
+                    // scroll list to top
+                    scrollbar.scrollTo(0, top, 1200, {
+                      callback: () => {
+                        // collapse list
+                        setLimit(limit)
+                      }
+                    })
+                  }
+
                 }
                 else setLimit(listLimit ? null : limit)
               }}
@@ -76,10 +79,6 @@ const ClientsFooter = ({ intl, limit = 18, asList = false, switchButton = true, 
       </Box>
     </Box>
   )
-}
-
-ClientsFooter.contextTypes = {
-  getScrollbar: PropTypes.func,
 }
 
 export default injectIntl(ClientsFooter)

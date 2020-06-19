@@ -6,6 +6,8 @@ import { debounce } from 'lodash'
 import { TweenLite, TweenMax, Linear } from 'gsap'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 
+import { LayoutContext } from '@layouts/layoutContext'
+
 const Container = styled.div`
   position: absolute;
   z-index: 100;
@@ -18,9 +20,8 @@ const Container = styled.div`
 `
 
 class CircularIcon extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props)
@@ -29,6 +30,7 @@ class CircularIcon extends Component {
     this.timeScale = null
     this.tween = null
     this.ref = React.createRef()
+    this.scrollbar = null;
 
     this.onScroll = this.onScroll.bind(this)
     this.onMouseWheelCompleted = this.onMouseWheelCompleted.bind(this)
@@ -40,7 +42,14 @@ class CircularIcon extends Component {
   componentDidMount() {
     this.timeScale = { value: 1 }
     this.rotation()
-    this.mouse()
+  }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.scrollbar.addListener(this.onScroll)
+    }
   }
 
   componentWillUnmount() {
@@ -62,13 +71,6 @@ class CircularIcon extends Component {
       ease: Linear.easeNone,
       repeat: -1,
     })
-  }
-
-  mouse() {
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   this.scrollbar.addListener(this.onScroll)
-    // })
   }
 
   onScroll() {

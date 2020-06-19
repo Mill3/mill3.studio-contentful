@@ -8,6 +8,8 @@ import { InView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
 import { injectIntl } from 'gatsby-plugin-intl'
 
+import { LayoutContext } from '@layouts/layoutContext'
+
 import FigureBox from '@utils/FigureBox'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
@@ -67,9 +69,9 @@ const NewsPreviewItem = styled(NewsPoses)`
 
 
 class NewsPreview extends Component {
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+
+  static contextType = LayoutContext
+
   static propTypes = {
     delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
     columns: PropTypes.object,
@@ -95,6 +97,7 @@ class NewsPreview extends Component {
 
     this.mounted = false
     this.rootRef = React.createRef()
+    this.scrollbar = null
 
     this.onVisibilityChange = this.onVisibilityChange.bind(this)
     this.onScroll = this.onScroll.bind(this)
@@ -105,15 +108,18 @@ class NewsPreview extends Component {
   componentDidMount() {
     this.mounted = true
     if (this.props.offset === 0) return
-
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   this.scrollbar.addListener(this.onScroll)
-
-    //   Viewport.on(this.debouncedOnResize)
-    //   this.onResize()
-    // })
   }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+      this.scrollbar.addListener(this.onScroll)
+      Viewport.on(this.debouncedOnResize)
+      this.onResize()
+    }
+  }
+
   componentWillUnmount() {
     this.mounted = false
 

@@ -8,6 +8,8 @@ import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useInView } from 'react-intersection-observer'
 
+import { LayoutContext } from '@layouts/layoutContext'
+
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import {
   AnimatedBackgroundRowContainer,
@@ -33,9 +35,7 @@ const Blockquote = ({ children }) => (
 
 class HyperLink extends Component {
 
-  static contextTypes = {
-    getScrollbar: PropTypes.func,
-  }
+  static contextType = LayoutContext
 
   constructor(props) {
     super(props);
@@ -46,9 +46,13 @@ class HyperLink extends Component {
 
   componentDidMount() {
     this.mounted = true
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    // })
+  }
+
+  componentDidUpdate() {
+    if(this.scrollbar) return
+    if(this.context.layoutState.scrollbar) {
+      this.scrollbar = this.context.layoutState.scrollbar
+    }
   }
 
   scrollTo(e, element) {

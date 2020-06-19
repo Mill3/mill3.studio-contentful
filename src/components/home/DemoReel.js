@@ -116,7 +116,7 @@ const ScrollerStyle = styled.div`
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     overflow: hidden;
-  }  
+  }
 `
 const TitleStyle = styled.h2`
   margin: 0;
@@ -139,10 +139,6 @@ const ButtonReset = styled.button`
 `
 
 class DemoReel extends Component {
-  // static contextTypes = {
-  //   layoutState: PropTypes.object,
-  //   getScrollbar: PropTypes.func,
-  // }
 
   constructor(props) {
     super(props)
