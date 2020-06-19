@@ -13,7 +13,7 @@ import Nav from '@components/nav/index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
+// import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 const SiteHeaderPose = posed.header({
   visible: {

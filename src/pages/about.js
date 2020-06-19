@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Box } from 'rebass'
-import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import { LayoutContext } from '@layouts/layoutContext'
 
@@ -36,7 +35,7 @@ const About = ({ data }) => {
 
   // force inverted body when component receive data props
   useEffect(() => {
-    if(!layoutState.invertedBody) setBodyInverted(true)
+    if(!layoutState.invertedBody) setBodyInverted(true) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (

@@ -20,7 +20,7 @@ import Wrapper from '@layouts/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import { TRANSITION_DURATION, TRANSITION_OUT_DELAY } from '@utils/constants'
+import { TRANSITION_DURATION } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 
@@ -57,7 +57,7 @@ const Layout = props => {
   }
 
   useEffect(() => {
-    if (!layoutState.scrollbar) initScrollbar()
+    if (!layoutState.scrollbar) initScrollbar() // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollbarRef, layoutState])
 
   return (

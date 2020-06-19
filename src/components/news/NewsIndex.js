@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Flex, Text } from 'rebass'
@@ -25,14 +24,6 @@ const ListGridStyle = styled.section`
 `
 
 class NewsIndex extends Component {
-  // static contextType = LayoutContext
-
-  // componentDidMount() {
-  //   const { layoutState } = this.context
-
-  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
-  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
-  // }
 
   list() {
     const columns = {
