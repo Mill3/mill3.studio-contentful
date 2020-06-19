@@ -309,7 +309,6 @@ export const Grid = GridContentText
 class ContentRow extends Component {
   rows() {
     return this.props.data.map((row, index) => {
-      // console.log('index:', index, index === 0)
       let isFirst = index === 0
       let isLast = index === this.props.data.length - 1
       const id = `content-row-id-${index}`

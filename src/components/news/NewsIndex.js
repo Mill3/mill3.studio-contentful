@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Flex, Text } from 'rebass'
 import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'gatsby-plugin-intl'
 
+// import { LayoutContext } from '@layouts/layoutContext'
 import SEO from '@components/seo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import NewsPreview from '@components/news/NewsPreview'
@@ -24,16 +25,14 @@ const ListGridStyle = styled.section`
 `
 
 class NewsIndex extends Component {
-  static contextTypes = {
-    layoutState: PropTypes.object,
-  }
+  // static contextType = LayoutContext
 
-  componentDidMount() {
-    const { layoutState } = this.context
+  // componentDidMount() {
+  //   const { layoutState } = this.context
 
-    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
-  }
+  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false)
+  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false)
+  // }
 
   list() {
     const columns = {
@@ -112,8 +111,8 @@ class NewsIndex extends Component {
 export default injectIntl(NewsIndex)
 
 export const newsQuery = graphql`
-  query allNewsQuery($locale: String!) {
-    allContentfulNews(filter: { node_locale: { eq: $locale }, visibleOnlyOnLocale: { eq: $locale } }) {
+  query allNewsQuery($language: String!) {
+    allContentfulNews(filter: { node_locale: { eq: $language }, visibleOnlyOnLocale: { eq: $language } }) {
       edges {
         node {
           ...News

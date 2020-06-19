@@ -7,20 +7,21 @@ import Container from '@styles/Container'
 import SingleHeader from '@components/elements/SingleHeader'
 import SEO from '@components/seo'
 
-const NewsSingle = ({ pageContext, data }, { layoutState }) => {
+const NewsSingle = ({ pageContext, data }) => {
+  console.log('data:', data)
   const { news } = data
 
-  useEffect(() => {
-    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   return (
     <React.Fragment>
 
       <SEO
         seo={news.seo}
-        locale={pageContext.locale}
+        locale={pageContext.language}
         url={`journal/${news.slug}/`}
         title={!news.seo ? news.name : null}
         description={!news.seo ? (news.subHeading ? news.subHeading.subHeading : null) : null}
@@ -42,11 +43,6 @@ const NewsSingle = ({ pageContext, data }, { layoutState }) => {
     </React.Fragment>
   );
 }
-
-NewsSingle.contextTypes = {
-  layoutState: PropTypes.object,
-}
-
 
 export default NewsSingle;
 
