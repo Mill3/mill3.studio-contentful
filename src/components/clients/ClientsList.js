@@ -420,7 +420,7 @@ const ClientsRows = ({ data, limit }) => {
         })}
       </PoseGroup>
 
-      {/* {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />} */}
+      {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />}
     </div>
   )
 }
