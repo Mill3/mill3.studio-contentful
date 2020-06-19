@@ -1,5 +1,4 @@
 import React, { Component, createRef, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
 import { Box, Flex, Text } from 'rebass'
 import posed from 'react-pose'

@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
 import posed from 'react-pose'
 import styled, { css } from 'styled-components';
 import { Box, Flex } from 'rebass'

@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import { InView } from 'react-intersection-observer'
@@ -95,11 +94,6 @@ class AboutProcessList extends Component {
   }
 
   componentDidMount() {
-    // this.context.getScrollbar(s => {
-    //   this.scrollbar = s
-    //   this.onResize()
-    // })
-
     Viewport.on(this.onResize)
   }
 
