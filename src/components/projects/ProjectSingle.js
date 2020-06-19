@@ -20,8 +20,6 @@ import SEO from '@components/seo'
 
 import { charPoses } from '@components/header/HeaderIntro'
 
-
-
 const ProjectFooter = ({ next }) => {
   const [ref, inView] = useInView({ triggerOnce: false })
 
@@ -61,13 +59,8 @@ const ProjectFooter = ({ next }) => {
   );
 }
 
-const ProjectSingle = ({ intl, pageContext, data }, { layoutState }) => {
+const ProjectSingle = ({ intl, pageContext, data }) => {
   const { project, next } = data
-
-  useEffect(() => {
-    if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-    if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
@@ -120,18 +113,14 @@ const ProjectSingle = ({ intl, pageContext, data }, { layoutState }) => {
   )
 }
 
-ProjectSingle.contextTypes = {
-  layoutState: PropTypes.object,
-}
-
 export default injectIntl(ProjectSingle)
 
 export const projectQuery = graphql`
-  query projectQuery($id: String!, $locale: String!, $nextId: String!) {
-    next: contentfulProjects(id: { eq: $nextId }, node_locale : { eq: $locale }) {
+  query projectQuery($id: String!, $language: String!, $nextId: String!) {
+    next: contentfulProjects(id: { eq: $nextId }, node_locale : { eq: $language }) {
       ...Project
     }
-    project: contentfulProjects(id: { eq: $id }, node_locale : { eq: $locale }) {
+    project: contentfulProjects(id: { eq: $id }, node_locale : { eq: $language }) {
       id
       slug
       node_locale

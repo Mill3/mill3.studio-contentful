@@ -6,12 +6,7 @@ import { injectIntl } from 'gatsby-plugin-intl'
 
 import PageSingle from '@components/pages/PageSingle'
 
-const Formation = ({ data, intl }, { layoutState }) => {
-  // useEffect(() => {
-  //   if( layoutState.invertedHeader ) layoutState.setHeaderInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   if( layoutState.invertedBody ) layoutState.setBodyInverted(false) // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
+const Formation = ({ data }) => {
   return (
     <React.Fragment>
       <PageSingle data={ data } />
