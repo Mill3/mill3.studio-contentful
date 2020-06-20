@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { graphql } from 'gatsby'
+import { graphql, location } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
@@ -21,11 +21,16 @@ const HEADER_INVIEW_THRESHOLD = new ResponsiveProp([0.1, null, 0.25])
 const SERVICES_INVIEW_THRESHOLD = new ResponsiveProp([0.2, null, 0.5])
 
 
-const About = ({ data }) => {
+const About = ({ data, pageContext, location }) => {
+  // console.log('pageContext, location:', pageContext, location)
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { page } = data
   const color = layoutState.invertedBody ? `#fff` : `#000`
+  const { originalPath } = pageContext.intl
+  const { pathname } = location
+  const isCurrent = pathname.match(originalPath).index > 0
   const setBodyInverted = (inView) => {
+    if(!isCurrent) return
     if(inView === true) {
       dispatch({type: "inverted.set"})
     } else {
@@ -33,10 +38,19 @@ const About = ({ data }) => {
     }
   }
 
-  // force inverted body when component receive data props
-  useEffect(() => {
-    if(!layoutState.invertedBody) setBodyInverted(true) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  // invert on page load
+  // useEffect(() => {
+  //   const { originalPath } = pageContext.intl
+  //   const { pathname } = location
+  //   const isCurrent = pathname.match(originalPath).index > 0
+
+  //   if(!isCurrent) return
+  //   if(layoutState.invertedBody) return
+  //   if(layoutState.transition.state != `enter`) return
+
+  //   dispatch({type: "inverted.set"}) // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location])
+
 
   return (
     <>
