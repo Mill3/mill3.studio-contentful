@@ -25,7 +25,7 @@ const DEFAULT_COLUMN = {
 const ProjectPoses = posed.article({
   hidden: {
     opacity: 0,
-    y: 500,
+    y: 150,
     scale: 1.125,
   },
   visible: {
@@ -42,20 +42,6 @@ const ProjectPoses = posed.article({
 })
 
 const ProjectWrapper = styled(Box)`
-  /*
-  @media (max-width: ${parseInt(breakpoints[1]) - 1}px) {
-    &:nth-child(even) {
-      padding-left: 5vw;
-      padding-right: 5vw;
-
-      footer {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-  }
-  */
-
   &:last-child {
     margin-bottom: 0 !important;
   }
@@ -118,6 +104,8 @@ const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
 */
 
 const ProjectPreviewItem = styled(ProjectPoses)`
+  transform-origin: top center;
+  
   figure {
     position: relative;
     overflow: hidden;

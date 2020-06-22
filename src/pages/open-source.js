@@ -41,19 +41,16 @@ const DATA = [{
 const DescriptionPoses = posed.p({
   init: {
     opacity: 0,
-    y: 50,
+    y: 150,
   },
   appear: {
     opacity: 1,
     y: 0,
     delay: ({delay}) => delay,
     transition: {
-      opacity: { duration: 400, easing: 'linear' },
-      y: {
-        type: 'spring',
-        stiffness: 60,
-        damping: 8,
-      },
+      type: 'spring',
+      stiffness: 30,
+      mass: 0.925,
     },
   },
 })
@@ -87,8 +84,8 @@ const Packages = ({ delay = 0 }) => {
 
   const getDelay = index => {
     if (isMobile) return index === 0 ? delay : 50
-    else if( isTablet ) return index % 2 * 100 + (index < 2 ? delay : 0)
-    else return index % 3 * 100 + (index < 3 ? delay : 0)
+    else if( isTablet ) return index % 2 * 250 + (index < 2 ? delay : 0)
+    else return index % 3 * 250 + (index < 3 ? delay : 0)
   }
   const getThreshold = index => {
     if (isMobile) return index === 0 ? 0 : 0.25
@@ -122,15 +119,15 @@ const Packages = ({ delay = 0 }) => {
     </Flex>
   )
 }
-const Articles = ({ data }) => {
+const Articles = ({ data, delay = 0 }) => {
   const columns = {
     width: [1, null, 1 / 2],
   }
   const isMobile = Viewport.width < mobileBreakpoint
 
   const getDelay = index => {
-    if (isMobile) return index === 0 ? TRANSITION_DURATION : 0
-    else return new ResponsiveProp([null, null, ((index % 2) + 1) * 125 + (index < 2 ? 250 : 0)])
+    if (isMobile) return index === 0 ? delay : 0
+    else return index % 2 * 250 + (index < 2 ? delay : 0)
   }
 
   return (
@@ -222,10 +219,10 @@ const OpenCode = ({ data, intl, location }) => {
             p={0}
             py={[50]}
           >
-            {intl.formatMessage({ id: 'opensource.articles' })}
+            <AnimatedHtmlTitle startDelay={0} source={ `<span>${intl.formatMessage({ id: 'opensource.articles' })}</span>` } />
           </Text>
 
-          <Articles data={data?.articles?.edges} />
+          <Articles data={data?.articles?.edges} delay={500} />
         </Container>
       </Box>
 
