@@ -31,7 +31,7 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title = null, color = '
         navigate(path)
       }, TRANSITION_DURATION)
     },
-    [color, title]
+    [color, title, dispatch, path]
   )
 
   return (
@@ -40,7 +40,6 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title = null, color = '
       {...props}
       activeClassName={`--active`}
       partiallyActive={true}
-      // state={{ transitionColor: color || 'black', transitionTitle: title || null }}
       onClick={handleClick}
     >
       {children}

@@ -1,7 +1,7 @@
 import React from 'react'
 import posed from 'react-pose'
 
-import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_INTRO_DELAY, TRANSITION_INTRO_DURATION } from '@utils/constants'
 import { LogoSVG } from '@svg/Logo'
 
 const poses = {
@@ -16,7 +16,7 @@ const poses = {
     transition: {
       type: 'tween',
       ease: 'backInOut',
-      duration: TRANSITION_DURATION,
+      duration: TRANSITION_INTRO_DURATION,
     },
   },
 }

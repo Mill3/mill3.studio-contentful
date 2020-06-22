@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { graphql, location } from 'gatsby'
+import React, { useContext } from 'react'
+import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
