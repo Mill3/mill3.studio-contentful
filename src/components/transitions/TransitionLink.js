@@ -1,18 +1,23 @@
 import React, { useContext, useCallback } from 'react'
 import { injectIntl } from 'gatsby-plugin-intl'
-import { Link, navigate } from 'gatsby'
+import { Link, location, navigate } from 'gatsby'
 
 import { LayoutContext } from '@layouts/layoutContext'
 import { TRANSITION_DURATION } from '@utils/constants'
 
-const TransitionLinkComponent = ({ to, intl: { locale }, title = null, color = '#121212', localePrefix = true, ...props }) => {
+const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', localePrefix = true, ...props }) => {
   const { dispatch } = useContext(LayoutContext)
+  const { locale } = intl
   const path = localePrefix ? `/${locale}${to}` : `${to}`
   const { children } = props
 
   const handleClick = useCallback(
     e => {
       e.preventDefault()
+
+      // do nothing if on same location
+      const location = window.location.pathname
+      if(location === path) return;
 
       dispatch({
         type: 'transition.linkState',
