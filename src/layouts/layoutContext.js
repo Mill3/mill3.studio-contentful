@@ -11,19 +11,31 @@ export const defaultContextValue = {
   transition: {
     inTransition: false,
     state: 'intro',
+    step: 0,
+    transitionColor: '#121212',
+    transitionTitle: null
   },
   scrollbar: null
 }
 
 export const reducer = (state, action) => {
-  // console.warn('action.type:', action.type)
   switch (action.type) {
     case 'transition.setState':
       return {
         ...state,
         transition: {
+          ...state.transition,
           state: action.transitionState,
-          inTransition: action.inTransition,
+          inTransition: action.inTransition
+        },
+      }
+    case 'transition.linkState':
+      return {
+        ...state,
+        transition: {
+          ...state.transition,
+          transitionColor: action.transitionColor,
+          transitionTitle: action.transitionTitle
         },
       }
     case 'header.invert':
