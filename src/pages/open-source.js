@@ -16,7 +16,7 @@ import { TRANSITION_PANE_STATES } from '@components/transitions'
 import SEO from '@components/seo'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
-import { TRANSITION_DURATION, TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_DURATION, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
@@ -116,7 +116,7 @@ const Packages = ({ delay = 0 }) => {
         >
           <InViewCodePreview delay={getDelay(index)} threshold={getThreshold(index)}>
             <CodePreview url={data.url} name={data.name} description={data.description} />
-          </InViewCodePreview>          
+          </InViewCodePreview>
         </Flex>
       ))}
     </Flex>
@@ -153,7 +153,7 @@ const Articles = ({ data }) => {
 const OpenCode = ({ data, intl, location }) => {
   const { dispatch, layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
-  const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+  const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   useEffect(() => {
     if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps

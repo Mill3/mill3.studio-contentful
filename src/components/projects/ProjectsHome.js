@@ -8,7 +8,7 @@ import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 
 export const columns = {
@@ -67,7 +67,7 @@ class ProjectsHome extends React.Component {
         ])
       }
       const getDelay = index => {
-        const delayBase = layoutState.transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+        const delayBase = layoutState.transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
         if (isMobile) return index === 0 ? delayBase * 1.25 : 0
         else return index < 2 ? (delayBase * 1.25) + index * 150 : 0
