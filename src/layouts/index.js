@@ -15,6 +15,7 @@ import { defaultContextValue, reducer, LayoutContext } from '@layouts/layoutCont
 import Header from '@components/header'
 import Footer from '@components/footer'
 import TransitionPane from '@components/transitions'
+import BodyBackground from '@layouts/body-background'
 import Wrapper from '@layouts/wrapper'
 
 import GlobalStyle from '@styles/Global'
@@ -65,8 +66,9 @@ const Layout = props => {
       {({ location }) => (
         <>
           <LayoutContext.Provider value={{ layoutState, dispatch }}>
-            <GlobalStyle inverted={layoutState.invertedBody} />
+            <GlobalStyle />
             <ThemeProvider theme={Theme}>
+              <BodyBackground /> 
               <TransitionPane location={location} />
               <FullViewportHeight>
                 <div ref={scrollbarRef}>

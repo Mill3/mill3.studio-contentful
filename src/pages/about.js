@@ -19,15 +19,10 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 const HEADER_INVIEW_THRESHOLD = new ResponsiveProp([0.1, null, 0.25])
 const SERVICES_INVIEW_THRESHOLD = new ResponsiveProp([0.2, null, 0.5])
 
-const About = ({ data, pageContext, location }) => {
-  // console.log('pageContext, location:', pageContext, location)
+const About = ({ data }) => {
   const { layoutState, dispatch } = useContext(LayoutContext)
-  // console.log('layoutState:', layoutState.transition.step)
   const { page } = data
   const color = layoutState.invertedBody ? `#fff` : `#000`
-  const { originalPath } = pageContext.intl
-  const { pathname } = location
-  const isCurrent = pathname.match(originalPath).index > 0
   const setBodyInverted = inView => {
     if (inView === true) {
       dispatch({ type: 'inverted.set' })
@@ -35,11 +30,6 @@ const About = ({ data, pageContext, location }) => {
       dispatch({ type: 'inverted.reset' })
     }
   }
-
-  useEffect(() => {
-    dispatch({ type: 'inverted.set' })
-  }, [location])
-
 
   return (
     <>
@@ -81,10 +71,6 @@ const About = ({ data, pageContext, location }) => {
     </>
   )
 }
-
-// About.contextTypes = {
-//   layoutState: PropTypes.object,
-// }
 
 export default injectIntl(About)
 

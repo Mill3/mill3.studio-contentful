@@ -7,11 +7,11 @@ import { useInView } from 'react-intersection-observer'
 
 import { charPoses } from '@components/header/HeaderIntro'
 
-const AboutProcessIntro = ({ text }) => {
+const AboutProcessIntro = ({ text, ...props }) => {
   const [ref, inView] = useInView({ threshold: 0.65, triggerOnce: true })
 
   return (
-    <Box ref={ref} as={IntroContainer} py={[90, null, 7]} px={[0]} textAlign="center">
+    <Box ref={ref} as={IntroContainer} py={[90, null, 7]} px={[0]} textAlign="center" {...props}>
       <Box as={EllipseSVG} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 625 290.4">
         <Box
           as={Ellipse}
@@ -45,6 +45,7 @@ export default AboutProcessIntro
 
 const IntroContainer = styled.div`
   position: relative;
+  opacity: ${({opacity}) => opacity || 0};
 `
 
 export const TitlePoses = posed.h2({

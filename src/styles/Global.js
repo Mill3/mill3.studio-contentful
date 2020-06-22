@@ -13,22 +13,6 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
     overflow: hidden;
-    /* scroll-behavior: smooth; */
-    &:after {
-      content: "";
-      display: block;
-      pointer-events: none;
-      transform: translate3d(0, 0px, 0);
-      transition: opacity 250ms linear;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      background-color: ${() => Theme.colors.black};
-      opacity: ${props => props.inverted ? `1` : `0`};
-    }
   }
 
   /* type */

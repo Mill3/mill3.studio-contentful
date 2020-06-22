@@ -195,7 +195,7 @@ export class AnimatedBackgroundContainer extends Component {
     if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
   }
   onScroll({ offset }) {
-    if( !this.mounted ) return
+    if( !this.mounted || this.props.backgroundColor === "transparent" ) return
 
     this.setState({
       y: offset.y,
@@ -209,13 +209,15 @@ export class AnimatedBackgroundContainer extends Component {
 
     return (
       <InView as={Box} onChange={this.onVisibilityChange} threshold={threshold || 0}>
-        <Box
+        {/* only render background if is not transparent */}
+        {backgroundColor !== "transparent" && <Box
           as={AnimatedBg}
           backgroundColor={backgroundColor}
           opacity={inView ? 1 : 0}
           duration={duration || 250}
           style={t}
-        />
+        />}
+
         {typeof children == `function` ? children({ inView: inView }) : children}
       </InView>
     )

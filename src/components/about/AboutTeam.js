@@ -54,7 +54,7 @@ const TeamMember = ({ teamMember, delay }) => {
 }
 
 
-const AboutTeam = ({ data, color }) => {
+const AboutTeam = ({ data, color = "#000" }) => {
   const { teamIntro, teamMembers } = data
   const IS_FLEX_ROW = Viewport.mq(`(min-width: ${breakpoints[1]})`)
 

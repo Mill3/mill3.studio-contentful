@@ -100,7 +100,7 @@ const NavBurger = styled.button`
     transition: none;
   }
 
-  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     display: none;
   }
 `
@@ -159,7 +159,7 @@ const NavContainer = styled(NavContainerPoses)`
   align-items: center;
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
 
-  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     background: none !important;
     padding: 0;
     position: relative;
@@ -181,7 +181,7 @@ const NavItem = styled(NavItemPoses)`
   margin: 0;
   flex: 0 0 auto;
 
-  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     padding: 0 1.5vw;
     transform: none !important;
     opacity: 1 !important;
