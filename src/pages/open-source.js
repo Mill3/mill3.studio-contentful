@@ -19,23 +19,29 @@ import { TRANSITION_PANE_STATES, TRANSITION_DURATION, INTRO_REVEALS_DELAY, TRANS
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
-
 const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
 
-const DATA = [{
-  url: "https://www.npmjs.com/package/mill3-wp-boilerplate",
-  name: "Mill3 WP Webpack/Twig Boilerplate",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
-}, {
-  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/system-ui-sass",
-  name: "System UI Sass",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
-}, {
-  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/barba-scripts",
-  name: "@Barba/scripts",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
-}]
+const DATA = [
+  {
+    url: 'https://www.npmjs.com/package/mill3-wp-boilerplate',
+    name: 'Mill3 WP Webpack/Twig Boilerplate',
+    description:
+      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
+  },
+  {
+    url: 'https://github.com/Mill3/mill3-packages/tree/master/packages/system-ui-sass',
+    name: 'System UI Sass',
+    description:
+      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
+  },
+  {
+    url: 'https://github.com/Mill3/mill3-packages/tree/master/packages/barba-scripts',
+    name: '@Barba/scripts',
+    description:
+      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
+  },
+]
 
 const DescriptionPoses = posed.p({
   init: {
@@ -45,7 +51,7 @@ const DescriptionPoses = posed.p({
   appear: {
     opacity: 1,
     y: 0,
-    delay: ({delay}) => delay,
+    delay: ({ delay }) => delay,
     transition: {
       opacity: { duration: 400, easing: 'linear' },
       y: {
@@ -67,7 +73,8 @@ const Header = styled.header`
   }
 `
 const Title = styled.h1`
-  strong, b {
+  strong,
+  b {
     font-family: ${props => props.theme.fonts.sans};
     font-weight: normal;
   }
@@ -79,19 +86,18 @@ const Grid = styled.ul`
   list-style: none;
 `
 
-
 const Packages = ({ delay = 0 }) => {
   const isMobile = Viewport.width < mobileBreakpoint
   const isTablet = Viewport.width < tabletBreakpoint
 
   const getDelay = index => {
     if (isMobile) return index === 0 ? delay : 50
-    else if( isTablet ) return index % 2 * 100 + (index < 2 ? delay : 0)
-    else return index % 3 * 100 + (index < 3 ? delay : 0)
+    else if (isTablet) return (index % 2) * 100 + (index < 2 ? delay : 0)
+    else return (index % 3) * 100 + (index < 3 ? delay : 0)
   }
   const getThreshold = index => {
     if (isMobile) return index === 0 ? 0 : 0.25
-    else if( isTablet ) return index < 2 ? 0 : 0.25
+    else if (isTablet) return index < 2 ? 0 : 0.25
     else return index < 3 ? 0 : 0.25
   }
 
@@ -109,7 +115,7 @@ const Packages = ({ delay = 0 }) => {
         <Flex
           key={index}
           as="li"
-          width={[1, null, 1/2, 1/3]}
+          width={[1, null, 1 / 2, 1 / 3]}
           px={[null, null, '4.557291667vw', '3.528225806vw', '2.430555556vw']}
           mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
         >
@@ -142,9 +148,9 @@ const Articles = ({ data }) => {
       p={0}
       pb={[40, null, 90]}
     >
-      {data.map((news, index) =>
+      {data.map((news, index) => (
         <NewsPreview key={index} index={index} news={news} columns={columns} delay={getDelay(index)} />
-      )}
+      ))}
     </Flex>
   )
 }
@@ -155,7 +161,7 @@ const OpenCode = ({ data, intl, location }) => {
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   useEffect(() => {
-    if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!layoutState.invertedHeader) dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
   return (
@@ -168,10 +174,9 @@ const OpenCode = ({ data, intl, location }) => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          pt={["70px", null, "170px"]}
-          pb={["70px", null, "170px", 6]}
+          pt={['70px', null, '170px']}
+          pb={['70px', null, '170px', 6]}
         >
-
           <Text
             as={Title}
             fontFamily="serif"
@@ -200,7 +205,6 @@ const OpenCode = ({ data, intl, location }) => {
           >
             {intl.formatMessage({ id: 'opensource.description' })}
           </Text>
-
         </Container>
       </Box>
 
@@ -237,10 +241,13 @@ export default injectIntl(OpenCode)
 
 export const openCodeQuery = graphql`
   query openCodeQuery($language: String!) {
-    seoFields : contentfulSeo(slug: { eq: "open-source" }, node_locale : { eq: $language }) {
+    seoFields: contentfulSeo(slug: { eq: "open-source" }, node_locale: { eq: $language }) {
       ...seoFragment
     }
-    articles : allContentfulNews(limit: 2, filter: { node_locale: { eq: $language }, visibleOnlyOnLocale: { eq: $language } }) {
+    articles: allContentfulNews(
+      limit: 2
+      filter: { node_locale: { eq: $language }, visibleOnlyOnLocale: { eq: $language } }
+    ) {
       edges {
         node {
           ...News

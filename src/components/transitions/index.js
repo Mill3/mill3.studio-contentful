@@ -106,7 +106,7 @@ const TransitionPane = () => {
 
   useEffect(() => {
     setPose(TRANSITION_PANE_STATES[transition.state])
-  }, [layoutState, transition])
+  }, [transition])
 
   return (
     <Flex

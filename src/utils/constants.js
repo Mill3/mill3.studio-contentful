@@ -21,9 +21,9 @@ export const TRANSITION_PANE_STATES = {
 
 // base value for all transition durations or delays
 
-export const TRANSITION_BASE = 600
+export const TRANSITION_BASE = 850
 
-// duration base
+// transition duration base, used only for component handling route changes
 
 export const TRANSITION_DURATION = TRANSITION_BASE
 
@@ -49,7 +49,7 @@ export const INTRO_REVEALS_DELAY = TRANSITION_INTRO_DELAY * 1.15
 
 // delay for reveals
 
-export const REVEALS_DELAY = 150
+export const REVEALS_DELAY = TRANSITION_BASE * 0.65
 
 // various selectors
 
