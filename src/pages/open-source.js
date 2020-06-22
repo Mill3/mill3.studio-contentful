@@ -2,24 +2,27 @@ import React, { useEffect, useContext } from 'react'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Box, Flex, Text } from 'rebass'
 
 import { LayoutContext } from '@layouts/layoutContext'
 
 import CodePreview from '@components/codes/CodePreview'
+import InViewCodePreview from '@components/codes/InViewCodePreview'
 import ContactForm from '@components/contact/ContactForm'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import NewsPreview from '@components/news/NewsPreview'
 import { TRANSITION_PANE_STATES } from '@components/transitions'
 import SEO from '@components/seo'
 import Container from '@styles/Container'
-import { breakpoints, header } from '@styles/Theme'
+import { breakpoints, header, space } from '@styles/Theme'
 import { TRANSITION_DURATION, TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
 
 const mobileBreakpoint = parseInt(breakpoints[1])
+const tabletBreakpoint = parseInt(breakpoints[2])
 
 const DATA = [{
   url: "https://www.npmjs.com/package/mill3-wp-boilerplate",
@@ -35,14 +38,33 @@ const DATA = [{
   description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
 }]
 
+const DescriptionPoses = posed.p({
+  init: {
+    opacity: 0,
+    y: 50,
+  },
+  appear: {
+    opacity: 1,
+    y: 0,
+    delay: ({delay}) => delay,
+    transition: {
+      opacity: { duration: 400, easing: 'linear' },
+      y: {
+        type: 'spring',
+        stiffness: 60,
+        damping: 8,
+      },
+    },
+  },
+})
 
 const Header = styled.header`
-  margin-top: ${header.height * -1}px;
-  padding-top: ${header.height}px;
+  margin-top: ${(header.height + space[6]) * -1}px;
+  padding-top: ${header.height + space[6]}px;
 
   @media (min-width: ${breakpoints[2]}) {
-    margin-top: ${(header.height + 24) * -1}px;
-    padding-top: ${header.height + 24}px;
+    margin-top: ${(header.height + space[6] + 24) * -1}px;
+    padding-top: ${header.height + space[6] + 24}px;
   }
 `
 const Title = styled.h1`
@@ -51,12 +73,29 @@ const Title = styled.h1`
     font-weight: normal;
   }
 `
+const Description = styled(DescriptionPoses)`
+  will-change: opacity, transform;
+`
 const Grid = styled.ul`
   list-style: none;
 `
 
 
-const Packages = () => {
+const Packages = ({ delay = 0 }) => {
+  const isMobile = Viewport.width < mobileBreakpoint
+  const isTablet = Viewport.width < tabletBreakpoint
+
+  const getDelay = index => {
+    if (isMobile) return index === 0 ? delay : 50
+    else if( isTablet ) return index % 2 * 100 + (index < 2 ? delay : 0)
+    else return index % 3 * 100 + (index < 3 ? delay : 0)
+  }
+  const getThreshold = index => {
+    if (isMobile) return index === 0 ? 0 : 0.25
+    else if( isTablet ) return index < 2 ? 0 : 0.25
+    else return index < 3 ? 0 : 0.25
+  }
+
   return (
     <Flex
       as={Grid}
@@ -75,7 +114,9 @@ const Packages = () => {
           px={[null, null, '4.557291667vw', '3.528225806vw', '2.430555556vw']}
           mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
         >
-          <CodePreview url={data.url} name={data.name} description={data.description} />
+          <InViewCodePreview delay={getDelay(index)} threshold={getThreshold(index)}>
+            <CodePreview url={data.url} name={data.name} description={data.description} />
+          </InViewCodePreview>          
         </Flex>
       ))}
     </Flex>
@@ -144,7 +185,7 @@ const OpenCode = ({ data, intl, location }) => {
           </Text>
 
           <Text
-            as="p"
+            as={Description}
             m={0}
             mt={[3, null, 4, 2]}
             mx="auto"
@@ -153,6 +194,10 @@ const OpenCode = ({ data, intl, location }) => {
             fontSize={['4.830917874vw', null, '3.125vw', '2.419354839vw', '1.666666667vw']}
             lineHeight={[1.5]}
             textAlign="center"
+            initialPose="init"
+            pose="appear"
+            delay={delay + 1250}
+            withParent={false}
           >
             {intl.formatMessage({ id: 'opensource.description' })}
           </Text>
@@ -162,7 +207,7 @@ const OpenCode = ({ data, intl, location }) => {
 
       <Box as="section" bg="black" color="white">
         <Container fluid={true}>
-          <Packages />
+          <Packages delay={delay + 1050} />
         </Container>
       </Box>
 
