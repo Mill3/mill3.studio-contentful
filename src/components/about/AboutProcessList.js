@@ -17,8 +17,7 @@ import { lb2br } from '@utils/Linebreaks'
 const ProcessStickyElement = styled.div`
   position: relative;
   pointer-events: none;
-  z-index: 2;
-  transition: background-color 250ms linear;
+  z-index: 2;  
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     position: absolute;
@@ -31,8 +30,22 @@ const ProcessStickyElement = styled.div`
     height: 70px !important;
   }
 `
+const StickyElementBg = styled.div`
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: ${({visible}) => visible ? 1 : 0};
+  transition: opacity 250ms linear;
+  will-change: opacity;
+`
 const ProcessHeading = styled.h4`
   text-transform: uppercase;
+
+  & > div > div {
+    will-change: opacity, transform;
+  }
 `
 const CurrentActiveItem = styled(ProcessHeading)`
   transition: opacity 0.25s linear 0.25s;
@@ -42,6 +55,7 @@ const ProcessItem = styled.article`
   p {
     transition: opacity 0.25s linear 0.25s;
     opacity: ${props => (props.active ? 1 : 0.125)};
+    will-change: opacity;
   }
 `
 
@@ -222,8 +236,9 @@ class AboutProcessList extends Component {
             height={['auto', null, null, `${45 + 25}vh`, `${35 + 25}vh`]}
             pt={[4, null, null, '25vh']}
             pb={[4, null, null, 0]}
-            bg={[color === '#000' ? 'white' : 'black', null, null, 'transparent']}
           >
+            <Box as={StickyElementBg} d={['block', null, null, 'none']} bg="black" visible={color === '#fff'} />
+
             <Heading
               ref={this.currentActiveItemRef}
               as={CurrentActiveItem}

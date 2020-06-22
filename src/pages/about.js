@@ -22,7 +22,6 @@ const SERVICES_INVIEW_THRESHOLD = new ResponsiveProp([0.2, null, 0.5])
 
 
 const About = ({ data, pageContext, location }) => {
-  // console.log('pageContext, location:', pageContext, location)
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { page } = data
   const color = layoutState.invertedBody ? `#fff` : `#000`
@@ -37,19 +36,6 @@ const About = ({ data, pageContext, location }) => {
       dispatch({type: "inverted.reset"})
     }
   }
-
-  // invert on page load
-  // useEffect(() => {
-  //   const { originalPath } = pageContext.intl
-  //   const { pathname } = location
-  //   const isCurrent = pathname.match(originalPath).index > 0
-
-  //   if(!isCurrent) return
-  //   if(layoutState.invertedBody) return
-  //   if(layoutState.transition.state != `enter`) return
-
-  //   dispatch({type: "inverted.set"}) // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [location])
 
 
   return (
@@ -94,10 +80,6 @@ const About = ({ data, pageContext, location }) => {
     </>
   )
 }
-
-// About.contextTypes = {
-//   layoutState: PropTypes.object,
-// }
 
 export default injectIntl(About)
 

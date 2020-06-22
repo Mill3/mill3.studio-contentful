@@ -32,7 +32,7 @@ const AboutProcess = ({ data, color = '#000' }) => {
       </Box>
 
       {processIntro.introBlurb && (
-        <AboutProcessIntro text={processIntro.introBlurb.introBlurb} />
+        <AboutProcessIntro text={processIntro.introBlurb.introBlurb} color="#000" opacity={color === "#000" ? 1 : 0} />
       )}
 
       {processes &&
