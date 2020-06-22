@@ -294,7 +294,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/open-source/`} color={colors.lightGray}>
+            <TransitionLinkComponent to={`/open-source/`} color={colors.black}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.OpenSource" />
               </Text>
@@ -302,7 +302,7 @@ class Nav extends React.Component {
           </NavItem>
 
           <NavItem>
-            <TransitionLinkComponent to={`/contact/`} color={`#ffffff`}>
+            <TransitionLinkComponent to={`/contact/`} color={colors.black}>
               <Text fontSize={fontSizes}>
                 <FormattedMessage id="nav.Contact" />
               </Text>
