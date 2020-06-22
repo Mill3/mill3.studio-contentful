@@ -7,16 +7,21 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import { InView } from 'react-intersection-observer'
 import memoize from 'memoize-one'
 
+import {
+  TRANSITION_PANE_STATES,
+  HAS_HOVER,
+  TRANSITION_IN_DELAY,
+  TRANSITION_OUT_DURATION,
+  INTRO_REVEALS_DELAY,
+} from '@utils/constants'
 import { LayoutContext } from '@layouts/layoutContext'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
-import { HAS_HOVER, TRANSITION_IN_DELAY, TRANSITION_OUT_DURATION, INTRO_REVEALS_DELAY } from '@utils/constants'
 import { lerp } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from '@components/content_rows'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 const HeaderIntroPoses = posed.header({

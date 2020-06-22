@@ -8,8 +8,7 @@ import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
-import { INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
+import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 
 export const columns = {
   0: {

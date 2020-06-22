@@ -12,8 +12,7 @@ import Logo from '@svg/Logo'
 import Nav from '@components/nav/index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
-import { TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
-// import { TRANSITION_PANE_STATES } from '@components/transitions'
+import { TRANSITION_PANE_STATES, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 
 const SiteHeaderPose = posed.header({
   visible: {
@@ -72,7 +71,7 @@ const Header = () => {
                 distance={10}
                 disabledPose={'none'}
                 delayIn={
-                  layoutState.transition.state === `intro` ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65
+                  layoutState.transition.state === TRANSITION_PANE_STATES[`intro`] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65
                 }
               >
                 <Container fluid className={`z-10`}>

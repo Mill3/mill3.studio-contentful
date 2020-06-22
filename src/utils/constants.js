@@ -10,6 +10,15 @@ export const EASES = {
   },
 }
 
+// transition states
+
+export const TRANSITION_PANE_STATES = {
+  intro: 'intro',
+  started: 'started',
+  exit: 'exit',
+  entering: 'entering',
+}
+
 // base value for all transition durations or delays
 
 export const TRANSITION_BASE = 600

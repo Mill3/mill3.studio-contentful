@@ -8,6 +8,7 @@ import LogoAnimated from '@svg/LogoAnimated'
 import { LayoutContext } from '@layouts/layoutContext'
 
 import {
+  TRANSITION_PANE_STATES,
   TRANSITION_INTRO_DELAY,
   TRANSITION_INTRO_DURATION,
   TRANSITION_IN_DELAY,
@@ -16,17 +17,6 @@ import {
   TRANSITION_OUT_DURATION,
 } from '@utils/constants'
 
-export const TRANSITION_PANE_STATES = {
-  init: 'init',
-  intro: 'intro',
-  exited: 'visible',
-  exiting: 'visible',
-  entering: 'visible',
-  visible: 'visible',
-  ended: 'ended',
-  entered: 'hidden',
-  hidden: 'hidden',
-}
 
 const Poses = posed.div({
   // default state with no pose
@@ -108,16 +98,14 @@ const TransitionTextStyle = styled.p`
   }
 `
 
-// const transitionPropsDefaults = { transitionColor: `#121212`, transitionTitle: null }
-
-const TransitionPane = ({ location }) => {
+const TransitionPane = () => {
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { transition } = layoutState
-  const [pose, setPose] = useState(transition.state)
+  const [pose, setPose] = useState(TRANSITION_PANE_STATES[transition.state])
   const { transitionColor, transitionTitle } = layoutState.transition
 
   useEffect(() => {
-    setPose(transition.state)
+    setPose(TRANSITION_PANE_STATES[transition.state])
   }, [layoutState, transition])
 
   return (
@@ -131,16 +119,16 @@ const TransitionPane = ({ location }) => {
       pose={pose}
       onPoseComplete={poseName => {
         // after `intro` or `hidden` pose, revert pane style and position
-        if (poseName === `intro`) {
+        if (poseName === TRANSITION_PANE_STATES[`intro`]) {
           dispatch({ type: 'transition.setState', transitionState: `started`, inTransition: false })
         }
       }}
     >
       {/* when in intro state */}
-      {pose === `intro` && <LogoAnimated inverted={true} animated={true} />}
+      {pose === TRANSITION_PANE_STATES[`intro`] && <LogoAnimated inverted={true} animated={true} />}
 
       {/* not intro, has a transitionTitle */}
-      {(pose !== `intro` && transitionTitle) && (
+      {(pose !== TRANSITION_PANE_STATES[`intro`] && transitionTitle) && (
         <Text
           as={TransitionTextStyle}
           fontSize={['18vw', null, `5vw`]}

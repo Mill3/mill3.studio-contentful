@@ -13,9 +13,8 @@ import ContactTicker from '@components/contact/ContactTicker'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import SEO from '@components/seo'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
 import { breakpoints, header } from '@styles/Theme'
-import { INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 
 
 const Header = styled.header`
