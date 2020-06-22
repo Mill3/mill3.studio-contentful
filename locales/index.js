@@ -180,6 +180,26 @@ const messages = defineMessages({
   opensourceArticles: {
     id: "opensource.articles",
     defaultMessage: "Related Articles"
+  },
+  codeButton: {
+    id: "code.button",
+    defaultMessage: "Take a look"
+  },
+  codeWpBoilerplate: {
+    id: "code.wp-boilerplate",
+    defaultMessage: "Our WP theme boilerplate using Timber/Twig templates."
+  },
+  codeSystemUiSass: {
+    id: "code.system-ui-sass",
+    defaultMessage: "Our utility CSS classes system for typography, layout, sizings, colors, effects. Built with SASS, largely inspired by Bootstrap (for mixins) and TailWindCSS for classes naming conventions and the idea around an utiliy-first style framework."
+  },
+  codeBarbaScripts: {
+    id: "code.barba-scripts",
+    defaultMessage: "Barba Scripts is a script plugin that analyze & load script (both inlined and external) presents in new page. Scripts are only loaded once and executed after page transition."
+  },
+  codeBreakpointsObserver: {
+    id: "code.breakpoints-observer",
+    defaultMessage: "Extendeable Javascript Class listening for breakpoints change and dispatch event accordingly."
   }
 })
 

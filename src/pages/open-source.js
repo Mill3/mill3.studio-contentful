@@ -25,17 +25,21 @@ const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
 
 const DATA = [{
-  url: "https://www.npmjs.com/package/mill3-wp-boilerplate",
-  name: "Mill3 WP Webpack/Twig Boilerplate",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+  url: "https://www.npmjs.com/package/@mill3-packages/wp-boilerplate",
+  name: "Wordpress Theme Boilerplate with Webpack",
+  description: "code.wp-boilerplate"
 }, {
-  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/system-ui-sass",
+  url: "https://www.npmjs.com/package/@mill3-packages/system-ui-sass",
   name: "System UI Sass",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+  description: "code.system-ui-sass"
 }, {
-  url: "https://github.com/Mill3/mill3-packages/tree/master/packages/barba-scripts",
-  name: "@Barba/scripts",
-  description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas."
+  url: "https://www.npmjs.com/package/@mill3-packages/barba-scripts",
+  name: "@barba-scripts",
+  description: "code.barba-scripts"
+}, {
+  url: "https://www.npmjs.com/package/@mill3-packages/breakpoints-observer",
+  name: "@breakpoints-observer",
+  description: "code.breakpoints-observer"
 }]
 
 const DescriptionPoses = posed.p({
@@ -78,7 +82,7 @@ const Grid = styled.ul`
 `
 
 
-const Packages = ({ delay = 0 }) => {
+const Packages = injectIntl(({ delay = 0, intl }) => {
   const isMobile = Viewport.width < mobileBreakpoint
   const isTablet = Viewport.width < tabletBreakpoint
 
@@ -112,13 +116,14 @@ const Packages = ({ delay = 0 }) => {
           mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
         >
           <InViewCodePreview delay={getDelay(index)} threshold={getThreshold(index)}>
-            <CodePreview url={data.url} name={data.name} description={data.description} />
-          </InViewCodePreview>          
+            <CodePreview url={data.url} name={data.name} description={intl.formatMessage({id: data.description})} />
+          </InViewCodePreview>
         </Flex>
       ))}
     </Flex>
   )
-}
+})
+
 const Articles = ({ data, delay = 0 }) => {
   const columns = {
     width: [1, null, 1 / 2],
