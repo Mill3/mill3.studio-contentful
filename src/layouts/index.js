@@ -85,32 +85,17 @@ const Layout = props => {
                         mountOnEnter={true}
                         unmountOnExit={true}
                         delay={{
-                          exiting: TRANSITION_DURATION,
-                          enter: TRANSITION_DURATION * 1.5,
-                          entering: TRANSITION_DURATION * 3,
+                          enter: TRANSITION_DURATION
                         }}
                         timeout={{
-                          exit: TRANSITION_DURATION,
-                          exiting: TRANSITION_DURATION,
-                          enter: TRANSITION_DURATION,
-                          entering: TRANSITION_DURATION,
+                          exit: TRANSITION_DURATION
                         }}
                         onExit={e => {
-                          console.log(`1 exit`);
+                          dispatch({ type: 'inverted.reset' })
                           dispatch({ type: 'transition.setState', transitionState: `exit`, inTransition: true })
                         }}
-                        onExiting={e => {
-                          console.log(`2 exting`);
-                          scrollToTop()
-                          dispatch({ type: 'inverted.reset' })
-                          dispatch({ type: 'transition.setState', transitionState: `exiting`, inTransition: true })
-                        }}
-                        onEnter={e => {
-                          console.log(`3 enter`);
-                          dispatch({ type: 'transition.setState', transitionState: `enter`, inTransition: true })
-                        }}
                         onEntering={e => {
-                          console.log(`4 entering`);
+                          scrollToTop()
                           dispatch({ type: 'transition.setState', transitionState: `entering`, inTransition: false })
                         }}
                       >

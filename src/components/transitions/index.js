@@ -9,9 +9,10 @@ import { LayoutContext } from '@layouts/layoutContext'
 
 import {
   TRANSITION_INTRO_DELAY,
-  TRANSITION_DURATION,
+  TRANSITION_INTRO_DURATION,
   TRANSITION_IN_DELAY,
-  // TRANSITION_OUT_DELAY,
+  TRANSITION_IN_DURATION,
+  TRANSITION_OUT_DELAY,
   TRANSITION_OUT_DURATION,
 } from '@utils/constants'
 
@@ -41,65 +42,33 @@ const Poses = posed.div({
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: TRANSITION_DURATION,
+        duration: TRANSITION_INTRO_DURATION,
       },
     },
   },
 
-  // when transition start
+  // when transition starts
   exit: {
-    opacity: 0,
+    opacity: 1,
     transition: {
-      delay: TRANSITION_OUT_DURATION,
+      delay: TRANSITION_OUT_DELAY,
       duration: TRANSITION_OUT_DURATION,
     },
   },
 
-  // when page change starts
-  exiting: {
-    opacity: 1,
-    transition: {
-      delay: TRANSITION_OUT_DURATION,
-      duration: TRANSITION_OUT_DURATION,
-      ease: 'easeOut',
-    },
-  },
-
-  // when new page is enter
-  enter: {
-    opacity: 1,
-  },
-
-  // when new page is entering
+  // when new page is entering and transition is ending
   entering: {
     opacity: 0,
     transition: {
-      duration: TRANSITION_OUT_DURATION,
-      ease: 'easeIn',
-    },
-  },
-
-  // when page change starts
-  visible: {
-    opacity: 1,
-    transition: {
       delay: TRANSITION_IN_DELAY,
-      duration: TRANSITION_DURATION - TRANSITION_IN_DELAY,
-      ease: 'easeOut',
-    },
-  },
-  // when page change ends
-  hidden: {
-    opacity: 0,
-    transition: {
-      duration: TRANSITION_OUT_DURATION,
+      duration: TRANSITION_IN_DURATION,
       ease: 'easeIn',
     },
   },
 
-  // when everything has finished
+  // when page transition stated, initial state after intro and first visited paged
   // (duration is set to 0 because we don't want the user to see any animation to this pose)
-  ended: {
+  started: {
     opacity: 0,
     y: 0,
     transition: {
@@ -139,13 +108,13 @@ const TransitionTextStyle = styled.p`
   }
 `
 
-const transitionPropsDefaults = { transitionColor: `#121212`, transitionTitle: null }
+// const transitionPropsDefaults = { transitionColor: `#121212`, transitionTitle: null }
 
 const TransitionPane = ({ location }) => {
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { transition } = layoutState
   const [pose, setPose] = useState(transition.state)
-  const { transitionColor, transitionTitle } = location.state || transitionPropsDefaults
+  const { transitionColor, transitionTitle } = layoutState.transition
 
   useEffect(() => {
     setPose(transition.state)
@@ -163,7 +132,7 @@ const TransitionPane = ({ location }) => {
       onPoseComplete={poseName => {
         // after `intro` or `hidden` pose, revert pane style and position
         if (poseName === `intro`) {
-          dispatch({ type: 'transition.setState', transitionState: `ended`, inTransition: false })
+          dispatch({ type: 'transition.setState', transitionState: `started`, inTransition: false })
         }
       }}
     >

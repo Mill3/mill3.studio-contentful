@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { graphql, location } from 'gatsby'
+import React, { useContext } from 'react'
+import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
@@ -16,67 +16,58 @@ import SEO from '@components/seo'
 import { AnimatedBackgroundRowContainer } from '@components/content_rows'
 import ResponsiveProp from '@utils/ResponsiveProp'
 
-
 const HEADER_INVIEW_THRESHOLD = new ResponsiveProp([0.1, null, 0.25])
 const SERVICES_INVIEW_THRESHOLD = new ResponsiveProp([0.2, null, 0.5])
 
-
-const About = ({ data, pageContext, location }) => {
+const About = ({ data }) => {
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { page } = data
   const color = layoutState.invertedBody ? `#fff` : `#000`
-  const { originalPath } = pageContext.intl
-  const { pathname } = location
-  const isCurrent = pathname.match(originalPath).index > 0
-  const setBodyInverted = (inView) => {
-    if(!isCurrent) return
-    if(inView === true) {
-      dispatch({type: "inverted.set"})
+  const setBodyInverted = inView => {
+    if (inView === true) {
+      dispatch({ type: 'inverted.set' })
     } else {
-      dispatch({type: "inverted.reset"})
+      dispatch({ type: 'inverted.reset' })
     }
   }
-
 
   return (
     <>
       {page.seo && <SEO seo={page.seo} url={`${page.slug}/`} />}
 
       <Box>
-
-        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={HEADER_INVIEW_THRESHOLD.getValue()}>
+        <AnimatedBackgroundRowContainer
+          wrapper={Box}
+          onChange={setBodyInverted}
+          backgroundColor={`transparent`}
+          threshold={HEADER_INVIEW_THRESHOLD.getValue()}
+        >
           <>
             {/* the intro */}
             <AboutIntro data={page.intro} />
 
             {/* Team */}
-            <AboutTeam
-              data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }}
-              color={color}
-            />
+            <AboutTeam data={{ teamIntro: page.teamIntro, teamMembers: page.teamMembers }} color={color} />
           </>
         </AnimatedBackgroundRowContainer>
 
-        <AboutProcess
-          data={{ processIntro: page.processIntro, processes: page.processes }}
-          color={color}
-        />
+        <AboutProcess data={{ processIntro: page.processIntro, processes: page.processes }} color={color} />
 
-        <AnimatedBackgroundRowContainer wrapper={Box} onChange={setBodyInverted} backgroundColor={`transparent`} threshold={SERVICES_INVIEW_THRESHOLD.getValue()}>
-          <AboutServices
-            data={{ servicesIntro: page.servicesIntro, services: page.services }}
-            color={color}
-          />
+        <AnimatedBackgroundRowContainer
+          wrapper={Box}
+          onChange={setBodyInverted}
+          backgroundColor={`transparent`}
+          threshold={SERVICES_INVIEW_THRESHOLD.getValue()}
+        >
+          <AboutServices data={{ servicesIntro: page.servicesIntro, services: page.services }} color={color} />
         </AnimatedBackgroundRowContainer>
 
         <AboutClients data={{ clientsIntro: page.clientsIntro }} />
-
       </Box>
 
       <Box pt={[6]}>
         <ContactForm />
       </Box>
-
     </>
   )
 }

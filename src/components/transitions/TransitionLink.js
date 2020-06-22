@@ -1,10 +1,38 @@
-import React from 'react'
-import { injectIntl } from "gatsby-plugin-intl"
-import { Link } from "gatsby"
+import React, { useContext, useCallback } from 'react'
+import { injectIntl } from 'gatsby-plugin-intl'
+import { Link, navigate } from 'gatsby'
 
-const TransitionLinkComponent = ({ to, intl: { locale }, title, color, localePrefix = true, ...props }) => {
+import { LayoutContext } from '@layouts/layoutContext'
+import { TRANSITION_DURATION } from '@utils/constants'
+
+const TransitionLinkComponent = ({ to, intl: { locale }, title = null, color = '#121212', localePrefix = true, ...props }) => {
+  const { dispatch } = useContext(LayoutContext)
   const path = localePrefix ? `/${locale}${to}` : `${to}`
-  const { children } = props;
+  const { children } = props
+
+  const handleClick = useCallback(
+    e => {
+      e.preventDefault()
+
+      dispatch({
+        type: 'transition.linkState',
+        transitionColor: color,
+        transitionTitle: title,
+      })
+
+      dispatch({
+        type: 'transition.setState',
+        transitionState: `started`,
+        inTransition: true,
+      })
+
+      // change location
+      setTimeout(function() {
+        navigate(path)
+      }, TRANSITION_DURATION)
+    },
+    [color, title, dispatch, path]
+  )
 
   return (
     <Link
@@ -12,7 +40,7 @@ const TransitionLinkComponent = ({ to, intl: { locale }, title, color, localePre
       {...props}
       activeClassName={`--active`}
       partiallyActive={true}
-      state={{ transitionColor: color || 'black', transitionTitle: title || null }}
+      onClick={handleClick}
     >
       {children}
     </Link>

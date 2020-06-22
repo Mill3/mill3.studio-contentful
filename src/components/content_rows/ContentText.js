@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { is } from 'ramda'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
