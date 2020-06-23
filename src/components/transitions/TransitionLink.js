@@ -21,86 +21,43 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
       const location = window.location.pathname
       if (location === path) return
 
-      // set color and title
+      // 1. set color and title
       dispatch({
         type: 'transition.linkState',
         transitionColor: color,
         transitionTitle: title,
       })
 
+      // 2. start transition
       let transitionStarted = new Promise((resolve) => {
-
-        // start transition
         dispatch({
           type: 'transition.setState',
           transitionState: TRANSITION_PANE_STATES[`started`],
           inTransition: true,
         })
-
-        // wait a bit
         let wait = setTimeout(() => {
           clearTimeout(wait)
           resolve('started')
         }, TRANSITION_OUT_DURATION / 3)
       })
 
+      // 2. show transition pane
       let transitionLeaving = new Promise((resolve) => {
-
         dispatch({
           type: 'transition.setState',
           transitionState: TRANSITION_PANE_STATES[`leaving`],
           inTransition: true,
         })
-
         let wait = setTimeout(() => {
           clearTimeout(wait)
           resolve('leaving')
-        }, TRANSITION_OUT_DURATION) // extend transition out just a little bit
+        }, TRANSITION_OUT_DURATION)
       })
 
+      // run all promises above
       Promise.all([transitionStarted, transitionLeaving]).then(() => {
-        // console.log('values:', values)
         navigate(path)
       });
-
-      // new Promise((resolve, reject) => {
-      //   let wait = setTimeout(() => {
-
-      //     clearTimeout(wait)
-
-      //     dispatch({
-      //       type: 'transition.setState',
-      //       transitionState: TRANSITION_PANE_STATES[`started`],
-      //       inTransition: true,
-      //     })
-
-      //     resolve()
-      //   }, TRANSITION_DURATION)
-
-      // }).then(() => {
-
-      //   dispatch({
-      //     type: 'transition.setState',
-      //     transitionState: TRANSITION_PANE_STATES[`leaving`],
-      //     inTransition: true,
-      //   })
-
-      //   new Promise((resolve, reject) => {
-      //     let wait = setTimeout(() => {
-      //       clearTimeout(wait)
-      //       resolve()
-      //     }, TRANSITION_DURATION)
-      //   }).then(() => {
-      //     navigate(path)
-      //   })
-      // })
-
-      // race.then((value) => {
-      //   // change location
-      //   setTimeout(function() {
-      //     navigate(path)
-      //   }, TRANSITION_DURATION)
-      // })
     },
     [color, title, dispatch, path]
   )
