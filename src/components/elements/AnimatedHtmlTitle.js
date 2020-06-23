@@ -3,10 +3,14 @@ import SplitText from 'react-pose-text'
 import { charPoses } from '@components/header/HeaderIntro'
 import { useInView } from 'react-intersection-observer'
 
+let HTML_PARSER;
+
 export const AnimatedHtmlTitle = ({ source, startDelay }) => {
+  // require once
+  if( !HTML_PARSER ) HTML_PARSER = require('html-parse-stringify')
+
   const [ref, inView] = useInView({ threshold: 1, triggerOnce: true })
-  const HTML = require('html-parse-stringify')
-  const parts = HTML.parse(source)
+  const parts = HTML_PARSER.parse(source)
 
   let delay = startDelay || 250
 

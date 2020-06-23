@@ -13,6 +13,7 @@ import ContactForm from '@components/contact/ContactForm'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import NewsPreview from '@components/news/NewsPreview'
 import SEO from '@components/seo'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
 import { TRANSITION_PANE_STATES, TRANSITION_DURATION, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
@@ -40,23 +41,6 @@ const DATA = [{
   description: "code.breakpoints-observer"
 }]
 
-const DescriptionPoses = posed.p({
-  init: {
-    opacity: 0,
-    y: 150,
-  },
-  appear: {
-    opacity: 1,
-    y: 0,
-    delay: ({ delay }) => delay,
-    transition: {
-      type: 'spring',
-      stiffness: 30,
-      mass: 0.925,
-    },
-  },
-})
-
 const Header = styled.header`
   margin-top: ${(header.height + space[6]) * -1}px;
   padding-top: ${header.height + space[6]}px;
@@ -73,22 +57,24 @@ const Title = styled.h1`
     font-weight: normal;
   }
 `
-const Description = styled(DescriptionPoses)`
-  will-change: opacity, transform;
-`
 const Grid = styled.ul`
   list-style: none;
 `
 
 
-const Packages = injectIntl(({ delay = 0, intl }) => {
+const Packages = injectIntl(({ delayIn = 0, delayOut = 0, intl }) => {
   const isMobile = Viewport.width < mobileBreakpoint
   const isTablet = Viewport.width < tabletBreakpoint
 
-  const getDelay = index => {
-    if (isMobile) return index === 0 ? delay : 50
-    else if( isTablet ) return index % 2 * 250 + (index < 2 ? delay : 0)
-    else return index % 3 * 250 + (index < 3 ? delay : 0)
+  const getDelayIn = index => {
+    if (isMobile) return index === 0 ? delayIn : 50
+    else if( isTablet ) return index % 2 * 250 + (index < 2 ? delayIn : 0)
+    else return index % 3 * 250 + (index < 3 ? delayIn : 0)
+  }
+  const getDelayOut = index => {
+    if (isMobile) return delayOut
+    else if( isTablet ) return index % 2 * 50 + delayOut
+    else return index % 3 * 50 + delayOut
   }
   const getThreshold = index => {
     if (isMobile) return index === 0 ? 0 : 0.25
@@ -114,7 +100,7 @@ const Packages = injectIntl(({ delay = 0, intl }) => {
           px={[null, null, '4.557291667vw', '3.528225806vw', '2.430555556vw']}
           mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
         >
-          <InViewCodePreview delay={getDelay(index)} threshold={getThreshold(index)}>
+          <InViewCodePreview delayIn={getDelayIn(index)} delayOut={getDelayOut(index)} threshold={getThreshold(index)}>
             <CodePreview url={data.url} name={data.name} description={intl.formatMessage({id: data.description})} />
           </InViewCodePreview>
         </Flex>
@@ -173,40 +159,43 @@ const OpenCode = ({ data, intl, location }) => {
           pt={['70px', null, '170px']}
           pb={['70px', null, '170px', 6]}
         >
-          <Text
-            as={Title}
-            fontFamily="serif"
-            fontSize={['6.763285024vw', null, '5.2vw', '5.241935484vw', '3.611111111vw']}
-            fontWeight="300"
-            lineHeight={[1.178571429, null, null, 1.538461538]}
-            textAlign="center"
-          >
-            <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'opensource.title' })} />
-          </Text>
+          <TransitionContainer>
+            <Text
+              as={Title}
+              fontFamily="serif"
+              fontSize={['6.763285024vw', null, '5.2vw', '5.241935484vw', '3.611111111vw']}
+              fontWeight="300"
+              lineHeight={[1.178571429, null, null, 1.538461538]}
+              textAlign="center"
+            >
+              <AnimatedHtmlTitle startDelay={delay} source={intl.formatMessage({ id: 'opensource.title' })} />
+            </Text>
+          </TransitionContainer>
 
-          <Text
-            as={Description}
-            m={0}
-            mt={[3, null, 4, 2]}
-            mx="auto"
-            p={0}
-            maxWidth={[null, null, '58vw', '75vw', '50vw']}
-            fontSize={['4.830917874vw', null, '3.125vw', '2.419354839vw', '1.666666667vw']}
-            lineHeight={[1.5]}
-            textAlign="center"
-            initialPose="init"
-            pose="appear"
-            delay={delay + 1250}
-            withParent={false}
+          <TransitionContainer 
+            mt={[3, null, 4, 2]} 
+            mx="auto" 
+            maxWidth={[null, null, '58vw', '75vw', '50vw']} 
+            delayIn={delay + 1250} 
+            autoCalculateDelay={false}
           >
-            {intl.formatMessage({ id: 'opensource.description' })}
-          </Text>
+            <Text
+              as="p"
+              m={0}
+              p={0}
+              fontSize={['4.830917874vw', null, '3.125vw', '2.419354839vw', '1.666666667vw']}
+              lineHeight={[1.5]}
+              textAlign="center"
+            >
+              {intl.formatMessage({ id: 'opensource.description' })}
+            </Text>
+          </TransitionContainer>
         </Container>
       </Box>
 
       <Box as="section" bg="black" color="white">
         <Container fluid={true}>
-          <Packages delay={delay + 1050} />
+          <Packages delayIn={delay + 1050} delayOut={TRANSITION_IN_DELAY / 4} />
         </Container>
       </Box>
 

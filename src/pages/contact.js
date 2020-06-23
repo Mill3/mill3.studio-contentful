@@ -64,7 +64,7 @@ const Contact = ({ data, intl }) => {
         <ContactTicker py={[4, null, 5]} />
       </Box>
 
-      <ContactForm px={[24, 4, 0]}expandable={false} opened={true} />
+      <ContactForm px={[24, 4, 0]} expandable={false} opened={true} />
 
     </>
   )

@@ -94,6 +94,7 @@ const TransitionContainer = props => {
 
 TransitionContainer.defaultProps = {
   enabled: true,
+  disabledPose: `none`,
   direction: `both`,
   autoCalculateDelay: true,
   distance: 80,

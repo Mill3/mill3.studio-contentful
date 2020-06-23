@@ -7,6 +7,7 @@ import { RowContainer } from './index'
 import { CalculatePaddingTop, CalculatePaddingBottom, TextColumn, format } from './ContentText'
 import Button from '@components/form/Button'
 import Checkbox from '@components/form/Checkbox'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import { space } from '@styles/Theme'
 
 const FormField = ({ data }) => {
@@ -142,21 +143,23 @@ const ContentForm = props => {
         {/* text */}
         {hasContent &&
           <Box px={[2, 3, 3, 3, 4, 6]} width={columnsWidth}>
-            <Box pr={[0,0,`50px`]}>
-              {title && (
-                <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
-                  {title}
-                </Heading>
-              )}
-              {text && (
-                <TextColumn
-                  index={1}
-                  text={text.content ? format(text.content) : []}
-                  textColor={textColor}
-                  margin={[0]}
-                />
-              )}
-            </Box>
+            <TransitionContainer>
+              <Box pr={[0,0,`50px`]}>
+                {title && (
+                  <Heading as="h3" fontWeight="300" color={textColor || `currentColor`}>
+                    {title}
+                  </Heading>
+                )}
+                {text && (
+                  <TextColumn
+                    index={1}
+                    text={text.content ? format(text.content) : []}
+                    textColor={textColor}
+                    margin={[0]}
+                  />
+                )}
+              </Box>
+            </TransitionContainer>
           </Box>
         }
         {/* form */}
@@ -167,23 +170,25 @@ const ContentForm = props => {
           width={columnsWidth}
           color={textColor}
         >
-          {!submitted && (
-            <form action={webhookUrl} onSubmit={e => onSubmit(e)} method="post">
-              {/* all form fields */}
-              <Flex flexWrap={'wrap'} mx={[space[2] * -1]}>
-                {contentfulfields && contentfulfields.map((field, index) => (
-                  <FormField key={`key-${index}`} index={index} data={field} />
-                ))}
-              </Flex>
-              {/* submit button */}
-              <Box>
-                <Button disabled={submitting}>{submitLabel}</Button>
-              </Box>
-            </form>
-          )}
-          {submitted && sucessMessage && (
-            <React.Fragment>{format(sucessMessage.content)}</React.Fragment>
-          )}
+          <TransitionContainer>
+            {!submitted && (
+              <form action={webhookUrl} onSubmit={e => onSubmit(e)} method="post">
+                {/* all form fields */}
+                <Flex flexWrap={'wrap'} mx={[space[2] * -1]}>
+                  {contentfulfields && contentfulfields.map((field, index) => (
+                    <FormField key={`key-${index}`} index={index} data={field} />
+                  ))}
+                </Flex>
+                {/* submit button */}
+                <Box>
+                  <Button disabled={submitting}>{submitLabel}</Button>
+                </Box>
+              </form>
+            )}
+            {submitted && sucessMessage && (
+              <React.Fragment>{format(sucessMessage.content)}</React.Fragment>
+            )}
+          </TransitionContainer>
         </Box>
       </Flex>
     </RowContainer>
