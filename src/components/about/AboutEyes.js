@@ -1,11 +1,10 @@
-import React, { Component, createRef } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import posed from 'react-pose'
 import styled, { css } from 'styled-components';
 import { Box, Flex } from 'rebass'
-import { InView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer'
 
 import { LayoutContext } from '@layouts/layoutContext'
-
 import { IS_TOUCH_DEVICE } from '@utils/constants'
 import { hypothenuse, limit } from '@utils/Math'
 import Viewport from '@utils/Viewport'
@@ -105,166 +104,133 @@ const Eye = ({ x, y, bg, pose }) => {
   )
 }
 
-class AboutEyes extends Component {
 
-  static contextType = LayoutContext
+const AboutEyes = ({ color = '#000' }) => {  
+  const [ inViewRef, inView ] = useInView({ threshold: 0, triggerOnce: false })
+  const { layoutState } = useContext(LayoutContext)
+  const [ blink, setBlink ] = useState(true)
+  const [ focus, setFocus ] = useState(0)
+  const [ radians, setRadians ] = useState(Math.PI * -1)
+  const { scrollbar } = layoutState
+  const ref = useRef()
 
-  constructor(props) {
-    super(props)
+  // executed only when inView change
+  useEffect(() => {
+    let mouseEvent, 
+        raf,
+        constants = { cx: 0, cy: 0 }
 
-    this.state = {
-      radians: Math.PI * -1,
-      focus: 0,
-      blink: true,
+    const onResize = () => {
+      const { x, y, width, height } = ref.current.getBoundingClientRect()
+
+      constants.cx = x + width * 0.5
+      constants.cy = y + height * 0.5 + scrollbar.offset.y
     }
+    const onRAF = () => {
+      raf = requestAnimationFrame(onRAF)
 
-    this.ref = createRef()
-    this.mounted = false
-    this.scrollbar = null
-    this.raf = null
-    this.mouseEvent = null
-    this.constants = {
-      cx: 0,
-      cy: 0,
+      if( IS_TOUCH_DEVICE ) {
+        if( scrollbar ) {
+          const { y } = scrollbar._momentum
+          const d = limit(0, SCROLL_MAX, Math.abs(y))
+
+          // update states
+          setRadians( y >= 0 ? Math.PI * -0.5 : Math.PI * 0.5 )
+          setFocus( d / SCROLL_MAX )
+        }
+      } else {
+        // get component center position
+        let { cx, cy } = constants
+  
+        // subtract scrollbar y offset
+        cy -= scrollbar ? scrollbar.offset.y : 0
+  
+        // if mouse position is null, set default value to component center
+        const mx = mouseEvent ? mouseEvent.clientX : cx
+        const my = mouseEvent ? mouseEvent.clientY : cy
+  
+        // calculate radians
+        const radians = Math.atan2(my - cy, mx - cx)
+  
+        // distance between mouse and center of component
+        const dist = limit( DISTANCE_MIN, DISTANCE_MAX, hypothenuse(mx, my, cx, cy) )
+  
+        // turn this into a percentage based value
+        const percentage = (dist - DISTANCE_MIN) / (DISTANCE_MAX - DISTANCE_MIN)
+  
+        // update states
+        setRadians(radians - Math.PI)
+        setFocus(percentage)
+        setBlink(percentage === 0)
+      }
     }
-
-    this.onInViewChange = this.onInViewChange.bind(this)
-    this.onClick = this.onClick.bind(this)
-    this.onMouseMove = this.onMouseMove.bind(this)
-    this.onRAF = this.onRAF.bind(this)
-    this.onResize = this.onResize.bind(this)
-  }
-
-  componentDidMount() {
-    this.mounted = true
-    Viewport.on(this.onResize)
-  }
-
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-      this.onResize()
-    }
-  }
-
-  componentWillUnmount() {
-    Viewport.off(this.onResize)
-    window.removeEventListener('mousemove', this.onMouseMove, { passive: false })
-    if( this.raf ) cancelAnimationFrame(this.onRAF)
-
-    this.raf = null
-    this.scrollbar = null
-    this.mounted = false
-  }
-
-  onInViewChange(inView) {
-    if( !this.mounted ) return
+    const onMouseMove = (event) => mouseEvent = event
 
     if( inView ) {
-      this.onResize()
-      if( IS_TOUCH_DEVICE ) this.setState({ blink: false })
+      // remove event listener before adding it to prevent doubling (safety check)
+      Viewport.off(onResize)
+      Viewport.on(onResize)
+      onResize()
 
-      window.addEventListener('mousemove', this.onMouseMove, { passive: false })
-      if( !this.raf ) this.raf = requestAnimationFrame(this.onRAF)
+      // update blink state if necessary
+      if( IS_TOUCH_DEVICE && blink === true ) setBlink(false)
+
+      // remove event listener before adding it to prevent doubling (safety check)
+      window.removeEventListener('mousemove', onMouseMove, { passive: false })
+      window.addEventListener('mousemove', onMouseMove, { passive: false })
+
+      if( !raf ) raf = requestAnimationFrame(onRAF)
     }
     else {
-      window.removeEventListener('mousemove', this.onMouseMove, { passive: false })
-      if( this.raf ) cancelAnimationFrame(this.onRAF)
+      Viewport.off(onResize)
+      window.removeEventListener('mousemove', onMouseMove, { passive: false })
 
-      this.raf = null;
-      this.mouseEvent = null;
-    }
-  }
-  onClick() {
-    if( !this.mounted ) return
-
-    this.setState({ blink: true }, () => {
-      setTimeout(() => this.setState({ blink: false }), 250)
-    })
-  }
-  onMouseMove(event) {
-    this.mouseEvent = event;
-  }
-  onRAF() {
-    if( !this.mounted ) return
-
-    this.raf = requestAnimationFrame(this.onRAF)
-
-    if( IS_TOUCH_DEVICE ) {
-      if( this.scrollbar ) {
-        const { y } = this.scrollbar._momentum
-        const d = limit(0, SCROLL_MAX, Math.abs(y))
-
-        this.setState({
-          radians: y >= 0 ? Math.PI * -0.5 : Math.PI * 0.5,
-          focus: d / SCROLL_MAX,
-        })
+      if( raf ) {
+        cancelAnimationFrame(raf)
+        raf = null
       }
-    } else {
-      // get component center position
-      let { cx, cy } = this.constants
-
-      // subtract scrollbar y offset
-      cy -= this.scrollbar ? this.scrollbar.offset.y : 0
-
-      // if mouse position is null, set default value to component center
-      const mx = this.mouseEvent ? this.mouseEvent.clientX : cx
-      const my = this.mouseEvent ? this.mouseEvent.clientY : cy
-
-      // calculate radians
-      const radians = Math.atan2(my - cy, mx - cx)
-
-      // distance between mouse and center of component
-      const dist = limit( DISTANCE_MIN, DISTANCE_MAX, hypothenuse(mx, my, cx, cy) )
-
-      // turn this into a percentage based value
-      const percentage = (dist - DISTANCE_MIN) / (DISTANCE_MAX - DISTANCE_MIN)
-
-      // update state
-      this.setState({
-        radians: radians - Math.PI,
-        focus: percentage,
-        blink: percentage === 0,
-      })
     }
-  }
-  onResize() {
-    if( !this.mounted || !this.scrollbar || !this.ref.current ) return
 
-    const rect = this.ref.current.getBoundingClientRect()
+    return () => {
+      Viewport.off(onResize)
+      window.removeEventListener('mousemove', onMouseMove, { passive: false })
 
-    this.constants.cx = rect.x + rect.width * 0.5
-    this.constants.cy = rect.y + rect.height * 0.5 + this.scrollbar.offset.y
-  }
+      if( raf ) cancelAnimationFrame(raf)
+    }
+  }, [inView])
 
-  render() {
-    const { color } = this.props
-    const { blink, focus, radians } = this.state
+  // Use `useCallback` so we don't recreate the function on each render - Could result in infinite loop
+  const setRefs = useCallback((node) => {
+    // Ref's from useRef needs to have the node assigned to `current`
+    ref.current = node
+    // Callback refs, like the one from `useInView`, is a function that takes the node as an argument
+    inViewRef(node)
+  }, [inViewRef])
 
-    const x = -12 * Math.cos(radians) * focus
-    const y = -24 * Math.sin(radians) * focus
-    const bg = INVERTED_COLORS[color]
-    const pose = blink || bg === "#000" ? 'blink' : 'open'
+  // render logics
+  const x = -12 * Math.cos(radians) * focus
+  const y = -24 * Math.sin(radians) * focus
+  const bg = INVERTED_COLORS[color]
+  const pose = blink || bg === "#000" ? 'blink' : 'open'
 
-    return (
-      <InView onChange={this.onInViewChange} threshold={0}>
-        <Flex
-          ref={this.ref}
-          as={ContainerStyle}
-          justifyContent="space-between"
-          width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', 70]}
-          height={['12.801932367vw', null, '6.901041667vw', '5.342741935vw', 53]}
-          color={color}
-          aria-hidden="true"
-          onClick={this.onClick}
-        >
-          <Eye x={x} y={y} bg={bg} pose={pose} />
-          <Eye x={x} y={y} bg={bg} pose={pose} />
-        </Flex>
-      </InView>
-    )
-  }
+  return (
+    <Flex
+      ref={setRefs}
+      as={ContainerStyle}
+      justifyContent="space-between"
+      width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', 70]}
+      height={['12.801932367vw', null, '6.901041667vw', '5.342741935vw', 53]}
+      color={color}
+      aria-hidden="true"
+      onClick={() => {
+        setBlink(true)
+        setTimeout(() => setBlink(false), 250)
+      }}
+    >
+      <Eye x={x} y={y} bg={bg} pose={pose} />
+      <Eye x={x} y={y} bg={bg} pose={pose} />
+    </Flex>
+  )
 }
 
 export default AboutEyes

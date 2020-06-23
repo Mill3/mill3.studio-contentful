@@ -10,9 +10,8 @@ import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { ArrowButton } from '@components/buttons'
 import Container from '@styles/Container'
 
+import shakeAnimation from "@animations/shake.json"
 import { lb2br } from '@utils/Linebreaks'
-
-import shakeAnimation from "@animations/shake.json";
 
 const AboutClients = ({ data, color = "#000" }) => {
   const { clientsIntro } = data

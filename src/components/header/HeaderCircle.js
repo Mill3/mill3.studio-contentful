@@ -19,17 +19,10 @@ const AssetsByLocale = {
   }
 }
 
-const HeaderCircle = (props) => (
+const HeaderCircle = ({locale = 'en', type = 'work', ...props}) => (
   <CircularIcon css={{bottom: 0, transform: 'translateY(50%)', backgroundBlendMode: 'lighten'}} {...props}>
-    <img src={AssetsByLocale[props.locale][props.type]} alt="rotating circle"/>
+    <img src={AssetsByLocale[locale][type]} alt="rotating circle"/>
   </CircularIcon>
 )
-
-
-HeaderCircle.defaultProps = {
-  locale: `en`,
-  type: `work`,
-}
-
 
 export default HeaderCircle
