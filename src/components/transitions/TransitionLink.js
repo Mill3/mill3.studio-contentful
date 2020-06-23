@@ -17,7 +17,7 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
     e => {
       e.preventDefault()
 
-      // do nothing if on same location
+      // First, do nothing if on same location
       const location = window.location.pathname
       if (location === path) return
 
@@ -35,10 +35,7 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
           transitionState: TRANSITION_PANE_STATES[`started`],
           inTransition: true,
         })
-        let wait = setTimeout(() => {
-          clearTimeout(wait)
-          resolve('started')
-        }, TRANSITION_OUT_DURATION / 3)
+        resolve('started')
       })
 
       // 2. show transition pane
@@ -48,14 +45,16 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
           transitionState: TRANSITION_PANE_STATES[`leaving`],
           inTransition: true,
         })
+
         let wait = setTimeout(() => {
           clearTimeout(wait)
           resolve('leaving')
-        }, TRANSITION_OUT_DURATION)
+        }, TRANSITION_OUT_DURATION * 2)
       })
 
-      // run all promises above
+      // run all Promises above
       Promise.all([transitionStarted, transitionLeaving]).then(() => {
+        console.log(`swtich page`);
         navigate(path)
       });
     },
