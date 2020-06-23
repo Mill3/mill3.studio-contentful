@@ -112,11 +112,8 @@ const VideoPlaybackPoses = posed.button({
 
 const Header = styled(HeaderIntroPoses)`
   color: ${props => props.theme.colors.white};
-  padding-top: ${header.height * 2}px;
-
-  @media (min-width: ${breakpoints[2]}) {
-    padding-top: ${header.height * 2 + 24}px;
-  }
+  margin-top: ${space[6] * -1}px;
+  padding-top: ${space[6]}px;
 `
 const HeaderTextStyle = styled.h1`
   margin: 0;
@@ -415,7 +412,7 @@ class HeaderIntro extends Component {
     return (
       <Box as={Header} initialPose={`init`} pose={isTransitionVisible ? `leaving` : `entering`}>
         <AnimatedBackgroundContainer backgroundColor={'transparent'} duration={500} onChange={this.setBodyInverted}>
-          <Container fluid _pt={['70px', null, '170px']} pb={['70px', null, '170px', 6]}>
+          <Container fluid pt={['70px', null, '170px']} pb={['70px', null, '170px', 6]}>
             <Flex px={[16, 40 - space[4], 0]} display="flex" flexDirection="column">
               <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
                 <SplitText
