@@ -26,12 +26,12 @@ const HeaderIntroPoses = posed.header({
     y: 0,
   },
   leaving: {
-    y: `-75%`,
+    y: `-90%`,
     transition: {
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: TRANSITION_OUT_DURATION * 2.75,
+        duration: TRANSITION_OUT_DURATION * 2.15,
       },
     },
   },

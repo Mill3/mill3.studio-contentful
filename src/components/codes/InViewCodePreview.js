@@ -45,13 +45,13 @@ const InViewCodePreview = ({ children, delayIn = 0, delayOut = 0, threshold = 0.
     const delay = isExiting ? delayOut : delayIn
 
     return (
-        <Flex 
-            ref={ref} 
-            as={Poses} 
-            initialPose="init" 
-            pose={pose} 
+        <Flex
+            ref={ref}
+            as={Poses}
+            initialPose="init"
+            pose={pose}
             delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
-            withParent={false} 
+            withParent={false}
             {...props}
         >
             {children}

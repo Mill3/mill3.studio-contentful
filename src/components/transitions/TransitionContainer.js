@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import posed from 'react-pose'
 
-import { TRANSITION_IN_DELAY, EASES } from '@utils/constants'
+import { TRANSITION_IN_DURATION, TRANSITION_IN_DELAY, EASES } from '@utils/constants'
 
 import { LayoutContext } from '@layouts/layoutContext'
 
@@ -34,7 +34,7 @@ const TransitionContainerPoses = posed.div({
     y: ({ distance }) => distance * -1,
     delay: ({ delayOut }) => delayOut,
     transition: {
-      duration: TRANSITION_IN_DELAY / 2,
+      duration: TRANSITION_IN_DURATION,
       ease: 'easeIn',
     },
   },
