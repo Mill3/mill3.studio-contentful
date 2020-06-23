@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
@@ -30,6 +30,10 @@ const About = ({ data }) => {
       dispatch({ type: 'inverted.reset' })
     }
   }
+
+  useEffect(() => {
+    if (!layoutState.invertedHeader) dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <>

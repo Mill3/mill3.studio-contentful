@@ -13,7 +13,6 @@ import {
   TRANSITION_INTRO_DURATION,
   TRANSITION_IN_DELAY,
   TRANSITION_IN_DURATION,
-  TRANSITION_OUT_DELAY,
   TRANSITION_OUT_DURATION,
 } from '@utils/constants'
 
@@ -38,10 +37,10 @@ const Poses = posed.div({
   },
 
   // when transition starts
-  exit: {
+  leaving: {
     opacity: 1,
     transition: {
-      delay: TRANSITION_OUT_DELAY,
+      // delay: TRANSITION_OUT_DELAY,
       duration: TRANSITION_OUT_DURATION,
     },
   },

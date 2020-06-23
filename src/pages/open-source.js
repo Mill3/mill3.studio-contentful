@@ -172,11 +172,11 @@ const OpenCode = ({ data, intl, location }) => {
             </Text>
           </TransitionContainer>
 
-          <TransitionContainer 
-            mt={[3, null, 4, 2]} 
-            mx="auto" 
-            maxWidth={[null, null, '58vw', '75vw', '50vw']} 
-            delayIn={delay + 1250} 
+          <TransitionContainer
+            mt={[3, null, 4, 2]}
+            mx="auto"
+            maxWidth={[null, null, '58vw', '75vw', '50vw']}
+            delayIn={delay + 1250}
             autoCalculateDelay={false}
           >
             <Text

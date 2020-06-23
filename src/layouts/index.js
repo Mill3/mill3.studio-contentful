@@ -85,14 +85,14 @@ const Layout = props => {
                         mountOnEnter={true}
                         unmountOnExit={true}
                         delay={{
-                          enter: TRANSITION_DURATION
+                          enter: TRANSITION_DURATION / 2
                         }}
                         timeout={{
-                          exit: TRANSITION_DURATION
+                          exit: TRANSITION_DURATION / 2
                         }}
                         onExit={e => {
                           dispatch({ type: 'inverted.reset' })
-                          dispatch({ type: 'transition.setState', transitionState: `exit`, inTransition: true })
+                          // dispatch({ type: 'transition.setState', transitionState: `leaving`, inTransition: true })
                         }}
                         onEntering={e => {
                           scrollToTop()
