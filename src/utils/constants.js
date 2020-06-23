@@ -15,13 +15,13 @@ export const EASES = {
 export const TRANSITION_PANE_STATES = {
   intro: 'intro',
   started: 'started',
-  exit: 'exit',
+  leaving: 'leaving',
   entering: 'entering',
 }
 
 // base value for all transition durations or delays
 
-export const TRANSITION_BASE = 850
+export const TRANSITION_BASE = 450
 
 // transition duration base, used only for component handling route changes
 
