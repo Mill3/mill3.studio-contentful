@@ -2,9 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 
-
 import { LayoutContext } from '@layouts/layoutContext'
-
 
 const BodyBackgroundStyle = styled.div`
     pointer-events: none;

@@ -21,7 +21,7 @@ import Wrapper from '@layouts/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import { TRANSITION_DURATION } from '@utils/constants'
+import { TRANSITION_OUT_DELAY, TRANSITION_OUT_DURATION, TRANSITION_DURATION } from '@utils/constants'
 import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 
@@ -68,8 +68,8 @@ const Layout = props => {
           <LayoutContext.Provider value={{ layoutState, dispatch }}>
             <GlobalStyle />
             <ThemeProvider theme={Theme}>
-              <BodyBackground /> 
-              <TransitionPane location={location} />
+              <BodyBackground />
+              <TransitionPane />
               <FullViewportHeight>
                 <div ref={scrollbarRef}>
                   <Wrapper>
@@ -128,4 +128,4 @@ Layout.propTypes = {
   withIntro: PropTypes.bool,
 }
 
-export default Layout
+export default React.memo(Layout)

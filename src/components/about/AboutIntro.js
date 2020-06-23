@@ -10,7 +10,7 @@ import { AboutSectionHeading } from './index'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import Container from '@styles/Container'
 import { breakpoints, header } from '@styles/Theme'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY,  TRANSITION_IN_DELAY } from '@utils/constants'
 import { lb2br } from '@utils/Linebreaks'
 
 import globeAnimation from '@animations/globe.json'
@@ -18,7 +18,7 @@ import globeAnimation from '@animations/globe.json'
 const AboutIntro = ({ data, color = 'white' }) => {
   const { layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
-  const delay = transition.state === `intro` ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+  const delay = transition.state === TRANSITION_PANE_STATES[`intro`] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   return (
     <Box as={Header}>

@@ -7,16 +7,21 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import { InView } from 'react-intersection-observer'
 import memoize from 'memoize-one'
 
+import {
+  TRANSITION_PANE_STATES,
+  HAS_HOVER,
+  TRANSITION_IN_DELAY,
+  TRANSITION_OUT_DURATION,
+  INTRO_REVEALS_DELAY,
+} from '@utils/constants'
 import { LayoutContext } from '@layouts/layoutContext'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
-import { HAS_HOVER, TRANSITION_INTRO_DELAY, TRANSITION_DURATION } from '@utils/constants'
 import { lerp } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 import { ArrowButton } from '@components/buttons'
 import { AnimatedBackgroundContainer } from '@components/content_rows'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 const HeaderIntroPoses = posed.header({
@@ -27,12 +32,12 @@ const HeaderIntroPoses = posed.header({
     y: 0,
   },
   leaving: {
-    y: `-100%`,
+    y: `-75%`,
     transition: {
       y: {
         type: 'tween',
         ease: 'backInOut',
-        duration: TRANSITION_DURATION,
+        duration: TRANSITION_OUT_DURATION * 2.75,
       },
     },
   },
@@ -45,7 +50,7 @@ const ParagraphPoses = posed.div({
   appear: {
     opacity: 1,
     y: 0,
-    delay: ({delay}) => delay,
+    delay: ({ delay }) => delay,
     transition: {
       opacity: { duration: 400, easing: 'linear' },
       y: {
@@ -58,7 +63,7 @@ const ParagraphPoses = posed.div({
   leave: {
     opacity: 0,
     y: 100,
-    delay: ({delay}) => delay,
+    delay: ({ delay }) => delay,
     transition: {
       opacity: { duration: 400, easing: 'linear' },
       y: {
@@ -67,7 +72,7 @@ const ParagraphPoses = posed.div({
         damping: 8,
       },
     },
-  }
+  },
 })
 const VideoPlayerPoses = posed.video({
   default: {
@@ -78,7 +83,7 @@ const VideoPlayerPoses = posed.video({
       type: 'tween',
       duration: 950,
       delay: 350,
-      ease: [0.645, 0.045, 0.355, 1.000],
+      ease: [0.645, 0.045, 0.355, 1.0],
     },
     flip: true,
   },
@@ -89,10 +94,10 @@ const VideoPlayerPoses = posed.video({
     transition: {
       type: 'tween',
       duration: 1250,
-      ease: [0.645, 0.045, 0.355, 1.000],
+      ease: [0.645, 0.045, 0.355, 1.0],
     },
     flip: true,
-  }
+  },
 })
 const VideoPlaybackPoses = posed.button({
   visible: {
@@ -146,7 +151,6 @@ const VideoPlaybackStyle = styled(VideoPlaybackPoses)`
   transform: ${HAS_HOVER ? 'translate3d(0px, 0px, 0)' : 'translate(50%, -50%) !important'};
 `
 
-
 export const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
@@ -181,8 +185,8 @@ export const charPoses = {
   },
 }
 const fontSizes = {
-  'en': ['7.729468599vw', null, '6vw', '4.861111111vw'],
-  'fr': ['7.729468599vw', null, '6vw', '4.861111111vw']
+  en: ['7.729468599vw', null, '6vw', '4.861111111vw'],
+  fr: ['7.729468599vw', null, '6vw', '4.861111111vw'],
 }
 const videoPlayerRightOffset = new ResponsiveProp([-24, space[4] * -1, '-5vw'])
 const videoPlayerWidth = new ResponsiveProp(['100vw', null, null, '60vw'])
@@ -199,9 +203,7 @@ const PLAY_BUTTON_FRICTION = 0.8
 const VIDEO_LOOP_START_AT = 0
 const VIDEO_LOOP_END_AT = 3
 
-
 class BoxVideo extends Component {
-
   constructor(props) {
     super(props)
 
@@ -225,7 +227,7 @@ class BoxVideo extends Component {
     this.onTimeUpdate = this.onTimeUpdate.bind(this)
     this.onInViewChange = this.onInViewChange.bind(this)
 
-    this.getPoses = memoize((active) => active ? ['fullscreen', 'hidden'] : ['default', 'visible'])
+    this.getPoses = memoize(active => (active ? ['fullscreen', 'hidden'] : ['default', 'visible']))
   }
 
   componentDidMount() {
@@ -235,35 +237,38 @@ class BoxVideo extends Component {
   componentWillUnmount() {
     Viewport.off(this.onResize)
 
-    if( this.raf ) cancelAnimationFrame(this.raf)
-    this.raf = null;
+    if (this.raf) cancelAnimationFrame(this.raf)
+    this.raf = null
   }
 
   onMouseEnter(e) {
     this.isOver = true
 
-    if( this.isStarted === false ) {
+    if (this.isStarted === false) {
       this.isStarted = true
       this.event = e.nativeEvent
       this.raf = requestAnimationFrame(this.onRender)
     }
   }
-  onMouseLeave() { this.isOver = false }
-  onMouseMove(e) { this.event = e.nativeEvent }
+  onMouseLeave() {
+    this.isOver = false
+  }
+  onMouseMove(e) {
+    this.event = e.nativeEvent
+  }
   onRender() {
-    if( this.isOver ) {
+    if (this.isOver) {
       this.target.x = this.event.offsetX - this.rect.width
       this.target.y = this.event.offsetY
 
       this.current.x = lerp(this.current.x, this.target.x, PLAY_BUTTON_LERP)
       this.current.y = lerp(this.current.y, this.target.y, PLAY_BUTTON_LERP)
-    }
-    else {
+    } else {
       this.target.x = this.rect.width * -0.5
       this.target.y = this.rect.height * 0.5
 
-      const ax = ( this.target.x - this.current.x ) * PLAY_BUTTON_SPRING
-      const ay = ( this.target.y - this.current.y ) * PLAY_BUTTON_SPRING
+      const ax = (this.target.x - this.current.x) * PLAY_BUTTON_SPRING
+      const ay = (this.target.y - this.current.y) * PLAY_BUTTON_SPRING
 
       this.velocity.x += ax
       this.velocity.y += ay
@@ -275,48 +280,51 @@ class BoxVideo extends Component {
       this.current.y += this.velocity.y
     }
 
-    this.setState({
-      x: this.current.x,
-      y: this.current.y
-    }, () => {
-      this.raf = requestAnimationFrame(this.onRender)
-    })
+    this.setState(
+      {
+        x: this.current.x,
+        y: this.current.y,
+      },
+      () => {
+        this.raf = requestAnimationFrame(this.onRender)
+      }
+    )
   }
   onResize() {
-    if( this.ref.current ) this.rect = this.ref.current.getBoundingClientRect()
+    if (this.ref.current) this.rect = this.ref.current.getBoundingClientRect()
   }
   onTimeUpdate() {
     // do nothing if videoRef is undefined
-    if( !this.video.current ) return
+    if (!this.video.current) return
 
     // if video is fullscreen, do not activate synthetic loop
     const { active } = this.context.layoutState.demoReel
-    if( active ) return
+    if (active) return
 
     // get video timestamp
     const { currentTime } = this.video.current
 
     // if timestamp is higher than looping timestamp, set timestamp to loop beginning
-    if( currentTime > VIDEO_LOOP_END_AT ) this.video.current.currentTime = VIDEO_LOOP_START_AT
+    if (currentTime > VIDEO_LOOP_END_AT) this.video.current.currentTime = VIDEO_LOOP_START_AT
   }
   onInViewChange(inView) {
     const { current } = this.video
-    if( !current ) return
+    if (!current) return
 
-    if( inView ) current.play()
+    if (inView) current.play()
     else current.pause()
   }
 
   render() {
-    const { forwardedRef, intl, video, ...rest} = this.props
+    const { forwardedRef, intl, video, ...rest } = this.props
     const { x, y } = this.state
     const { active } = this.context.layoutState.demoReel
-    const [ playerPose, buttonPose ] = this.getPoses(active)
+    const [playerPose, buttonPose] = this.getPoses(active)
 
     return (
-      <Box ref={forwardedRef} css={{position: 'relative'}} {...rest}>
+      <Box ref={forwardedRef} css={{ position: 'relative' }} {...rest}>
         <InView onChange={this.onInViewChange}>
-          <Box width={['100%']} height={0} pb={['100%']} css={{position: 'relative'}}>
+          <Box width={['100%']} height={0} pb={['100%']} css={{ position: 'relative' }}>
             <Box
               as={VideoPlayerStyle}
               ref={this.video}
@@ -337,32 +345,32 @@ class BoxVideo extends Component {
           as={VideoPlaybackStyle}
           initialPose="visible"
           pose={buttonPose}
-          style={{transform: `translate3d(${x}px, ${y}px, 0)`}}
-        >{intl.formatMessage({ id: 'demoReel.Play' })}</Box>
+          style={{ transform: `translate3d(${x}px, ${y}px, 0)` }}
+        >
+          {intl.formatMessage({ id: 'demoReel.Play' })}
+        </Box>
 
-        {HAS_HOVER && <Box
-          ref={this.ref}
-          width={['100%']}
-          height={'100%'}
-          css={{position: 'absolute', top: 0, left: 0, cursor: 'pointer'}}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-          onMouseMove={this.onMouseMove}
-         />}
+        {HAS_HOVER && (
+          <Box
+            ref={this.ref}
+            width={['100%']}
+            height={'100%'}
+            css={{ position: 'absolute', top: 0, left: 0, cursor: 'pointer' }}
+            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
+            onMouseMove={this.onMouseMove}
+          />
+        )}
       </Box>
     )
   }
 }
 
-BoxVideo.contextType = LayoutContext;
-
+BoxVideo.contextType = LayoutContext
 
 const I18nBoxVideo = injectIntl(BoxVideo)
-const ForwardedBoxVideo = forwardRef((props, ref) =>
-  <I18nBoxVideo {...props} forwardedRef={ref} />
-)
+const ForwardedBoxVideo = forwardRef((props, ref) => <I18nBoxVideo {...props} forwardedRef={ref} />)
 class HeaderIntro extends Component {
-
   constructor(props) {
     super(props)
 
@@ -374,21 +382,21 @@ class HeaderIntro extends Component {
   }
 
   onBoxVideoClicked(e) {
-    if( e ) {
+    if (e) {
       e.preventDefault()
       e.stopPropagation()
     }
 
-    this.context.dispatch({type: 'demoReel.start', trigger: this.boxVideoRef.current})
+    this.context.dispatch({ type: 'demoReel.start', trigger: this.boxVideoRef.current })
   }
   setBodyInverted(inView) {
-    const { dispatch } = this.context;
-    if(inView === true) {
-      dispatch({type: "header.invert"})
-      dispatch({type: "body.invert"})
+    const { dispatch } = this.context
+    if (inView === true) {
+      dispatch({ type: 'header.invert' })
+      dispatch({ type: 'body.invert' })
     } else {
-      dispatch({type: "body.reset"})
-      dispatch({type: "header.reset"})
+      dispatch({ type: 'body.reset' })
+      dispatch({ type: 'header.reset' })
     }
   }
 
@@ -398,20 +406,16 @@ class HeaderIntro extends Component {
     const { transition, demoReel } = layoutState
 
     const isDemoReel = demoReel?.active === true
-    const isTransitionVisible = transition.state === TRANSITION_PANE_STATES['visible']
+    const isTransitionVisible = transition.inTransition
     const isTransitionIntro = transition.state === TRANSITION_PANE_STATES['intro']
-    const titleDelay = isTransitionIntro ? TRANSITION_INTRO_DELAY * 1.25 : TRANSITION_DURATION * 0.85
+    const titleDelay = isTransitionIntro ? INTRO_REVEALS_DELAY * 1.15 : TRANSITION_IN_DELAY * 1.15
 
-    if( !this.demoAsBeenClickedOnce ) this.demoAsBeenClickedOnce = isDemoReel;
+    if (!this.demoAsBeenClickedOnce) this.demoAsBeenClickedOnce = isDemoReel
 
     return (
-      <Box
-        as={Header}
-        initialPose={`init`}
-        pose={isTransitionVisible ? `leaving` : `entering`}
-      >
+      <Box as={Header} initialPose={`init`} pose={isTransitionVisible ? `leaving` : `entering`}>
         <AnimatedBackgroundContainer backgroundColor={'transparent'} duration={500} onChange={this.setBodyInverted}>
-          <Container fluid _pt={["70px", null, "170px"]} pb={["70px", null, "170px", 6]}>
+          <Container fluid _pt={['70px', null, '170px']} pb={['70px', null, '170px', 6]}>
             <Flex px={[16, 40 - space[4], 0]} display="flex" flexDirection="column">
               <Text as={HeaderTextStyle} fontSize={fontSizes[intl.locale]} className={`is-serif fw-900`}>
                 <SplitText
@@ -437,7 +441,7 @@ class HeaderIntro extends Component {
             </Flex>
           </Container>
 
-          <Container fluid display="flex" flexDirection={["column-reverse", null, "row"]} alignItems="center">
+          <Container fluid display="flex" flexDirection={['column-reverse', null, 'row']} alignItems="center">
             <InView threshold={0.5} triggerOnce={true}>
               {({ inView, ref }) => (
                 <Box
@@ -447,16 +451,23 @@ class HeaderIntro extends Component {
                   mt={[45, null, 0]}
                   pr={[0, null, '6vw', 0]}
                   initialPose={`init`}
-                  pose={isDemoReel ? `leave` : (inView ? `appear` : `init`)}
-                  delay={isDemoReel ? 0 : (inView && this.demoAsBeenClickedOnce ? 950 : 0 )}
+                  pose={isDemoReel ? `leave` : inView ? `appear` : `init`}
+                  delay={isDemoReel ? 0 : inView && this.demoAsBeenClickedOnce ? 950 : 0}
                 >
-                  <Text as="p" maxWidth={['100%', null, null, 425]} fontSize={[3, null, '24px']} lineHeight={["1.333333333"]} m={0} p={0}>
+                  <Text
+                    as="p"
+                    maxWidth={['100%', null, null, 425]}
+                    fontSize={[3, null, '24px']}
+                    lineHeight={['1.333333333']}
+                    m={0}
+                    p={0}
+                  >
                     {intl.formatMessage({ id: 'intro.AboutUs' }).toString()}
                   </Text>
 
                   <Text as="p" m={0} p={0} mt={[60, null, 3]}>
                     <TransitionLinkComponent to={`/about/`} color={'black'}>
-                      <ArrowButton color={"white"}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
+                      <ArrowButton color={'white'}>{intl.formatMessage({ id: 'intro.Button' })}</ArrowButton>
                     </TransitionLinkComponent>
                   </Text>
                 </Box>
@@ -476,6 +487,6 @@ class HeaderIntro extends Component {
   }
 }
 
-HeaderIntro.contextType = LayoutContext;
+HeaderIntro.contextType = LayoutContext
 
 export default injectIntl(HeaderIntro)

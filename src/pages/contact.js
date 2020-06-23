@@ -13,9 +13,8 @@ import ContactTicker from '@components/contact/ContactTicker'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import SEO from '@components/seo'
-import { TRANSITION_PANE_STATES } from '@components/transitions'
 import { breakpoints, header } from '@styles/Theme'
-import { TRANSITION_INTRO_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 
 
 const Header = styled.header`
@@ -31,7 +30,7 @@ const Header = styled.header`
 const Contact = ({ data, intl }) => {
   const { dispatch, layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
-  const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? TRANSITION_INTRO_DELAY : TRANSITION_IN_DELAY
+  const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
   useEffect(() => {
     if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
