@@ -22,7 +22,6 @@ import Viewport from '@utils/Viewport'
 const mobileBreakpoint = parseInt(breakpoints[1])
 const tabletBreakpoint = parseInt(breakpoints[2])
 
-<<<<<<< HEAD
 const DATA = [{
   url: "https://www.npmjs.com/package/@mill3-packages/wp-boilerplate",
   name: "Wordpress Theme Boilerplate with Webpack",
@@ -40,28 +39,6 @@ const DATA = [{
   name: "@breakpoints-observer",
   description: "code.breakpoints-observer"
 }]
-=======
-const DATA = [
-  {
-    url: 'https://www.npmjs.com/package/mill3-wp-boilerplate',
-    name: 'Mill3 WP Webpack/Twig Boilerplate',
-    description:
-      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
-  },
-  {
-    url: 'https://github.com/Mill3/mill3-packages/tree/master/packages/system-ui-sass',
-    name: 'System UI Sass',
-    description:
-      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
-  },
-  {
-    url: 'https://github.com/Mill3/mill3-packages/tree/master/packages/barba-scripts',
-    name: '@Barba/scripts',
-    description:
-      'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
-  },
-]
->>>>>>> d9315c4336c6377a6eaab50a8403e618f1aadb1c
 
 const DescriptionPoses = posed.p({
   init: {
