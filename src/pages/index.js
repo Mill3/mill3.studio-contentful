@@ -1,14 +1,12 @@
-import React, { createRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { graphql } from 'gatsby'
-
 import { injectIntl, FormattedMessage } from 'gatsby-plugin-intl'
-import { InView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer'
 import { Box } from 'rebass'
 
-import SEO from '@components/seo'
 
-import { LayoutContext } from '@layouts/layoutContext'
+import ContactForm from '@components/contact/ContactForm'
 import HeaderIntro from '@components/header/HeaderIntro'
 import DemoReel from '@components/home/DemoReel'
 import HomeTitle from '@components/home/HomeTitle'
@@ -16,7 +14,8 @@ import StickyTitle from '@components/home/StickyTitle'
 import StickyIntro from '@components/home/StickyIntro'
 import StickyOutro from '@components/home/StickyOutro'
 import ProjectsHome from '@components/projects/ProjectsHome'
-import ContactForm from '@components/contact/ContactForm'
+import SEO from '@components/seo'
+import { LayoutContext } from '@layouts/layoutContext'
 import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import StickyElement from '@utils/StickyElement'
@@ -36,104 +35,93 @@ const IndexContainer = styled.div`
   }
 `
 
-class IndexPage extends React.Component {
-  static contextType = LayoutContext
 
-  constructor(props) {
-    super(props)
+const IndexPage = ({ data }) => {
+  const [ introAtEnd, setIntroAtEnd ] = useState(false)
+  const [ projectsInView, setProjectsInView ] = useState(false)
+  const { layoutState } = useContext(LayoutContext)
+  const { demoReel } = layoutState
 
-    this.state = {
-      headerInView: true,
-      introInView: false,
-      introAtEnd: false,
-      projectsInView: false,
-      letsWorkInView: false,
-      outroInView: false,
+  const stickyContainerRef = useRef()
+  const isMobile = !Viewport.mq(`(min-width: ${breakpoints[1]})`)
+
+  const [ headerInViewRef, headerInView ] = useInView()
+  const [ introInViewRef, introInView ] = useInView({ threshold: 0.5, triggerOnce: true })
+  const [ projectsInViewRef, projectsInViewIO, projectsInViewEntry ] = useInView({ threshold: isMobile ? PROJECTS_MOBILE_INVIEW_THRESHOLD : 0.12 })
+  const [ letsWorkInViewRef, letsWorkInView ] = useInView()
+  const [ outroInViewRef, outroInView ] = useInView()
+
+  // calculate if projects are inView depending on multiple conditions
+  useEffect(() => {
+    // set new value to value from useInView
+    let newValue = projectsInViewIO
+
+    // if complex logics for mobile devices
+    if( isMobile ) {
+      // if projects are in view
+      if( projectsInViewIO ) {
+        const { intersectionRatio } = projectsInViewEntry
+  
+        let newValue = false
+  
+        // if ratio is greater than our IN_VIEW threshold, fade sticky title
+        if( intersectionRatio >= PROJECTS_MOBILE_INVIEW ) newValue = true
+        // if Let's Work is in view (meaning we are at the end of the projects list)
+        // and ratio is lower than our OUT_VIEW threshold, show sticky title
+        else if( letsWorkInView && intersectionRatio > PROJECTS_MOBILE_OUTVIEW ) newValue = true
+      }
+      else newValue = false
     }
 
-    this.stickyContainerRef = createRef()
-    this.onProjectsInView = this.onProjectsInView.bind(this)
-    this.onProjectsMobileInView = this.onProjectsMobileInView.bind(this)
-  }
+    // update state only if value has changed
+    if( newValue !== projectsInView ) setProjectsInView(newValue)
 
-  onProjectsInView(inView, entry) { this.setState({ projectsInView: inView }) }
-  onProjectsMobileInView(inView, entry) {
-    if( inView === true ) {
-      const { letsWorkInView, projectsInView } = this.state
-      const { intersectionRatio } = entry
+  }, [projectsInViewIO, letsWorkInView, projectsInViewEntry?.intersectionRatio])
 
-      let value = false
+  return (
+    <>
+      <SEO seo={data.seoFields} />
 
-      // if ratio is greater than our IN_VIEW threshold, fade sticky title
-      if( intersectionRatio >= PROJECTS_MOBILE_INVIEW ) value = true
-      // if Let's Work is in view (meaning we are at the end of the projects list)
-      // and ratio is lower than our OUT_VIEW threshold, show sticky title
-      else if( letsWorkInView && intersectionRatio > PROJECTS_MOBILE_OUTVIEW ) value = true
-
-      // update state only if required
-      if( value !== projectsInView ) this.setState({ projectsInView: value })
-    }
-    else this.setState({ projectsInView: false })
-  }
-
-  render() {
-    const { data } = this.props
-    const { headerInView, introInView, introAtEnd, projectsInView, letsWorkInView, outroInView } = this.state
-    const { demoReel } = this.context.layoutState
-    const isMobile = !Viewport.mq(`(min-width: ${breakpoints[1]})`)
-
-    return (
       <>
-        <SEO seo={data.seoFields} />
-        <React.Fragment>
-          <InView onChange={(inView) => this.setState({ headerInView: inView })}>
-            <HeaderIntro data={data} />
-          </InView>
+        <Box ref={headerInViewRef}>
+          <HeaderIntro data={data} />
+        </Box>
 
-          <Box ref={this.stickyContainerRef} as={IndexContainer} className={demoReel.active ? '--demoReel' : null}>
-            <InView onChange={(inView) => this.setState({ introInView: inView })} threshold={0.5} triggerOnce={true}>
-              <StickyElement contained={false} target={this.stickyContainerRef.current} onEnd={(ended) => this.setState({ introAtEnd: ended})}>
-                <StickyTitle
-                  inverted={headerInView}
-                  appear={introInView}
-                  faded={projectsInView}
-                  switchTitle={introAtEnd} />
-              </StickyElement>
-
-              <StickyElement contained={false} target={this.stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
-                <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || letsWorkInView || outroInView} />
-              </StickyElement>
-            </InView>
-
-            {data.projects && (
-              <InView
-                onChange={isMobile ? this.onProjectsMobileInView : this.onProjectsInView}
-                threshold={isMobile ? PROJECTS_MOBILE_INVIEW_THRESHOLD : 0.12}
-              >
-                <ProjectsHome data={data.projects} />
-              </InView>
-            )}
-
-            <InView onChange={(inView) => this.setState({ letsWorkInView: inView })}>
-              <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
-                <HomeTitle>
-                  <FormattedMessage id="intro.Lets" />
-                  <FormattedMessage id="intro.Work" />
-                </HomeTitle>
-              </Container>
-            </InView>
+        <Box ref={stickyContainerRef} as={IndexContainer} className={demoReel.active ? '--demoReel' : null}>
+          <Box ref={introInViewRef}>
+            <StickyElement target={stickyContainerRef.current} onEnd={(ended) => setIntroAtEnd(ended)}>
+              <StickyTitle inverted={headerInView} appear={introInView} faded={projectsInView} switchTitle={introAtEnd} />
+            </StickyElement>
+            <StickyElement target={stickyContainerRef.current} mb={["40vh", null, "50vh"]}>
+              <StickyIntro inverted={headerInView} appear={introInView} hidden={projectsInView || letsWorkInView || outroInView} />
+            </StickyElement>
           </Box>
 
-          <InView onChange={(inView) => this.setState({ outroInView: inView })}>
-            <StickyOutro appear={introAtEnd} pb={[100, null, 6]} />
-            <ContactForm />
-          </InView>
+          {data.projects && (
+            <Box ref={projectsInViewRef}>
+              <ProjectsHome data={data.projects} />
+            </Box>
+          )}
 
-          <DemoReel />
-        </React.Fragment>
+          <Box ref={letsWorkInViewRef}>
+            <Container fluid mt={6} py={0} style={{visibility: 'hidden'}} aria-hidden={true}>
+              <HomeTitle>
+                <FormattedMessage id="intro.Lets" />
+                <FormattedMessage id="intro.Work" />
+              </HomeTitle>
+            </Container>
+          </Box>
+        </Box>
+
+        <Box ref={outroInViewRef}>
+          <StickyOutro appear={introAtEnd} pb={[100, null, 6]} />
+          <ContactForm />
+        </Box>
+
+        <DemoReel />
       </>
-    )
-  }
+    </>
+  )
 }
 
 export default injectIntl(IndexPage)

@@ -10,11 +10,9 @@ import { detectLocale } from '@utils/Locales'
 import john from '@images/john.gif'
 
 const NotFoundContainer = styled.div`
-
   h1 {
     font-size: 8vw;
   }
-
 `
 
 const NotFoundPage = () => (

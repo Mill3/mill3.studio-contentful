@@ -1,21 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-
 import { injectIntl } from 'gatsby-plugin-intl'
 
 import PageSingle from '@components/pages/PageSingle'
 
 const Formation = ({ data }) => {
-  return (
-    <React.Fragment>
-      <PageSingle data={ data } />
-    </React.Fragment>
-  )
-}
-
-Formation.contextTypes = {
-  layoutState: PropTypes.object,
+  return <PageSingle data={ data } />
 }
 
 export default injectIntl(Formation)

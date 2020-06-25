@@ -5,7 +5,6 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 
-import { LayoutContext } from '@layouts/layoutContext'
 
 import { AboutSectionHeading } from '@components/about'
 import ContactForm from '@components/contact/ContactForm'
@@ -13,6 +12,7 @@ import ContactTicker from '@components/contact/ContactTicker'
 import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import SEO from '@components/seo'
+import { LayoutContext } from '@layouts/layoutContext'
 import { breakpoints, header } from '@styles/Theme'
 import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 
@@ -31,6 +31,7 @@ const Contact = ({ data, intl }) => {
   const { dispatch, layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
+
   useEffect(() => {
     if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
@@ -68,10 +69,6 @@ const Contact = ({ data, intl }) => {
 
     </>
   )
-}
-
-Contact.contextTypes = {
-  layoutState: PropTypes.object,
 }
 
 export default injectIntl(Contact)

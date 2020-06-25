@@ -1,120 +1,59 @@
-import React, { Component } from 'react'
-import ProximityFeedback from 'react-proximity-feedback'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
-import { InView } from 'react-intersection-observer'
+import { Box } from 'rebass'
+import { useInView } from 'react-intersection-observer'
+import { useProximityFeedback } from 'react-proximity-feedback'
 
 import Play from '@svg/Play'
 import FigureBox from '@utils/FigureBox'
 
 
-class EmbeddedPlayer extends Component {
-  constructor(props) {
-    super(props)
+const EmbeddedPlayer = ({ url, poster }) => {
+  const playRef = useRef()
+  const [ playing, setPlaying ] = useState(false)
+  const [ inViewRef, inView ] = useInView()
+  const [ proximityRef, distance ] = useProximityFeedback({ throttleInMs: 1000 / 60 })
 
-    this.startVideo = this.startVideo.bind(this)
-    this.pauseVideo = this.pauseVideo.bind(this)
-    this.setVisible = this.setVisible.bind(this)
-    this.setPlaying = this.setPlaying.bind(this)
+  return (
+    <FigureBox ref={inViewRef} ratio={9 / 16}>
+      <Box as={PlayerInner}>
+        {poster && (
+          <>
+            <PlayButton
+              ref={proximityRef}
+              visible={!playing}
+              scale={(distance < 300) ? 1 + ((300 - distance) / 750) : 1}
+              onClick={() => setPlaying(true)}
+            >
+              <Play />
+            </PlayButton>
 
-    this.playRef = React.createRef()
-    this.state = {
-      playing: false,
-      visible: false,
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      this.playRef &&
-      this.playRef.current &&
-      this.state.playing &&
-      !this.state.isVisible
-    ) {
-      this.pauseVideo()
-    }
-  }
-
-  startVideo = () => {
-    if (this.playRef && this.playRef.current) {
-      this.setState({
-        playing: true,
-      })
-    }
-  }
-
-  pauseVideo = () => {
-    this.setState({
-      playing: false,
-    })
-  }
-
-  setVisible(visible = false) {
-    this.setState({
-      isVisible: visible,
-    })
-  }
-
-  setPlaying() {
-    this.setState({
-      playing: true,
-    })
-  }
-
-  render() {
-    return (
-      <InView onChange={({inView}) => this.setVisible(inView)}>
-        {({ inView, ref }) => (
-          <FigureBox ref={ref} ratio={9 / 16}>
-            <PlayerInner>
-              {this.props.poster && (
-                <>
-                  <ProximityFeedback throttleInMs={1}>
-                    {({ ref, distance }) => (
-                      <PlayButton
-                        ref={ref}
-                        visible={!this.state.playing}
-                        scale={(distance < 300) ? 1 + ((300 - distance) / 750) : 1}
-                        onClick={() => this.startVideo()}
-                      >
-                        <Play />
-                      </PlayButton>
-                    )}
-                  </ProximityFeedback>
-                  <PlayerPoster visible={!this.state.playing}>
-                    <img src={this.props.poster} alt="" />
-                  </PlayerPoster>
-                </>
-              )}
-              <ReactPlayer
-                ref={this.playRef}
-                url={this.props.url}
-                width="100%"
-                height="100%"
-                playing={this.state.playing}
-                onStart={() => {
-                  this.setPlaying()
-                }}
-                onPlay={() => {
-                  this.startVideo()
-                }}
-                onPause={() => {
-                  this.pauseVideo()
-                }}
-                controls={true}
-                config={{
-                  youtube: {
-                    playerVars: { showinfo: 0 },
-                  },
-                }}
-              />
-            </PlayerInner>
-          </FigureBox>
+            <Box as={PlayerPoster} visible={!playing}>
+              <img src={poster} alt="" />
+            </Box>
+          </>
         )}
-      </InView>
-    )
-  }
+        <ReactPlayer
+          ref={playRef}
+          url={url}
+          width="100%"
+          height="100%"
+          playing={playing && inView}
+          onStart={() => setPlaying(true)}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          controls={true}
+          config={{
+            youtube: {
+              playerVars: { showinfo: 0 },
+            },
+          }}
+        />
+      </Box>
+    </FigureBox>
+  )
 }
 
 EmbeddedPlayer.propTypes = {

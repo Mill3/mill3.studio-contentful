@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const WrapperStyle = styled.div`
@@ -7,17 +7,10 @@ const WrapperStyle = styled.div`
   pointer-events: ${props => props.disabled ? 'none' : 'all'};
 `
 
-class Wrapper extends Component {
-
-  render() {
-    const { children } = this.props
-
-    return (
-      <WrapperStyle {...this.props}>
-        { children }
-      </WrapperStyle>
-    )
-  }
-}
+const Wrapper = ({ children, ...props}) => (
+  <WrapperStyle {...props}>
+    { children }
+  </WrapperStyle>
+)
 
 export default Wrapper

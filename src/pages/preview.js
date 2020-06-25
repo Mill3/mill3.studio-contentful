@@ -1,81 +1,59 @@
-import React, { Component } from 'react'
-// import Visibility from 'visibilityjs'
-import { getContentfulEntryID } from '@utils/ContentfulClient'
+import React, { useState, useEffect, useRef } from 'react'
+import Visibility from 'visibilityjs'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
 import PageSingle from '@components/pages/PageSingle'
+import { getContentfulEntryID } from '@utils/ContentfulClient'
 
-class Preview extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: null,
-    }
-    this.interval = null
-    this.update = this.update.bind(this)
-    this.entryID = getContentfulEntryID()
-  }
+const Preview = ({ pageContext }) => {
+  const entryID = useRef()
+  const [ data, setData ] = useState(null)
 
-  update() {
+  const update = () => {
     console.time(`fetchNewData`)
-    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${this.entryID}&locale=${this.props.pageContext.locale}`)
+
+    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${entryID.current}&locale=${pageContext.locale}`)
       .then(response => response.json())
       .then(node => {
         console.log('node:', node)
         console.warn('Fetched new data')
         console.timeEnd(`fetchNewData`)
-        this.setState({
-          data: node.data,
-        })
+
+        setData(node.data)
       })
   }
 
-  componentDidMount() {
-    // initial update
-    this.update()
+  // save Contentful entry ID
+  useEffect(() => entryID.current = getContentfulEntryID(), [])
 
-    if (typeof window === `object`) {
-      const Visibility = require('visibilityjs')
+  // run update method during component mount
+  useEffect(update, [])
+
+  // only when we are rendering our app client side
+  if (typeof window === `object`) {
+    useEffect(() => {
       // start an interval refreshing data every 2 sec
-      // only when docuement is visible
-      Visibility.every(2000, () => {
-        this.update()
-      })
+      const id = Visibility.every(2000, update)
 
-      Visibility.change((e, state) => {
-        Visibility.hidden() ? console.warn(`Document is hidden`) : console.log(`Doc is visible`)
-      })
-    }
+      // stop interval when unmounted
+      return () => Visibility.stop(id)
+    }, [])
+  }  
 
 
-  }
-
-  componentWillUnmount() {
-    // clearInterval(this.interval)
-  }
-
-  component(data) {
-    const pageContext = {
-      locale: this.props.pageContext.locale,
-    }
-    const { model } = this.state.data
-
-    // pick content Single component
-    switch (model) {
-      case 'project':
-        return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
-      case 'news':
-        return <NewsSingle pageContext={pageContext} data={{ news: this.state.data }} />
-      case 'pages':
-        return <PageSingle pageContext={pageContext} data={{ page: this.state.data }} />
-      default:
-        return <ProjectSingle pageContext={pageContext} data={{ project: this.state.data }} />
-    }
-  }
-
-  render() {
-    return <React.Fragment>{this.state.data ? this.component() : ''}</React.Fragment>
+  // pick content component
+  switch ( data?.model ) {
+    case 'project':
+      return <ProjectSingle pageContext={pageContext} data={{ project: data }} />
+    case 'news':
+      return <NewsSingle pageContext={pageContext} data={{ news: data }} />
+    case 'pages':
+      return <PageSingle pageContext={pageContext} data={{ page: data }} />
+    case 'project':
+      return <ProjectSingle pageContext={pageContext} data={{ project: data }} />
+    default: 
+      return null
   }
 }
 

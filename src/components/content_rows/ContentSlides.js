@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Box } from 'rebass'
@@ -7,12 +7,11 @@ import '@styles/flickity.css'
 import Flickity from 'react-flickity-component';
 
 //import { MediaItemVideo } from './ContentImages'
+import { VERTICAL_SPACER, GRID_GUTTER } from './index'
 import Container from '@styles/Container'
 import { getContentType, CONTENT_TYPES } from '@utils'
 import FigureBox from '@utils/FigureBox'
-import { VERTICAL_SPACER, GRID_GUTTER } from './index'
-
-// const Flickity = typeof window === `object` ? require('react-flickity-component') : null
+import Viewport from '@utils/Viewport'
 
 const flickityOptions = {
   prevNextButtons: false,
@@ -62,46 +61,37 @@ export const SlideItem = ({ img, dragging, index }) => {
   )
 }
 
-class ContentSlides extends Component {
-  state = {
-    dragging: false
-  }
+const ContentSlides = ({ data }) => {
+  const sliderRef = useRef()
+  const [ dragging, setDragging ] = useState(false)
 
-  componentDidMount() {
+  useEffect(() => {
+    const { current } = sliderRef
+    if( !current ) return
 
-    if(this.slider) {
-      this.slider.on('pointerDown', () => {
-        this.setState({
-          dragging: true
-        })
-      })
-      this.slider.on('pointerUp', () => {
-        this.setState({
-          dragging: false
-        })
-      })
-    }
+    current.on('pointerDown', () => setDragging(true))
+    current.on('pointerUp', () => setDragging(false))
 
-  }
+  }, [sliderRef])
 
-  render() {
-    let { data } = this.props
-    let { dragging } = this.state
-
-    return (
-      <Box as={SliderContainer}>
-        <Container fluid={true} mb={VERTICAL_SPACER}>
-          <Box mx={[-2, -3, `-${GRID_GUTTER}px`]}>
-            {(typeof window === `object`) &&
-              <Flickity flickityRef={c => this.slider = c} options={flickityOptions} elementType="article" disableImagesLoaded={true}>
-                {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
-              </Flickity>
-            }
-          </Box>
-        </Container>
-      </Box>
-    )
-  }
+  return (
+    <Box as={SliderContainer}>
+      <Container fluid={true} mb={VERTICAL_SPACER}>
+        <Box mx={[-2, -3, `-${GRID_GUTTER}px`]}>
+          {Viewport.exists &&
+            <Flickity 
+              flickityRef={c => sliderRef.current = c} 
+              options={flickityOptions} 
+              elementType="article" 
+              disableImagesLoaded={true}
+            >
+              {data.medias && data.medias.map((img, index) => <SlideItem img={img} index={index} dragging={dragging} key={index} />)}
+            </Flickity>
+          }
+        </Box>
+      </Container>
+    </Box>
+  )
 }
 
 export default ContentSlides

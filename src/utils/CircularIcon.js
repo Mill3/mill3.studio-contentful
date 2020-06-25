@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import { debounce } from 'lodash'
-import { TweenLite, TweenMax, Linear } from 'gsap'
-import TransitionContainer from '@components/transitions/TransitionContainer'
+import { useInView } from 'react-intersection-observer'
 
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import { LayoutContext } from '@layouts/layoutContext'
+import { lerp } from '@utils/Math'
+
+const VELOCITY = 360 / (8 * 60) // 360deg / 8sec
 
 const Container = styled.div`
   position: absolute;
@@ -17,97 +19,67 @@ const Container = styled.div`
     height: auto;
   }
 `
+const Figure = styled.div`
+  transform-origin: center center;
+  transform: rotate(0deg);
+  will-change: transform;
+`
 
-class CircularIcon extends Component {
+const CircularIcon = ({ children, ...props }) => {
+  const raf = useRef()
+  const ref = useRef()
+  const tween = useRef({ rotation: 0, velocity: VELOCITY })
+  const [ inViewRef, inView ] = useInView()
+  const { layoutState } = useContext(LayoutContext)
+  const { scrollbar } = layoutState
 
-  static contextType = LayoutContext
+  const animate = () => {
+    const { current } = tween
 
-  constructor(props) {
-    super(props)
+    current.velocity = lerp(current.velocity, VELOCITY, 0.05)
+    current.rotation += current.velocity
 
-    this.animated = false
-    this.timeScale = null
-    this.tween = null
-    this.ref = React.createRef()
-    this.scrollbar = null;
+    if( ref.current ) ref.current.style.transform = `rotate(${current.rotation}deg)`
 
-    this.onScroll = this.onScroll.bind(this)
-    this.onMouseWheelCompleted = this.onMouseWheelCompleted.bind(this)
-    this.updateTimeScale = this.updateTimeScale.bind(this)
-
-    this.onMouseWheelDebounce = debounce(this.onMouseWheelCompleted, 250)
+    // if inView, request animation frame
+    if( inView ) raf.current = requestAnimationFrame(animate)
+  }
+  const scroll = () => {
+    if( inView ) tween.current.velocity *= 1.04
   }
 
-  componentDidMount() {
-    this.timeScale = { value: 1 }
-    this.rotation()
-  }
+  // listen scrollbar
+  useEffect(() => {
+    scrollbar?.addListener(scroll)
+    return () => scrollbar?.removeListener(scroll)
+  }, [scrollbar])
 
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-      this.scrollbar.addListener(this.onScroll)
+  // start/stop infinite rotation
+  useEffect(() => {
+    // cancel previous animation frame
+    if( raf.current ) cancelAnimationFrame(raf.current)
+    raf.current = null
+
+    // if inView, request animation frame
+    if( inView ) raf.current = requestAnimationFrame(animate)
+
+    return () => {
+      if( raf.current ) cancelAnimationFrame(raf.current)
+      raf.current = null
     }
-  }
-
-  componentWillUnmount() {
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
-
-    if (this.timeScaleTween) this.timeScaleTween.kill()
-    this.timeScaleTween = null
-
-    if (this.tween) this.tween.kill()
-    this.tween = null
-  }
-
-  rotation() {
-    if (!this.ref || !this.ref.current) return
-
-    this.tween = TweenMax.to(this.ref.current, 8, {
-      rotation: 360,
-      ease: Linear.easeNone,
-      repeat: -1,
-    })
-  }
-
-  onScroll() {
-    if (this.animated === true) return
-    this.animated = true
-
-    this.updateTimeScale(3.25, 1.25)
-    this.onMouseWheelDebounce()
-  }
-
-  onMouseWheelCompleted() {
-    this.updateTimeScale(1, 0.25)
-    this.animated = false
-  }
-
-  updateTimeScale(valueChange, duration) {
-    if (this.timeScaleTween) this.timeScaleTween.kill()
-    this.timeScaleTween = TweenLite.to(this.timeScale, duration, {
-      value: valueChange,
-      onUpdate: () => this.tween ? this.tween.timeScale(this.timeScale.value) : '',
-    })
-  }
-
-  render() {
-    const { children } = this.props
-
-    return (
-      <Box as={Container} {...this.props}>
-        <TransitionContainer distance={-25}>
-          <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
-            <Box as="figure" ref={this.ref} m={0}>
-              {children}
-            </Box>
+  }, [inView])
+  
+  return (
+    <Box as={Container} ref={inViewRef} {...props}>
+      <TransitionContainer distance={-25}>
+        <Box width={['25vw', null, '15vw', '12vw']} pl={['5vw']}>
+          <Box ref={ref} as="figure" m={0}>
+            {children}
           </Box>
-        </TransitionContainer>
-      </Box>
-    )
-  }
+        </Box>
+      </TransitionContainer>
+    </Box>
+  )
 }
 
 export default CircularIcon

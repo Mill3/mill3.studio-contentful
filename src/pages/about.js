@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
-import { LayoutContext } from '@layouts/layoutContext'
+
 
 import AboutIntro from '@components/about/AboutIntro'
 import AboutTeam from '@components/about/AboutTeam'
@@ -11,9 +11,9 @@ import AboutProcess from '@components/about/AboutProcess'
 import AboutServices from '@components/about/AboutServices'
 import AboutClients from '@components/about/AboutClients'
 import ContactForm from '@components/contact/ContactForm'
-import SEO from '@components/seo'
-
 import { AnimatedBackgroundRowContainer } from '@components/content_rows'
+import SEO from '@components/seo'
+import { LayoutContext } from '@layouts/layoutContext'
 import ResponsiveProp from '@utils/ResponsiveProp'
 
 const HEADER_INVIEW_THRESHOLD = new ResponsiveProp([0.1, null, 0.25])

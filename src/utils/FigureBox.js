@@ -27,9 +27,7 @@ const FigureBoxContainer = styled.div`
     z-index: 1;
     display: block;
   }
-
 `
-
 const FigureBoxInner = styled.div`
   border: none;
   border-image-width: 0;
@@ -40,30 +38,23 @@ const FigureBoxInner = styled.div`
   left: 0px;
 `
 
-const FigureBox = forwardRef((props, ref) => {
+const FigureBox = forwardRef(({ ratio = 1, innerShadow = false, withGutter = false, overflow = 'visible', children, ...props }, ref) => {
   return (
     <Box
       ref={ref}
       as={FigureBoxContainer}
-      ratio={props.ratio}
-      innerShadow={props.innerShadow}
-      withGutter={props.withGutter}
-      overflow={props.overflow}
+      ratio={ratio}
+      innerShadow={innerShadow}
+      withGutter={withGutter}
+      overflow={overflow}
       {...props}
     >
       <FigureBoxInner>
-        {props.children}
+        {children}
       </FigureBoxInner>
     </Box>
   )
 })
-
-FigureBox.defaultProps = {
-  ratio: 1 / 1,
-  innerShadow: false,
-  withGutter: false,
-  overflow: 'visible',
-}
 
 FigureBox.propTypes = {
   children: PropTypes.any.isRequired,

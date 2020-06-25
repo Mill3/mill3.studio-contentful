@@ -1,19 +1,19 @@
-import React, { Component, useState, createRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { InView } from 'react-intersection-observer'
-import { debounce } from 'lodash'
 
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import TransitionContainer from '@components/transitions/TransitionContainer'
 import { LayoutContext } from '@layouts/layoutContext'
 import { breakpoints } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
+import { limit as between } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
-import TransitionLinkComponent from '@components/transitions/TransitionLink'
-import TransitionContainer from '@components/transitions/TransitionContainer'
 import Viewport from '@utils/Viewport'
 
 const DEFAULT_COLUMN = {
@@ -21,6 +21,7 @@ const DEFAULT_COLUMN = {
   ml: [0],
   mr: [0],
 }
+const TRANSFORM_NONE = {}
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -145,116 +146,82 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 `
 
 
-class ParallaxBox extends Component {
+const ParallaxBox = ({ active = false, offset = 0, children, ...props }) => {
+  const ref = useRef()
+  const boundaries = useRef(null)
+  const [ percentage, setPercentage ] = useState(0)
+  const { layoutState } = useContext(LayoutContext)
+  const { scrollbar } = layoutState
 
-  static contextType = LayoutContext
+  const resize = () => {
+    const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
+    const rect = ref.current.getBoundingClientRect()
+    const y = rect.y + scrollbar.offset.y
 
-  static propTypes = {
-    active: PropTypes.bool,
-    offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
-  }
-
-  static defaultProps = {
-    active: false,
-    offset: 0,
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      percentage: 0,
-    }
-
-    this.rect = null
-    this.ref = createRef()
-    this.scrollbar = null
-
-    this.onScroll = this.onScroll.bind(this)
-    this.onResize = this.onResize.bind(this)
-    this.debouncedOnResize = debounce(this.onResize, 750)
-  }
-
-  componentDidMount() {
-    if (this.props.offset === 0) return
-  }
-
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-      this.scrollbar.addListener(this.onScroll)
-      Viewport.on(this.debouncedOnResize)
-      this.onResize()
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
-
-    Viewport.off(this.debouncedOnResize)
-  }
-
-  onScroll({ offset }) {
-    if( !this.props.active || !this.rect ) return
-
-    if( this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0 ) {
-      if (this.state.percentage !== 0) this.setState({ percentage: 0 })
-      return
-    }
-
-    const h = this.rect.height
-    const vh = Viewport.height + h - this.rect.offset
-    const y = this.rect.y + h - offset.y
-    const dist = y / vh
-    const percentage = Math.max(0, Math.min(1, 1 - dist)) // from 0 to 1
-
-    if (this.state.percentage === percentage) return
-
-    this.setState({ percentage })
-  }
-  onResize() {
-    if (!this.ref.current || !this.scrollbar) return
-
-    const offset = this.props.offset instanceof ResponsiveProp ? this.props.offset.getValue() : this.props.offset
-    const rect = this.ref.current.getBoundingClientRect()
-    const y = rect.y + this.scrollbar.offset.y
-
-    this.rect = {
+    boundaries.current = {
       y: y,
-      height: rect.height + offset,
-      offset: Math.max(0, Viewport.height - y),
+      height: rect.height + value,
+      limit: Math.max(0, Viewport.height - y),
     }
   }
+  const scroll = (data) => {
+    if( !active ) return
 
-  render() {
-    const { active, offset, children, ...props } = this.props
-    const { percentage } = this.state
+    // get scroll y
+    const scrollY = data.offset.y
+    let newValue
 
-    let transform
-
-    // only calculate transformations if required
-    if (active) {
-      const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
-      transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
+    // if offset equal zero
+    if( offset instanceof ResponsiveProp && offset.getValue() === 0 ) {
+      newValue = 0
     } else {
-      transform = {}
+      const { y, height, limit } = boundaries.current
+      const vh = Viewport.height + height - limit
+      const top = y + height - scrollY
+      const dist = top / vh
+
+      newValue = between(0, 1, 1 - dist)
     }
 
-    return (
-      <Box
-        as="div"
-        ref={this.ref}
-        style={transform}
-        {...props}
-      >
-        {children}
-      </Box>
-    )
+    // update state only if required
+    if (percentage !== newValue) setPercentage(newValue)
   }
+
+  // listening to viewport's resize
+  useEffect(() => {
+    Viewport.on(resize)
+    return () => Viewport.off(resize)
+  }, [])
+
+
+  // listening to scrolling
+  useEffect(() => {
+    if( scrollbar ) resize()
+    scrollbar?.addListener(scroll)
+    return () => scrollbar?.removeListener(scroll)
+  }, [scrollbar, active])
+
+
+  let transform
+
+  // only calculate transformations if required
+  if (active) {
+    const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
+    transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : TRANSFORM_NONE
+  }
+  else transform = TRANSFORM_NONE
+
+  return (
+    <Box as="div" ref={ref} style={transform} {...props}>
+      {children}
+    </Box>
+  )
 }
 
+ParallaxBox.propTypes = {
+  active: PropTypes.bool,
+  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
+}
 
 const ProjectFigure = ({ active = false, color = '#000', video = null, image = null, ...props }) => {
   const setVideoRef = (ref) => {
@@ -290,7 +257,6 @@ const ProjectFigure = ({ active = false, color = '#000', video = null, image = n
     </Box>
   )
 }
-
 
 const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset = 0 }) => {
   const [inView, setInView] = useState(false)

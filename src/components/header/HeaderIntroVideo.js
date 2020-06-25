@@ -98,17 +98,6 @@ const VIDEO_LOOP_END_AT = 3
 
 
 const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
-    /*
-    constructor(props) {
-      super(props)
-  
-      this.current = { ...PLAY_BUTTON_DEFAULT }
-
-      //this.ref = createRef() // hitzoneRef
-      //this.video = createRef() // videoRef
-    }
-    */
-
     const hitzoneRef = useRef()
     const videoRef = useRef()
     const raf = useRef()

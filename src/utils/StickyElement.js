@@ -1,131 +1,79 @@
-import React, { Component, createRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Box } from 'rebass'
 
-import { getTranslate } from '@utils/transform'
-
 import { LayoutContext } from '@layouts/layoutContext'
+import { limit } from '@utils/Math'
+import { getTranslate } from '@utils/transform'
+import Viewport from '@utils/Viewport'
 
-class StickyElement extends Component {
-  static contextType = LayoutContext
+const StickyElement = ({ children, target, onEnd, ...props }) => {
+  const ref = useRef()
+  const boundaries = useRef({ top: 0, bottom: 0, scrollY: 0, atEnd: false })
 
-  constructor(props) {
-    super(props)
+  const [ y, setY ] = useState(0)
+  const { layoutState } = useContext(LayoutContext)
+  const { scrollbar } = layoutState
 
-    this.state = {
-      y: 0
-    }
-    this.rect = {
-      top: 0,
-      bottom: 0
-    }
-    this.scrollY = 0
-    this.scrollLimit = 0
-    this.atEnd = false
-    this.scrollbar = null
 
-    this.ref = createRef()
+  const resize = () => {
+    if( !target || !ref.current ) return
 
-    this.onScroll = this.onScroll.bind(this)
-    this.onResize = this.onResize.bind(this)
+    const targetRect = target.getBoundingClientRect()
+    const refRect = ref.current.getBoundingClientRect()
+    const translate = getTranslate( ref.current )
+    const offset = refRect.top - targetRect.top - translate.y
+
+    // update boundaries top & bottom values
+    boundaries.current.top = boundaries.current.scrollY + refRect.top - translate.y - offset
+    boundaries.current.bottom = targetRect.height - refRect.height - offset
   }
+  const scroll = ({ offset }) => {
+    // update current scroll position
+    boundaries.current.scrollY = offset.y
 
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize)
-    this.onResize()
-  }
+    const { top, bottom, scrollY, atEnd } = boundaries.current
+    const position = limit(0, bottom, (top - scrollY) * -1)
 
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-      this.scrollbar.addListener(this.onScroll)
-    }
-  }
+    // if position has changed, update state
+    if( position !== y ) setY(position)
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize)
-
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
-  }
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    // if target has changed, recalculate boundaries
-    if( prevProps.target !== this.props.target ) this.onResize()
-    // if scroll limit has changed, recalculate boundaries
-    else if( this.scrollbar && this.scrollLimit !== this.scrollbar.limit.y ) {
-      this.scrollLimit = this.scrollbar.limit.y
-      this.onResize()
-    }
-
-    return true
-  }
-
-  calculateHeight() {
-    if(!this.ref.current) return 0;
-
-    const elements = this.ref.current.querySelectorAll(`:scope > *`);
-    let h = 0
-
-    if(!elements) return h;
-
-    // console.log('elements:', elements)
-    [...elements].forEach(e => { if(e.getBoundingClientRect().height > h) h += e.getBoundingClientRect().height })
-
-    return h;
-  }
-
-  onScroll({ offset }) {
-    this.scrollY = offset.y
-
-    const { top, bottom }  = this.rect
-    const heightOffset = this.props.contained ? this.calculateHeight() : 0;
-    const y = Math.min(bottom - heightOffset, Math.min(top - this.scrollY, 0) * -1)
-
-    if( this.state.y !== y ) this.setState({ y: y })
-
-    if( y === bottom ) {
-      if( !this.atEnd ) {
-        this.atEnd = true
-
-        const { onEnd } = this.props
+    // if position has reached bottom, dispatch callback
+    if( position === bottom ) {
+      if( !atEnd ) {
+        boundaries.current.atEnd = true
         if( onEnd ) onEnd(true)
       }
-    }
-    else {
-      if( this.atEnd ) {
-        this.atEnd = false
-
-        const { onEnd } = this.props
+    } else {
+      // if position has reached top, dispatch callback
+      if( atEnd ) {
+        boundaries.current.atEnd = false
         if( onEnd ) onEnd(false)
       }
     }
   }
+  
 
-  onResize() {
-    if( !this.props.target || !this.ref.current ) return
+  // listen to viewport's resize
+  useEffect(() => {
+    Viewport.on(resize)
+    return () => Viewport.off(resize)
+  }, [])
 
-    const target = this.props.target.getBoundingClientRect()
-    const el = this.ref.current.getBoundingClientRect()
-    const translate = getTranslate( this.ref.current )
-    const offset = el.top - target.top - translate.y
+  // listen to scrollbar's scroll
+  useEffect(() => {
+    scrollbar?.addListener(scroll)
+    return () => scrollbar?.removeListener(scroll)
+  }, [scrollbar])
 
-    this.rect.top = this.scrollY + el.top - translate.y - offset
-    this.rect.bottom = target.height - el.height - offset
-  }
+  // simulate a resize when ref, target or scrollbar changes
+  useEffect(resize, [ref, target, scrollbar])
 
-  render() {
-    const { y } = this.state
-    const { children, onEnd, ...props } = this.props
-    // console.log(this.context);
 
-    return (
-      <Box ref={this.ref} {...props} style={{transform: `translate3d(0px, ${y}px, 0)`}}>
-        {children}
-      </Box>
-    )
-  }
+  return (
+    <Box ref={ref} {...props} style={{transform: `translate3d(0px, ${y}px, 0)`}}>
+      {children}
+    </Box>
+  )
 }
-
-// StickyElement.contextType = LayoutContext
 
 export default StickyElement

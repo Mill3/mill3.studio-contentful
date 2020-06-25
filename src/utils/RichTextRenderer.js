@@ -59,7 +59,7 @@ const renderAsset = (node, next) => {
 }
 
 // Override-able via options prop
-const options = {
+const DEFAULT_OPTIONS = {
   renderNode: {
     [BLOCKS.PARAGRAPH]: (node, next) => <p>{next(node.content)}</p>,
     [BLOCKS.EMBEDDED_ASSET]: (node, next) => renderAsset(node, next),
@@ -80,23 +80,14 @@ const options = {
   locale: `en-US`,
 }
 
-class RichTextRenderer extends React.Component {
-  getOptions = () => {
-    if (this.props.options) {
-      return deepmerge(options, this.props.options)
-    }
-    return options
-  }
-  render() {
-    const { content } = this.props
-    const JSONContent = JSON.parse(content)
-    const renderOpts = this.getOptions()
-    // console.log(renderOpts);
+const getOptions = (opts) => opts ? deepmerge(DEFAULT_OPTIONS, opts) : DEFAULT_OPTIONS
 
-    const JSX = documentToJSX(JSONContent, renderOpts)
+const RichTextRenderer = ({ content, options }) => {
+  const JSONContent = JSON.parse(content)
+  const renderOpts = getOptions(options)
+  const JSX = documentToJSX(JSONContent, renderOpts)
 
-    return JSX
-  }
+  return JSX
 }
 
 export default RichTextRenderer
