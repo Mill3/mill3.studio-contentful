@@ -54,7 +54,6 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
 
       // run all Promises above
       Promise.all([transitionStarted, transitionLeaving]).then(() => {
-        console.log(`swtich page`);
         navigate(path)
       });
     },

@@ -36,10 +36,10 @@ const Poses = posed.div({
 })
 
 const InViewCodePreview = ({ children, delayIn = 0, delayOut = 0, threshold = 0.25, ...props }) => {
-    const [ ref, inView ] = useInView({ threshold, triggerOnce: true })
+    const [ ref, inView ] = useInView({ threshold: threshold, triggerOnce: true })
     const { layoutState } = useContext(LayoutContext)
     const { transition } = layoutState
-    const isExiting = transition.state === "started"
+    const isExiting = transition.state === "leaving"
 
     const pose = isExiting ? "exit" : (inView ? "appear" : "init")
     const delay = isExiting ? delayOut : delayIn

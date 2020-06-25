@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
-import posed from 'react-pose'
+// import posed from 'react-pose'
 import { Box, Flex, Text } from 'rebass'
 
 import { LayoutContext } from '@layouts/layoutContext'
@@ -61,7 +61,6 @@ const Grid = styled.ul`
   list-style: none;
 `
 
-
 const Packages = injectIntl(({ delayIn = 0, delayOut = 0, intl }) => {
   const isMobile = Viewport.width < mobileBreakpoint
   const isTablet = Viewport.width < tabletBreakpoint
@@ -71,11 +70,13 @@ const Packages = injectIntl(({ delayIn = 0, delayOut = 0, intl }) => {
     else if( isTablet ) return index % 2 * 250 + (index < 2 ? delayIn : 0)
     else return index % 3 * 250 + (index < 3 ? delayIn : 0)
   }
+
   const getDelayOut = index => {
     if (isMobile) return delayOut
     else if( isTablet ) return index % 2 * 50 + delayOut
     else return index % 3 * 50 + delayOut
   }
+
   const getThreshold = index => {
     if (isMobile) return index === 0 ? 0 : 0.25
     else if (isTablet) return index < 2 ? 0 : 0.25
