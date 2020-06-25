@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Text } from 'rebass'
@@ -31,7 +31,6 @@ const NavContainerPoses = posed.ul({
     staggerChildren: 50,
   },
 })
-
 const NavItemPoses = posed.li({
   hidden: {
     x: 40,
@@ -78,7 +77,6 @@ const NavWrapper = styled.nav`
     }
   }
 `
-
 const NavBurger = styled.button`
   position: relative;
   width: 30px;
@@ -175,7 +173,6 @@ const NavContainer = styled(NavContainerPoses)`
     transform: none !important;
   }
 `
-
 const NavItem = styled(NavItemPoses)`
   padding: 4vw 0;
   margin: 0;
@@ -200,126 +197,93 @@ const NavItem = styled(NavItemPoses)`
 
 const fontSizes = ['4.1544927536vh', null, 3, 3]
 
-class Nav extends React.Component {
+const Nav = ({ inverted, intl, pathname = null }) => {
+  const [ visible, setVisible ] = useState(false)
+  const { locale } = intl
 
-  constructor(props) {
-    super(props)
+  useEffect(() => {
+    setVisible(false)
+  }, [pathname])
 
-    this.state = {
-      visible: false,
-    }
+  return (
+    <NavWrapper inverted={inverted}>
+      <NavBurger
+        className={visible ? 'expanded' : null}
+        onClick={event => setVisible(!visible)}
+        aria-label="Menu"
+        inverted={inverted}
+      >
+        <NavBurgerDot />
+        <NavBurgerDot />
+        <NavBurgerDot />
+        <NavBurgerDot />
+        <NavBurgerDot />
+      </NavBurger>
 
-    this.toggle = this.toggle.bind(this)
-  }
+      <NavContainer
+        initialPose={'hidden'}
+        pose={visible ? 'visible' : 'hidden'}
+        visible={visible}
+        inverted={inverted}
+        withParent={false}
+      >
+        <NavItem>
+          <TransitionLinkComponent to={`/projects/`} color={colors.blue}>
+            <Text fontSize={fontSizes}>
+              <FormattedMessage id="nav.Projects" />
+            </Text>
+          </TransitionLinkComponent>
+        </NavItem>
 
-  // close burger on pathname change
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.pathname !== this.props.pathname) {
-      this.close()
-    }
-  }
+        <NavItem>
+          <TransitionLinkComponent to={`/about/`} color={colors.black}>
+            <Text fontSize={fontSizes}>
+              <FormattedMessage id="nav.About" />
+            </Text>
+          </TransitionLinkComponent>
+        </NavItem>
 
-  close() {
-    this.setState({
-      visible: false
-    })
-  }
-
-  toggle() {
-    this.setState({
-      visible: !this.state.visible,
-    })
-  }
-
-  render() {
-    let { inverted } = this.props
-    let { locale } = this.props.intl
-    let { visible } = this.state
-
-    return (
-      <NavWrapper inverted={inverted}>
-        <NavBurger
-          className={visible ? 'expanded' : null}
-          onClick={e => this.toggle()}
-          aria-label="Menu"
-          inverted={inverted}
-        >
-          <NavBurgerDot />
-          <NavBurgerDot />
-          <NavBurgerDot />
-          <NavBurgerDot />
-          <NavBurgerDot />
-        </NavBurger>
-
-        <NavContainer
-          initialPose={'hidden'}
-          pose={visible ? 'visible' : 'hidden'}
-          visible={visible}
-          inverted={inverted}
-          withParent={false}
-        >
+        {/* add journal link in `fr` only */}
+        {locale === `fr` &&
           <NavItem>
-            <TransitionLinkComponent to={`/projects/`} color={colors.blue}>
+            <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
               <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.Projects" />
+                <FormattedMessage id="nav.Journal" />
               </Text>
             </TransitionLinkComponent>
           </NavItem>
+        }
 
-          <NavItem>
-            <TransitionLinkComponent to={`/about/`} color={colors.black}>
-              <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.About" />
-              </Text>
-            </TransitionLinkComponent>
-          </NavItem>
+        <NavItem>
+          <TransitionLinkComponent to={`/formation/`} color={colors.lightGray}>
+            <Text fontSize={fontSizes}>
+              <FormattedMessage id="nav.Formation" />
+            </Text>
+          </TransitionLinkComponent>
+        </NavItem>
 
-          {/* add journal link in `fr` only */}
-          {locale === `fr` &&
-            <NavItem>
-              <TransitionLinkComponent to={`/journal/`} color={colors.lightGray}>
-                <Text fontSize={fontSizes}>
-                  <FormattedMessage id="nav.Journal" />
-                </Text>
-              </TransitionLinkComponent>
-            </NavItem>
-          }
+        <NavItem>
+          <TransitionLinkComponent to={`/open-source/`} color={colors.black}>
+            <Text fontSize={fontSizes}>
+              <FormattedMessage id="nav.OpenSource" />
+            </Text>
+          </TransitionLinkComponent>
+        </NavItem>
 
-          <NavItem>
-            <TransitionLinkComponent to={`/formation/`} color={colors.lightGray}>
-              <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.Formation" />
-              </Text>
-            </TransitionLinkComponent>
-          </NavItem>
+        <NavItem>
+          <TransitionLinkComponent to={`/contact/`} color={colors.black}>
+            <Text fontSize={fontSizes}>
+              <FormattedMessage id="nav.Contact" />
+            </Text>
+          </TransitionLinkComponent>
+        </NavItem>
 
-          <NavItem>
-            <TransitionLinkComponent to={`/open-source/`} color={colors.black}>
-              <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.OpenSource" />
-              </Text>
-            </TransitionLinkComponent>
-          </NavItem>
-
-          <NavItem>
-            <TransitionLinkComponent to={`/contact/`} color={colors.black}>
-              <Text fontSize={fontSizes}>
-                <FormattedMessage id="nav.Contact" />
-              </Text>
-            </TransitionLinkComponent>
-          </NavItem>
-
-          <NavItem>
-            <Switcher fontSizes={fontSizes} />
-          </NavItem>
-        </NavContainer>
-      </NavWrapper>
-    )
-  }
-}
-
-Nav.defaultProps = {
-  pathname: null
+        <NavItem>
+          <Switcher fontSizes={fontSizes} />
+        </NavItem>
+      </NavContainer>
+    </NavWrapper>
+  )
 }
 
 export default injectIntl(Nav)
