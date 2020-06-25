@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer'
 
 import CodePreview from '@components/codes/CodePreview'
 import { LayoutContext } from '@layouts/layoutContext'
-import { TRANSITION_IN_DELAY } from '@utils/constants'
+import { TRANSITION_OUT_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
 
 const Poses = posed.div({
@@ -29,17 +29,17 @@ const Poses = posed.div({
         y: -100,
         delay: ({ delay }) => delay,
         transition: {
-            duration: TRANSITION_IN_DELAY / 2,
+            duration: TRANSITION_OUT_DURATION / 1.5,
             ease: 'easeIn',
         },
     }
 })
 
 const InViewCodePreview = ({ children, delayIn = 0, delayOut = 0, threshold = 0.25, ...props }) => {
-    const [ ref, inView ] = useInView({ threshold, triggerOnce: true })
+    const [ ref, inView ] = useInView({ threshold: threshold, triggerOnce: true })
     const { layoutState } = useContext(LayoutContext)
     const { transition } = layoutState
-    const isExiting = transition.state === "started"
+    const isExiting = transition.state === "leaving"
 
     const pose = isExiting ? "exit" : (inView ? "appear" : "init")
     const delay = isExiting ? delayOut : delayIn
