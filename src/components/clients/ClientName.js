@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
@@ -11,6 +11,7 @@ export const ClientNameHeading = styled.h4`
 
   a {
     color: black;
+    
     &:hover {
       color: black;
       text-decoration: none;
@@ -19,17 +20,8 @@ export const ClientNameHeading = styled.h4`
 `
 
 const ClientName = ({ name }) => {
-  const [ hover, setHover ] = useState(false)
-
   return (
-    <Text
-        as={ClientNameHeading}
-        fontSize={['12.5vw',4,'8vw']}
-        ml={[2,4]}
-        mr={[2,4]}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
+    <Text as={ClientNameHeading} fontSize={['12.5vw', 4, '8vw']} ml={[2, 4]} mr={[2, 4]}>
       <TransitionLinkComponent to={`/projects/`} color={`#000`}>
         <span>{name}</span>
       </TransitionLinkComponent>
@@ -37,4 +29,4 @@ const ClientName = ({ name }) => {
   )
 }
 
-export default ClientName;
+export default memo(ClientName);

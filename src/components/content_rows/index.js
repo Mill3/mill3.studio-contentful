@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import posed from 'react-pose'
 import { Box } from 'rebass'
-import { InView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer'
 
-import { LayoutContext } from '@layouts/layoutContext'
 import ContentText from './ContentText'
 import ContentImages from './ContentImages'
 import ContentVideos from './ContentVideos'
@@ -12,6 +12,7 @@ import ContentSlides from './ContentSlides'
 import ContentSectionBreak from './ContentSectionBreak'
 import ContentForm from './ContentForm'
 import ContentSpacer from './ContentSpacer'
+import { LayoutContext } from '@layouts/layoutContext'
 import { space } from '@styles/Theme'
 
 export const ALIGN_VALUES = {
@@ -79,152 +80,60 @@ export const RowContainer = ({ alignContent, backgroundColor, addSpacer, childre
   )
 }
 
-const AnimatedBg = styled.div`
+const AnimatedBgPoses = posed.div({
+  hidden: {
+    opacity: 0,
+    duration: ({ duration }) => duration,
+  },
+  visible: {
+    opacity: 1,
+    duration: ({ duration }) => duration,
+  },
+})
+const AnimatedBg = styled(AnimatedBgPoses)`
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  opacity: ${props => props.opacity};
   transform: translate3d(0, 0px, 0);
-  transition: opacity ${props => props.duration}ms linear;
+  will-change: opacity, transform;
 `
 
-export class AnimatedBackgroundContainer extends Component {
-
-  static contextType = LayoutContext;
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      inView: false,
-    }
-
-    this.mounted = false
-    this.scrollbar = false;
-    this.exitViewportTicker = null
-
-    this.onVisibilityChange = this.onVisibilityChange.bind(this)
-    this.onExitCompleted = this.onExitCompleted.bind(this)
-    this.onScroll = this.onScroll.bind(this)
+export const AnimatedBackgroundContainer = ({ backgroundColor = "transparent", duration = 250, threshold = 0, onChange = null, children }) => {
+  const bgRef = useRef()
+  const { layoutState } = useContext(LayoutContext)
+  const { scrollbar } = layoutState
+  const [ inViewRef, inView ] = useInView({ threshold: threshold })
+  
+  const backgroundIsTransparent = backgroundColor === "transparent"
+  const scroll = ({ offset }) => {
+    if( bgRef.current ) bgRef.current.style.transform = `translate3d(0, ${offset.y}px, 0)`
   }
 
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.mounted = true
-      this.scrollbar = this.context.layoutState.scrollbar
+  // listening to scrolling
+  useEffect(() => {
+    // remove previous listener
+    scrollbar?.removeListener(scroll)
 
-      if( this.state.inView ) {
-        // cancel timeout if exists
-        if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
-        this.exitViewportTicker = null
+    // listen to scrolling only if bgRef exists
+    if( scrollbar && bgRef.current ) scrollbar.addListener(scroll)
 
-        // first, remove listener to prevent doubling, then add scroll listener
-        this.scrollbar.removeListener(this.onScroll)
-        this.scrollbar.addListener(this.onScroll)
-      }
-    }
-  }
+    return () => scrollbar?.removeListener(scroll)
+  }, [scrollbar, bgRef.current])
 
-  componentWillUnmount() {
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
+  // run onChange callback when inView change
+  useEffect(() => { if (onChange) onChange(inView) }, [inView])
 
-    // cancel timeout
-    if (this.exitViewportTicker) clearTimeout(this.exitViewportTicker)
-    this.exitViewportTicker = null
-    this.mounted = false
-  }
-
-  onVisibilityChange(inView) {
-    // if component is not mounted, do nothing because it will create lots of underlying bug
-    if( !this.mounted ) return
-
-    if (inView) {
-      // if already in view, skip
-      if (this.state.inView === true) return
-
-      // cancel timeout
-      clearTimeout(this.exitViewportTicker)
-
-      // register scroll listener
-      if (this.scrollbar && !this.exitViewportTicker)
-        this.scrollbar.addListener(this.onScroll)
-
-      // destroy timeout
-      this.exitViewportTicker = null
-
-      // update state
-      this.setState({
-        inView: true,
-        y: this.scrollbar ? this.scrollbar.offset.y : 0,
-      })
-
-      const { onChange } = this.props
-      if (onChange) onChange(true)
-    } else {
-      // if already outside of viewport, skip
-      if (this.state.inView === false) return
-
-      // cancel timeout
-      clearTimeout(this.exitViewportTicker)
-      this.exitViewportTicker = null
-
-      // update state
-      this.setState(
-        { inView: false },
-        () =>
-          (this.exitViewportTicker = setTimeout(
-            this.onExitCompleted,
-            this.props.duration
-          ))
-      )
-
-      const { onChange } = this.props
-      if (onChange) onChange(false)
-    }
-  }
-  onExitCompleted() {
-    // destroy timeout
-    this.exitViewportTicker = null
-
-    // unregister scroll listener
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-  }
-  onScroll({ offset }) {
-    if( !this.mounted || this.props.backgroundColor === "transparent" ) return
-
-    this.setState({
-      y: offset.y,
-    })
-  }
-
-  render() {
-    const { backgroundColor, children, duration, threshold } = this.props
-    const { inView, y } = this.state
-    const t = { transform: `translate3d(0, ${y}px, 0)` }
-
-    return (
-      <InView as={Box} onChange={this.onVisibilityChange} threshold={threshold || 0}>
-        {/* only render background if is not transparent */}
-        {backgroundColor !== "transparent" && <Box
-          as={AnimatedBg}
-          backgroundColor={backgroundColor}
-          opacity={inView ? 1 : 0}
-          duration={duration || 250}
-          style={t}
-        />}
-
-        {typeof children == `function` ? children({ inView: inView }) : children}
-      </InView>
-    )
-  }
+  return (
+    <Box ref={inViewRef} as="div">
+      {/* only render background if is not transparent */}
+      {!backgroundIsTransparent && <Box ref={bgRef} as={AnimatedBg} backgroundColor={backgroundColor} duration={duration} initialPose="hidden" pose={inView ? "visible" : "hidden"} withParent={false} />}
+      {typeof children == `function` ? children({ inView: inView }) : children}
+    </Box>
+  )
 }
-
-AnimatedBackgroundContainer.contextType = LayoutContext;
 
 export const AnimatedBackgroundRowContainer = ({
   backgroundColor,
@@ -308,76 +217,70 @@ export const GridContentImages = styled.div`
 
 export const Grid = GridContentText
 
-class ContentRow extends Component {
-  rows() {
-    return this.props.data.map((row, index) => {
-      let isFirst = index === 0
-      let isLast = index === this.props.data.length - 1
-      const id = `content-row-id-${index}`
-      switch (row.__typename) {
-        case CONTENT_ROW_TYPES['text']:
-          return (
-            <div id={id} key={index}>
-              <ContentText isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['images']:
-          return (
-            <div id={id} key={index}>
-              <ContentImages isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['videos']:
-          return (
-            <div id={id} key={index}>
-              <ContentVideos isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['slides']:
-          return (
-            <div id={id} key={index}>
-              <ContentSlides isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['form']:
-          return (
-            <div id={id} key={index}>
-              <ContentForm isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['spacer']:
-          return (
-            <div id={id} key={index}>
-              <ContentSpacer isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        case CONTENT_ROW_TYPES['section_break']:
-          return (
-            <div id={id} key={index}>
-              <ContentSectionBreak isFirst={isFirst} isLast={isLast} data={row} />
-            </div>
-          )
-        default:
-          //
-          // push an empty row if the `__typename` is unsupported by this component
-          //
-          console.error(`${row.__typename} is unsupported`)
-          return <span key={index}>{row.__typename} unsupported</span>
-      }
-    })
-  }
+const ContentRow = ({ data = null }) => {
 
-  render() {
-    return <React.Fragment>{this.props.data ? this.rows() : ''}</React.Fragment>
-  }
+  const rows = data.map((row, index) => {
+    const isFirst = index === 0
+    const isLast = index === data.length - 1
+    const id = `content-row-id-${index}`
+
+    switch (row.__typename) {
+      case CONTENT_ROW_TYPES['text']:
+        return (
+          <div id={id} key={index}>
+            <ContentText isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['images']:
+        return (
+          <div id={id} key={index}>
+            <ContentImages isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['videos']:
+        return (
+          <div id={id} key={index}>
+            <ContentVideos isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['slides']:
+        return (
+          <div id={id} key={index}>
+            <ContentSlides isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['form']:
+        return (
+          <div id={id} key={index}>
+            <ContentForm isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['spacer']:
+        return (
+          <div id={id} key={index}>
+            <ContentSpacer isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      case CONTENT_ROW_TYPES['section_break']:
+        return (
+          <div id={id} key={index}>
+            <ContentSectionBreak isFirst={isFirst} isLast={isLast} data={row} />
+          </div>
+        )
+      default:
+        //
+        // push an empty row if the `__typename` is unsupported by this component
+        //
+        console.error(`${row.__typename} is unsupported`)
+        return <span key={index}>{row.__typename} unsupported</span>
+    }
+  })
+
+  return <>{rows}</>
 }
 
 ContentRow.propTypes = {
   data: PropTypes.array,
-}
-
-ContentRow.defaultProps = {
-  data: null,
 }
 
 export default ContentRow

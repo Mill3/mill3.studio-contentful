@@ -1,27 +1,25 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
-import { InView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer'
 
+
+import ParallaxBox from '@components/elements/ParallaxBox'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import TransitionContainer from '@components/transitions/TransitionContainer'
-import { LayoutContext } from '@layouts/layoutContext'
-import { breakpoints } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import FigureBox from '@utils/FigureBox'
-import { limit as between } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
-import Viewport from '@utils/Viewport'
+
 
 const DEFAULT_COLUMN = {
   width: 1 / 2,
   ml: [0],
   mr: [0],
 }
-const TRANSFORM_NONE = {}
 
 const ProjectPoses = posed.article({
   hidden: {
@@ -146,83 +144,6 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 `
 
 
-const ParallaxBox = ({ active = false, offset = 0, children, ...props }) => {
-  const ref = useRef()
-  const boundaries = useRef(null)
-  const [ percentage, setPercentage ] = useState(0)
-  const { layoutState } = useContext(LayoutContext)
-  const { scrollbar } = layoutState
-
-  const resize = () => {
-    const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
-    const rect = ref.current.getBoundingClientRect()
-    const y = rect.y + scrollbar.offset.y
-
-    boundaries.current = {
-      y: y,
-      height: rect.height + value,
-      limit: Math.max(0, Viewport.height - y),
-    }
-  }
-  const scroll = (data) => {
-    if( !active ) return
-
-    // get scroll y
-    const scrollY = data.offset.y
-    let newValue
-
-    // if offset equal zero
-    if( offset instanceof ResponsiveProp && offset.getValue() === 0 ) {
-      newValue = 0
-    } else {
-      const { y, height, limit } = boundaries.current
-      const vh = Viewport.height + height - limit
-      const top = y + height - scrollY
-      const dist = top / vh
-
-      newValue = between(0, 1, 1 - dist)
-    }
-
-    // update state only if required
-    if (percentage !== newValue) setPercentage(newValue)
-  }
-
-  // listening to viewport's resize
-  useEffect(() => {
-    Viewport.on(resize)
-    return () => Viewport.off(resize)
-  }, [])
-
-
-  // listening to scrolling
-  useEffect(() => {
-    if( scrollbar ) resize()
-    scrollbar?.addListener(scroll)
-    return () => scrollbar?.removeListener(scroll)
-  }, [scrollbar, active])
-
-
-  let transform
-
-  // only calculate transformations if required
-  if (active) {
-    const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
-    transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : TRANSFORM_NONE
-  }
-  else transform = TRANSFORM_NONE
-
-  return (
-    <Box as="div" ref={ref} style={transform} {...props}>
-      {children}
-    </Box>
-  )
-}
-
-ParallaxBox.propTypes = {
-  active: PropTypes.bool,
-  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
-}
-
 const ProjectFigure = ({ active = false, color = '#000', video = null, image = null, ...props }) => {
   const setVideoRef = (ref) => {
     if( !ref ) return
@@ -259,20 +180,13 @@ const ProjectFigure = ({ active = false, color = '#000', video = null, image = n
 }
 
 const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset = 0 }) => {
-  const [inView, setInView] = useState(false)
   const [hover, setHover] = useState(false)
+  const [inViewRef, inView] = useInView({ triggerOnce: true })
   const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
 
   return (
-    <InView
-      triggerOnce={true}
-      onChange={v => setInView(v)}
-      as={ProjectWrapper}
-      mb={['40px', null, '50px', '70px']}
-      px={[null, null, 3, '28px']}
-      {...columns}
-    >
-      <ParallaxBox active={inView} offset={offset}>
+    <Box ref={inViewRef} as={ProjectWrapper} mb={['40px', null, '50px', '70px']} px={[null, null, 3, '28px']} {...columns}>
+      <ParallaxBox offset={offset}>
         <Box
           as={ProjectPreviewItem}
           initialPose={'hidden'}
@@ -333,7 +247,7 @@ const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset =
           </TransitionLinkComponent>
         </Box>
       </ParallaxBox>
-    </InView>
+    </Box>
   )
 }
 

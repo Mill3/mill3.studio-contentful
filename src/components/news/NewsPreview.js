@@ -1,20 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
-import { InView } from 'react-intersection-observer'
-import { debounce } from 'lodash'
+import { useInView } from 'react-intersection-observer'
 import { injectIntl } from 'gatsby-plugin-intl'
 
-import { LayoutContext } from '@layouts/layoutContext'
 
-import FigureBox from '@utils/FigureBox'
-import ResponsiveProp from '@utils/ResponsiveProp'
+import ParallaxBox from '@components/elements/ParallaxBox'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import TransitionContainer from '@components/transitions/TransitionContainer'
-import Viewport from '@utils/Viewport'
+import FigureBox from '@utils/FigureBox'
+import ResponsiveProp from '@utils/ResponsiveProp'
+
+
+const DEFAULT_COLUMNS = {
+  width: 1 / 2,
+  ml: [0],
+  mr: [0],
+}
 
 const NewsPoses = posed.article({
   hidden: {
@@ -68,126 +73,13 @@ const NewsPreviewItem = styled(NewsPoses)`
 
 
 
-class NewsPreview extends Component {
+const NewsPreview = ({ delay = 0, columns = DEFAULT_COLUMNS, offset = 0, news, index, intl }) => {
+  const [ inViewRef, inView ] = useInView({ triggerOnce: true })
+  const { slug, imageMain, title } = news.node
 
-  static contextType = LayoutContext
-
-  static propTypes = {
-    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
-    columns: PropTypes.object,
-    offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
-  }
-  static defaultProps = {
-    delay: 0,
-    columns: {
-      width: 1 / 2,
-      ml: [0],
-      mr: [0],
-    },
-    offset: 0,
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      inView: false,
-      percentage: 0,
-    }
-
-    this.mounted = false
-    this.rootRef = React.createRef()
-    this.scrollbar = null
-
-    this.onVisibilityChange = this.onVisibilityChange.bind(this)
-    this.onScroll = this.onScroll.bind(this)
-    this.onResize = this.onResize.bind(this)
-    this.debouncedOnResize = debounce(this.onResize, 750)
-  }
-
-  componentDidMount() {
-    this.mounted = true
-    if (this.props.offset === 0) return
-  }
-
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-      this.scrollbar.addListener(this.onScroll)
-      Viewport.on(this.debouncedOnResize)
-      this.onResize()
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false
-
-    if (this.scrollbar) this.scrollbar.removeListener(this.onScroll)
-    this.scrollbar = null
-
-    Viewport.off(this.debouncedOnResize)
-  }
-
-  onVisibilityChange(inView) {
-    this.setState({
-      inView,
-    })
-  }
-  onScroll({ offset }) {
-    if (!this.mounted || !this.state.inView || !this.rect) return
-    if (this.props.offset instanceof ResponsiveProp && this.props.offset.getValue() === 0) {
-      if (this.state.percentage !== 0) this.setState({ percentage: 0 })
-      return
-    }
-
-    const h = this.rect.height
-    const vh = Viewport.height + h - this.rect.offset
-    const y = this.rect.y + h - offset.y
-    const dist = y / vh
-    const percentage = Math.max(0, Math.min(1, 1 - dist)) // from 0 to 1
-
-    if (this.state.percentage === percentage) return
-
-    this.setState({
-      percentage,
-    })
-  }
-  onResize() {
-    if (!this.rootRef || !this.rootRef.current || !this.rootRef.current.node || !this.scrollbar) return
-
-    const rect = this.rootRef.current.node.getBoundingClientRect()
-    const y = rect.y + this.scrollbar.offset.y
-
-    this.rect = {
-      y: y,
-      height: rect.height,
-      offset: Math.max(0, Viewport.height - y),
-    }
-  }
-
-  render() {
-    const { news, delay, columns, offset, index, intl } = this.props
-    const { slug, imageMain, title } = news.node
-    const { inView, percentage } = this.state
-    let transform
-
-    // only calculate transformations if required
-    if (inView) {
-      const value = offset instanceof ResponsiveProp ? offset.getValue() : offset
-      transform = value !== 0 ? { transform: `translate3d(0, ${percentage * value}px, 0)` } : {}
-    } else transform = {}
-
-    return (
-      <InView
-        ref={this.rootRef}
-        triggerOnce={true}
-        onChange={this.onVisibilityChange}
-        as={NewsWrapper}
-        px={[2, null, 3, '28px']}
-        mb={['40px', null, '70px']}
-        {...columns}
-      >
+  return (
+    <Box ref={inViewRef} as={NewsWrapper} px={[2, null, 3, '28px']} mb={['40px', null, '70px']} {...columns}>
+      <ParallaxBox offset={offset}>
         <Box
           as={NewsPreviewItem}
           delay={delay instanceof ResponsiveProp ? delay.getValue() : delay}
@@ -195,8 +87,8 @@ class NewsPreview extends Component {
           pose={inView ? 'visible' : 'hidden'}
           width={'100%'}
         >
-          <TransitionContainer direction="out" index={index}>
-            <TransitionLinkComponent to={`/journal/${slug}`} title={title} style={transform}>
+          <TransitionLinkComponent to={`/journal/${slug}`} title={title}>
+            <TransitionContainer direction="out" index={index}>
               <Box as={`figure`} mb={[4]}>
                 <FigureBox ratio={4 / 6}>
                   <Img fade={false} fluid={imageMain.fluid} />
@@ -210,12 +102,18 @@ class NewsPreview extends Component {
                   {intl.formatMessage({ id: 'news.preview.readmore' })}
                 </Text>
               </Box>
-            </TransitionLinkComponent>
-          </TransitionContainer>
+            </TransitionContainer>
+          </TransitionLinkComponent>
         </Box>
-      </InView>
-    )
-  }
+      </ParallaxBox>
+    </Box>
+  )
+}
+
+NewsPreview.propTypes = {
+  delay: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
+  columns: PropTypes.object,
+  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(ResponsiveProp)]),
 }
 
 export default injectIntl(NewsPreview)
