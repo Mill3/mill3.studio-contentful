@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Heading, Text } from 'rebass'
 import { display } from 'styled-system'
@@ -6,21 +6,18 @@ import { injectIntl } from 'gatsby-plugin-intl'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import posed, { PoseGroup } from 'react-pose'
-import memoize from 'memoize-one'
 import { useInView } from 'react-intersection-observer'
 
-import { LayoutContext } from '@layouts/layoutContext'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
+import { LayoutContext } from '@layouts/layoutContext'
 import { colors } from '@styles/Theme'
 import ExternalLink from '@svg/ExternalLink'
 import { HAS_HOVER } from '@utils/constants'
 import { lerp, limit } from '@utils/Math'
 
 
-const filterByLocale = memoize((data, locale = 'en') => {
-  return data.filter(e => e.node.node_locale === locale)
-})
+const filterByLocale = (data, locale = 'en') => data.filter(e => e.node.node_locale === locale)
 
 
 const ClientRowElement = styled.p`
@@ -134,146 +131,156 @@ const ClientRowThumbnailWrapStyle = styled(ClientRowThumbnailWrapPoses)`
   transform-origin: center center;
 `
 
-class ClientRowThumbnail extends Component {
 
-  static contextType = LayoutContext
 
-  constructor(props) {
-    super(props)
+const IMG_THUMBNAIL_PROPS = {
+  fadeIn: false, 
+  backgroundColor: "black", 
+  objectFit: "cover",
+  objectPosition: "center center",
+  loading: "eager",
+  style: {
+    width: '100%',
+    height: '100%',
+  },
+}
 
-    this.state = {
-      x: 0,
-      y: 0,
-      skew: 0,
-      visible: false,
+const ClientRowThumbnail = ({ active, src }) => {
+  const mouseEventRef = useRef()
+  const scrollbarRef = useRef()
+  const raf = useRef()
+  const imgSrc = useRef()
+  const currentSrc = useRef(src)
+  const mouseMoveStartedRef = useRef(false)
+  const visibilityRef = useRef(false)
+  const targetTransformations = useRef({ x: 0, y: 0 })
+
+  const { layoutState } = useContext(LayoutContext)
+  const [ transformations, setTransformations ] = useState({ x: 0, y: 0, skew: 0 })
+
+  // re-render image only if imgSrc changes
+  const img = useMemo(() => imgSrc.current && <Img fixed={imgSrc.current?.fixed} {...IMG_THUMBNAIL_PROPS} />, [imgSrc.current])
+
+
+  const animate = useCallback(() => {
+
+    console.log('raf')
+
+    const { current: mouseevent } = mouseEventRef
+    const { current: scrollbar } = scrollbarRef
+
+    // update target's transformations based on mouse position
+    if( mouseevent && scrollbar ) {
+      targetTransformations.current.x = mouseevent.clientX
+      targetTransformations.current.y = mouseevent.clientY + scrollbarRef.current.offset.y
+
+      mouseEventRef.current = null
     }
 
-    this.current = { x: 0, y: 0 }
-    this.target = { x: 0, y: 0 }
-    this.scrollbar = null
-    this.raf = null
-    this.event = null
-    this.src = null
-    this.started = false
-    this.visible = false
-    this.isActive = false
+    // update state
+    setTransformations(previousTransformations => {
+      const x = lerp(previousTransformations.x, targetTransformations.current.x, 0.08)
+      const y = lerp(previousTransformations.y, targetTransformations.current.y, 0.08)
 
-    this.onMouseMove = this.onMouseMove.bind(this)
-    this.onRaf = this.onRaf.bind(this)
-    this.onPoseComplete = this.onPoseComplete.bind(this)
-
-    this._updateEvents = memoize(active => {
-      this.isActive = active
-
-      if( active ) this._bindEvents()
-      return active
+      return {
+        x,
+        y,
+        skew: limit(-10, 10, ( targetTransformations.current.x - x ) * 0.02),
+      }
     })
-  }
 
-  componentDidUpdate() {
-    if(this.scrollbar) return
-    if(this.context.layoutState.scrollbar) {
-      this.scrollbar = this.context.layoutState.scrollbar
-    }
-  }
+    // request new frame
+    if( visibilityRef.current === true ) raf.current = requestAnimationFrame(animate)
+  })
+  const mousemove = useCallback((event) => {
+    mouseEventRef.current = event
 
-  onMouseMove(event) {
-    this.event = event
-    this.visible = this.isActive
+    // start rAF if not started && img is not null
+    if( visibilityRef.current === false && currentSrc.current ) {
+      visibilityRef.current = true
 
-    // if this is first mousemove, start mouse tracking RAF
-    if( !this.started && this.scrollbar ) {
-      this.started = true
+      // get mouse position
+      const { clientX, clientY } = event
 
       // set initial position
-      this.current.x = this.event.clientX
-      this.current.y = this.event.clientY + this.scrollbar.offset.y
+      setTransformations({
+        x: clientX,
+        y: clientY + scrollbarRef.current.offset.y,
+        skew: 0,
+      })
 
-      this.raf = requestAnimationFrame(this.onRaf)
+      // rAF
+      raf.current = requestAnimationFrame(animate)
     }
-  }
-  onRaf() {
-    if( this.event && this.scrollbar ) {
-      this.target.x = this.event.clientX
-      this.target.y = this.event.clientY + this.scrollbar.offset.y
+  })
+  const poseCompleted = useCallback((pose) => {
+    // when thumbnail hide transition is completed, cancel rAF
+    if( pose === 'hidden' ) {
+      if( raf.current ) cancelAnimationFrame(raf.current)
+      raf.current = null
 
-      this.event = null
+      // will restart rAF on next mousemove
+      visibilityRef.current = false
+    }
+  })
+
+
+  // save scrollbar ref
+  useEffect(() => {
+    console.log('set scrollbar', layoutState.scrollbar)
+    scrollbarRef.current = layoutState.scrollbar
+  }, [layoutState.scrollbar])
+
+  // listen for window's mousemove
+  useEffect(() => {
+    // add listener, one time only, when active is true
+    if( active && mouseMoveStartedRef.current === false ) {
+      mouseMoveStartedRef.current = true
+      window.addEventListener('mousemove', mousemove, { passive: false })
     }
 
-    this.current.x = lerp(this.current.x, this.target.x, 0.08)
-    this.current.y = lerp(this.current.y, this.target.y, 0.08)
+    // remove listener when component is unmounted
+    return () => {
+      window.removeEventListener('mousemove', mousemove, { passive: false })
 
-    const skew = limit(-10, 10, ( this.target.x - this.current.x ) * 0.02)
+      mouseMoveStartedRef.current = false
+      visibilityRef.current = false
+    }
+  }, [active])
 
-    this.setState({
-      x: this.current.x,
-      y: this.current.y,
-      skew: skew,
-      visible: this.visible,
-    }, () => {
-      if( this.started ) this.raf = requestAnimationFrame(this.onRaf)
-    })
-  }
-  onPoseComplete(pose) {
-    // when thumbnail hidden transition is completed, unbind all events
-    if( pose === 'hidden' ) this._unbindEvents()
-  }
+  // update image's src only if src is not null
+  // we do this to prevent glitch when src is null and we fade out current image
+  useEffect(() => {
+    if( src ) imgSrc.current = src
+    currentSrc.current = src
+  }, [src])
 
-  _bindEvents() {
-    // listen for mousemove to capture mouse position
-    window.addEventListener('mousemove', this.onMouseMove, {passive: false})
-  }
-  _unbindEvents() {
-    // remove mousemove listener
-    window.removeEventListener('mousemove', this.onMouseMove, {passive: false})
-    if( this.raf ) cancelAnimationFrame(this.raf)
 
-    this.raf = null
-    this.event = null
-    this.started = false
-  }
-
-  render() {
-    const { active, src } = this.props
-    const { x, y, skew, visible } = this.state
-
-    // this function will be called only if param value has changed, due to memoization
-    this._updateEvents( active && src !== null )
-
-    // update image source only if source is not empty
-    if( src ) this.src = src
-
-    return (
+  // get state values
+  const { x, y, skew } = transformations
+  
+  return (
+    <Box
+      as={ClientRowThumbnailStyle}
+      width={[284]}
+      height={[284]}
+      style={{transform: `translate3d(${x}px, ${y}px, 0) skewX(${skew}deg)`}}
+    >
       <Box
-        as={ClientRowThumbnailStyle}
-        width={[284]}
-        height={[284]}
-        style={{transform: `translate3d(${x}px, ${y}px, 0) skewX(${skew}deg)`}}
+        as={ClientRowThumbnailWrapStyle}
+        width={'100%'}
+        height={'100%'}
+        initialPose="hidden"
+        pose={active && src !== null ? 'visible' : 'hidden'}
+        onPoseComplete={poseCompleted}
+        withParent={false}
       >
-        <Box
-          as={ClientRowThumbnailWrapStyle}
-          width={'100%'}
-          height={'100%'}
-          initialPose="hidden"
-          pose={visible ? 'visible' : 'hidden'}
-          onPoseComplete={this.onPoseComplete}
-          withParent={false}
-        >
-          {this.src &&
-            <Img
-              fixed={this.src.fixed}
-              fadeIn={false}
-              backgroundColor="black"
-              objectFit="cover"
-              objectPosition="center center"
-              loading="eager"
-              style={{ width: '100%', height: '100%' }}
-            />}
-        </Box>
+        {img}
       </Box>
-    )
-  }
+    </Box>
+  )
 }
+
 
 const ClientRow = (props) => {
   const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = props
@@ -373,6 +380,9 @@ const ClientRow = (props) => {
   )
 }
 
+
+const ROW_PROPS = HAS_HOVER ? { role: "button", tabIndex: 0 } : {}
+
 const ClientsRows = ({ data, limit }) => {
   const [ hoverIndex, setHoverIndex ] = useState(null)
   const [ ref, inView ] = useInView({ threshold: 0 })
@@ -381,7 +391,6 @@ const ClientsRows = ({ data, limit }) => {
 
   // there is not need to add all theses props if device has no hover behavior
   const wrapProps = HAS_HOVER ? { role: "grid", tabIndex: 0, onMouseLeave: () => setHoverIndex(null) } : {}
-  const rowProps = HAS_HOVER ? { role: "button", tabIndex: 0 } : {}
 
   return (
     <div
@@ -391,18 +400,18 @@ const ClientsRows = ({ data, limit }) => {
       <PoseGroup animateOnMount={false} flipMove={false}>
         {clients.map((client, index) => {
           const props = HAS_HOVER ? {
-            ...rowProps,
+            ...ROW_PROPS,
             ...{
               onMouseEnter: () => setHoverIndex(index),
               onFocus: () => setHoverIndex(index),
             }
-          } : rowProps
+          } : ROW_PROPS
 
           return (
             <ClientPoses
               key={index}
-              {...props}
               delay={index * 100}
+              {...props}
             >
               <ClientRow
                 index={index}
@@ -437,6 +446,9 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
       }
     }
   `)
+  
+  const clients = filterByLocale(data.allContentfulClients.edges, intl.locale)
+
   return (
     <Box ref={fwdRef} pt={[80, null, null, 0]}>
       <ClientRow
@@ -449,7 +461,7 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
         hoverIndex={false}
         labelRow={true}
       />
-      <ClientsRows limit={limit} data={filterByLocale(data.allContentfulClients.edges, intl.locale)} />
+      <ClientsRows limit={limit} data={clients} />
     </Box>
   )
 }
