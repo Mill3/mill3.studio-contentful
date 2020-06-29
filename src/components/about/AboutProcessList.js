@@ -17,7 +17,7 @@ import { lb2br } from '@utils/Linebreaks'
 const ProcessStickyElement = styled.div`
   position: relative;
   pointer-events: none;
-  z-index: 2;  
+  z-index: 2;
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     position: absolute;
@@ -31,14 +31,21 @@ const ProcessStickyElement = styled.div`
   }
 `
 const StickyElementBg = styled.div`
+  display: block;
   pointer-events: none;
   position: absolute;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   z-index: -1;
   opacity: ${({visible}) => visible ? 1 : 0};
   transition: opacity 250ms linear;
   will-change: opacity;
+
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
+    display: none;
+  }
 `
 const ProcessHeading = styled.h4`
   text-transform: uppercase;
@@ -129,77 +136,68 @@ const ListItem = ({ active = false, title = "", text = "" }) => (
 
 
 
-const AboutProcessList = ({ color = '#0000', processes }) => {
+const AboutProcessList = ({ color = '#000', processes }) => {
   const containerRef = useRef()
   const animationRef = useRef()
+  const scrollbarRef = useRef()
+  const boundaries = useRef({ top: 0, bottom: 0, height: 0 })
 
   const { layoutState } = useContext(LayoutContext)
   const [ activeIndex, setActiveIndex ] = useState(null)
   const [ inViewRef, inView ] = useInView({ threshold: 0.15 })
-  const { scrollbar } = layoutState
+
+  const onResize = useCallback(() => {
+    const { top, height } = containerRef.current.getBoundingClientRect()
+
+    boundaries.current.top = top + scrollbarRef.current.offset.y
+    boundaries.current.bottom = boundaries.current.top + height
+    boundaries.current.height = height - Viewport.height * 0.60
+  })
+  const onScroll = useCallback(({ offset }) => {
+    const { top, bottom, height } = boundaries.current
+
+    const distToTop = offset.y - top
+    const percentage = limit(0, 1, distToTop / height)
+    const index = Math.round( percentage * (processes.length - 1) )
+
+    // update animation
+    const { current } = animationRef
+    if( current ) {
+      const vh = Viewport.height
+      const h = bottom - top
+      const threshold = h * 0.15
+      const inViewPercentage = limit(0, 1, (offset.y - top + vh - threshold) / (h + vh - threshold - vh * 0.6))
+
+      current.goToAndStop( current.getDuration(true) * inViewPercentage >> 0, true )
+    }
+
+    // update state
+    setActiveIndex(index)
+  })
 
   // triggered only when inView change
   useEffect(() => {
-    const boundaries = {
-      top: null, 
-      bottom: null, 
-      height: null
-    }
-
-    const onResize = () => {
-      const { top, height } = containerRef.current.getBoundingClientRect()
-  
-      boundaries.top = top + scrollbar.offset.y
-      boundaries.bottom = boundaries.top + height
-      boundaries.height = height - Viewport.height * 0.60
-    }
-    const onScroll = ({ offset }) => {
-      const { top, bottom, height } = boundaries
-  
-      const distToTop = offset.y - top
-      const percentage = limit(0, 1, distToTop / height)
-      const index = Math.round( percentage * (processes.length - 1) )
-  
-      // update animation
-      const { current } = animationRef
-      if( current ) {
-        const vh = Viewport.height
-        const h = bottom - top
-        const threshold = h * 0.15
-        const inViewPercentage = limit(0, 1, (offset.y - top + vh - threshold) / (h + vh - threshold - vh * 0.6))
-  
-        current.goToAndStop( current.getDuration(true) * inViewPercentage >> 0, true )
-      }
-  
-      // check if value has changed, update state
-      if( index !== activeIndex ) setActiveIndex(index)
-    }
-
-
     if( inView ) {
-      // remove event listener before adding it to prevent doubling (safety check)
-      Viewport.off(onResize)
-      Viewport.on(onResize)
-
       onResize()
-
-      // remove event listener before adding it to prevent doubling (safety check)
-      scrollbar?.removeListener(onScroll)
-      scrollbar?.addListener(onScroll)
-
+      Viewport.on(onResize)
+      scrollbarRef.current?.addListener(onScroll)
       animationRef.current?.play()
     } else {
       Viewport.off(onResize)
-      scrollbar?.removeListener(onScroll)
+      scrollbarRef.current?.removeListener(onScroll)
       animationRef.current?.pause()
     }
-    
 
     return () => {
       Viewport.off(onResize)
-      scrollbar?.removeListener(onScroll)
+      scrollbarRef.current?.removeListener(onScroll)
     }
   }, [inView])
+
+  // update scrollbarRef
+  useEffect(() => {
+    scrollbarRef.current = layoutState.scrollbar
+  }, [layoutState.scrollbar])
 
 
   // Use `useCallback` so we don't recreate the function on each render - Could result in infinite loop
@@ -211,6 +209,9 @@ const AboutProcessList = ({ color = '#0000', processes }) => {
   const getStickyTargetRef = useCallback(() => {
     return containerRef.current
   }, [inViewRef])
+
+
+  console.log(color === '#000')
 
 
   return (
@@ -227,7 +228,8 @@ const AboutProcessList = ({ color = '#0000', processes }) => {
         pt={[4, null, null, '25vh']}
         pb={[4, null, null, 0]}
       >
-        <Box as={StickyElementBg} d={['block', null, null, 'none']} bg="black" visible={color === '#fff'} />
+        <Box as={StickyElementBg} bg="black" visible={color === '#fff'} />
+        <Box as={StickyElementBg} bg="white" visible={color === '#000'} />
 
         <Heading
           as={CurrentActiveItem}
