@@ -74,7 +74,7 @@ const Packages = injectIntl(({ delayIn = 0, delayOut = 0, intl }) => {
   const getDelayOut = index => {
     if (isMobile) return delayOut
     else if( isTablet ) return index % 2 * 50 + delayOut
-    else return index % 3 * 50 + delayOut
+    else return index % 3 * 100 + delayOut
   }
 
   const getThreshold = index => {

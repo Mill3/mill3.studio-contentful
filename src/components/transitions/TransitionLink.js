@@ -7,11 +7,10 @@ import { TRANSITION_PANE_STATES, TRANSITION_DURATION, TRANSITION_OUT_DURATION } 
 
 const sleep = (ms, cb) => new Promise(resolve => setTimeout(resolve, ms))
 
-const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', localePrefix = true, ...props }) => {
+const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', localePrefix = true, children, ...props }) => {
   const { dispatch } = useContext(LayoutContext)
   const { locale } = intl
   const path = localePrefix ? `/${locale}${to}` : `${to}`
-  const { children } = props
 
   const handleClick = useCallback(
     e => {
@@ -67,4 +66,4 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
   )
 }
 
-export default injectIntl(TransitionLinkComponent)
+export default React.memo(injectIntl(TransitionLinkComponent))
