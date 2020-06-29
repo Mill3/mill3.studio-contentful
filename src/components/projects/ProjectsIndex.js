@@ -7,11 +7,9 @@ import styled from 'styled-components'
 
 
 import ClientsFooter from '@components/clients/ClientsFooter'
-import HeaderCircle from '@components/header/HeaderCircle'
 import ProjectPreview from '@components/projects/ProjectPreview'
 import SEO from '@components/seo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
-import { LayoutContext } from '@layouts/layoutContext'
 import { breakpoints } from '@styles/Theme'
 import { TRANSITION_DURATION } from '@utils/constants'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -112,8 +110,6 @@ const ProjectsIndex = ({ data, pageContext }) => {
               <FormattedMessage id="projects.Intro" />
             </Text>
           </TransitionContainer>
-
-          <HeaderCircle ml={['-4.75vw', null, -3, '-28px']} locale={pageContext.language} type={`work`} css={{ transform: 'translateY(45%)' }} />
         </Flex>
 
         {/* list of projects */}
