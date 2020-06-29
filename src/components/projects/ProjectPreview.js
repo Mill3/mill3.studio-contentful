@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
@@ -45,7 +45,6 @@ const ProjectWrapper = styled(Box)`
     margin-bottom: 0 !important;
   }
 `
-
 const ProjectHoverPane = styled.picture`
   display: flex;
   justify-content: center;
@@ -66,42 +65,6 @@ const ProjectHoverPane = styled.picture`
     object-fit: cover;
   }
 `
-
-/*
-const ProjectTitleUnderlinePoses = posed.span({
-  fold: {
-    scaleX: 0.0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 40,
-    },
-  },
-  unfold: {
-    scaleX: 0.999,
-    transition: {
-      type: 'spring',
-      stifness: 100,
-      damping: 10,
-    },
-  },
-})
-*/
-
-/*
-const ProjectTitleUnderline = styled(ProjectTitleUnderlinePoses)`
-  position: absolute;
-  top: 1.125em;
-  left: 0;
-  width: 100%;
-  height: 0.045em;
-  z-index: -1;
-  background: ${props => (props.color ? props.color : props.theme.colors.black)};
-  transform-origin: top left;
-  transform: scaleX(0.999);
-`
-*/
-
 const ProjectPreviewItem = styled(ProjectPoses)`
   transform-origin: top center;
   
@@ -144,23 +107,42 @@ const ProjectPreviewItem = styled(ProjectPoses)`
 `
 
 
-const ProjectFigure = ({ active = false, color = '#000', video = null, image = null, ...props }) => {
-  const setVideoRef = (ref) => {
-    if( !ref ) return
+const ProjectFigure = React.memo(({ active = false, color = '#000', video = null, image = null, ...props }) => {
+  const videoRef = useRef()
+  const playbackPromise = useRef()
 
-    if( active && ref.paused ) {
-      ref.currentTime = 0
-      ref.play()
+  // toggle video playback
+  useLayoutEffect(() => {
+    const { current } = videoRef
+
+    // if video element doesn't exists, skip here
+    if( !current ) return
+
+    // if component is active
+    if( active ) {
+      // if a play promise exists, skip here
+      if( playbackPromise.current ) return
+
+      // reset to beginning
+      current.currentTime = 0
+
+      // auto clear promise when done
+      playbackPromise.current = current.play().finally(() => playbackPromise.current = null)
+    } else {
+      // if a play promise exists, wait promise.resolve to pause playback
+      // otherwise, pause immediatly
+      if( playbackPromise.current ) playbackPromise.current.then(() => current.pause())
+      else current.pause()
     }
-    else if( !active && !ref.paused ) ref.pause()
-  }
+  }, [active, videoRef.current])
+
 
   return (
-    <Box as={`figure`} {...props}>
+    <Box as={`figure`} mb={[2,2,4]} {...props}>
       {HAS_HOVER && (
         <ProjectHoverPane color={color}>
           {video && (
-            <video ref={setVideoRef} muted playsInline loop>
+            <video ref={videoRef} muted playsInline loop>
               <source src={video.file.url} type="video/mp4" />
             </video>
           )}
@@ -177,12 +159,15 @@ const ProjectFigure = ({ active = false, color = '#000', video = null, image = n
       </FigureBox>
     </Box>
   )
-}
+})
 
 const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset = 0 }) => {
   const [hover, setHover] = useState(false)
   const [inViewRef, inView] = useInView({ triggerOnce: true })
   const { slug, colorMain, imageMain, videoPreview, name, category, transitionName } = project.node
+
+  const onOver = useCallback(() => setHover(true))
+  const onOut = useCallback(() => setHover(false))
 
   return (
     <Box ref={inViewRef} as={ProjectWrapper} mb={['40px', null, '50px', '70px']} px={[null, null, 3, '28px']} {...columns}>
@@ -199,10 +184,10 @@ const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset =
             to={`/projects/${slug}/`}
             title={transitionName || null}
             color={colorMain}
-            onMouseOver={e => setHover(true)}
-            onMouseOut={e => setHover(false)}
-            onFocus={e => setHover(true)}
-            onBlur={e => setHover(false)}
+            onMouseOver={onOver}
+            onMouseOut={onOut}
+            onFocus={onOver}
+            onBlur={onOut}
           >
             <TransitionContainer direction="out" distance={150}>
               <ProjectFigure
@@ -210,28 +195,10 @@ const ProjectPreview = ({ project, delay = 0, columns = DEFAULT_COLUMN, offset =
                 video={videoPreview}
                 image={imageMain}
                 active={hover}
-                mb={[2,2,4]}
               ></ProjectFigure>
 
               <Flex as={`footer`} flexDirection="column" alignItems="start" px={['5vw', null, 0]}>
-                <Text
-                  as={'h3'}
-                  className={`fw-300 is-sans is-relative`}
-                  fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]}
-                  m={[0]}
-                >
-                  {name}
-                  {/*
-                  <span>{name}</span>
-                  <Box
-                    as={ProjectTitleUnderline}
-                    color={colorMain}
-                    initialPose="fold"
-                    pose={hover ? 'unfold' : 'fold'}
-                    aria-hidden="true"
-                  />
-                  */}
-                </Text>
+                <Text as={'h3'} className={`fw-300 is-sans is-relative`} fontSize={['5.314009662vw', null, `3vw`, `1.944444444vw`]} m={[0]} >{name}</Text>
                 {category && (
                   <Text
                     as={`h4`}
