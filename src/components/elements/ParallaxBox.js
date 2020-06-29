@@ -31,7 +31,7 @@ const ParallaxBox = ({ offset = 0, children, ...props }) => {
         const scrollY = scrollbar.current?.offset.y || 0
 
         // get offset value
-        const offsetValue = offsetRef.current?.getValue() || offsetRef.current || 0
+        const offsetValue = (offsetRef.current instanceof ResponsiveProp ? offsetRef.current.getValue() : offsetRef.current) || 0
 
         // create temporary new value
         let newValue = 0
@@ -62,8 +62,8 @@ const ParallaxBox = ({ offset = 0, children, ...props }) => {
         return () => Viewport.off(resize)
     }, [])
 
-    // update offset reference
-    // when need to save offset into a reference because it is used in a memoized scroll callback
+    // update offsetRef
+    // when need to save offset into a reference because it is used in a useCallback function
     useEffect(() => {
         offsetRef.current = offset
     }, [offset])
