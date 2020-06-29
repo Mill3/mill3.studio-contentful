@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'gatsby-plugin-intl'
 import { graphql } from 'gatsby'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
 import locales from '@locales/locales'
 
@@ -56,7 +56,6 @@ const SEO = props => {
     <Helmet
       defaultTitle={`${siteName}`}
       title={title()}
-      mateDescription={description()}
       htmlAttributes={{
         lang: props.locale || intl.locale
       }}

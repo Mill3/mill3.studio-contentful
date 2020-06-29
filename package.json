@@ -52,7 +52,7 @@
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.6",
     "react-flickity-component": "^3.5.0",
-    "react-helmet": "^5.2.1",
+    "react-helmet": "^6.1.0",
     "react-intersection-observer": "^8.26.2",
     "react-intl": "^4.6.9",
     "react-player": "^1.11.0",
