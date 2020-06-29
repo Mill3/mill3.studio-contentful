@@ -163,9 +163,6 @@ const ClientRowThumbnail = ({ active, src }) => {
 
 
   const animate = useCallback(() => {
-
-    console.log('raf')
-
     const { current: mouseevent } = mouseEventRef
     const { current: scrollbar } = scrollbarRef
 
@@ -227,7 +224,6 @@ const ClientRowThumbnail = ({ active, src }) => {
 
   // save scrollbar ref
   useEffect(() => {
-    console.log('set scrollbar', layoutState.scrollbar)
     scrollbarRef.current = layoutState.scrollbar
   }, [layoutState.scrollbar])
 
