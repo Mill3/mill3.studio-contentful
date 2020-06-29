@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import posed from 'react-pose'
@@ -44,11 +44,6 @@ const NewsWrapper = styled(Box)`
   }
 `
 
-const ReadMoreStyle = styled.p`
-  display: inline-block;
-  border-bottom: 1px solid ${props => props.theme.colors.gray};
-`
-
 const NewsPreviewItem = styled(NewsPoses)`
   figure {
     position: relative;
@@ -58,19 +53,13 @@ const NewsPreviewItem = styled(NewsPoses)`
   a {
     display: block;
     color: #000;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-
-      ${ReadMoreStyle} {
-        color: ${props => props.theme.colors.blue};
-        border-bottom-color: ${props => props.theme.colors.blue};
-      }
-    }
+    text-decoration: none !important;
   }
 `
 
+const NewsLink = styled.p`
+  border-bottom: 2px solid currentColor;
+`
 
 
 const NewsPreview = ({ delay = 0, columns = DEFAULT_COLUMNS, offset = 0, news, index, intl }) => {
@@ -89,19 +78,19 @@ const NewsPreview = ({ delay = 0, columns = DEFAULT_COLUMNS, offset = 0, news, i
         >
           <TransitionLinkComponent to={`/journal/${slug}`} title={title}>
             <TransitionContainer direction="out" index={index}>
-              <Box as={`figure`} mb={[4]}>
+              <Box as={`figure`} mb={4}>
                 <FigureBox ratio={4 / 6}>
                   <Img fade={false} fluid={imageMain.fluid} />
                 </FigureBox>
               </Box>
-              <Box as={`footer`} width={[`100%`, `70%`]}>
-                <Text as={`h3`} className={`fw-300 is-sans`} fontSize={[2]} lineHeight={[1.2]} mb={[2]}>
+              <Flex as={`footer`} width={[`100%`, `70%`]} flexDirection="column" alignItems="flex-start" justifyContent="flex-start">
+                <Text as={`h3`} fontSize={2} fontWeight={300} lineHeight={1.2} mb={3} p={0}>
                   {title}
                 </Text>
-                <Text as={ReadMoreStyle} className={`fw-600 is-serif`} fontSize={[1]} m={0}>
+                <Text as={NewsLink} width="auto" fontSize={2} fontWeight={400} lineHeight={1.2} m={0} p={0} pb={1}>
                   {intl.formatMessage({ id: 'news.preview.readmore' })}
                 </Text>
-              </Box>
+              </Flex>
             </TransitionContainer>
           </TransitionLinkComponent>
         </Box>
