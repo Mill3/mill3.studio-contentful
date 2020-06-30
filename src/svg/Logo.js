@@ -27,7 +27,7 @@ export const LogoSVG = styled.svg`
   }
 
   polygon, path {
-    fill: ${props => props.inverted ? '#fff' : '#000' };
+    fill: ${({inverted}) => inverted ? '#fff' : '#000' };
   }
 `
 
@@ -55,4 +55,4 @@ const Logo = ({ inverted }) => {
 
 
 
-export default Logo;
+export default React.memo(Logo);

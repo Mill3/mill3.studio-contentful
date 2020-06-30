@@ -211,9 +211,6 @@ const AboutProcessList = ({ color = '#000', processes }) => {
   }, [inViewRef])
 
 
-  console.log(color === '#000')
-
-
   return (
     <Box ref={setRefs} as={`footer`} pt={[0, null, null, `25vh`]} color="#000" css={{position: 'relative'}}>
 

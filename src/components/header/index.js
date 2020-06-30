@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled, { css } from 'styled-components'
 import posed from 'react-pose'
-import { Location } from '@reach/router'
+import { useLocation } from '@reach/router'
 import { injectIntl } from 'gatsby-plugin-intl'
 import { Flex, Box } from 'rebass'
 
@@ -54,44 +54,40 @@ const HeaderStyle = styled.div`
 `
 
 const Header = () => {
+  const location = useLocation()
+  const { layoutState } = useContext(LayoutContext)
+  const { demoReel, invertedHeader, transition } = layoutState
+
   return (
-    <Location>
-      {({ location }) => (
-        <LayoutContext.Consumer>
-          {({ layoutState }) => (
-            <Box
-              as={SiteHeader}
-              pt={[0, 0, 0, `24px`]}
-              defaultPose={'visible'}
-              pose={layoutState.demoReel.active ? 'hidden' : 'visible'}
-              visible={!layoutState.demoReel.active}
-              withParent={false}
-            >
-              <TransitionContainer
-                distance={10}
-                disabledPose={'none'}
-                delayIn={
-                  layoutState.transition.state === TRANSITION_PANE_STATES[`intro`] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65
-                }
-              >
-                <Container fluid className={`z-10`}>
-                  <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
-                    <Box width={'auto'} className={`is-relative z-20`}>
-                      <TransitionLinkComponent to={`/`} title={`Home Sweet Home`} color={`blue`}>
-                        <Logo inverted={layoutState.invertedHeader} />
-                      </TransitionLinkComponent>
-                    </Box>
-                    <Box width={['auto']} ml={`auto`} mr={[0, null, 0]}>
-                      <Nav inverted={layoutState.invertedHeader} pathname={location.pathname} />
-                    </Box>
-                  </Flex>
-                </Container>
-              </TransitionContainer>
+    <Box
+      as={SiteHeader}
+      pt={[0, 0, 0, `24px`]}
+      defaultPose={'visible'}
+      pose={demoReel.active ? 'hidden' : 'visible'}
+      visible={!demoReel.active}
+      withParent={false}
+    >
+      <TransitionContainer
+        distance={10}
+        disabledPose={'none'}
+        delayIn={
+          transition.state === TRANSITION_PANE_STATES[`intro`] ? TRANSITION_INTRO_DELAY * 1.45 : TRANSITION_DURATION * 0.65
+        }
+      >
+        <Container fluid className={`z-10`}>
+          <Flex as={HeaderStyle} flexWrap={`wrap`} alignItems={`center`} py={'30px'}>
+            <Box width={'auto'} className={`is-relative z-20`}>
+              <TransitionLinkComponent to={`/`} title={`Home Sweet Home`} color={`blue`}>
+                <Logo inverted={invertedHeader} />
+              </TransitionLinkComponent>
             </Box>
-          )}
-        </LayoutContext.Consumer>
-      )}
-    </Location>
+            <Box width={['auto']} ml={`auto`} mr={0}>
+              <Nav inverted={invertedHeader} pathname={location.pathname} />
+            </Box>
+          </Flex>
+        </Container>
+      </TransitionContainer>
+    </Box>
   )
 }
 

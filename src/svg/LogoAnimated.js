@@ -88,4 +88,4 @@ LogoAnimated.defaultProps = {
   animated: false,
 }
 
-export default LogoAnimated
+export default React.memo(LogoAnimated)

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
@@ -104,6 +104,13 @@ const TransitionPane = () => {
   const [pose, setPose] = useState(TRANSITION_PANE_STATES[transition.state])
   const { transitionColor, transitionTitle } = layoutState.transition
 
+  const onPoseComplete = useCallback((poseName) => {
+    // after `intro` or `hidden` pose, revert pane style and position
+    if (poseName === TRANSITION_PANE_STATES[`intro`]) {
+      dispatch({ type: 'transition.setState', transitionState: `started`, inTransition: false })
+    }
+  })
+
   useEffect(() => {
     setPose(TRANSITION_PANE_STATES[transition.state])
   }, [transition])
@@ -117,12 +124,7 @@ const TransitionPane = () => {
       opacity={1}
       initialPose={`init`}
       pose={pose}
-      onPoseComplete={poseName => {
-        // after `intro` or `hidden` pose, revert pane style and position
-        if (poseName === TRANSITION_PANE_STATES[`intro`]) {
-          dispatch({ type: 'transition.setState', transitionState: `started`, inTransition: false })
-        }
-      }}
+      onPoseComplete={onPoseComplete}
     >
       {/* when in intro state */}
       {pose === TRANSITION_PANE_STATES[`intro`] && <LogoAnimated inverted={true} animated={true} />}

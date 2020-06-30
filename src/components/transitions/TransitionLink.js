@@ -1,11 +1,9 @@
 import React, { useContext, useCallback } from 'react'
 import { injectIntl } from 'gatsby-plugin-intl'
-import { Link, location, navigate } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 
 import { LayoutContext } from '@layouts/layoutContext'
-import { TRANSITION_PANE_STATES, TRANSITION_DURATION, TRANSITION_OUT_DURATION } from '@utils/constants'
-
-const sleep = (ms, cb) => new Promise(resolve => setTimeout(resolve, ms))
+import { TRANSITION_PANE_STATES, TRANSITION_OUT_DURATION } from '@utils/constants'
 
 const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', localePrefix = true, children, ...props }) => {
   const { dispatch } = useContext(LayoutContext)

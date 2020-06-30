@@ -159,4 +159,4 @@ const Footer = ({ intl }) => {
   )
 }
 
-export default injectIntl(Footer)
+export default React.memo(injectIntl(Footer))

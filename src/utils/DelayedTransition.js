@@ -30,6 +30,7 @@ class DelayedTransition extends Transition {
     return { exit, enter, appear }
   }
 
+  /*
   updateStatus(mounting = false, nextStatus) {
 
     if (nextStatus !== null) {
@@ -46,6 +47,7 @@ class DelayedTransition extends Transition {
 
     super.updateStatus(mounting, nextStatus)
   }
+  */
 
   performEnter(node, mounting) {
     const delays = this.getDelays()
@@ -74,6 +76,8 @@ class DelayedTransition extends Transition {
       super.performExit(node)
       return
     }
+
+    console.log('perform exit', this.state.status);
 
     if( this.state.status === DELAYED_EXIT ) {
       return
