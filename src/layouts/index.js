@@ -38,6 +38,7 @@ const Layout = ({ children }) => {
   const onScroll = useCallback(() => {
     if ( Viewport.exists ) window.dispatchEvent(SCROLL_EVENT)
   })
+
   const initScrollbar = useCallback(() => {
     const options = {
       damping: 0.0625,
@@ -50,6 +51,7 @@ const Layout = ({ children }) => {
     dispatch({ type: 'scrollbar.set', scrollbar: scrollbarInstance })
     scrollbarInstance.addListener(onScroll)
   })
+
   const scrollToTop = useCallback(() => {
     const { scrollbar } = layoutState
     if (scrollbar) scrollbar.scrollTo(0, 0)
@@ -59,6 +61,7 @@ const Layout = ({ children }) => {
     dispatch({ type: 'inverted.reset' })
     scrollToTop()
   })
+
   const onEntering = useCallback(() => {
     dispatch({ type: 'transition.setState', transitionState: `entering`, inTransition: false })
   })

@@ -34,7 +34,7 @@ const Contact = ({ data, intl }) => {
 
   useEffect(() => {
     if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [layoutState])
 
   return (
     <>

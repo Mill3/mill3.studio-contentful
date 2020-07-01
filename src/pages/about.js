@@ -3,8 +3,6 @@ import { graphql } from 'gatsby'
 import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 
-
-
 import AboutIntro from '@components/about/AboutIntro'
 import AboutTeam from '@components/about/AboutTeam'
 import AboutProcess from '@components/about/AboutProcess'
@@ -33,7 +31,7 @@ const About = ({ data }) => {
 
   useEffect(() => {
     if (!layoutState.invertedHeader) dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [layoutState])
 
   return (
     <>
