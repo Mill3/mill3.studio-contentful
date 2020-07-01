@@ -33,8 +33,8 @@ const Contact = ({ data, intl }) => {
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   useEffect(() => {
-    if( !layoutState.invertedHeader ) dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layoutState])
+    dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <>

@@ -30,8 +30,8 @@ const About = ({ data }) => {
   }
 
   useEffect(() => {
-    if (!layoutState.invertedHeader) dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layoutState])
+    dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <>

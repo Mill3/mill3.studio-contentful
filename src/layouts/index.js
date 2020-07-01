@@ -58,6 +58,7 @@ const Layout = ({ children }) => {
   })
 
   const onExit = useCallback(() => {
+    console.log(`should revert header`);
     dispatch({ type: 'inverted.reset' })
     scrollToTop()
   })
