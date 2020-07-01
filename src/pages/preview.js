@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Visibility from 'visibilityjs'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
@@ -32,6 +31,8 @@ const Preview = ({ pageContext }) => {
 
   // only when we are rendering our app client side
   if (typeof window === `object`) {
+    const Visibility = require('visibilityjs')
+
     useEffect(() => {
       // start an interval refreshing data every 2 sec
       const id = Visibility.every(2000, update)
@@ -39,7 +40,7 @@ const Preview = ({ pageContext }) => {
       // stop interval when unmounted
       return () => Visibility.stop(id)
     }, [])
-  }  
+  }
 
 
   // pick content component
@@ -52,7 +53,7 @@ const Preview = ({ pageContext }) => {
       return <PageSingle pageContext={pageContext} data={{ page: data }} />
     case 'project':
       return <ProjectSingle pageContext={pageContext} data={{ project: data }} />
-    default: 
+    default:
       return null
   }
 }

@@ -27,7 +27,7 @@ import Viewport from '@utils/Viewport'
 
 SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin, ScrollbarEasePlugin)
 
-const SCROLL_EVENT = new Event('scroll')
+const SCROLL_EVENT = typeof window === `object` ? new Event('scroll') : null
 //const DELAY = { enter: 1 }
 const TIMEOUT = { exit: 1 }
 

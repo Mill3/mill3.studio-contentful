@@ -106,7 +106,7 @@ export const AnimatedBackgroundContainer = ({ backgroundColor = "transparent", d
   const { layoutState } = useContext(LayoutContext)
   const { scrollbar } = layoutState
   const [ inViewRef, inView ] = useInView({ threshold: threshold })
-  
+
   const backgroundIsTransparent = backgroundColor === "transparent"
   const scroll = ({ offset }) => {
     if( bgRef.current ) bgRef.current.style.transform = `translate3d(0, ${offset.y}px, 0)`
@@ -219,7 +219,7 @@ export const Grid = GridContentText
 
 const ContentRow = ({ data = null }) => {
 
-  const rows = data.map((row, index) => {
+  const rows = !data ? null : data.map((row, index) => {
     const isFirst = index === 0
     const isLast = index === data.length - 1
     const id = `content-row-id-${index}`
