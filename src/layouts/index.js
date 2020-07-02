@@ -58,7 +58,6 @@ const Layout = ({ children }) => {
   })
 
   const onExit = useCallback(() => {
-    console.log(`should revert header`);
     dispatch({ type: 'inverted.reset' })
     scrollToTop()
   })
@@ -74,7 +73,6 @@ const Layout = ({ children }) => {
   return (
     <Location>
       {({ location }) => (
-        <>
           <LayoutContext.Provider value={{ layoutState, dispatch }}>
             <GlobalStyle />
             <ThemeProvider theme={Theme}>
@@ -114,6 +112,7 @@ const Layout = ({ children }) => {
                         <Box pt={6}>{children}</Box>
                       </DelayedTransition>
                       */}
+
                     </TransitionGroup>
 
                     {/* footer */}
@@ -125,7 +124,6 @@ const Layout = ({ children }) => {
 
             {/* debugging */}
           </LayoutContext.Provider>
-        </>
       )}
     </Location>
   )

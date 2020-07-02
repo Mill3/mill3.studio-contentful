@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
@@ -33,8 +32,8 @@ const Contact = ({ data, intl }) => {
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   useEffect(() => {
-    dispatch({type: "header.invert"}) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+    dispatch({ type: "header.invert" })
+  }, [])
 
   return (
     <>

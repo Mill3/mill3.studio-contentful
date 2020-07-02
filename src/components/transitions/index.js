@@ -101,8 +101,8 @@ const TransitionTextStyle = styled.p`
 const TransitionPane = () => {
   const { layoutState, dispatch } = useContext(LayoutContext)
   const { transition } = layoutState
-  const [pose, setPose] = useState(TRANSITION_PANE_STATES[transition.state])
-  const { transitionColor, transitionTitle } = layoutState.transition
+  const { state, transitionColor, transitionTitle } = transition
+  const [pose, setPose] = useState(TRANSITION_PANE_STATES[state])
 
   const onPoseComplete = useCallback((poseName) => {
     // after `intro` or `hidden` pose, revert pane style and position
@@ -145,6 +145,6 @@ const TransitionPane = () => {
   )
 }
 
-export default TransitionPane
+export default React.memo(TransitionPane)
 
 

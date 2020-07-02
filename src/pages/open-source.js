@@ -1,8 +1,7 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { graphql } from 'gatsby'
 import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
-// import posed from 'react-pose'
 import { Box, Flex, Text } from 'rebass'
 
 
@@ -16,8 +15,7 @@ import TransitionContainer from '@components/transitions/TransitionContainer'
 import { LayoutContext } from '@layouts/layoutContext'
 import Container from '@styles/Container'
 import { breakpoints, header, space } from '@styles/Theme'
-import { TRANSITION_PANE_STATES, TRANSITION_DURATION, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
-import ResponsiveProp from '@utils/ResponsiveProp'
+import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
@@ -138,14 +136,14 @@ const Articles = ({ data, delay = 0 }) => {
   )
 }
 
-const OpenCode = ({ data, intl, location }) => {
+const OpenCode = ({ data, intl }) => {
   const { dispatch, layoutState } = useContext(LayoutContext)
   const { transition } = layoutState
   const delay = transition.state === TRANSITION_PANE_STATES['intro'] ? INTRO_REVEALS_DELAY : TRANSITION_IN_DELAY
 
   useEffect(() => {
-    dispatch({ type: 'header.invert' }) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+    dispatch({ type: "header.invert" })
+  }, [])
 
   return (
     <>
