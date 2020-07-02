@@ -44,21 +44,57 @@ const NewsWrapper = styled(Box)`
   }
 `
 
-const NewsPreviewItem = styled(NewsPoses)`
-  figure {
-    position: relative;
-    overflow: hidden;
+const NewsLink = styled.p`
+  position: relative;
+  padding-bottom: 6px;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: currentColor;
   }
 
+  &::before {
+    left: -2px;
+    right: 0;
+    transform-origin: top left;
+    transform: scaleX(0);
+  }
+  &::after {
+    left: 0;
+    right: -2px;
+    transform-origin: top right;
+    transform: scaleX(1);
+  }
+`
+
+const NewsPreviewItem = styled(NewsPoses)`
   a {
     display: block;
     color: #000;
     text-decoration: none !important;
-  }
-`
 
-const NewsLink = styled.p`
-  border-bottom: 2px solid currentColor;
+    &:hover {
+      ${NewsLink} {
+        &::before {
+          transition: transform 550ms 50ms cubic-bezier(0.645, 0.045, 0.355, 1.000); /* easeInOutCubic */
+          transform: scaleX(1);
+        }
+        &::after {
+          transition: transform 350ms cubic-bezier(0.455, 0.030, 0.515, 0.955); /* easeInOutQuad */
+          transform: scaleX(0);
+        }
+      }
+    }
+  }
+
+  figure {
+    overflow: hidden;
+  }
 `
 
 
@@ -87,7 +123,7 @@ const NewsPreview = ({ delay = 0, columns = DEFAULT_COLUMNS, offset = 0, news, i
                 <Text as={`h3`} fontSize={2} fontWeight={300} lineHeight={1.2} mb={3} p={0}>
                   {title}
                 </Text>
-                <Text as={NewsLink} width="auto" fontSize={2} fontWeight={400} lineHeight={1.2} m={0} p={0} pb={1}>
+                <Text as={NewsLink} width="auto" fontSize={2} fontWeight={400} lineHeight={1.2} m={0} p={0}>
                   {intl.formatMessage({ id: 'news.preview.readmore' })}
                 </Text>
               </Flex>
