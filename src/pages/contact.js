@@ -12,18 +12,13 @@ import { HORIZONTAL_SPACER, VERTICAL_SPACER } from '@components/content_rows'
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import SEO from '@components/seo'
 import { LayoutContext } from '@layouts/layoutContext'
-import { breakpoints, header } from '@styles/Theme'
+import { space } from '@styles/Theme'
 import { TRANSITION_PANE_STATES, INTRO_REVEALS_DELAY, TRANSITION_IN_DELAY } from '@utils/constants'
 
 
 const Header = styled.header`
-  margin-top: ${header.height * -1}px;
-  padding-top: ${header.height}px;
-
-  @media (min-width: ${breakpoints[2]}) {
-    margin-top: ${(header.height + 24) * -1}px;
-    padding-top: ${header.height + 24}px;
-  }
+  margin-top: ${space[6] * -1}px;
+  padding-top: ${space[6]}px;
 `
 
 const Contact = ({ data, intl }) => {
