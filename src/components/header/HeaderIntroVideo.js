@@ -244,4 +244,4 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
 const IntlHeaderIntroVideo = injectIntl(HeaderIntroVideo)
 const ForwardedBoxVideo = forwardRef((props, ref) => <IntlHeaderIntroVideo {...props} forwardedRef={ref} />)
 
-export default ForwardedBoxVideo
+export default React.memo(ForwardedBoxVideo)

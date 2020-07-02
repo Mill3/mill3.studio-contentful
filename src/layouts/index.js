@@ -67,8 +67,8 @@ const Layout = ({ children }) => {
   })
 
   useEffect(() => {
-    if (!layoutState.scrollbar) initScrollbar() // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scrollbarRef, layoutState])
+    if (!layoutState.scrollbar) initScrollbar()
+  }, [scrollbarRef, layoutState.scrollbar])
 
   return (
     <Location>

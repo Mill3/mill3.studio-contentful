@@ -19,6 +19,8 @@ export const defaultContextValue = {
 }
 
 export const reducer = (state, action) => {
+  console.log('LayoutContext', action.type)
+  
   switch (action.type) {
     case 'transition.setState':
       return {

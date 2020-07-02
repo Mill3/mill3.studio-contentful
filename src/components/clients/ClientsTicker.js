@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
@@ -12,14 +12,15 @@ const ClientsTickerContainer = styled.footer`
   overflow-x: hidden;
 
   ${ClientNameHeading} {
-    transition-property: opacity;
-    transition-timing-function: ease-in-out;
-    transition-duration: 0.5s;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    will-change: opacity;
   }
 
   &:hover {
     ${ClientNameHeading} {
       opacity: 0.0475;
+
       &:hover {
         opacity: 1;
       }
@@ -37,7 +38,7 @@ const TickerLineClients = styled.div`
 `
 
 
-const ClientsTicker = ({ data, direction = 1, speedBase = 0 }) => {
+const ClientsTicker = React.memo(({ data, direction = 1, speedBase = 0 }) => {
   const raf = useRef()
   const listRef = useRef()
   const listCopyRef = useRef()
@@ -120,9 +121,9 @@ const ClientsTicker = ({ data, direction = 1, speedBase = 0 }) => {
       <Box ref={listCopyRef} as={TickerLineClients}>{clients}</Box>
     </Box>
   )
-}
+})
 
-export default props => (
+export default React.memo(props => (
   <StaticQuery
     query={graphql`
       query {
@@ -149,10 +150,10 @@ export default props => (
         ))
 
       return (
-        <Box as={ClientsTickerContainer} pt={[4]}>
+        <Box as={ClientsTickerContainer} pt={4}>
           {tickers}
         </Box>
       )
     }}
   />
-)
+))

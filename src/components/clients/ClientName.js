@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
@@ -10,12 +10,8 @@ export const ClientNameHeading = styled.h4`
   text-transform: uppercase;
 
   a {
-    color: black;
-    
-    &:hover {
-      color: black;
-      text-decoration: none;
-    }
+    color: black !important;
+    text-decoration: none;
   }
 `
 
@@ -29,4 +25,4 @@ const ClientName = ({ name }) => {
   )
 }
 
-export default memo(ClientName);
+export default React.memo(ClientName);

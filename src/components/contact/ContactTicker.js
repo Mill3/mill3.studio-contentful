@@ -105,4 +105,4 @@ const ContactTicker = (props) => {
   )
 }
 
-export default ContactTicker
+export default React.memo(ContactTicker)
