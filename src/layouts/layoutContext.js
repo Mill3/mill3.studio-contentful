@@ -39,19 +39,25 @@ export const reducer = (state, action) => {
         },
       }
     case 'header.invert':
-      return { ...state, invertedHeader: true }
+      if( state.invertedHeader === true ) return state
+      else return { ...state, invertedHeader: true }
     case 'header.reset':
-      return { ...state, invertedHeader: false }
+      if( state.invertedHeader === false ) return state
+      else return { ...state, invertedHeader: false }
     case 'body.invert':
-      return { ...state, invertedBody: true }
+      if( state.invertedBody === true ) return state
+      else return { ...state, invertedBody: true }
     case 'body.reset':
-      return { ...state, invertedBody: false }
+      if( state.invertedBody === false ) return state
+      else return { ...state, invertedBody: false }
     // single dispatch for inverting body and nav
     case 'inverted.set':
-      return { ...state, invertedHeader: true, invertedBody: true }
+      if( state.invertedHeader === true && state.invertedBody === true ) return state
+      else return { ...state, invertedHeader: true, invertedBody: true }
     // single dispatch for reverting inverted body and nav
     case 'inverted.reset':
-      return { ...state, invertedHeader: false, invertedBody: false }
+      if( state.invertedHeader === false && state.invertedBody === false ) return state
+      else return { ...state, invertedHeader: false, invertedBody: false }
     case 'scrollbar.set':
       return {
         ...state,
