@@ -133,10 +133,11 @@ const TransitionPane = () => {
       {(pose !== TRANSITION_PANE_STATES[`intro`] && transitionTitle) && (
         <Text
           as={TransitionTextStyle}
-          fontSize={['18vw', null, `5vw`]}
+          fontSize={[transitionTitle.length > 30 ? '12vw' : '18vw', null, `5vw`]}
           textAlign="center"
           lineHeight="1.1"
           className={`is-sans fw-300`}
+          px={[2, null, 0]}
         >
           <span>{transitionTitle}</span>
         </Text>
