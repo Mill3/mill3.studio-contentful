@@ -1,17 +1,15 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Heading, Text } from 'rebass'
-import { display } from 'styled-system'
+import { Flex, Box, Text } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
-import posed, { PoseGroup } from 'react-pose'
+import posed from 'react-pose'
 import { useInView } from 'react-intersection-observer'
 
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import { LayoutContext } from '@layouts/layoutContext'
-import { colors } from '@styles/Theme'
 import ExternalLink from '@svg/ExternalLink'
 import { HAS_HOVER } from '@utils/constants'
 import { lerp, limit } from '@utils/Math'
@@ -20,74 +18,10 @@ import { lerp, limit } from '@utils/Math'
 const filterByLocale = (data, locale = 'en') => data.filter(e => e.node.node_locale === locale)
 
 
-const ClientRowElement = styled.p`
-  ${display};
-  font-weight: 300;
-`
 
-const ClientRowElementName = styled.h4`
-  ${display};
-  font-weight: 300;
-  text-transform: uppercase;
-`
-
-const ClientRowStyle = styled.div`
-  p {
-    font-weight: 500;
-    color: ${props => props.color};
-    transition: color 0.25s ease-in-out;
-  }
-
-  a {
-    text-decoration: none;
-    color: ${props => props.color};
-  }
-
-  svg {
-    width: 12px;
-    height: auto;
-    margin-left: 10px;
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-  }
-
-  hr {
-    will-change: border-color;
-    transition: border-color 0.25s;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  &:hover {
-    color: ${props => props.theme.colors.blue};
-    svg {
-      opacity: 1;
-    }
-  }
-`
-
-const ClientRowInner = styled.div`
-  will-change: height;
-  transition: height 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
-  display: flex;
-  height: ${props => props.height}px;
-`
-
-const ClientPoses = posed.div({
-  enter: {
-    opacity: 1,
-    duration: 1000,
-    delay: ({ delay = 0 }) => delay,
-  },
-  exit: {
-    opacity: 0,
-    delay: 0,
-    duration: 350,
-  },
-})
-
+//-------------------------//
+//   THUMBNAIL COMPONENT   //
+//-------------------------//
 const ClientRowThumbnailStyle = styled.div`
   position: absolute;
   top: -142px;
@@ -95,7 +29,6 @@ const ClientRowThumbnailStyle = styled.div`
   pointer-events: none;
   transform: translate3d(0px, 0px, 0);
 `
-
 const ClientRowThumbnailWrapPoses = posed.div({
   hidden: {
     opacity: 0,
@@ -126,12 +59,9 @@ const ClientRowThumbnailWrapPoses = posed.div({
     },
   },
 })
-
 const ClientRowThumbnailWrapStyle = styled(ClientRowThumbnailWrapPoses)`
   transform-origin: center center;
 `
-
-
 
 const IMG_THUMBNAIL_PROPS = {
   fadeIn: false, 
@@ -276,51 +206,46 @@ const ClientRowThumbnail = ({ active, src }) => {
     </Box>
   )
 }
+//-------------------------//
 
 
-const ClientRow = (props) => {
-  const { index, hoverIndex, projectName, name, project, url, service, year, textColor, sep, labelRow } = props
-  const [ height, setHeight ] = useState(84)
-  const [ isCurrent, setIsCurrent ] = useState(false)
-  const [ isPrev, setPrev ] = useState(false)
-  const [ isNext, setNext ] = useState(false)
 
-  useEffect(() => {
-    (hoverIndex !== null && index === hoverIndex) ? setIsCurrent(true) : setIsCurrent(false);
-    (hoverIndex !== null && index === hoverIndex - 1) ? setPrev(true) : setPrev(false);
-    (hoverIndex !== null && index === hoverIndex + 1) ? setNext(true) : setNext(false);
-
-    calculateHeight()
-
-  }, [index, hoverIndex, height, isCurrent, isNext, isPrev])
-
-  const calculateHeight = () => {
-    if(isCurrent) return setHeight(110)
-    if (isPrev || isNext) return setHeight(97)
-    return setHeight(84)
+const CLIENT_ROW_FONT_SIZES = [0, 1, 2]
+const ClientRowStyle = styled.div`
+  h4 {
+    text-transform: uppercase;
   }
 
-  const color = () => {
-    // when forcing a specific color
-    if (textColor) return textColor
-
-    // when current give it more padding
-    if (isCurrent) return colors.blue
-
-    // prev or next, gray text
-    if (isPrev || isNext) return colors.gray
-
-    // not prev neither next, but has a hoverIndex value, text is lighter grey
-    if (hoverIndex !== null) return `#E0E0E0`
-
-    // hoverIndex is null, no element is active, return default color
-    return colors.text
+  svg {
+    width: 12px;
+    height: auto;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.25s linear;
+    will-change: opacity;
   }
+`
 
-  const LinkElement = sep ? (project ? TransitionLinkComponent : `a`) : React.Fragment
-  const LinkProps = () => {
-    if (!sep) return {}
+const ClientRowsHeading = React.memo(injectIntl(({ intl }) => {
+  return (
+    <Flex as="div" alignItems="center" height="84px" fontSize={CLIENT_ROW_FONT_SIZES} fontWeight="500">
+      <Text width={[`50%`, null, `40%`]} pr={2}>{intl.formatMessage({ id: 'clients.project' })}</Text>
+      <Text width={[1 / 3, null, 1 / 4]}>{intl.formatMessage({ id: 'clients.name' })}</Text>
+      <Text width={1 / 4} display={['none', null, 'block']}>{intl.formatMessage({ id: 'clients.expertise' })}</Text>
+      <Text width="auto" ml="auto">{intl.formatMessage({ id: 'clients.year' })}</Text>
+    </Flex>
+  )
+}))
+const ClientRow = React.memo(({ index, data, hoverCallback, ...props }) => {
+  const { projectName, name, project, url, service, year } = data
 
+  const onHover = useCallback(() => {
+    hoverCallback(index)
+  }, [index, hoverCallback])
+
+  const LinkElement = useMemo(() => project ? TransitionLinkComponent : `a`, [project])
+  const linkActions = useMemo(() => HAS_HOVER ? { onMouseEnter: onHover, onFocus: onHover } : null)
+  const linkProps = useMemo(() => {
     if (project) {
       return {
         to: `/projects/${project.slug}`,
@@ -335,49 +260,79 @@ const ClientRow = (props) => {
         target: '_blank',
       }
     }
-  }
+
+    return {}
+  }, [project, url])
 
   return (
-    <Box as={ClientRowStyle} color={color()}>
-      <TransitionContainer direction="out" distance={-25}>
-        <LinkElement {...LinkProps()}>
-          <Flex as={ClientRowInner} height={height} px={[0, 0, 0]} flexWrap={`wrap`} alignItems="center">
-            <Heading
-              as={labelRow ? ClientRowElement : ClientRowElementName}
-              fontSize={labelRow ? [0, 1, 2] : [0, 1, 2, `2vw`]}
-              fontFamily="sans"
-              pr={[2]}
-              margin={0}
-              width={[`50%`, `50%`, `40%`]}
-            >
-              {projectName}
-              {url && !project && <ExternalLink color={colors.blue} />}
-            </Heading>
-            <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[1 / 3, 1 / 3, 1 / 4]}>
-              {name}
-            </Text>
-            <Text
-              as={ClientRowElement}
-              fontSize={[0, 1, 2]}
-              margin={0}
-              width={[1 / 4]}
-              display={['none', 'none', 'block']}
-            >
-              {service}
-            </Text>
-            <Text as={ClientRowElement} fontSize={[0, 1, 2]} margin={0} width={[`auto`]} ml={[`auto`]}>
-              {year}
-            </Text>
-          </Flex>
-          {sep && <Box as={`hr`} margin={[0]} width={`100%`} />}
-        </LinkElement>
-      </TransitionContainer>
-    </Box>
+    <LinkElement {...linkProps} {...linkActions}>
+      <Flex as={ClientRowStyle} alignItems="center" fontSize={CLIENT_ROW_FONT_SIZES} {...props}>
+        <Text as="h4" fontSize={[0, 1, 2, `2vw`]} m={0} p={0} pr={2} width={[`50%`, null, `40%`]}>
+          {projectName || name}
+          {url && !project && <ExternalLink color={"blue"} />}
+        </Text>
+        <Text as="span" width={[1 / 3, null, 1 / 4]}>{name}</Text>
+        <Text as="span" width={1 / 4} display={['none', null, 'block']}>{service?.title}</Text>
+        <Text as="span" width="auto" ml="auto">{year}</Text>
+      </Flex>
+    </LinkElement>
   )
-}
+})
 
 
-const ROW_PROPS = HAS_HOVER ? { role: "button", tabIndex: 0 } : {}
+
+const ClientPoses = posed.li({
+  init: {
+    opacity: 1,
+    height: 84,
+    transition: {
+      opacity: {
+        duration: 250,
+        ease: 'linear',
+      },
+      height: {
+        duration: 450,
+        ease: [0.165, 0.84, 0.44, 1],
+      },
+    },
+  },
+  entering: {
+    opacity: 0.13,
+    height: 84,
+  },
+  active: {
+    opacity: 1,
+    height: 110,
+  },
+  sibling: {
+    opacity: 0.6,
+    height: 97,
+  }
+})
+const ClientsRowsItem = styled(ClientPoses)``
+const ClientsRowsStyle = styled.ul`
+  list-style: none;
+
+  ${ClientsRowsItem} {
+    border-bottom: 1px solid #e0e0e0;
+
+    a, ${ClientRowStyle} {
+      height: 100%;
+    }
+
+    a {
+      display: block;
+      color: currentColor;    
+      transition: color 250ms linear;
+  
+      &:hover,
+      &:focus {
+        color: ${(props) => props.theme.colors.blue};
+        text-decoration: none;
+      }
+    }
+  }
+`
 
 const ClientsRows = ({ data, limit }) => {
   const [ hoverIndex, setHoverIndex ] = useState(null)
@@ -385,48 +340,34 @@ const ClientsRows = ({ data, limit }) => {
   const clients = limit ? data.slice(0, limit) : data
   const thumbnailSrc = hoverIndex && clients.length > hoverIndex ? clients[ hoverIndex ].node.hoverImage : null
 
-  // there is not need to add all theses props if device has no hover behavior
-  const wrapProps = HAS_HOVER ? { role: "grid", tabIndex: 0, onMouseLeave: () => setHoverIndex(null) } : {}
+  const listProps = useMemo(() => HAS_HOVER ? { onMouseLeave: () => setHoverIndex(null)} : null, [HAS_HOVER])
 
   return (
-    <div
-      ref={ref}
-      {...wrapProps}
-    >
-      <PoseGroup animateOnMount={false} flipMove={false}>
+    <>
+      <Flex ref={ref} as={ClientsRowsStyle} flexDirection="column" m={0} p={0} {...listProps}>
         {clients.map((client, index) => {
-          const props = HAS_HOVER ? {
-            ...ROW_PROPS,
-            ...{
-              onMouseEnter: () => setHoverIndex(index),
-              onFocus: () => setHoverIndex(index),
-            }
-          } : ROW_PROPS
+          const isHover = hoverIndex !== null
+          const isCurrent = hoverIndex === index
+          const isSibling = isHover ? (Math.abs(hoverIndex - index) === 1) : false
+
+          let pose = "init"
+          
+          if( isHover ) {
+            if( isCurrent ) pose = "active"
+            else if( isSibling ) pose = "sibling"
+            else pose = "entering"
+          }
 
           return (
-            <ClientPoses
-              key={index}
-              delay={index * 100}
-              {...props}
-            >
-              <ClientRow
-                index={index}
-                hoverIndex={hoverIndex}
-                projectName={client.node.projectName || client.node.name}
-                project={client.node.project}
-                url={client.node.url}
-                name={client.node.name}
-                service={client.node.service ? client.node.service.title : null}
-                year={client.node.year}
-                sep={true}
-              />
-            </ClientPoses>
+            <Box as={ClientsRowsItem} key={index} initialPose="init" pose={pose} withParent={false}>
+              <ClientRow index={index} data={client.node} hoverCallback={setHoverIndex} />
+            </Box>
           )
         })}
-      </PoseGroup>
-
+      </Flex>
+      
       {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />}
-    </div>
+    </>
   )
 }
 
@@ -447,17 +388,10 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
 
   return (
     <Box ref={fwdRef} pt={[80, null, null, 0]}>
-      <ClientRow
-        projectName={intl.formatMessage({ id: 'clients.project' })}
-        name={intl.formatMessage({ id: 'clients.name' })}
-        service={intl.formatMessage({ id: 'clients.expertise' })}
-        year={intl.formatMessage({ id: 'clients.year' })}
-        sep={false}
-        textColor={colors.text}
-        hoverIndex={false}
-        labelRow={true}
-      />
-      <ClientsRows limit={limit} data={clients} />
+      <TransitionContainer direction="out" distance={-25}>
+        <ClientRowsHeading />
+        <ClientsRows limit={limit} data={clients} />
+      </TransitionContainer>
     </Box>
   )
 }
