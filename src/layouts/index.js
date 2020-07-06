@@ -3,7 +3,6 @@ import { Box } from 'rebass'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import { ThemeProvider } from 'styled-components'
-import { Transition, TransitionGroup } from 'react-transition-group'
 import SmoothScrollbar from 'smooth-scrollbar'
 
 import ScrollbarPausePlugin from '@utils/ScrollbarPausePlugin'
@@ -21,16 +20,13 @@ import Wrapper from '@layouts/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
-import { IS_TOUCH_DEVICE } from '@utils/constants';
-//import DelayedTransition from '@utils/DelayedTransition'
+import { IS_TOUCH_DEVICE, TRANSITION_PANE_STATES } from '@utils/constants';
 import FullViewportHeight from '@utils/FullViewportHeight'
 import Viewport from '@utils/Viewport'
 
 SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin, ScrollbarEasePlugin)
 
 const SCROLL_EVENT = typeof window === `object` ? new Event('scroll') : null
-//const DELAY = { enter: 1 }
-const TIMEOUT = { exit: 1 }
 
 const Layout = ({ children }) => {
   const [layoutState, dispatch] = useReducer(reducer, defaultContextValue)
@@ -58,14 +54,12 @@ const Layout = ({ children }) => {
     if (scrollbar) scrollbar.scrollTo(0, 0)
   })
 
-  const onExit = useCallback(() => {
-    dispatch({ type: 'inverted.reset' })
-    scrollToTop()
-  })
-
-  const onEntering = useCallback(() => {
-    dispatch({ type: 'transition.setState', transitionState: `entering`, inTransition: false })
-  })
+  useEffect(() => {
+    if( layoutState.transition.state === TRANSITION_PANE_STATES['entering'] ) {
+      dispatch({ type: 'inverted.reset' })
+      scrollToTop()
+    }
+  }, [layoutState.transition.state])
 
   useEffect(() => {
     if (!layoutState.scrollbar) initScrollbar()
@@ -86,35 +80,7 @@ const Layout = ({ children }) => {
                     <Header />
 
                     {/* main wrapper containing children pages */}
-                    <TransitionGroup component="main">
-                      <Transition
-                        key={location.pathname}
-                        name={location.pathname}
-                        mountOnEnter={true}
-                        unmountOnExit={true}
-                        timeout={TIMEOUT}
-                        onExit={onExit}
-                        onEntering={onEntering}
-                      >
-                        <Box pt={6}>{children}</Box>
-                      </Transition>
-
-                      {/*
-                      <DelayedTransition
-                        key={location.pathname}
-                        name={location.pathname}
-                        mountOnEnter={true}
-                        unmountOnExit={true}
-                        delay={DELAY}
-                        timeout={TIMEOUT}
-                        onExit={onExit}
-                        onEntering={onEntering}
-                      >
-                        <Box pt={6}>{children}</Box>
-                      </DelayedTransition>
-                      */}
-
-                    </TransitionGroup>
+                    <Box as="main" pt={6}>{children}</Box>
 
                     {/* footer */}
                     <Footer />

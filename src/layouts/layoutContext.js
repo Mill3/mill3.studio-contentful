@@ -13,13 +13,14 @@ export const defaultContextValue = {
     state: 'intro',
     step: 0,
     transitionColor: '#121212',
-    transitionTitle: null
+    transitionTitle: null,
+    transitionPath: null
   },
   scrollbar: null
 }
 
 export const reducer = (state, action) => {
-  console.log('LayoutContext', action.type)
+  //console.log('LayoutContext', action.type)
   
   switch (action.type) {
     case 'transition.setState':
@@ -39,6 +40,18 @@ export const reducer = (state, action) => {
           transitionColor: action.transitionColor,
           transitionTitle: action.transitionTitle
         },
+      }
+    case 'transition.changePage': 
+      return {
+        ...state,
+        transition: {
+          ...state.transition,
+          transitionColor: action.transitionColor,
+          transitionTitle: action.transitionTitle,
+          transitionPath: action.transitionPath,
+          state: action.transitionState,
+          inTransition: action.inTransition,
+        }
       }
     case 'header.invert':
       if( state.invertedHeader === true ) return state

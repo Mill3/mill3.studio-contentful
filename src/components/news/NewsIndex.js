@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Flex, Text } from 'rebass'
 import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'gatsby-plugin-intl'
 
-// import { LayoutContext } from '@layouts/layoutContext'
 import SEO from '@components/seo'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import NewsPreview from '@components/news/NewsPreview'

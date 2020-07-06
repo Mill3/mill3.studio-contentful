@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
 import { Flex, Text } from 'rebass'
+import { navigate } from 'gatsby'
 
 import LogoAnimated from '@svg/LogoAnimated'
 
@@ -42,7 +43,7 @@ const Poses = posed.div({
     opacity: 1,
     transition: {
       delay: TRANSITION_OUT_DELAY,
-      duration: TRANSITION_OUT_DURATION - TRANSITION_OUT_DELAY,
+      duration: TRANSITION_OUT_DURATION,
     },
   },
 
@@ -50,13 +51,14 @@ const Poses = posed.div({
   entering: {
     opacity: 0,
     transition: {
+      type: 'tween',
       delay: TRANSITION_IN_DELAY,
       duration: TRANSITION_IN_DURATION,
-      ease: 'easeIn',
+      ease: 'linear',
     },
   },
 
-  // when page transition stated, initial state after intro and first visited paged
+  // when page transition started, initial state after intro and first visited paged
   // (duration is set to 0 because we don't want the user to see any animation to this pose)
   started: {
     opacity: 0,
@@ -109,9 +111,22 @@ const TransitionPane = () => {
     if (poseName === TRANSITION_PANE_STATES[`intro`]) {
       dispatch({ type: 'transition.setState', transitionState: `started`, inTransition: false })
     }
+
+    // after `leaving` transition (showing TransitionPane), navigate to new page
+    if (poseName === TRANSITION_PANE_STATES[`leaving`]) {
+      navigate(transition.transitionPath)
+      dispatch({ type: 'transition.setState', transitionState: 'entering', inTransition: true })
+    }
+
+    // after `entering` transition (hiding TransitionPane), start new in page appear animations
+    if (poseName === TRANSITION_PANE_STATES[`entering`]) {
+      dispatch({ type: 'transition.setState', transitionState: 'started', inTransition: false })
+    }
   })
 
   useEffect(() => {
+    console.log('Transition', transition.state, transition.inTransition)
+
     setPose(TRANSITION_PANE_STATES[transition.state])
   }, [transition])
 

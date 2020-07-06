@@ -1,9 +1,9 @@
 import React, { useContext, useCallback } from 'react'
 import { injectIntl } from 'gatsby-plugin-intl'
-import { Link, navigate } from 'gatsby'
+import { Link } from 'gatsby'
 
 import { LayoutContext } from '@layouts/layoutContext'
-import { TRANSITION_PANE_STATES, TRANSITION_OUT_DURATION } from '@utils/constants'
+import { TRANSITION_PANE_STATES } from '@utils/constants'
 
 const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', localePrefix = true, children, ...props }) => {
   const { dispatch } = useContext(LayoutContext)
@@ -18,41 +18,21 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
       const location = window.location.pathname
       if (location === path) return
 
-      // 1. set color and title
+
+      console.log('-------------')
+
+
+      // set transitionPane color and title 
+      // save new page's path
+      // start transition
       dispatch({
-        type: 'transition.linkState',
+        type: 'transition.changePage',
         transitionColor: color,
         transitionTitle: title,
+        transitionState: TRANSITION_PANE_STATES[`leaving`],
+        transitionPath: path,
+        inTransition: true,
       })
-
-      // 2. start transition
-      let transitionStarted = new Promise((resolve) => {
-        dispatch({
-          type: 'transition.setState',
-          transitionState: TRANSITION_PANE_STATES[`started`],
-          inTransition: true,
-        })
-        resolve('started')
-      })
-
-      // 2. show transition pane
-      let transitionLeaving = new Promise((resolve) => {
-        dispatch({
-          type: 'transition.setState',
-          transitionState: TRANSITION_PANE_STATES[`leaving`],
-          inTransition: true,
-        })
-
-        let wait = setTimeout(() => {
-          clearTimeout(wait)
-          resolve('leaving')
-        }, TRANSITION_OUT_DURATION * 2)
-      })
-
-      // run all Promises above
-      Promise.all([transitionStarted, transitionLeaving]).then(() => {
-        navigate(path)
-      });
     },
     [color, title, dispatch, path]
   )
