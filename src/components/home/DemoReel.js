@@ -207,7 +207,7 @@ const DemoReel = ({ intl }) => {
         </Box>
       </Box>
 
-      <Flex as={ScrollerStyle} flexDirection={["column", null, null, "row-reverse"]} width={1} minHeight="100%">
+      <Flex as={ScrollerStyle} flexDirection={["column", null, null, "row-reverse"]} width={1} minHeight="100%" maxHeight="100%">
         {/* video placeholder */}
         <Box
           flexGrow={[0, null, null, 1]}
@@ -220,6 +220,7 @@ const DemoReel = ({ intl }) => {
         <Flex
           width={[1, null, null, '40%']}
           flexGrow={1}
+          flexShrink={0}
           flexDirection="column"
           justifyContent="space-between"
           px={[24, 4, 5]}
