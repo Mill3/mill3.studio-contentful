@@ -21,6 +21,7 @@ import Wrapper from '@layouts/wrapper'
 import GlobalStyle from '@styles/Global'
 import Theme from '@styles/Theme'
 
+import { IS_TOUCH_DEVICE } from '@utils/constants';
 //import DelayedTransition from '@utils/DelayedTransition'
 import FullViewportHeight from '@utils/FullViewportHeight'
 import Viewport from '@utils/Viewport'
@@ -41,7 +42,7 @@ const Layout = ({ children }) => {
 
   const initScrollbar = useCallback(() => {
     const options = {
-      damping: 0.0625,
+      damping: IS_TOUCH_DEVICE ? 0.1 : 0.0625,
       renderByPixels: true,
       syncCallbacks: true,
       alwaysShowTracks: false,
