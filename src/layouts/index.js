@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
 import { Box } from 'rebass'
 import PropTypes from 'prop-types'
-import { Location } from '@reach/router'
+import { useLocation } from '@reach/router'
 import { ThemeProvider } from 'styled-components'
 import SmoothScrollbar from 'smooth-scrollbar'
 
@@ -29,6 +29,7 @@ SmoothScrollbar.use(ScrollbarPausePlugin, ScrollbarDirectionPlugin, ScrollbarEas
 const SCROLL_EVENT = typeof window === `object` ? new Event('scroll') : null
 
 const Layout = ({ children }) => {
+  const location = useLocation()
   const [layoutState, dispatch] = useReducer(reducer, defaultContextValue)
   const scrollbarRef = useRef()
 
@@ -54,45 +55,47 @@ const Layout = ({ children }) => {
     if (scrollbar) scrollbar.scrollTo(0, 0)
   })
 
-  useEffect(() => {
-    if( layoutState.transition.state === TRANSITION_PANE_STATES['entering'] ) {
-      dispatch({ type: 'inverted.reset' })
-      scrollToTop()
-    }
-  }, [layoutState.transition.state])
 
   useEffect(() => {
     if (!layoutState.scrollbar) initScrollbar()
   }, [scrollbarRef, layoutState.scrollbar])
 
+
+  // scroll to top && reset layoutContext when location change
+  // we can't use useEffect because it is triggered after new page first useEffect
+  const pathname = useMemo(() => {
+    if( layoutState.transition.state !== TRANSITION_PANE_STATES['intro'] ) {
+      dispatch({ type: 'inverted.reset' })
+      scrollToTop()
+    }    
+
+    return location.pathname
+  }, [location.pathname])
+
   return (
-    <Location>
-      {({ location }) => (
-          <LayoutContext.Provider value={{ layoutState, dispatch }}>
-            <GlobalStyle />
-            <ThemeProvider theme={Theme}>
-              <BodyBackground />
-              <TransitionPane />
-              <FullViewportHeight>
-                <div ref={scrollbarRef}>
-                  <Wrapper>
-                    {/* main header */}
-                    <Header />
+    <LayoutContext.Provider value={{ layoutState, dispatch }}>
+      <GlobalStyle />
+      <ThemeProvider theme={Theme}>
+        <BodyBackground />
+        <TransitionPane />
+        <FullViewportHeight>
+          <div ref={scrollbarRef}>
+            <Wrapper>
+              {/* main header */}
+              <Header />
 
-                    {/* main wrapper containing children pages */}
-                    <Box as="main" pt={6}>{children}</Box>
+              {/* main wrapper containing children pages */}
+              <Box as="main" pt={6}>{children}</Box>
 
-                    {/* footer */}
-                    <Footer />
-                  </Wrapper>
-                </div>
-              </FullViewportHeight>
-            </ThemeProvider>
+              {/* footer */}
+              <Footer />
+            </Wrapper>
+          </div>
+        </FullViewportHeight>
+      </ThemeProvider>
 
-            {/* debugging */}
-          </LayoutContext.Provider>
-      )}
-    </Location>
+      {/* debugging */}
+    </LayoutContext.Provider>
   )
 }
 

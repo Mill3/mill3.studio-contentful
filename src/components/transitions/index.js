@@ -125,8 +125,6 @@ const TransitionPane = () => {
   })
 
   useEffect(() => {
-    console.log('Transition', transition.state, transition.inTransition)
-
     setPose(TRANSITION_PANE_STATES[transition.state])
   }, [transition])
 

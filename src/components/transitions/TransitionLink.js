@@ -19,7 +19,7 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
       if (location === path) return
 
 
-      console.log('-------------')
+      //console.log('-------------')
 
 
       // set transitionPane color and title 
