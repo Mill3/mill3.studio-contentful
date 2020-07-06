@@ -24,11 +24,6 @@ const ProcessStickyElement = styled.div`
     top: 0;
     left: 0;
   }
-
-  svg {
-    width: 70px !important;
-    height: 70px !important;
-  }
 `
 const StickyElementBg = styled.div`
   display: block;
@@ -237,7 +232,9 @@ const AboutProcessList = ({ color = '#000', processes }) => {
           lineHeight={[1.2, null, 1.192307692]}
         >0{activeIndex + 1}</Heading>
 
-        <Lottie ref={animationRef} autoplay={false} loop={false} animationData={starAnimation} />
+        <Box width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', `5vw`]}>
+          <Lottie ref={animationRef} autoplay={false} loop={false} animationData={starAnimation} />
+        </Box>
       </StickyElement>
 
       <Box css={{zIndex: 0}}>
