@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { injectIntl } from 'gatsby-plugin-intl'
 import styled from 'styled-components'
 import { Flex, Box, Heading } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 import SplitText from 'react-pose-text'
 import Lottie from 'lottie-react'
-
 
 import starAnimation from '@animations/star.json'
 import { LayoutContext } from '@layouts/layoutContext'
@@ -12,7 +12,6 @@ import { limit } from '@utils/Math'
 import StickyElement from '@utils/StickyElement'
 import Viewport from '@utils/Viewport'
 import { lb2br } from '@utils/Linebreaks'
-
 
 const ProcessStickyElement = styled.div`
   position: relative;
@@ -34,7 +33,7 @@ const StickyElementBg = styled.div`
   bottom: 0;
   left: 0;
   z-index: -1;
-  opacity: ${({visible}) => visible ? 1 : 0};
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: opacity 250ms linear;
   will-change: opacity;
 
@@ -81,12 +80,10 @@ const charPoses = {
         type: 'spring',
       },
     },
-  }
+  },
 }
 
-
-
-const ListItem = ({ active = false, title = "", text = "" }) => (
+const ListItem = ({ locale, active = false, title = '', text = '' }) => (
   <Flex
     as={ProcessItem}
     flexDirection={['column', null, null, 'row']}
@@ -118,7 +115,7 @@ const ListItem = ({ active = false, title = "", text = "" }) => (
 
     <Box
       as="p"
-      width={[`100%`, null, null, '55%']}
+      width={locale == `fr` ? [`100%`, null, null, '55%'] : [`100%`, null, null, '45%']}
       m={0}
       p={0}
       mt={[10, null, null, 0]}
@@ -129,41 +126,39 @@ const ListItem = ({ active = false, title = "", text = "" }) => (
   </Flex>
 )
 
-
-
-const AboutProcessList = ({ color = '#000', processes }) => {
+const AboutProcessList = ({ intl, color = '#000', processes }) => {
   const containerRef = useRef()
   const animationRef = useRef()
   const scrollbarRef = useRef()
   const boundaries = useRef({ top: 0, bottom: 0, height: 0 })
 
   const { layoutState } = useContext(LayoutContext)
-  const [ activeIndex, setActiveIndex ] = useState(null)
-  const [ inViewRef, inView ] = useInView({ threshold: 0.15 })
+  const [activeIndex, setActiveIndex] = useState(null)
+  const [inViewRef, inView] = useInView({ threshold: 0.15 })
 
   const onResize = useCallback(() => {
     const { top, height } = containerRef.current.getBoundingClientRect()
 
     boundaries.current.top = top + scrollbarRef.current.offset.y
     boundaries.current.bottom = boundaries.current.top + height
-    boundaries.current.height = height - Viewport.height * 0.60
+    boundaries.current.height = height - Viewport.height * 0.6
   })
   const onScroll = useCallback(({ offset }) => {
     const { top, bottom, height } = boundaries.current
 
     const distToTop = offset.y - top
     const percentage = limit(0, 1, distToTop / height)
-    const index = Math.round( percentage * (processes.length - 1) )
+    const index = Math.round(percentage * (processes.length - 1))
 
     // update animation
     const { current } = animationRef
-    if( current ) {
+    if (current) {
       const vh = Viewport.height
       const h = bottom - top
       const threshold = h * 0.15
       const inViewPercentage = limit(0, 1, (offset.y - top + vh - threshold) / (h + vh - threshold - vh * 0.6))
 
-      current.goToAndStop( current.getDuration(true) * inViewPercentage >> 0, true )
+      current.goToAndStop((current.getDuration(true) * inViewPercentage) >> 0, true)
     }
 
     // update state
@@ -172,7 +167,7 @@ const AboutProcessList = ({ color = '#000', processes }) => {
 
   // triggered only when inView change
   useEffect(() => {
-    if( inView ) {
+    if (inView) {
       onResize()
       Viewport.on(onResize)
       scrollbarRef.current?.addListener(onScroll)
@@ -194,26 +189,26 @@ const AboutProcessList = ({ color = '#000', processes }) => {
     scrollbarRef.current = layoutState.scrollbar
   }, [layoutState.scrollbar])
 
-
   // Use `useCallback` so we don't recreate the function on each render - Could result in infinite loop
-  const setRefs = useCallback((node) => {
-    containerRef.current = node
-    inViewRef(node)
-  }, [inViewRef])
+  const setRefs = useCallback(
+    node => {
+      containerRef.current = node
+      inViewRef(node)
+    },
+    [inViewRef]
+  )
 
   const getStickyTargetRef = useCallback(() => {
     return containerRef.current
   }, [inViewRef])
 
-
   return (
-    <Box ref={setRefs} as={`footer`} pt={[0, null, null, `25vh`]} color="#000" css={{position: 'relative'}}>
-
+    <Box ref={setRefs} as={`footer`} pt={[0, null, null, `25vh`]} color="#000" css={{ position: 'relative' }}>
       <StickyElement
         target={getStickyTargetRef()}
         as={ProcessStickyElement}
         display="flex"
-        alignItems={["center", null, null, "flex-start"]}
+        alignItems={['center', null, null, 'flex-start']}
         justifyContent="space-between"
         width={'100%'}
         height={['auto', null, null, `${45 + 25}vh`, `${35 + 25}vh`]}
@@ -230,21 +225,29 @@ const AboutProcessList = ({ color = '#000', processes }) => {
           fontSize={['9.661835749vw', null, '6.770833333vw', '5.241935484vw', '3.611111111vw']}
           fontWeight={400}
           lineHeight={[1.2, null, 1.192307692]}
-        >0{activeIndex + 1}</Heading>
+        >
+          0{activeIndex + 1}
+        </Heading>
 
         <Box width={['16.90821256vw', null, '9.114583333vw', '7.056451613vw', `5vw`]}>
           <Lottie ref={animationRef} autoplay={false} loop={false} animationData={starAnimation} />
         </Box>
       </StickyElement>
 
-      <Box css={{zIndex: 0}}>
-        {processes && processes.map((process, i) =>
-          <ListItem key={i} title={process.title} text={lb2br(process.text.text)} active={activeIndex >= i && inView} />
-        )}
+      <Box css={{ zIndex: 0 }}>
+        {processes &&
+          processes.map((process, i) => (
+            <ListItem
+              key={i}
+              title={process.title}
+              text={lb2br(process.text.text)}
+              locale={intl.locale}
+              active={activeIndex >= i && inView}
+            />
+          ))}
       </Box>
-
     </Box>
   )
 }
 
-export default AboutProcessList
+export default injectIntl(AboutProcessList)
