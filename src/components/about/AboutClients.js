@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box, Text } from 'rebass'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import AnimatedHtmlTitle from '@components/elements/AnimatedHtmlTitle'
 import LottieAnimation from '@components/elements/LottieAnimation'
@@ -13,7 +14,7 @@ import Container from '@styles/Container'
 import shakeAnimation from "@animations/shake.json"
 import { lb2br } from '@utils/Linebreaks'
 
-const AboutClients = ({ data, color = "#000" }) => {
+const AboutClients = ({ intl, data, color = "#000" }) => {
   const { clientsIntro } = data
 
   return (
@@ -50,7 +51,7 @@ const AboutClients = ({ data, color = "#000" }) => {
               ml={[0, null, null, "auto"]}
             >
               <TransitionLinkComponent to="/contact/">
-                <ArrowButton>Let's chat</ArrowButton>
+                <ArrowButton>{intl.formatMessage({ id: 'projects.HomeOutroButton' }).toString()}</ArrowButton>
               </TransitionLinkComponent>
             </Box>
           </Flex>
@@ -64,7 +65,7 @@ const AboutClients = ({ data, color = "#000" }) => {
   )
 }
 
-export default AboutClients
+export default injectIntl(AboutClients)
 
 const LottieContainer = styled.div`
   svg {

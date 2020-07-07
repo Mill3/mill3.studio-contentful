@@ -23,20 +23,20 @@ const tabletBreakpoint = parseInt(breakpoints[2])
 
 const DATA = [{
   url: "https://www.npmjs.com/package/@mill3-packages/wp-boilerplate",
-  name: "Wordpress Theme Boilerplate with Webpack",
-  description: "code.wp-boilerplate"
+  name: "code.wp-boilerplate.title",
+  description: "code.wp-boilerplate.description"
 }, {
   url: "https://www.npmjs.com/package/@mill3-packages/system-ui-sass",
-  name: "System UI Sass",
-  description: "code.system-ui-sass"
+  name: "code.system-ui-sass.title",
+  description: "code.system-ui-sass.description"
 }, {
   url: "https://www.npmjs.com/package/@mill3-packages/barba-scripts",
-  name: "@barba-scripts",
-  description: "code.barba-scripts"
+  name: "code.barba-scripts.title",
+  description: "code.barba-scripts.description"
 }, {
   url: "https://www.npmjs.com/package/@mill3-packages/breakpoints-observer",
-  name: "@breakpoints-observer",
-  description: "code.breakpoints-observer"
+  name: "code.breakpoints-observer.title",
+  description: "code.breakpoints-observer.description"
 }]
 
 const Header = styled.header`
@@ -100,7 +100,7 @@ const Packages = injectIntl(({ delayIn = 0, delayOut = 0, intl }) => {
           mb={[30, null, '9.765625vw', '7.560483871vw', '5.208333333vw']}
         >
           <InViewCodePreview delayIn={getDelayIn(index)} delayOut={getDelayOut(index)} threshold={getThreshold(index)}>
-            <CodePreview url={data.url} name={data.name} description={intl.formatMessage({id: data.description})} />
+            <CodePreview url={data.url} name={intl.formatMessage({id: data.name})} description={intl.formatMessage({id: data.description})} />
           </InViewCodePreview>
         </Flex>
       ))}

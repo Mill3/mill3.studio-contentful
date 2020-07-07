@@ -1,5 +1,5 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import React, { useMemo } from 'react'
+import styled, { css, keyframes } from 'styled-components'
 import { Box, Text } from 'rebass'
 import posed from 'react-pose'
 import SplitText from 'react-pose-text'
@@ -7,7 +7,7 @@ import { injectIntl } from 'gatsby-plugin-intl'
 
 
 import { charPoses } from '@components/header/HeaderIntro'
-import HomeTitle from '@components/home/HomeTitle'
+import HomeTitle, { FONT_SIZES } from '@components/home/HomeTitle'
 import Container from '@styles/Container'
 import { breakpoints } from '@styles/Theme'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -44,12 +44,15 @@ const Ellipse = posed.ellipse({
     easing: 'circOut',
   },
 })
-const LatestSpan = styled.span`
-  position: relative;
-
+const LatestSpanEnglishLetterSpacing = css`
   & > div > div:nth-child(2) {
     margin-right: -0.125em;
   }
+`
+const LatestSpan = styled.span`
+  position: relative;
+  
+  ${({ locale = 'en'}) => locale === 'en' ? LatestSpanEnglishLetterSpacing : null}  
 `
 const arrowAppear = keyframes`
   to {
@@ -84,10 +87,15 @@ const ArrowSpan = styled.span`
     animation-fill-mode: both;
   }
 `
-const WorkSpan = styled.span`
+const WorkSpanEnglishLetterSpacing = css`
   & > div > div:nth-child(1) {
     margin-right: -0.075em;
   }
+`
+const WorkSpan = styled.span`
+  position: relative;
+
+  ${({ locale = 'en'}) => locale === 'en' ? WorkSpanEnglishLetterSpacing : null}  
 `
 const LetsSpan = styled.span`
   position: absolute;
@@ -96,12 +104,30 @@ const LetsSpan = styled.span`
   width: 100%;
   text-align: center;
 `
+const Work2Span = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+`
 const SVGBorderWidth = new ResponsiveProp([4, null, null, 2])
 
 const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) => {
   const latest = intl.formatMessage({ id: 'intro.Latest' })
   const work = intl.formatMessage({ id: 'intro.Work' })
   const lets = intl.formatMessage({ id: 'intro.Lets' })
+  const work2 = intl.formatMessage({ id: 'intro.Work2' })
+
+  const isFrench = intl.locale === 'fr'
+  const latestSpanPaddingX = useMemo(() => isFrench ? ["24px", null, "45px", "90px"] : [3, null, 4, "50px"], [isFrench])
+
+  let workSpanPose = appear ? `enter` : `out`
+  let workSpanDelay = latest.length * 30 + 450
+
+  if( isFrench ) {
+    workSpanPose = appear && !switchTitle ? `enter` : (switchTitle ? `leave` : `out`)
+    workSpanDelay = 0
+  }
 
   return (
     <Container
@@ -127,7 +153,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
             as={TitleStyle}
             display="flex"
             fontFamily={'serif'}
-            fontSize={['9.2vw', null, '10.416666667vw', null, '10.833333333vw']}
+            fontSize={FONT_SIZES[intl.locale]}
             fontWeight={'300'}
             alignItems="center"
             justifyContent="center"
@@ -136,7 +162,7 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
             initialPose={`static`}
             pose={faded ? `sticky` : `static`}
           >
-            <Box as={LatestSpan} px={[3, null, 4, "50px"]} className={'is-sans'}>
+            <Box as={LatestSpan} locale={intl.locale} px={latestSpanPaddingX} className={'is-sans'}>
               <Box as={EllipseSVG} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 625 290.4">
                 <Box
                   as={Ellipse}
@@ -181,15 +207,26 @@ const StickyTitle = ({ intl, appear, inverted, faded, switchTitle, ...props }) =
               className={appear && !switchTitle ? `--appear` : (switchTitle ? `--switchTitle` : null)}
             >→</Box>
 
-            <Box as={WorkSpan}>
+            <Box as={WorkSpan} locale={intl.locale}>
               <SplitText
                 initialPose={`out`}
-                pose={appear ? `enter` : `out`}
-                startDelay={latest.length * 30 + 450}
+                pose={workSpanPose}
+                startDelay={workSpanDelay}
                 charPoses={charPoses}
               >
                 {work}
               </SplitText>
+
+              {isFrench && <Box as={Work2Span}>
+                <SplitText
+                  initialPose={`out`}
+                  pose={switchTitle ? `enter` : `out`}
+                  startDelay={lets.length * 30}
+                  charPoses={charPoses}
+                >
+                  {work2}
+                </SplitText>
+              </Box>}
             </Box>
           </Text>
         </Box>

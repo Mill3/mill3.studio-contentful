@@ -30,7 +30,7 @@ const CodePreview = ({ url, name = "Package name", description = "description", 
 
   return (
     <Flex as={Wrapper} flexDirection="column" alignItems="flex-start" width={1} height={'100%'} p={30}>
-      <Box as={IconWrap} width={[40]} height={90} pb={20}>
+      <Box as={IconWrap} width={40} height={90} pb={20}>
         {Icon && <Icon />}
       </Box>
 
@@ -46,11 +46,12 @@ const CodePreview = ({ url, name = "Package name", description = "description", 
         as="p"
         fontSize={['4.347826087vw', null, '2.34375vw', '1.814516129vw', '1.25vw']}
         fontWeight="300"
-        lineHeight={[1.5]}
-        mt={[3]}
-      >{description}</Text>
+        lineHeight={1.5}
+        mt={3}
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
 
-      <Flex flexGrow={1} flexDirection="column" alignItems="flex-start" justifyContent="flex-end" mt={[4]}>
+      <Flex flexGrow={1} flexDirection="column" alignItems="flex-start" justifyContent="flex-end" mt={4}>
         <a href={url} target="_blank" rel="noopener noreferrer">
           <ArrowButton color="white">{intl.formatMessage({ id: 'code.button' })}</ArrowButton>
         </a>
