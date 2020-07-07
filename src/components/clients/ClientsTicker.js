@@ -111,8 +111,8 @@ const ClientsTicker = React.memo(({ data = [], direction = 1, duration = 0 }) =>
 
   return (
     <Flex ref={inViewRef} flexDirection="row" flexWrap="nowrap" justifyContent={direction < 0 ? 'flex-end' : 'flex-start' } onMouseEnter={mouseenter} onMouseLeave={mouseleave}>
-      <Flex ref={listRef} css={{border: '1px solid red'}}>{clients}</Flex>
-      <Flex ref={listCopyRef} css={{border: '1px solid red'}}>{clients}</Flex>
+      <Flex ref={listRef}>{clients}</Flex>
+      <Flex ref={listCopyRef}>{clients}</Flex>
     </Flex>
   )
 })
