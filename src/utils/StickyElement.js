@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Box } from 'rebass'
 
 import { LayoutContext } from '@layouts/layoutContext'
@@ -8,6 +8,9 @@ import Viewport from '@utils/Viewport'
 
 const StickyElement = ({ children, target, onEnd, ...props }) => {
   const ref = useRef()
+  const targetRef = useRef()
+  const scrollRef = useRef()
+  const onEndRef = useRef()
   const boundaries = useRef({ top: 0, bottom: 0, scrollY: 0, atEnd: false })
 
   const [ y, setY ] = useState(0)
@@ -15,10 +18,10 @@ const StickyElement = ({ children, target, onEnd, ...props }) => {
   const { scrollbar } = layoutState
 
 
-  const resize = () => {
-    if( !target || !ref.current ) return
+  const resize = useCallback(() => {
+    if( !targetRef.current || !ref.current ) return
 
-    const targetRect = target.getBoundingClientRect()
+    const targetRect = targetRef.current.getBoundingClientRect()
     const refRect = ref.current.getBoundingClientRect()
     const translate = getTranslate( ref.current )
     const offset = refRect.top - targetRect.top - translate.y
@@ -26,8 +29,8 @@ const StickyElement = ({ children, target, onEnd, ...props }) => {
     // update boundaries top & bottom values
     boundaries.current.top = boundaries.current.scrollY + refRect.top - translate.y - offset
     boundaries.current.bottom = targetRect.height - refRect.height - offset
-  }
-  const scroll = ({ offset }) => {
+  })
+  const scroll = useCallback(({ offset }) => {
     // update current scroll position
     boundaries.current.scrollY = offset.y
 
@@ -41,16 +44,16 @@ const StickyElement = ({ children, target, onEnd, ...props }) => {
     if( position === bottom ) {
       if( !atEnd ) {
         boundaries.current.atEnd = true
-        if( onEnd ) onEnd(true)
+        if( onEndRef.current ) onEndRef.current(true)
       }
     } else {
       // if position has reached top, dispatch callback
       if( atEnd ) {
         boundaries.current.atEnd = false
-        if( onEnd ) onEnd(false)
+        if( onEndRef.current ) onEndRef.current(false)
       }
     }
-  }
+  })
   
 
   // listen to viewport's resize
@@ -59,14 +62,26 @@ const StickyElement = ({ children, target, onEnd, ...props }) => {
     return () => Viewport.off(resize)
   }, [])
 
+  // update targetRef
+  useEffect(() => {
+    targetRef.current = target
+  }, [target])
+
+  // update onEndRef
+  useEffect(() => {
+    onEndRef.current = onEnd
+  }, [onEnd])
+
   // listen to scrollbar's scroll
   useEffect(() => {
-    scrollbar?.addListener(scroll)
-    return () => scrollbar?.removeListener(scroll)
+    scrollRef.current = scrollbar
+    scrollRef.current?.addListener(scroll)
+
+    return () => scrollRef.current?.removeListener(scroll)
   }, [scrollbar])
 
-  // simulate a resize when ref, target or scrollbar changes
-  useEffect(resize, [ref, target, scrollbar])
+  // simulate a resize when ref, targetRef or scrollRef changes
+  useEffect(resize, [ref.current, targetRef.current, scrollRef.current])
 
 
   return (
