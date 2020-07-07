@@ -4,10 +4,8 @@ import { Text } from 'rebass'
 import TransitionLinkComponent from '@components/transitions/TransitionLink'
 
 export const ClientNameHeading = styled.h4`
-  display: inline-block;
-  font-weight: 500;
-  line-height: 1;
   text-transform: uppercase;
+  white-space: nowrap;
 
   a {
     color: black !important;
@@ -15,12 +13,13 @@ export const ClientNameHeading = styled.h4`
   }
 `
 
+const FONT_SIZES = ['12.5vw', 4, '8vw']
+const MARGINS = [2, 4]
+
 const ClientName = ({ name }) => {
   return (
-    <Text as={ClientNameHeading} fontSize={['12.5vw', 4, '8vw']} ml={[2, 4]} mr={[2, 4]}>
-      <TransitionLinkComponent to={`/projects/`} color={`#000`}>
-        <span>{name}</span>
-      </TransitionLinkComponent>
+    <Text as={ClientNameHeading} fontSize={FONT_SIZES} fontWeight={500} lineHeight={1} m={0} p={0} px={MARGINS}>
+      <TransitionLinkComponent to={`/projects/`} color={`#000`}>{name}</TransitionLinkComponent>
     </Text>
   )
 }

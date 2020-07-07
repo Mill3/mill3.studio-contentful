@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { StaticQuery, graphql } from 'gatsby'
-import { shuffle } from 'lodash'
+import { chunk, shuffle } from 'lodash'
 import { useInView } from 'react-intersection-observer'
 
 import ClientName, { ClientNameHeading } from './ClientName'
 import { lerp } from '@utils/Math'
+
+const FPS = 1000 / 60 // we target 60 frame per seconds (1000 / 60 = 1.666667)
 
 const ClientsTickerContainer = styled.footer`
   overflow-x: hidden;
 
   ${ClientNameHeading} {
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s linear;
     will-change: opacity;
   }
 
@@ -28,22 +30,13 @@ const ClientsTickerContainer = styled.footer`
   }
 `
 
-const TickerLine = styled.div`
-  width: 80000px;
-`
 
-const TickerLineClients = styled.div`
-  width: auto;
-  display: inline-block;
-`
-
-
-const ClientsTicker = React.memo(({ data, direction = 1, speedBase = 0 }) => {
+const ClientsTicker = React.memo(({ data = [], direction = 1, duration = 0 }) => {
   const raf = useRef()
   const listRef = useRef()
   const listCopyRef = useRef()
   const velocity = useRef({ base: null, value: null, target: null })
-  const position = useRef(direction > 0 ? 0 : -100)
+  const position = useRef(0)
   const [inViewRef, inView] = useInView()
 
 
@@ -69,8 +62,8 @@ const ClientsTicker = React.memo(({ data, direction = 1, speedBase = 0 }) => {
     const transform = `translate3d(${position.current}%, 0, 0)`
 
     // update ticker position (outside of React rendering tree because it's too slow)
-    listRef.current.style.transform = transform
-    listCopyRef.current.style.transform = transform
+    if( listRef.current ) listRef.current.style.transform = transform
+    if( listCopyRef.current ) listCopyRef.current.style.transform = transform
 
     // continue rAF if previous ticker was not canceled
     if( raf.current ) raf.current = requestAnimationFrame(animate)
@@ -81,18 +74,19 @@ const ClientsTicker = React.memo(({ data, direction = 1, speedBase = 0 }) => {
   const mouseleave = useCallback(() => { velocity.current.target = velocity.current.base })
   
 
-  // update velocity based on speedBase property
+  // update velocity based on duration property
   useEffect(() => {
-    // calculate duration to complete a full circle (taken for previous implementation of this component)
-    const duration = Math.floor(Math.random() * 50) + 150 + speedBase
+    // calculate percentage speed based on duration to complete a full loop
+    // we use 100 as base value because our animation uses translateX with percentage values
+    const speed = 100 / (duration * FPS)
 
     // calculate velocity
-    velocity.current.base = -1 / duration * direction
+    velocity.current.base = speed * direction * -1
     velocity.current.target = velocity.current.base
 
     // on first pass, value and target are equal
     if( velocity.current.value === null ) velocity.current.value = velocity.current.target
-  }, [speedBase, direction])
+  }, [duration, direction])
 
   // rAF
   useEffect(() => {
@@ -112,18 +106,18 @@ const ClientsTicker = React.memo(({ data, direction = 1, speedBase = 0 }) => {
 
   // return a memoized list of ClientName components
   const clients = useMemo(() => {
-    return shuffle(data.edges).map((client, index) => <ClientName key={index} name={client.node.name} />)
-  }, [data.edges])
+    return data.map((client, index) => <ClientName key={index} name={client.node.name} />)
+  }, [data])
 
   return (
-    <Box ref={inViewRef} as={TickerLine} onMouseEnter={mouseenter} onMouseLeave={mouseleave}>
-      <Box ref={listRef} as={TickerLineClients}>{clients}</Box>
-      <Box ref={listCopyRef} as={TickerLineClients}>{clients}</Box>
-    </Box>
+    <Flex ref={inViewRef} flexDirection="row" flexWrap="nowrap" justifyContent={direction < 0 ? 'flex-end' : 'flex-start' } onMouseEnter={mouseenter} onMouseLeave={mouseleave}>
+      <Flex ref={listRef} css={{border: '1px solid red'}}>{clients}</Flex>
+      <Flex ref={listCopyRef} css={{border: '1px solid red'}}>{clients}</Flex>
+    </Flex>
   )
 })
 
-export default React.memo(props => (
+export default React.memo(({ quantity = 3 }) => (
   <StaticQuery
     query={graphql`
       query {
@@ -138,16 +132,27 @@ export default React.memo(props => (
       }
     `}
     render={data => {
-      const tickers = Array(props.quantity || 3)
-        .fill()
-        .map((item, index) => (
+      const names = data?.allContentfulClients?.edges || []
+
+      // because we have a lots of clients name in each ticker
+      // we will chunk the list equally into each ticker
+      const clients = useMemo(() => {
+        const size = Math.ceil(names.length / quantity)
+        const chunks = chunk(shuffle(names), size)
+
+        return chunks
+      }, [names, quantity])
+
+      const tickers = clients.map((item, index) => {
+        return (
           <ClientsTicker
-            data={data.allContentfulClients}
-            direction={index % 2 ? -1 : 1}
-            speedBase={(index + 1) * 10 * 4.5}
             key={index}
+            data={item}
+            direction={index % 2 ? -1 : 1}
+            duration={75}
           />
-        ))
+        )
+      })
 
       return (
         <Box as={ClientsTickerContainer} pt={4}>
