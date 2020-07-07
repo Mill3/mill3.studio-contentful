@@ -1,13 +1,13 @@
-import React, { forwardRef, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { forwardRef, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 import posed from 'react-pose'
-import { Box, Flex, Text } from 'rebass'
+import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 import { useInView } from 'react-intersection-observer'
 
 
 import { LayoutContext } from '@layouts/layoutContext'
-import { header, space } from '@styles/Theme'
+import { space } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
 import { lerp } from '@utils/Math'
 import ResponsiveProp from '@utils/ResponsiveProp'
@@ -103,6 +103,7 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const raf = useRef()
     const mouseEvent = useRef()
     const size = useRef()
+    const playbackPromise = useRef()
     const currentPosition = useRef({ ...PLAY_BUTTON_DEFAULT })
     const targetPosition = useRef({ ...PLAY_BUTTON_DEFAULT })
     const velocity = useRef({ x: 0, y: 0 })
@@ -113,8 +114,10 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const [ inViewRef, inView ] = useInView()
     const { demoReel } = layoutState
 
-    const resize = () => size.current = hitzoneRef.current?.getBoundingClientRect()
-    const animate = () => {
+    const resize = useCallback(() => {
+        size.current = hitzoneRef.current?.getBoundingClientRect()
+    })
+    const animate = useCallback(() => {
         const { width, height } = size.current
 
         if (mouseEvent.current) {
@@ -147,7 +150,26 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
 
         // request new frame
         raf.current = requestAnimationFrame(animate)
-    }
+    })
+    const play = useCallback(() => {
+        // if a play promise exists, make sure video is playing when resolve, then, skip here
+        if( playbackPromise.current ) {
+            playbackPromise.current.then(() => {
+                if (videoRef.current.paused) return videoRef.current?.play()
+            })
+
+            return
+        }
+
+        // auto clear promise when done
+        playbackPromise.current = videoRef.current?.play().finally(() => playbackPromise.current = null)
+    })
+    const pause = useCallback(() => {
+        // if a play promise exists, wait promise.resolve to pause playback
+        // otherwise, pause immediatly
+        if( playbackPromise.current ) playbackPromise.current.then(() => videoRef.current?.pause())
+        else videoRef.current?.pause()
+    })
 
 
     // executed only during mount & unmount phases
@@ -155,17 +177,20 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         resize()
         Viewport.on(resize)
 
-        return () => Viewport.off(resize)
+        return () => {
+            if( raf.current ) cancelAnimationFrame(raf.current)
+            raf.current = null
+
+            Viewport.off(resize)
+            pause()
+        }
     }, [])
 
     // executed only when inView change
     useEffect(() => {
         // play video if inView, otherwise pause video
-        if( inView ) videoRef.current?.play()
-        else videoRef.current?.pause()
-
-        // pause video during unmount phase
-        return () => videoRef.current?.pause()
+        if( inView ) play()
+        else pause()
     }, [inView])
 
     // executed only when started change
@@ -175,11 +200,6 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         raf.current = null
 
         if( started ) raf.current = requestAnimationFrame(animate)
-
-        return () => {
-            if( raf.current ) cancelAnimationFrame(raf.current)
-            raf.current = null
-        }
     }, [started])
   
 
