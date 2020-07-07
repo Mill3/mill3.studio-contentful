@@ -64,8 +64,8 @@ const ClientRowThumbnailWrapStyle = styled(ClientRowThumbnailWrapPoses)`
 `
 
 const IMG_THUMBNAIL_PROPS = {
-  fadeIn: false, 
-  backgroundColor: "black", 
+  fadeIn: false,
+  backgroundColor: "black",
   objectFit: "cover",
   objectPosition: "center center",
   loading: "eager",
@@ -184,7 +184,7 @@ const ClientRowThumbnail = ({ active, src }) => {
 
   // get state values
   const { x, y, skew } = transformations
-  
+
   return (
     <Box
       as={ClientRowThumbnailStyle}
@@ -267,7 +267,7 @@ const ClientRow = React.memo(({ index, data, hoverCallback, ...props }) => {
   return (
     <LinkElement {...linkProps} {...linkActions}>
       <Flex as={ClientRowStyle} alignItems="center" fontSize={CLIENT_ROW_FONT_SIZES} {...props}>
-        <Text as="h4" fontSize={[0, 1, 2, `2vw`]} m={0} p={0} pr={2} width={[`50%`, null, `40%`]}>
+        <Text as="h4" fontSize={[0, 1, 2, `1.45vw`]} m={0} p={0} pr={2} width={[`50%`, null, `40%`]}>
           {projectName || name}
           {url && !project && <ExternalLink color={"blue"} />}
         </Text>
@@ -322,9 +322,9 @@ const ClientsRowsStyle = styled.ul`
 
     a {
       display: block;
-      color: currentColor;    
+      color: currentColor;
       transition: color 250ms linear;
-  
+
       &:hover,
       &:focus {
         color: ${(props) => props.theme.colors.blue};
@@ -351,7 +351,7 @@ const ClientsRows = ({ data, limit }) => {
           const isSibling = isHover ? (Math.abs(hoverIndex - index) === 1) : false
 
           let pose = "init"
-          
+
           if( isHover ) {
             if( isCurrent ) pose = "active"
             else if( isSibling ) pose = "sibling"
@@ -365,7 +365,7 @@ const ClientsRows = ({ data, limit }) => {
           )
         })}
       </Flex>
-      
+
       {HAS_HOVER && <ClientRowThumbnail active={inView && hoverIndex !== null} src={thumbnailSrc} />}
     </>
   )
@@ -383,7 +383,7 @@ const ClientsList = ({ fwdRef, limit, intl }) => {
       }
     }
   `)
-  
+
   const clients = filterByLocale(data.allContentfulClients.edges, intl.locale)
 
   return (

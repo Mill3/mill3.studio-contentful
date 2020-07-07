@@ -118,7 +118,7 @@ const ListItem = ({ active = false, title = "", text = "" }) => (
 
     <Box
       as="p"
-      width={[`100%`, null, null, '45%']}
+      width={[`100%`, null, null, '55%']}
       m={0}
       p={0}
       mt={[10, null, null, 0]}
@@ -238,7 +238,7 @@ const AboutProcessList = ({ color = '#000', processes }) => {
       </StickyElement>
 
       <Box css={{zIndex: 0}}>
-        {processes && processes.map((process, i) => 
+        {processes && processes.map((process, i) =>
           <ListItem key={i} title={process.title} text={lb2br(process.text.text)} active={activeIndex >= i && inView} />
         )}
       </Box>
