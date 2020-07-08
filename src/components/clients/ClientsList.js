@@ -229,8 +229,8 @@ const ClientRowStyle = styled.div`
 const ClientRowsHeading = React.memo(injectIntl(({ intl }) => {
   return (
     <Flex as="div" alignItems="center" height="84px" fontSize={CLIENT_ROW_FONT_SIZES} fontWeight="500">
-      <Text width={[`50%`, null, `40%`]} pr={2}>{intl.formatMessage({ id: 'clients.project' })}</Text>
-      <Text width={[1 / 3, null, 1 / 4]}>{intl.formatMessage({ id: 'clients.name' })}</Text>
+      <Text width={[`50%`, null, `30%`]} pr={2}>{intl.formatMessage({ id: 'clients.name' })}</Text>
+      <Text width={[1 / 3, null, `35%`]}>{intl.formatMessage({ id: 'clients.project' })}</Text>
       <Text width={1 / 4} display={['none', null, 'block']}>{intl.formatMessage({ id: 'clients.expertise' })}</Text>
       <Text width="auto" ml="auto">{intl.formatMessage({ id: 'clients.year' })}</Text>
     </Flex>
@@ -267,11 +267,11 @@ const ClientRow = React.memo(({ index, data, hoverCallback, ...props }) => {
   return (
     <LinkElement {...linkProps} {...linkActions}>
       <Flex as={ClientRowStyle} alignItems="center" fontSize={CLIENT_ROW_FONT_SIZES} {...props}>
-        <Text as="h4" fontSize={[0, 1, 2, `1.45vw`]} m={0} p={0} pr={2} width={[`50%`, null, `40%`]}>
-          {projectName || name}
+        <Text as="h4" fontSize={[0, 1, 2, `1.45vw`]} m={0} p={0} pr={2} width={[`50%`, null, `30%`]}>
+          {name}
           {url && !project && <ExternalLink color={"blue"} />}
         </Text>
-        <Text as="span" width={[1 / 3, null, 1 / 4]}>{name}</Text>
+        <Text as="span" width={[1 / 3, null, `35%`]}>{projectName}</Text>
         <Text as="span" width={1 / 4} display={['none', null, 'block']}>{service?.title}</Text>
         <Text as="span" width="auto" ml="auto">{year}</Text>
       </Flex>
