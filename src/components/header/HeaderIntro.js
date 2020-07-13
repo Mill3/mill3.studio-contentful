@@ -89,8 +89,6 @@ const HeaderIntro = ({ data, intl }) => {
   const isTransitionIntro = transition.state === TRANSITION_PANE_STATES['intro']
   const titleDelay = isTransitionIntro ? INTRO_REVEALS_DELAY * 1.15 : TRANSITION_IN_DELAY * 1.15
 
-  console.log(Viewport.width < 768 ? 'demoReelMobile' : 'demoReel');
-
   return (
     <Box ref={inViewRef} as={Header} color="white">
       <Container fluid pt={['70px', null, '170px']} pb={['70px', null, '170px', 6]}>

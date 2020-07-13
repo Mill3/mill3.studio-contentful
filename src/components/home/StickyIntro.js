@@ -35,7 +35,7 @@ const StickyIntro = ({ intl, appear, inverted, hidden, ...props }) => {
       <Box
         fontSize={[3, null, '24px']}
         lineHeight={"1.333333333"}
-        maxWidth={['100%', null, 375, 467]}
+        maxWidth={['100%', null, 375, 550]}
         alignSelf="flex-end"
         style={{position: 'relative', pointerEvents: hidden ? 'none' : 'auto'}}
       >

@@ -92,10 +92,10 @@ class ProjectsHome extends React.Component {
 
   render() {
     return (
-      <Container fluid pb={[0, null, null, 6]}>
+      <Container fluid pb={[0, null, null, 6, 7]}>
         <Flex
           as={ProjectIndexList}
-          mb={['90px']}
+          mb={'90px'}
           mx={['-6.35vw', null, -3, '-28px']}
           flexWrap={`wrap`}
           alignItems={`start`}
