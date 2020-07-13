@@ -174,7 +174,7 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         if( poseName !== 'fullscreen' ) return
 
         // restart video playback and unmute audio
-        videoRef.current.currentTime = 0
+        // videoRef.current.currentTime = 0
 
         // unmute playback
         setMuted(false)
