@@ -61,9 +61,9 @@ const IndexPage = ({ data }) => {
       // if projects are in view
       if( projectsInViewIO ) {
         const { intersectionRatio } = projectsInViewEntry
-  
+
         let newValue = false
-  
+
         // if ratio is greater than our IN_VIEW threshold, fade sticky title
         if( intersectionRatio >= PROJECTS_MOBILE_INVIEW ) newValue = true
         // if Let's Work is in view (meaning we are at the end of the projects list)
@@ -142,7 +142,7 @@ export const homeQuery = graphql`
         }
       }
     }
-    demoReel: contentfulVideoItem(slug: { eq: "demo-reel" }, node_locale: { eq: $language }) {
+    demoReel: contentfulVideoItem(slug: { eq: "demo-reel-final" }, node_locale: { eq: $language }) {
       id
       video {
         id

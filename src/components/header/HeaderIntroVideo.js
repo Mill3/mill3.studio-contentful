@@ -93,9 +93,7 @@ const PLAY_BUTTON_SPRING = 0.05
 const PLAY_BUTTON_FRICTION = 0.8
 
 const VIDEO_LOOP_START_AT = 0
-const VIDEO_LOOP_END_AT = 3
-
-
+const VIDEO_LOOP_END_AT = 8
 
 const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const hitzoneRef = useRef()
@@ -125,26 +123,26 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
 
             targetPosition.current.x = offsetX - width
             targetPosition.current.y = offsetY
-        
+
             currentPosition.current.x = lerp(currentPosition.current.x, targetPosition.current.x, PLAY_BUTTON_LERP)
             currentPosition.current.y = lerp(currentPosition.current.y, targetPosition.current.y, PLAY_BUTTON_LERP)
         } else {
             targetPosition.current.x = width * -0.5
             targetPosition.current.y = height * 0.5
-        
+
             const ax = (targetPosition.current.x - currentPosition.current.x) * PLAY_BUTTON_SPRING
             const ay = (targetPosition.current.y - currentPosition.current.y) * PLAY_BUTTON_SPRING
-        
+
             velocity.current.x += ax
             velocity.current.y += ay
-        
+
             velocity.current.x *= PLAY_BUTTON_FRICTION
             velocity.current.y *= PLAY_BUTTON_FRICTION
-        
+
             currentPosition.current.x += velocity.current.x
             currentPosition.current.y += velocity.current.y
         }
-        
+
         // update state
         setPosition({x: currentPosition.current.x, y: currentPosition.current.y})
 
@@ -201,7 +199,7 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
 
         if( started ) raf.current = requestAnimationFrame(animate)
     }, [started])
-  
+
 
     const { x, y } = position
     const { active } = demoReel
@@ -216,10 +214,10 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
                     onTimeUpdate={() => {
                         // if video is fullscreen, do not activate synthetic loop
                         if (active) return
-                    
+
                         // get video timestamp
                         const { currentTime } = videoRef.current
-                    
+
                         // if timestamp is higher than looping timestamp, set timestamp to loop beginning
                         if (currentTime > VIDEO_LOOP_END_AT) videoRef.current.currentTime = VIDEO_LOOP_START_AT
                     }}
