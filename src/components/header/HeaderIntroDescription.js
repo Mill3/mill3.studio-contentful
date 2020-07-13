@@ -69,7 +69,7 @@ const HeaderIntroDescription = ({ intl }) => {
         >
             <Text
                 as="p"
-                maxWidth={['100%', null, null, 425]}
+                maxWidth={['100%', null, null, 550]}
                 fontSize={[3, null, '24px']}
                 lineHeight={['1.333333333']}
                 m={0}

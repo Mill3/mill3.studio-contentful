@@ -18,7 +18,7 @@ const StickyOutro = ({ intl, appear, ...props }) => {
     >
       <Box
         as={ParagraphPoses}
-        maxWidth={['100%', null, 340, 467]}
+        maxWidth={['100%', null, 340, 550]}
         initialPose={`init`}
         pose={appear ? `appear` : null}
         delay={0}
