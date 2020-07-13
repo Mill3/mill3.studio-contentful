@@ -109,8 +109,10 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const { layoutState } = useContext(LayoutContext)
     const [ position, setPosition ] = useState(PLAY_BUTTON_DEFAULT)
     const [ started, setStarted ] = useState(false)
+    const [ muted, setMuted ] = useState(true)
     const [ inViewRef, inView ] = useInView()
     const { demoReel } = layoutState
+    const { active } = demoReel
 
     const resize = useCallback(() => {
         size.current = hitzoneRef.current?.getBoundingClientRect()
@@ -168,6 +170,15 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         if( playbackPromise.current ) playbackPromise.current.then(() => videoRef.current?.pause())
         else videoRef.current?.pause()
     })
+    const onPoseComplete = useCallback((poseName) => {
+        if( poseName !== 'fullscreen' ) return
+
+        // restart video playback and unmute audio
+        videoRef.current.currentTime = 0
+
+        // unmute playback
+        setMuted(false)
+    })
 
 
     // executed only during mount & unmount phases
@@ -200,9 +211,14 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         if( started ) raf.current = requestAnimationFrame(animate)
     }, [started])
 
+    // executed only when active change
+    useEffect(() => {
+        // when demoReel is inactive, mute video
+        if( active === false ) setMuted(true)
+    }, [ active ])
+
 
     const { x, y } = position
-    const { active } = demoReel
     const [ playerPose, buttonPose ] = useMemo(() => active ? ['fullscreen', 'hidden'] : ['default', 'visible'], [active])
 
     return (
@@ -222,13 +238,14 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
                         if (currentTime > VIDEO_LOOP_END_AT) videoRef.current.currentTime = VIDEO_LOOP_START_AT
                     }}
                     disablePictureInPicture
-                    muted={!active}
+                    muted={muted}
                     playsInline
                     preload="auto"
                     loop
                     src={video?.file?.url}
                     initialPose="default"
                     pose={playerPose}
+                    onPoseComplete={onPoseComplete}
                 />
             </Box>
 
