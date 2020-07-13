@@ -164,7 +164,7 @@ const DemoReel = ({ intl }) => {
 
       // vertically centered trigger element
       resumeY.current = top + (height - Viewport.height) * 0.5
-      
+
       // update state
       setPosition(top)
 
