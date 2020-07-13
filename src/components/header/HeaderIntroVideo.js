@@ -95,10 +95,14 @@ const PLAY_BUTTON_FRICTION = 0.8
 const VIDEO_LOOP_START_AT = 0
 const VIDEO_LOOP_END_AT = 8
 
+const VIDEO_MAX_VOLUME = 0.75
+const VIDEO_VOLUME_FADE_IN_SPEED = 0.01
+
 const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const hitzoneRef = useRef()
     const videoRef = useRef()
     const raf = useRef()
+    const rafFadeVolume = useRef()
     const mouseEvent = useRef()
     const size = useRef()
     const playbackPromise = useRef()
@@ -116,6 +120,16 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
 
     const resize = useCallback(() => {
         size.current = hitzoneRef.current?.getBoundingClientRect()
+    })
+    const fadeVolume = useCallback(() => {
+        if(videoRef.current.volume >= VIDEO_MAX_VOLUME) {
+            cancelAnimationFrame(rafFadeVolume.current)
+            return
+        };
+
+        videoRef.current.volume = videoRef.current.volume += VIDEO_VOLUME_FADE_IN_SPEED
+
+        rafFadeVolume.current = requestAnimationFrame(fadeVolume)
     })
     const animate = useCallback(() => {
         const { width, height } = size.current
@@ -174,7 +188,14 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
         if( poseName !== 'fullscreen' ) return
 
         // restart video playback and unmute audio
-        // videoRef.current.currentTime = 0
+
+        // start video volume fade in with requestAnimationFrame
+        if( rafFadeVolume.current ) cancelAnimationFrame(rafFadeVolume.current)
+        rafFadeVolume.current = null
+
+        // start fade in, force volume to 0
+        videoRef.current.volume = 0
+        requestAnimationFrame(fadeVolume)
 
         // unmute playback
         setMuted(false)
