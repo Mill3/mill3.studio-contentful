@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { is } from 'ramda'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import styled from 'styled-components'
 import { Box } from 'rebass'
 import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types'
@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer'
 
 import { LayoutContext } from '@layouts/layoutContext'
 
+import TransitionLinkComponent from '@components/transitions/TransitionLink'
 import TransitionContainer from '@components/transitions/TransitionContainer'
 import {
   AnimatedBackgroundRowContainer,
@@ -35,19 +36,48 @@ const Blockquote = ({ children }) => (
 const HyperLink = ({ node, children }) => {
   const { layoutState } = useContext(LayoutContext)
   const { scrollbar } = layoutState
-  const hasHash = node.data.uri.search('#') >= 0
-  const element = (hasHash && typeof window !== `undefined`) ? document.querySelector(node.data.uri) : null
+  const isBrowser = typeof window !== `undefined`
+
+  // return default link for non browser
+  if(!isBrowser) return(<a href={node.data.uri}>{ children }</a>)
+
+  // get current site hostname
+  const hostname = window.location.hostname
+
+  // create location parser
+  const parser = document.createElement('a');
+  parser.href = node.data.uri;
+
+  // set boolean conditions
+  const internal = hostname === parser.hostname
+  const hasHash = parser.hash;
+
+  // get element if has hash
+  const element = (internal && hasHash) ? document.querySelector(node.data.uri) : null
+
+  // set props
   let props = {}
+
+  // when is linked to a found element in page
   if (element && scrollbar) {
     props.href = "#"
     props.onClick = (e) => scrollbar.scrollIntoView(element, { alignToTop: true })
+
+  // when is an internal link
+  } else if(internal) {
+    props.to = node.data.uri
+
+  // default to regular <a> element with an href
   } else {
     props.href = node.data.uri
     props.target = "_blank"
   }
 
+  // pick element based on conditions
+  const LinkElement = (!internal || hasHash) ? `a` : TransitionLinkComponent
+
   return (
-    <a {...props}>{ children }</a>
+    <LinkElement {...props}>{ children }</LinkElement>
   )
 }
 

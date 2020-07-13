@@ -21,8 +21,7 @@ const TransitionLinkComponent = ({ to, intl, title = null, color = '#121212', lo
 
       //console.log('-------------')
 
-
-      // set transitionPane color and title 
+      // set transitionPane color and title
       // save new page's path
       // start transition
       dispatch({
