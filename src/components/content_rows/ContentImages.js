@@ -5,12 +5,15 @@ import posed from 'react-pose'
 import { Flex, Box } from 'rebass'
 import { useInView } from 'react-intersection-observer'
 
-import { EASES, REVEALS_DELAY } from '@utils/constants'
-import TransitionContainer from '@components/transitions/TransitionContainer'
 import { getContentType, CONTENT_TYPES } from '@utils'
+import { EASES, REVEALS_DELAY } from '@utils/constants'
+import Viewport from '@utils/Viewport'
+import VideoElement from '@components/player/VideoElement'
+import TransitionContainer from '@components/transitions/TransitionContainer'
+import { breakpoints } from '@styles/Theme'
+
 import { AnimatedBackgroundRowContainer, RowContainer, GridContentImages, VERTICAL_SPACER, BOTTOM_SPACER } from './index'
 import { postBody, format, TextColumn } from './ContentText'
-import VideoElement from '@components/player/VideoElement'
 
 const ContentImageFlexWrapper = styled.div`
   width: 100%;
@@ -31,7 +34,7 @@ const ContentImagePoses = posed.figure({
     opacity: 1,
     y: 0,
     'box-shadow': ({ dropshadow }) => dropshadow ? `0px 24px 40px rgba(0,0,0,0.08)` : `none`,
-    delay: ({ index, isFirst }) => REVEALS_DELAY * (index + 1),
+    delay: ({ delay }) => delay,
     transition: EASES['default'],
   },
 })
@@ -54,7 +57,7 @@ const OverlayImagePoses = posed.img({
   },
 })
 
-export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index, isFirst }) => {
+export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index, delay = 0 }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -70,9 +73,9 @@ export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index
         as={ContentImagePoses}
         width={noStrech ? `auto` : `100%`}
         index={index}
-        isFirst={isFirst}
         initialPose={'hidden'}
         pose={inView ? 'visible' : 'hidden'}
+        delay={delay}
         dropshadow={dropshadow}
         mb={0}
       >
@@ -105,9 +108,12 @@ const OverlayImage = ({ img }) => {
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 
+const SMALL_SCREENS_BREAKPOINT = parseInt( breakpoints[1] )
+
 const ContentImages = ({ data, isFirst, isLast }) => {
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
-  const { noBottomMargin, backgroundColor } = data
+  const { noBottomMargin, backgroundColor, itemsPerRow, itemsPerRowMobile } = data
+  const isMobile = !(Viewport.width >= SMALL_SCREENS_BREAKPOINT)
 
   const CalculatePaddingTop = () => {
     return noBottomMargin ? [0] : isFirst && !backgroundColor ? [0] : VERTICAL_SPACER
@@ -115,6 +121,14 @@ const ContentImages = ({ data, isFirst, isLast }) => {
 
   const CalculatePaddingBottom = () => {
     return noBottomMargin ? [0] : (isFirst || isLast) && !backgroundColor ? BOTTOM_SPACER : VERTICAL_SPACER
+  }
+
+  const CalculateDelay = (index) => {
+    if( !isMobile ) return REVEALS_DELAY * (index + 1)
+    if( isMobile && !itemsPerRowMobile ) return REVEALS_DELAY * (index + 1)
+    
+    const rows = parseInt( itemsPerRowMobile )
+    return REVEALS_DELAY * ((index % rows) + 1)
   }
 
   return (
@@ -127,8 +141,8 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         py={CalculatePaddingTop()}
         pb={CalculatePaddingBottom()}
         gaplessGrid={data.gaplessGrid}
-        itemsPerRow={data.itemsPerRow}
-        itemsPerRowMobile={data.itemsPerRowMobile}
+        itemsPerRow={itemsPerRow}
+        itemsPerRowMobile={itemsPerRowMobile}
         alignItems={data.alignVertical}
       >
         {/* all medias */}
@@ -139,8 +153,8 @@ const ContentImages = ({ data, isFirst, isLast }) => {
               noStrech={data.noStrechedImages}
               dropshadow={data.dropShadowOnImages}
               index={index}
+              delay={CalculateDelay(index)}
               key={index}
-              isFirst={isFirst}
             />
           ))}
         {/* all image items */}
@@ -154,9 +168,9 @@ const ContentImages = ({ data, isFirst, isLast }) => {
                   noStrech={data.noStrechedImages}
                   backgroundColor={imageItem.backgroundColor}
                   dropshadow={data.dropShadowOnImages}
+                  delay={CalculateDelay(index)}
                   index={index}
                   key={index}
-                  isFirst={isFirst}
                 />
               </Box>
               {imageItem.sideText && (
