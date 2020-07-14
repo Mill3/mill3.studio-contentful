@@ -143,7 +143,7 @@ const NavBurgerDot = styled.span`
 const NavContainer = styled(NavContainerPoses)`
   background: ${props => (props.inverted ? props.theme.colors.black : props.theme.colors.white)};
   margin: 0;
-  padding: 36vw 0 0 0;
+  padding: 36vw 24px 0 24px;
   list-style: none;
   position: fixed;
   z-index: 5;
@@ -154,8 +154,20 @@ const NavContainer = styled(NavContainerPoses)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   pointer-events: ${props => (props.visible ? 'all' : 'none')};
+
+  @media (min-width: ${props => props.theme.breakpoints[0]}) {
+    padding-top: 25vw;
+    padding-left: ${props => props.theme.space[4]}px;
+    padding-right: ${props => props.theme.space[4]}px;
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    padding-top: 25vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
 
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     background: none !important;
@@ -195,7 +207,7 @@ const NavItem = styled(NavItemPoses)`
   }
 `
 
-const fontSizes = ['4.1544927536vh', null, 3, 3]
+const fontSizes = ['4.1544927536vh', null, null, 3]
 
 const Nav = ({ inverted, intl, pathname = null }) => {
   const [ visible, setVisible ] = useState(false)
