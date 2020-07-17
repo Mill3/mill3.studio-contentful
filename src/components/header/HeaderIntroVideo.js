@@ -5,7 +5,6 @@ import { Box } from 'rebass'
 import { injectIntl } from 'gatsby-plugin-intl'
 import { useInView } from 'react-intersection-observer'
 
-
 import { LayoutContext } from '@layouts/layoutContext'
 import { space } from '@styles/Theme'
 import { HAS_HOVER } from '@utils/constants'
@@ -110,7 +109,7 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
     const targetPosition = useRef({ ...PLAY_BUTTON_DEFAULT })
     const velocity = useRef({ x: 0, y: 0 })
 
-    const { layoutState } = useContext(LayoutContext)
+    const { layoutState, dispatch } = useContext(LayoutContext)
     const [ position, setPosition ] = useState(PLAY_BUTTON_DEFAULT)
     const [ started, setStarted ] = useState(false)
     const [ muted, setMuted ] = useState(true)
@@ -258,14 +257,19 @@ const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
                         // if timestamp is higher than looping timestamp, set timestamp to loop beginning
                         if (currentTime > VIDEO_LOOP_END_AT) videoRef.current.currentTime = VIDEO_LOOP_START_AT
                     }}
+                    onEnded={() => {
+                        // revert demo reel, and restart video playback
+                        dispatch({ type: 'demoReel.stop' })
+                        videoRef.current.play()
+                    }}
                     disablePictureInPicture
                     muted={muted}
                     playsInline
                     preload="auto"
-                    loop
                     src={video?.file?.url}
                     initialPose="default"
                     pose={playerPose}
+                    // loop
                     onPoseComplete={onPoseComplete}
                 />
             </Box>

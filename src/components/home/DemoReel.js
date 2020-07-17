@@ -117,7 +117,8 @@ const ScrollerStyle = styled.div`
     overflow: hidden;
   }
 `
-const TitleStyle = styled.h2`
+
+const TitleEn = styled.h2`
   margin: 0;
   padding: 0;
 
@@ -129,6 +130,27 @@ const TitleStyle = styled.h2`
     font-style: italic;
   }
 `
+
+const TitleFr = styled.h2`
+  margin: 0;
+  padding: 0;
+
+  &>span:nth-child(2),
+  &>span:nth-child(3) {
+    font-family: ${props => props.theme.fonts.sans};
+    text-transform: uppercase;
+  }
+
+  &>span:nth-child(4) {
+    font-style: italic;
+  }
+`
+
+const TitleStyles = {
+  'en' : TitleEn,
+  'fr' : TitleFr
+}
+
 const ButtonReset = styled.button`
   border: none;
   background: none;
@@ -144,7 +166,8 @@ const DemoReel = ({ intl }) => {
   const { active, trigger } = demoReel
 
   const resumeY = useRef(0)
-  const title = intl.formatMessage({ id: 'demoReel.Title' }).split("<br />")
+  const { formatMessage, locale } = intl
+  const title = formatMessage({ id: 'demoReel.Title' }).split("|")
 
   const close = useCallback(() => { dispatch({type: 'demoReel.stop'}) }, [dispatch])
   const keydown = useCallback(({ key }) => { if(key === 'Escape' || key === 'Esc') close() });
@@ -228,7 +251,8 @@ const DemoReel = ({ intl }) => {
           bg="black"
         >
           <Text
-            as={TitleStyle}
+            as={TitleStyles[locale]}
+            // language={locale}
             display={['block', null, null, 'flex']}
             flexDirection={['column']}
             fontFamily={"serif"}
