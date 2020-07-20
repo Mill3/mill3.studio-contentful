@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { injectIntl } from 'gatsby-plugin-intl'
 
 import ProjectSingle from '@components/projects/ProjectSingle'
 import NewsSingle from '@components/news/NewsSingle'
 import PageSingle from '@components/pages/PageSingle'
 import { getContentfulEntryID } from '@utils/ContentfulClient'
 
-const Preview = ({ pageContext }) => {
+const Preview = ({ intl, pageContext }) => {
   const entryID = useRef()
   const [ data, setData ] = useState(null)
+  const { locale } = intl
 
   const update = () => {
     console.time(`fetchNewData`)
 
-    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${entryID.current}&locale=${pageContext.locale}`)
+    fetch(`${process.env.PREVIEW_URL_PROJECTS}?entry=${entryID.current}&locale=${locale}`)
       .then(response => response.json())
       .then(node => {
         console.log('node:', node)
@@ -45,17 +47,15 @@ const Preview = ({ pageContext }) => {
 
   // pick content component
   switch ( data?.model ) {
-    case 'project':
+    case 'projects':
       return <ProjectSingle pageContext={pageContext} data={{ project: data }} />
     case 'news':
       return <NewsSingle pageContext={pageContext} data={{ news: data }} />
     case 'pages':
       return <PageSingle pageContext={pageContext} data={{ page: data }} />
-    case 'project':
-      return <ProjectSingle pageContext={pageContext} data={{ project: data }} />
     default:
       return null
   }
 }
 
-export default Preview
+export default  injectIntl(Preview)
