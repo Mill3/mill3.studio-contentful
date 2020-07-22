@@ -19,7 +19,7 @@ const ContentImageFlexWrapper = styled.div`
   width: 100%;
   height: 100%;
   line-height: 0;
-  box-shadow: ${props => props.dropshadow === true ? `5px 15px 25px rgba(0,0,0,0.5)` : `none`};
+  box-shadow: ${props => (props.dropshadow === true ? `5px 15px 25px rgba(0,0,0,0.5)` : `none`)};
 `
 
 const ContentImagePoses = posed.figure({
@@ -27,13 +27,13 @@ const ContentImagePoses = posed.figure({
     opacity: 0,
     y: 150,
     margin: 0,
-    'box-shadow': ({ dropshadow }) => dropshadow ? `0px 0px 0px rgba(0,0,0,0)` : `none`,
+    'box-shadow': ({ dropshadow }) => (dropshadow ? `0px 0px 0px rgba(0,0,0,0)` : `none`),
     width: ({ width }) => width,
   },
   visible: {
     opacity: 1,
     y: 0,
-    'box-shadow': ({ dropshadow }) => dropshadow ? `0px 24px 40px rgba(0,0,0,0.08)` : `none`,
+    'box-shadow': ({ dropshadow }) => (dropshadow ? `0px 24px 40px rgba(0,0,0,0.08)` : `none`),
     delay: ({ delay }) => delay,
     transition: EASES['default'],
   },
@@ -57,7 +57,7 @@ const OverlayImagePoses = posed.img({
   },
 })
 
-export const ContentImage = ({ img, noStrech, backgroundColor, alignVertical, dropshadow, index, delay = 0 }) => {
+export const ContentImage = ({ img, noStrech, backgroundColor, alignItems, dropshadow, index, delay = 0 }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -66,7 +66,7 @@ export const ContentImage = ({ img, noStrech, backgroundColor, alignVertical, dr
       as={ContentImageFlexWrapper}
       py={backgroundColor ? VERTICAL_SPACER : 0}
       backgroundColor={backgroundColor ? backgroundColor : `transparent`}
-      alignItems={alignVertical ? alignVertical : 'center'}
+      alignItems={alignItems ? alignItems : 'center'}
       justifyContent={`center`}
     >
       <Box
@@ -81,16 +81,10 @@ export const ContentImage = ({ img, noStrech, backgroundColor, alignVertical, dr
       >
         <TransitionContainer direction="out" enabled={inView} autoCalculateDelay={false} distance={50} index={index}>
           {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['image'] && (
-            <img
-              src={img.fixed ? img.fixed.src : img.file.url}
-              className={`img-fluid`}
-              alt={`${img.description || img.id}`}
-            />
+            <img src={img.fixed ? img.fixed.src : img.file.url} className={`img-fluid`} alt={`${img.description || img.id}`} />
           )}
 
-          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && (
-            <VideoElement asset={img} />
-          )}
+          {img.file && getContentType(img.file.contentType) === CONTENT_TYPES['video'] && <VideoElement asset={img} />}
 
           {/* {img.file && img.description && (
             <Box as={`figcaption`} pt={[2]} pl={[3, 4]} color={'gray'}>
@@ -108,12 +102,24 @@ const OverlayImage = ({ img }) => {
   return <OverlayImagePoses ref={ref} src={img.file.url} initialPose={'hidden'} pose={inView ? `visible` : 'hidden'} />
 }
 
-const SMALL_SCREENS_BREAKPOINT = parseInt( breakpoints[1] )
+const SMALL_SCREENS_BREAKPOINT = parseInt(breakpoints[1])
 
 const ContentImages = ({ data, isFirst, isLast }) => {
   // console.log('data:', data)
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
-  const { noBottomMargin, backgroundColor, itemsPerRow, itemsPerRowMobile, alignVertical } = data
+  const {
+    medias,
+    imageItems,
+    overlayImage,
+    noBottomMargin,
+    backgroundColor,
+    itemsPerRow,
+    itemsPerRowMobile,
+    alignContent,
+    alignVertical,
+    noStrechedImages,
+    dropShadowOnImages,
+  } = data
   const isMobile = !(Viewport.width >= SMALL_SCREENS_BREAKPOINT)
 
   const CalculatePaddingTop = () => {
@@ -124,19 +130,16 @@ const ContentImages = ({ data, isFirst, isLast }) => {
     return noBottomMargin ? [0] : (isFirst || isLast) && !backgroundColor ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
-  const CalculateDelay = (index) => {
-    const rows = parseInt( isMobile ? itemsPerRowMobile : itemsPerRow ) || 1;
-    const row = index / rows >> 0;
-    const column = ((index % rows) + 1);
+  const CalculateDelay = index => {
+    const rows = parseInt(isMobile ? itemsPerRowMobile : itemsPerRow) || 1
+    const row = (index / rows) >> 0
+    const column = (index % rows) + 1
 
-    return REVEALS_DELAY * column + row * REVEALS_DELAY * 0.25;
+    return REVEALS_DELAY * column + row * REVEALS_DELAY * 0.25
   }
 
   return (
-    <Wrapper
-      alignContent={data.alignContent}
-      backgroundColor={data.backgroundColor || null}
-    >
+    <Wrapper alignContent={alignContent} backgroundColor={backgroundColor || null}>
       <Box
         as={GridContentImages}
         py={CalculatePaddingTop()}
@@ -144,33 +147,32 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={itemsPerRow}
         itemsPerRowMobile={itemsPerRowMobile}
-        alignItems={data.alignVertical}
       >
         {/* all medias */}
-        {data.medias &&
-          data.medias.map((img, index) => (
+        {medias &&
+          medias.map((img, index) => (
             <ContentImage
               img={img}
-              noStrech={data.noStrechedImages}
-              dropshadow={data.dropShadowOnImages}
-              alignVertical={alignVertical}
+              noStrech={noStrechedImages}
+              dropshadow={dropShadowOnImages}
+              alignItems={alignVertical}
               index={index}
               delay={CalculateDelay(index)}
               key={index}
             />
           ))}
         {/* all image items */}
-        {data.imageItems &&
-          data.imageItems.map((imageItem, index) => (
-            <Flex key={index} alignItems={data.alignVertical} flexWrap={'wrap'}>
+        {imageItems &&
+          imageItems.map((imageItem, index) => (
+            <Flex key={index} alignItems={alignVertical} flexWrap={'wrap'}>
               <Box width={imageItem.sideText ? [1, 1, 1, 1 / 2] : [1]} order={imageItem.invertOrder ? 1 : 0}>
                 <ContentImage
                   img={imageItem.media}
                   setAsSticky={imageItem.setAsSticky}
-                  noStrech={data.noStrechedImages}
+                  noStrech={noStrechedImages}
                   backgroundColor={imageItem.backgroundColor}
-                  dropshadow={data.dropShadowOnImages}
-                  alignVertical={alignVertical}
+                  dropshadow={dropShadowOnImages}
+                  alignItems={alignVertical}
                   delay={CalculateDelay(index)}
                   index={index}
                   key={index}
@@ -189,7 +191,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
             </Flex>
           ))}
         {/* add extra image on top */}
-        {data.overlayImage && <OverlayImage img={data.overlayImage} />}
+        {overlayImage && <OverlayImage img={overlayImage} />}
       </Box>
     </Wrapper>
   )
