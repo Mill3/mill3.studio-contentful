@@ -70,11 +70,7 @@ export const RowContainer = ({ alignContent, backgroundColor, addSpacer, childre
   }
 
   return (
-    <Box
-      pl={calculatePadding('left')}
-      pr={calculatePadding('right')}
-      backgroundColor={backgroundColor ? backgroundColor : null}
-    >
+    <Box pl={calculatePadding('left')} pr={calculatePadding('right')} backgroundColor={backgroundColor ? backgroundColor : null}>
       {children}
     </Box>
   )
@@ -101,15 +97,21 @@ const AnimatedBg = styled(AnimatedBgPoses)`
   will-change: opacity, transform;
 `
 
-export const AnimatedBackgroundContainer = ({ backgroundColor = "transparent", duration = 250, threshold = 0, onChange = null, children }) => {
+export const AnimatedBackgroundContainer = ({
+  backgroundColor = 'transparent',
+  duration = 250,
+  threshold = 0,
+  onChange = null,
+  children,
+}) => {
   const bgRef = useRef()
   const { layoutState } = useContext(LayoutContext)
   const { scrollbar } = layoutState
-  const [ inViewRef, inView ] = useInView({ threshold: threshold })
+  const [inViewRef, inView] = useInView({ threshold: threshold })
 
-  const backgroundIsTransparent = backgroundColor === "transparent"
+  const backgroundIsTransparent = backgroundColor === 'transparent'
   const scroll = ({ offset }) => {
-    if( bgRef.current ) bgRef.current.style.transform = `translate3d(0, ${offset.y}px, 0)`
+    if (bgRef.current) bgRef.current.style.transform = `translate3d(0, ${offset.y}px, 0)`
   }
 
   // listening to scrolling
@@ -118,46 +120,44 @@ export const AnimatedBackgroundContainer = ({ backgroundColor = "transparent", d
     scrollbar?.removeListener(scroll)
 
     // listen to scrolling only if bgRef exists
-    if( scrollbar && bgRef.current ) scrollbar.addListener(scroll)
+    if (scrollbar && bgRef.current) scrollbar.addListener(scroll)
 
     return () => scrollbar?.removeListener(scroll)
   }, [scrollbar, bgRef.current])
 
   // run onChange callback when inView change
-  useEffect(() => { if (onChange) onChange(inView) }, [inView])
+  useEffect(() => {
+    if (onChange) onChange(inView)
+  }, [inView])
 
   return (
     <Box ref={inViewRef} as="div">
       {/* only render background if is not transparent */}
-      {!backgroundIsTransparent && <Box ref={bgRef} as={AnimatedBg} backgroundColor={backgroundColor} duration={duration} initialPose="hidden" pose={inView ? "visible" : "hidden"} withParent={false} />}
+      {!backgroundIsTransparent && (
+        <Box
+          ref={bgRef}
+          as={AnimatedBg}
+          backgroundColor={backgroundColor}
+          duration={duration}
+          initialPose="hidden"
+          pose={inView ? 'visible' : 'hidden'}
+          withParent={false}
+        />
+      )}
       {typeof children == `function` ? children({ inView: inView }) : children}
     </Box>
   )
 }
 
-export const AnimatedBackgroundRowContainer = ({
-  backgroundColor,
-  children,
-  duration,
-  threshold,
-  onChange,
-  wrapper,
-  ...props
-}) => {
-  let Wrapper = wrapper ? wrapper : RowContainer;
+export const AnimatedBackgroundRowContainer = ({ backgroundColor, children, duration, threshold, onChange, wrapper, ...props }) => {
+  let Wrapper = wrapper ? wrapper : RowContainer
 
   return (
-    <AnimatedBackgroundContainer
-      backgroundColor={backgroundColor}
-      duration={duration}
-      threshold={threshold}
-      onChange={onChange}
-    >
+    <AnimatedBackgroundContainer backgroundColor={backgroundColor} duration={duration} threshold={threshold} onChange={onChange}>
       <Wrapper {...props}>{typeof children == `function` ? children(props) : children}</Wrapper>
     </AnimatedBackgroundContainer>
   )
 }
-
 
 const GridColums = itemsPerRow => {
   // since we join the produced array with a string value,
@@ -169,48 +169,31 @@ const GridColums = itemsPerRow => {
 
 export const GridContentText = styled.div`
   display: grid;
-  grid-column-gap: ${props =>
-    props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
   grid-template-columns: 1fr;
-  align-items: ${props =>
-    props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
+  align-items: ${props => (props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`)};
   position: relative;
 
-  @media (min-width: ${props =>
-      props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1]}) {
-    grid-row-gap: ${props =>
-      props.gaplessGrid
-        ? `0px`
-        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
+  @media (min-width: ${props => (props.itemsPerRow > 2 ? props.theme.breakpoints[2] : props.theme.breakpoints[1])}) {
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
 
 export const GridContentImages = styled.div`
   display: grid;
-  grid-column-gap: ${props =>
-    props.gaplessGrid
-      ? `0px`
-      : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 2}px`};
+  grid-column-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 2}px`)};
   grid-template-columns: ${props => GridColums(props.itemsPerRowMobile || 1)};
-  align-items: ${props =>
-    props.alignItems ? VERTICAL_ALIGN_VALUES[props.alignItems] : `flex-start`};
   position: relative;
 
   /* add bottom margin to image on mobile */
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
-    grid-row-gap: ${props =>
-      props.gaplessGrid
-        ? `0px`
-        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 1.75}px`};
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER / 1.75}px`)};
   }
 
   /* grid spacing on device tablet and up */
   @media (min-width: ${props => props.theme.breakpoints[1]}) {
-    grid-row-gap: ${props =>
-      props.gaplessGrid
-        ? `0px`
-        : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`};
+    grid-row-gap: ${props => (props.gaplessGrid ? `0px` : `${props.gridGutter ? props.gridGutter : GRID_GUTTER}px`)};
     grid-template-columns: ${props => GridColums(props.itemsPerRow || 1)};
   }
 `
@@ -218,63 +201,64 @@ export const GridContentImages = styled.div`
 export const Grid = GridContentText
 
 const ContentRow = ({ data = null }) => {
+  const rows = !data
+    ? null
+    : data.map((row, index) => {
+        const isFirst = index === 0
+        const isLast = index === data.length - 1
+        const id = `content-row-id-${index}`
 
-  const rows = !data ? null : data.map((row, index) => {
-    const isFirst = index === 0
-    const isLast = index === data.length - 1
-    const id = `content-row-id-${index}`
-
-    switch (row.__typename) {
-      case CONTENT_ROW_TYPES['text']:
-        return (
-          <div id={id} key={index}>
-            <ContentText isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['images']:
-        return (
-          <div id={id} key={index}>
-            <ContentImages isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['videos']:
-        return (
-          <div id={id} key={index}>
-            <ContentVideos isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['slides']:
-        return (
-          <div id={id} key={index}>
-            <ContentSlides isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['form']:
-        return (
-          <div id={id} key={index}>
-            <ContentForm isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['spacer']:
-        return (
-          <div id={id} key={index}>
-            <ContentSpacer isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      case CONTENT_ROW_TYPES['section_break']:
-        return (
-          <div id={id} key={index}>
-            <ContentSectionBreak isFirst={isFirst} isLast={isLast} data={row} />
-          </div>
-        )
-      default:
-        //
-        // push an empty row if the `__typename` is unsupported by this component
-        //
-        console.error(`${row.__typename} is unsupported`)
-        return <span key={index}>{row.__typename} unsupported</span>
-    }
-  })
+        switch (row.__typename) {
+          case CONTENT_ROW_TYPES['text']:
+            return (
+              <div id={id} key={index}>
+                <ContentText isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['images']:
+            return (
+              <div id={id} key={index}>
+                <ContentImages isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['videos']:
+            return (
+              <div id={id} key={index}>
+                <ContentVideos isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['slides']:
+            return (
+              <div id={id} key={index}>
+                <ContentSlides isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['form']:
+            return (
+              <div id={id} key={index}>
+                <ContentForm isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['spacer']:
+            return (
+              <div id={id} key={index}>
+                <ContentSpacer isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          case CONTENT_ROW_TYPES['section_break']:
+            return (
+              <div id={id} key={index}>
+                <ContentSectionBreak isFirst={isFirst} isLast={isLast} data={row} />
+              </div>
+            )
+          default:
+            //
+            // push an empty row if the `__typename` is unsupported by this component
+            //
+            console.error(`${row.__typename} is unsupported`)
+            return <span key={index}>{row.__typename} unsupported</span>
+        }
+      })
 
   return <>{rows}</>
 }

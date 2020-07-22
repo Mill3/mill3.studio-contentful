@@ -57,7 +57,7 @@ const OverlayImagePoses = posed.img({
   },
 })
 
-export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index, delay = 0 }) => {
+export const ContentImage = ({ img, noStrech, backgroundColor, alignVertical, dropshadow, index, delay = 0 }) => {
   const [ref, inView] = useInView({ triggerOnce: true })
 
   return (
@@ -66,7 +66,7 @@ export const ContentImage = ({ img, noStrech, backgroundColor, dropshadow, index
       as={ContentImageFlexWrapper}
       py={backgroundColor ? VERTICAL_SPACER : 0}
       backgroundColor={backgroundColor ? backgroundColor : `transparent`}
-      alignItems={`center`}
+      alignItems={alignVertical ? alignVertical : 'center'}
       justifyContent={`center`}
     >
       <Box
@@ -111,8 +111,9 @@ const OverlayImage = ({ img }) => {
 const SMALL_SCREENS_BREAKPOINT = parseInt( breakpoints[1] )
 
 const ContentImages = ({ data, isFirst, isLast }) => {
+  // console.log('data:', data)
   const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
-  const { noBottomMargin, backgroundColor, itemsPerRow, itemsPerRowMobile } = data
+  const { noBottomMargin, backgroundColor, itemsPerRow, itemsPerRowMobile, alignVertical } = data
   const isMobile = !(Viewport.width >= SMALL_SCREENS_BREAKPOINT)
 
   const CalculatePaddingTop = () => {
@@ -123,7 +124,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
     return noBottomMargin ? [0] : (isFirst || isLast) && !backgroundColor ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
-  const CalculateDelay = (index) => {    
+  const CalculateDelay = (index) => {
     const rows = parseInt( isMobile ? itemsPerRowMobile : itemsPerRow ) || 1;
     const row = index / rows >> 0;
     const column = ((index % rows) + 1);
@@ -152,6 +153,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
               img={img}
               noStrech={data.noStrechedImages}
               dropshadow={data.dropShadowOnImages}
+              alignVertical={alignVertical}
               index={index}
               delay={CalculateDelay(index)}
               key={index}
@@ -168,6 +170,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
                   noStrech={data.noStrechedImages}
                   backgroundColor={imageItem.backgroundColor}
                   dropshadow={data.dropShadowOnImages}
+                  alignVertical={alignVertical}
                   delay={CalculateDelay(index)}
                   index={index}
                   key={index}
