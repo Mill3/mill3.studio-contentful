@@ -123,12 +123,12 @@ const ContentImages = ({ data, isFirst, isLast }) => {
     return noBottomMargin ? [0] : (isFirst || isLast) && !backgroundColor ? BOTTOM_SPACER : VERTICAL_SPACER
   }
 
-  const CalculateDelay = (index) => {
-    if( !isMobile ) return REVEALS_DELAY * (index + 1)
-    if( isMobile && !itemsPerRowMobile ) return REVEALS_DELAY * (index + 1)
-    
-    const rows = parseInt( itemsPerRowMobile )
-    return REVEALS_DELAY * ((index % rows) + 1)
+  const CalculateDelay = (index) => {    
+    const rows = parseInt( isMobile ? itemsPerRowMobile : itemsPerRow ) || 1;
+    const row = index / rows >> 0;
+    const column = ((index % rows) + 1);
+
+    return REVEALS_DELAY * column + row * REVEALS_DELAY * 0.25;
   }
 
   return (
