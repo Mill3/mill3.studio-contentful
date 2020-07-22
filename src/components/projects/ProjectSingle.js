@@ -37,7 +37,7 @@ const ProjectFooter = ({ next }) => {
               hoverColor={next.colorMain}
               fontSize={['8vw', null, 5, '10vw']}
               fontWeight={500}
-              lineHeight={'1.2'}
+              lineHeight={1}
               className={`is-serif`}
             >
               <span>

@@ -4,7 +4,6 @@ import { Text } from 'rebass'
 
 export const LinkButtonStyle = styled.span`
   display: inline-block;
-  line-height: 1.15;
   font-family: ${props => props.theme.fonts.serif};
   text-align: center;
   position: relative;
@@ -29,7 +28,7 @@ export const LinkButtonStyle = styled.span`
 
 const LinkButton = ({children, hoverColor, fontSize = [6], fontWeight = 300, color = "#000", ...props}) => {
   return (
-    <Text as={LinkButtonStyle} fontSize={fontSize} fontWeight={fontWeight} color={color} hoverColor={hoverColor} {...props}>
+    <Text as={LinkButtonStyle} fontSize={fontSize} fontWeight={fontWeight} lineHeight={1.15} color={color} hoverColor={hoverColor} {...props}>
       {children}
     </Text>
   );

@@ -68,7 +68,7 @@ const SingleHeader = ({ label, title, subHeading, media, inProjectSingle = false
             textAlign="center"
             fontSize={inProjectSingle ? ['8vw', null, 5, '10vw'] : ['30px', null, 5, '3.611111111vw']}
             fontWeight={inProjectSingle ? 500 : 900}
-            lineHeight={'1.2'}
+            lineHeight={inProjectSingle ? 1 : '1.2'}
             mt={[3, null, 0]}
             mb={0}
             className={inProjectSingle ? `is-serif` : `is-serif-headings`}
