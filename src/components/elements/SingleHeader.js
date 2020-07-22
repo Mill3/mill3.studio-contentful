@@ -24,10 +24,6 @@ const FigureImage = styled.picture`
   }
 `
 
-const SingleHeaderWrap = styled.div`
-  max-width: 1100px;
-`
-
 
 const SingleHeader = ({ label, title, subHeading, media }) => {
   return (
@@ -49,12 +45,12 @@ const SingleHeader = ({ label, title, subHeading, media }) => {
       </Box>}
 
       <Flex
-        as={SingleHeaderWrap}
         flexDirection="column"
         alignItems="center"
         mx="auto"
         mb={['30px', null, 4, 5]}
         mt={!media ? ['30px', null, 6] : [0]}
+        maxWidth={[null, null, '1100px', null, null, null, '2000px']}
       >
         {label && (
           <TransitionContainer distance={100}>
