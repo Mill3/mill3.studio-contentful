@@ -83,6 +83,7 @@ const ProjectSingle = ({ intl, pageContext, data }) => {
           title={project.name}
           subHeading={project.subHeading ? project.subHeading.subHeading : null}
           media={project.headerMedia}
+          inProjectSingle={true}
         />
       </Container>
 

@@ -25,7 +25,7 @@ const FigureImage = styled.picture`
 `
 
 
-const SingleHeader = ({ label, title, subHeading, media }) => {
+const SingleHeader = ({ label, title, subHeading, media, inProjectSingle = false }) => {
   return (
     <>
       {media && <Box px={[0, 0, 0, 0, `10vw`]} my={[3, 6]}>
@@ -66,11 +66,12 @@ const SingleHeader = ({ label, title, subHeading, media }) => {
           <Text
             as={`h1`}
             textAlign="center"
-            fontSize={['30px', null, 5, '3.611111111vw']}
+            fontSize={inProjectSingle ? ['8vw', null, 5, '10vw'] : ['30px', null, 5, '3.611111111vw']}
+            fontWeight={inProjectSingle ? 500 : 900}
             lineHeight={'1.2'}
             mt={[3, null, 0]}
             mb={0}
-            className={`is-serif-headings fw-900`}
+            className={inProjectSingle ? `is-serif` : `is-serif-headings`}
           >
             {title}
           </Text>
