@@ -16,9 +16,6 @@ import ResponsiveProp from '@utils/ResponsiveProp'
 import Viewport from '@utils/Viewport'
 
 const mobileBreakpoint = parseInt(breakpoints[1])
-const ProjectIndexHeader = styled.header`
-  min-height: 50vh;
-`
 
 
 
@@ -77,10 +74,11 @@ const ProjectsIndex = ({ data, pageContext }) => {
       
       <Container fluid>
         <Flex
-          as={ProjectIndexHeader}
+          as="header"
           flexDirection="column"
           justifyContent="center"
           pb={[4, null, 3]}
+          minHeight={['50vh', null, null, '65vh']}
           className="is-relative"
         >
           <TransitionContainer autoCalculateDelay={false} index={1}>
