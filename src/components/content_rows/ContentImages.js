@@ -105,8 +105,6 @@ const OverlayImage = ({ img }) => {
 const SMALL_SCREENS_BREAKPOINT = parseInt(breakpoints[1])
 
 const ContentImages = ({ data, isFirst, isLast }) => {
-  // console.log('data:', data)
-  const Wrapper = data.fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
   const {
     medias,
     imageItems,
@@ -119,7 +117,10 @@ const ContentImages = ({ data, isFirst, isLast }) => {
     alignVertical,
     noStrechedImages,
     dropShadowOnImages,
+    fadeInBackgroundColor
   } = data
+
+  const Wrapper = fadeInBackgroundColor ? AnimatedBackgroundRowContainer : RowContainer
   const isMobile = !(Viewport.width >= SMALL_SCREENS_BREAKPOINT)
 
   const CalculatePaddingTop = () => {

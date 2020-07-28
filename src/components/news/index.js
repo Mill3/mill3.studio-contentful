@@ -9,14 +9,6 @@ export const query = graphql`
     subHeading {
       subHeading
     }
-    headerMedia {
-      id
-      file {
-        url
-        fileName
-        contentType
-      }
-    }
     imageMain {
       fluid(maxWidth: 1800, quality: 85) {
         ...GatsbyContentfulFluid_withWebp_noBase64

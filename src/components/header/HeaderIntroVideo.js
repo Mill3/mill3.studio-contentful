@@ -98,6 +98,7 @@ const VIDEO_MAX_VOLUME = 0.75
 const VIDEO_VOLUME_FADE_IN_SPEED = 0.01
 
 const HeaderIntroVideo = ({ forwardedRef, intl, video, ...rest }) => {
+    console.log('video:', video)
     const hitzoneRef = useRef()
     const videoRef = useRef()
     const raf = useRef()

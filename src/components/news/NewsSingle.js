@@ -18,7 +18,7 @@ const NewsSingle = ({ pageContext, data }) => {
         url={`journal/${news.slug}/`}
         title={!news.seo ? news.name : null}
         description={!news.seo ? (news.subHeading ? news.subHeading.subHeading : null) : null}
-        image={!news.seo ? (news.headerMedia && news.headerMedia.file ? news.headerMedia.file.url : null) : null}
+        // image={!news.seo ? (news.headerMedia && news.headerMedia.file ? news.headerMedia.file.url : null) : null}
       />
 
       <Container fluid>
@@ -29,7 +29,7 @@ const NewsSingle = ({ pageContext, data }) => {
           }}
           title={news.title}
           subHeading={news.subHeading ? news.subHeading.subHeading : null}
-          media={news.headerMedia}
+          // media={news.headerMedia}
         />
       </Container>
       <ContentRow data={news.contentRows} />
@@ -51,14 +51,6 @@ export const newsQuery = graphql`
       }
       subHeading {
         subHeading
-      }
-      headerMedia {
-        id
-        file {
-          url
-          fileName
-          contentType
-        }
       }
       contentRows {
         __typename
