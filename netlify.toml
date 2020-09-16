@@ -3,14 +3,10 @@
   functions = "functions"
   publish = "public"
 
-# [[plugins]]
-#   package = "netlify-plugin-gatsby-cache"
-
-# [[redirects]]
-#   from = "/"
-#   to = "/en"
-#   status = 301
-#   conditions = { Language = ["en"] }
+[[redirects]]
+  from = "/fr/journal/develop-a-unique-website-thanks-to-pixijs-and-web-gl/"
+  to = "/fr/journal/develop-a-unique-website-thanks-to-pixijs-and-webgl/"
+  status = 301
 
 # [[redirects]]
 #   from = "/"
