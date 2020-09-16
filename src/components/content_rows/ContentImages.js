@@ -148,6 +148,7 @@ const ContentImages = ({ data, isFirst, isLast }) => {
         gaplessGrid={data.gaplessGrid}
         itemsPerRow={itemsPerRow}
         itemsPerRowMobile={itemsPerRowMobile}
+        overflow={backgroundColor ? 'hidden' : 'visible' }
       >
         {/* all medias */}
         {medias &&
