@@ -110,8 +110,8 @@ const Footer = ({ intl }) => {
                 </Text>
                 <Text as={`h6`} m={0}>
                   <a href={`mailto:${intl.formatMessage({ id: 'footer.email' }).toString()}`}>{intl.formatMessage({ id: 'footer.email' }).toString()}</a>
-                  <br />
-                  <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a>
+                  {/* <br /> */}
+                  {/* <a href="tel:+1514984-7703">{intl.formatMessage({ id: 'footer.phone' }).toString()}</a> */}
                 </Text>
               </TransitionContainer>
             </Box>
